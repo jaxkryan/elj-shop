@@ -52,10 +52,10 @@
                     <c:choose>
                         <c:when test="${userId == null}">
                             <a href="${pageContext.request.contextPath}/login" class="btn btn-primary mx-2">Log In</a>
-                            <a href="${pageContext.request.contextPath}/signup" class="btn btn-primary">Sign Up</a>
+                            <a href="${pageContext.request.contextPath}/register" class="btn btn-primary">Register</a>
                         </c:when>
                         <c:otherwise>
-                            <a href="${pageContext.request.contextPath}/order" class="fa fa-user-circle btn btn-primary mx-2"></a>
+                            <a href="${pageContext.request.contextPath}/profile" class="fa fa-user-circle btn btn-primary mx-2"></a>
                             <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
                         </c:otherwise>
                     </c:choose>

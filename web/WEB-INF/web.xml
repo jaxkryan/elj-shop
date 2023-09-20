@@ -32,6 +32,26 @@
         <servlet-name>LogoutController</servlet-name>
         <servlet-class>controller.LogoutController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CustomerManageProfileController</servlet-name>
+        <servlet-class>controller.CustomerManageProfileController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminManageProfileController</servlet-name>
+        <servlet-class>controller.AdminManageProfileController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManagerManageProfileController</servlet-name>
+        <servlet-class>controller.ManagerManageProfileController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MarketingStaffManageProfileController</servlet-name>
+        <servlet-class>controller.MarketingStaffManageProfileController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StorageStaffManageProfileController</servlet-name>
+        <servlet-class>controller.StorageStaffManageProfileController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -63,6 +83,26 @@
     <servlet-mapping>
         <servlet-name>LogoutController</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CustomerManageProfileController</servlet-name>
+        <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminManageProfileController</servlet-name>
+        <url-pattern>/admin/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerManageProfileController</servlet-name>
+        <url-pattern>/manager/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MarketingStaffManageProfileController</servlet-name>
+        <url-pattern>/marketing-staff/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StorageStaffManageProfileController</servlet-name>
+        <url-pattern>/storage-staff/profile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
