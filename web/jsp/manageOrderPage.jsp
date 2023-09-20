@@ -30,6 +30,10 @@
         </style>
     <body>
         <div class="container">
+            <div class="row p-3 text-right">
+                <a href="profile" class="btn btn-primary">Profile</a>
+                <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
+            </div>
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
