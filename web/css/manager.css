@@ -217,3 +217,12 @@ table.table .avatar {
 .modal form label {
     font-weight: normal;
 }
+
+
+
+.p-3 {
+  padding: 1rem !important;
+}
+.text-right {
+  text-align: right !important;
+}
