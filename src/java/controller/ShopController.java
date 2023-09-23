@@ -4,17 +4,19 @@
  */
 package controller;
 
-import dao.ProductDAO;
 import dao.CategoryDAO;
+import dao.ProductDAO;
+import dao.ProviderDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Vector;
 import model.Category;
 import model.Product;
+import model.Provider;
 
 /**
  *
@@ -34,19 +36,16 @@ public class ShopController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            response.setContentType("text/html;charset=UTF-8");
-            ProductDAO productDAO = new ProductDAO();
-            CategoryDAO categoryDAO = new CategoryDAO();
-            Vector<Product> products = productDAO.getAllProduct();
-            Vector<Category> categories = categoryDAO.getAllCategory();
-            Product hot = productDAO.getHotProduct();
-            request.setAttribute("products", products);
-            request.setAttribute("categories", categories);
-            request.setAttribute("hot", hot);
-            request.getRequestDispatcher("/jsp/shopPage.jsp").forward(request, response);
-        } catch (Exception e) {
-        }
+        ProductDAO productDAO = new ProductDAO();
+        CategoryDAO categoryDAO = new CategoryDAO();
+        ProviderDAO providerDAO = new ProviderDAO();
+        Vector<Product> products = productDAO.getAllProduct();
+        Vector<Category> categories = categoryDAO.getAllCategory();
+        Vector<Provider> providers = providerDAO.getAllProvider();
+        request.setAttribute("products", products);
+        request.setAttribute("categories", categories);
+        request.setAttribute("providers", providers);
+        request.getRequestDispatcher("/jsp/shopPage.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
