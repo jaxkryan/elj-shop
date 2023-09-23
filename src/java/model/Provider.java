@@ -14,15 +14,25 @@ public class Provider {
 
     private int Id;
     private String companyName;
+    private String email;
     private String image;
 
     public Provider() {
     }
 
-    public Provider(int Id, String companyName, String image) {
+    public Provider(int Id, String companyName, String email, String image) {
         this.Id = Id;
         this.companyName = companyName;
+        this.email = email;
         this.image = image;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getImage() {

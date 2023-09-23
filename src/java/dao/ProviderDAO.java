@@ -26,8 +26,9 @@ public class ProviderDAO extends jdbc.DBConnect {
             while (rs.next()) {
                 int id = rs.getInt(1);
                 String companyName = rs.getString(2);
-                String image = rs.getString(3);
-                listProvider.add(new Provider(id, companyName, image));
+                String email = rs.getString(3);
+                String image = rs.getString(4);
+                listProvider.add(new Provider(id, companyName, email, image));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
