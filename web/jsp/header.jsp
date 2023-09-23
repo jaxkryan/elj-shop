@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="model.User" %>
+<%@ page import="dao.UserDAO" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,6 +29,11 @@
         <link href="${pageContext.request.contextPath}/css/style.css?version=1" rel="stylesheet">
     </head>
     <body>
+        <%UserDAO udao = new UserDAO();
+        User user = null;
+        if(session.getAttribute("userId") != null){
+        user = udao.getById((Integer)session.getAttribute("userId"));
+        }%>
         <!-- Topbar Start -->
         <div class="container-fluid">
             <div class="row align-items-center bg-light py-3 px-xl-5 d-lg-flex">
@@ -105,6 +112,7 @@
                                 </div>
                                 <a href="${pageContext.request.contextPath}/about-us" class="nav-item nav-link">About us</a>
                             </div>
+                            <% if(user!=null) { %>
                             <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                                 <a href="${pageContext.request.contextPath}/cart" class="btn px-0 ml-3">
                                     <i class="fas fa-shopping-cart text-primary"></i>
@@ -116,6 +124,7 @@
                                     </span>
                                 </a>
                             </div>
+                            <% } %>
                         </div>
                     </nav>
                 </div>
