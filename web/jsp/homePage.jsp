@@ -7,7 +7,6 @@
     <head>
         <meta charset="utf-8">
         <title>Elj Shop - Online Art Supplies Shop</title>
-        <link rel="icon" href="${pageContext.request.contextPath}/img/logo.ico" type="image/icon type">
     </head>
 
     <body>
@@ -23,33 +22,45 @@
                             <li data-target="#header-carousel" data-slide-to="1"></li>
                             <li data-target="#header-carousel" data-slide-to="2"></li>
                         </ol>
+                        <script>
+                            $(document).ready(function () {
+                                setInterval(function () {
+                                    var next = $('.carousel-item.active').next();
+                                    if (!next.length) {
+                                        next = $('.carousel-item:first');
+                                    }
+                                    next.addClass('active');
+                                    $('.carousel-item.active').first().removeClass('active');
+                                }, 5000);
+                            });
+                        </script>
                         <div class="carousel-inner">
                             <div class="carousel-item position-relative active" style="height: 430px;">
-                                <img class="position-absolute w-100 h-100" src="${pageContext.request.contextPath}/img/carousel-1.jpg" style="object-fit: cover;">
+                                <img class="position-absolute w-100 h-100" src="https://shoebakery.com/cdn/shop/files/sneaker_banner_22_1400x.progressive.jpg?v=1656607256" style="object-fit: cover;">
                                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                     <div class="p-3" style="max-width: 700px;">
-                                        <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Drawing Paper</h1>
-                                        <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Special paper for drawing with great thickness. Suitable for many types of color, especially watercolor.</p>
+                                        <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Adidas</h1>
+                                        <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Make a statement - Stand out from the crowd and express your unique sense of style.</p>
                                         <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="${pageContext.request.contextPath}/shop?cateId=6">Shop Now</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="carousel-item position-relative" style="height: 430px;">
-                                <img class="position-absolute w-100 h-100" src="${pageContext.request.contextPath}/img/carousel-2.jpg" style="object-fit: cover;">
+                                <img class="position-absolute w-100 h-100" src="https://media.istockphoto.com/id/1350560575/photo/pair-of-blue-running-sneakers-on-white-background-isolated.webp?b=1&s=170667a&w=0&k=20&c=liUSgX6SafJ7HWvefFqR9-pnf3KuH6v1lwQ6iEpePWc=" style="object-fit: cover;">
                                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                     <div class="p-3" style="max-width: 700px;">
-                                        <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Drawing Paint</h1>
-                                        <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Color belongs to the segment of high-class artist. The color is produced based on the traditional color formula.</p>
+                                        <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Nike</h1>
+                                        <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Style up your game - Boost your confidence and stand out in every activity!</p>
                                         <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="${pageContext.request.contextPath}/shop?cateId=5">Shop Now</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="carousel-item position-relative" style="height: 430px;">
-                                <img class="position-absolute w-100 h-100" src="${pageContext.request.contextPath}/img/carousel-3.jpg" style="object-fit: cover;">
+                                <img class="position-absolute w-100 h-100" src="https://marvel-b1-cdn.bc0a.com/f00000000114841/www.florsheim.com/shop/index/FW23-FL-FirstRefresh-CasualHeist-Desktop.jpg" style="object-fit: cover;">
                                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                     <div class="p-3" style="max-width: 700px;">
-                                        <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Drawing Brushes</h1>
-                                        <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Brushes that artists specialize in drawing comics, bringing, etc. Suitable for many types of purpose.</p>
+                                        <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Puma</h1>
+                                        <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Elegance and genteel - Shoes for true gentlemen</p>
                                         <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="${pageContext.request.contextPath}/shop?cateId=4">Shop Now</a>
                                     </div>
                                 </div>
@@ -59,15 +70,15 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="product-offer mb-30" style="height: 200px;">
-                        <img class="img-fluid" src="${pageContext.request.contextPath}/img/offer-1.jpg" alt="">
+                        <img class="img-fluid" src="https://www.barkershoes.com/cdn/shop/collections/8I5A5326_1024x700_crop_center.jpg?v=1618574799" alt="">
                         <div class="offer-text">
-                            <h6 class="text-white text-uppercase">Save 25%</h6>
+                            <h6 class="text-white text-uppercase">Sale up</h6>
                             <h3 class="text-white mb-3">Special Offer</h3>
                             <a href="${pageContext.request.contextPath}/shop?sale=" class="btn btn-primary">Shop Now</a>
                         </div>
                     </div>
                     <div class="product-offer mb-30" style="height: 200px;">
-                        <img class="img-fluid" src="${pageContext.request.contextPath}/img/offer-2.jpg" alt="">
+                        <img class="img-fluid" src="https://www.barkershoes.com/cdn/shop/files/SS20_HOMEPAGE_MCCLEANPAIR_880x550_crop_center.jpg?v=1614334815" alt="">
                         <div class="offer-text">
                             <h6 class="text-white text-uppercase">Save More</h6>
                             <h3 class="text-white mb-3">Special Combo</h3>
@@ -116,14 +127,14 @@
             <div class="row px-xl-5 pb-3">
                 <c:forEach items="${categories}" var="cate">
                     <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                        <a class="text-decoration-none" href="shop?cateId=${cate.key.id}">
+                        <a class="text-decoration-none" href="shop?cateId=${cate.id}">
                             <div class="cat-item d-flex align-items-center mb-4">
-                                <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                                    <img class="img-fluid" src="${pageContext.request.contextPath}/img/cate-${cate.key.id}.jpg" alt="">
+                                <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; justify-content: center;">
+                                    <img class="img-category" style="width: 100px; height: 100px" src="${cate.image}" alt="">
                                 </div>
                                 <div class="flex-fill pl-3">
-                                    <h6>${cate.key.name}</h6>
-                                    <small class="text-body">${cate.value} Products</small>
+                                    <h6>${cate.name}</h6>
+                                    <small class="text-body">${cate.name} Shoes</small>
                                 </div>
                             </div>
                         </a>
@@ -135,18 +146,18 @@
 
         <!-- Brands Start -->
         <div class="container-fluid pt-5">
-            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Brands</span></h2>
+            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Branches</span></h2>
             <div class="row px-xl-5 pb-3">
-                <c:forEach items="${brands}" var="brand">
+                <c:forEach items="${providers}" var="provider">
                     <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                        <a class="text-decoration-none" href="shop?brandId=${brand.key.id}">
+                        <a class="text-decoration-none" href="shop?brandId=${provider.id}">
                             <div class="cat-item d-flex align-items-center mb-4">
-                                <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                                    <img class="img-fluid" src="${pageContext.request.contextPath}/img/brand-${brand.key.id}.jpg" alt="">
+                                <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; justify-content: center;">
+                                    <img class="img-provider" style="width: 100px; height: 100px" src="${provider.image}" alt="">
                                 </div>
                                 <div class="flex-fill pl-3">
-                                    <h6>${brand.key.name}</h6>
-                                    <small class="text-body">${brand.value} Products</small>
+                                    <h6>${provider.companyName}</h6>
+                                    <small class="text-body">${provider.companyName} Shoes</small>
                                 </div>
                             </div>
                         </a>
@@ -155,16 +166,16 @@
             </div>
         </div>
         <!-- Brands End -->
-        
+
         <!-- Products Start -->
         <div class="container-fluid pt-5 pb-3">
-            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
+            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Hot Products</span></h2>
             <div class="row px-xl-5">
                 <c:forEach items="${products}" var="pro">
                     <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                         <div class="product-item bg-light mb-4">
                             <div class="product-img position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="${pageContext.request.contextPath}/img/product-${pro.id}.jpg" alt="">
+                                <img class="img-fluid w-100" style="width: 276.13px; height: 276.13px" src="${pro.image}" alt="">
                                 <div class="product-action">
                                     <a title="Add to cart" class="btn btn-outline-dark btn-square" href="add-to-cart?proId=${pro.id}"><i class="fa fa-shopping-cart"></i></a>
                                     <a title="Add to favorite" class="btn btn-outline-dark btn-square" href="add-to-favorite?proId=${pro.id}"><i class="far fa-heart"></i></a>
@@ -174,13 +185,13 @@
                             <div class="text-center py-4">
                                 <a title="${pro.name}" class="h6 text-decoration-none text-truncate" href="details?proId=${pro.id}">${pro.name}</a>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <c:set var="currentPrice" value="${pro.price * (1-pro.discount)}"/>
+                                    <c:set var="currentPrice" value="${pro.price - product.discount}"/>
                                     <fmt:setLocale value="vi_VN"/>
                                     <h5 class="text-primary"><fmt:formatNumber type="currency" pattern="###,###¤">${currentPrice}</fmt:formatNumber></h5>
                                     <c:if test="${currentPrice < pro.price}">
                                         <h6 class="text-muted ml-2">
                                             <del><fmt:formatNumber type="currency" pattern="###,###¤">${pro.price}</fmt:formatNumber></del>
-                                        </h6>
+                                            </h6>
                                     </c:if>
                                 </div>
                             </div>

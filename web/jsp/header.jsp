@@ -1,7 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="model.User" %>
-<%@ page import="dao.UserDAO" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -29,11 +27,6 @@
         <link href="${pageContext.request.contextPath}/css/style.css?version=1" rel="stylesheet">
     </head>
     <body>
-        <%UserDAO udao = new UserDAO();
-        User user = null;
-        if(session.getAttribute("userId") != null){
-        user = udao.getById((Integer)session.getAttribute("userId"));
-        }%>
         <!-- Topbar Start -->
         <div class="container-fluid">
             <div class="row align-items-center bg-light py-3 px-xl-5 d-lg-flex">
@@ -82,7 +75,7 @@
                     <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
                         <div class="navbar-nav w-100">
                             <c:forEach items="${categories}" var="cate">
-                                <a href="${pageContext.request.contextPath}/shop?cateId=${cate.key.id}" class="nav-item nav-link">${cate.key.name}</a>
+                                <a href="${pageContext.request.contextPath}/shop?cateId=${cate.id}" class="nav-item nav-link">${cate.name}</a>
                             </c:forEach>
                         </div>
                     </nav>
@@ -105,14 +98,13 @@
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Brands <i class="fa fa-angle-down mt-1"></i></a>
                                     <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                        <c:forEach items="${brands}" var="brand">
-                                            <a href="${pageContext.request.contextPath}/shop?brandId=${brand.key.id}" class="dropdown-item">${brand.key.name}</a>
+                                        <c:forEach items="${providers}" var="provider">
+                                            <a href="${pageContext.request.contextPath}/shop?brandId=${provider.id}" class="dropdown-item">${provider.companyName}</a>
                                         </c:forEach>
                                     </div>
                                 </div>
                                 <a href="${pageContext.request.contextPath}/about-us" class="nav-item nav-link">About us</a>
                             </div>
-                            <% if(user!=null) { %>
                             <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                                 <a href="${pageContext.request.contextPath}/cart" class="btn px-0 ml-3">
                                     <i class="fas fa-shopping-cart text-primary"></i>
@@ -124,7 +116,6 @@
                                     </span>
                                 </a>
                             </div>
-                            <% } %>
                         </div>
                     </nav>
                 </div>

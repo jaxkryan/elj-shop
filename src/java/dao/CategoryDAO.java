@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import java.sql.ResultSet;
@@ -25,10 +21,11 @@ public class CategoryDAO extends jdbc.DBConnect {
             while (rs.next()) {
                 int id = rs.getInt(1);
                 String name = rs.getString(2);
-                listC.add(new Category(id, name));
+                String image = rs.getString(3);
+                listC.add(new Category(id, name, image));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listC;
     }
