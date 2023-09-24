@@ -35,7 +35,8 @@
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
             <div class="table-wrapper">
-                <form class="row" action="" method="POST">
+                <form class="row" action="profile" method="POST">
+                    <input name="id" type="hidden" value="${user.getId()}">
                     <div class="col-md-6 form-group">
                         <label>First Name</label>
                         <input name="firstName" class="form-control" type="text" value="${user.getFirstName()}" required>
@@ -86,7 +87,7 @@
                                 <input name="reset" class="form-control btn btn-primary" type="reset" value="Reset">
                             </div>
                             <div class="col-md-3 form-group">
-                                <input name="CustomerEditProfileSubmit" class="form-control btn btn-primary" type="submit" value="Update">
+                                <input name="managerEditProfileSubmit" class="form-control btn btn-primary" type="submit" value="Update">
                             </div>
                             <div class="col-md-3 form-group">
                             </div>
