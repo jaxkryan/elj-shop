@@ -42,7 +42,7 @@
                             <h2>Manage <b>Product</b></h2>
                         </div>
                         <!--Search bar-->
-                        <form action="StorageController?search=normal" method="post">
+                        <form action="StorageController?search=asc" method="post">
                             <div class="text-right" style="margin-top: 0.5%">
                                 <input name = "keyword" type="text" class="search-bar" placeholder="Search product...">
                                 <input style="color: #000000" type="submit" name = "search" value="Search">
@@ -53,11 +53,12 @@
                 <!--sorting-->
                 <form id="sortForm" action="StorageController" method="post">
                     <select name="sort" id="sort" onchange="submitForm()">
-                        <option value="All">Display All</option>
                         <option value="Asc">Ascending</option>
+                        <option value="All">Display All</option>
                         <option value="Desc">Descending</option>
                     </select>
                 </form>
+
                 <script>
                     function submitForm() {
                         document.getElementById("sortForm").action = "StorageController?go=" + document.getElementById("sort").value;
@@ -103,7 +104,7 @@
                         <div id="editProductQuantModal${pro.id}" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form action="StorageController?go=All" method="post">
+                                    <form action="StorageController?go=Asc" method="post">
                                         <input type="hidden" name="go" value="update">
                                         <input type="hidden" name ="prodId" class="form-control" value ="${pro.id}">
                                         <div class="modal-header">						
