@@ -1,5 +1,7 @@
 package model;
 
+import util.Helper;
+
 public class User {
     private int id;
     private int roleId;
@@ -126,6 +128,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public String getRole() {
+        return Helper.getUserRole(roleId);
     }
     
     @Override

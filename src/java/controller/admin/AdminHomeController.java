@@ -1,10 +1,13 @@
 package controller.admin;
 
+import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Vector;
+import model.User;
 
 /**
  *
@@ -22,6 +25,9 @@ public class AdminHomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        UserDAO udao = new UserDAO();
+        Vector<User> users = udao.getAll();
+        request.setAttribute("users", users);
         request.getRequestDispatcher("/jsp/manageAccountPage.jsp").forward(request, response);
     } 
 

@@ -226,3 +226,7 @@ table.table .avatar {
 .text-right {
   text-align: right !important;
 }
+
+.container {
+    display: table;
+}
