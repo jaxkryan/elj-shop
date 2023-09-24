@@ -4,8 +4,10 @@
  */
 package dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,4 +37,73 @@ public class ProviderDAO extends jdbc.DBConnect {
         }
         return listProvider;
     }
+    
+    public int updateProvider(Provider provider) {
+        int rowsAffected = 0;
+        String sql = "UPDATE [dbo].[Provider]\n"
+                + "   SET [companyName] = ?\n"
+                + "      ,[email] = ?\n"
+                + "      ,[image] = ?\n"
+                + " WHERE id = ?";
+        PreparedStatement pre;
+        try {
+            pre = conn.prepareStatement(sql);
+            pre.setInt(4, provider.getId());
+            pre.setString(1, provider.getCompanyName());
+            pre.setString(2, provider.getEmail());
+            pre.setString(3, provider.getImage());
+            int affectedRows = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProviderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rowsAffected;
+    }
+
+    public void deleteProvider(String id) {
+        setNullProduct(id);
+        setNullImportOrder(id);
+        String sql = "DELETE FROM [dbo].[Provider]\n"
+                + "      WHERE id=?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, id);
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void setNullProduct(String id) {
+        String sql = "update [dbo].Product\n"
+                + "set providerId = null\n"
+                + "where providerId = ?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, id);
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void setNullImportOrder(String id) {
+        String sql = "update [dbo].[ImportOrder]\n"
+                + "set providerId = null\n"
+                + "where providerId = ?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, id);
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void main(String[] args) {
+        ProviderDAO pDao = new ProviderDAO();
+        pDao.deleteProvider("1");
+        List<Provider> providers = pDao.getAllProvider();
+        System.out.println(providers);
+    }
+    
 }

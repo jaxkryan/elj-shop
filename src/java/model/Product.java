@@ -10,7 +10,7 @@ package model;
  */
 public class Product {
     private int id;
-    private int catagoryId;
+    private int categoryId;
     private int providerId;
     private String name;
     private String description;
@@ -24,7 +24,7 @@ public class Product {
 
     public Product(int id, int catagoryId, int providerId, String name, String description, float price, float discount, int quantity, String image) {
         this.id = id;
-        this.catagoryId = catagoryId;
+        this.categoryId = catagoryId;
         this.providerId = providerId;
         this.name = name;
         this.description = description;
@@ -38,8 +38,8 @@ public class Product {
         return id;
     }
 
-    public int getCatagoryId() {
-        return catagoryId;
+    public int getCategoryId() {
+        return categoryId;
     }
 
     public int getProviderId() {
@@ -74,8 +74,8 @@ public class Product {
         this.id = id;
     }
 
-    public void setCatagoryId(int catagoryId) {
-        this.catagoryId = catagoryId;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public void setProviderId(int providerId) {
