@@ -62,6 +62,7 @@ public class ProductDAO extends jdbc.DBConnect {
         }
         return listP;
     }
+
     public Vector<Product> searchProducts(String statement, String sortOrder) {
         String sql = statement + sortOrder;
         Vector<Product> searchlistProduct = new Vector<>();
@@ -84,7 +85,7 @@ public class ProductDAO extends jdbc.DBConnect {
         }
         return searchlistProduct;
     }
-    
+
     public Vector<Product> sortProducts(String sortField, String sortOrder) {
         String sql = "SELECT * FROM product ORDER BY " + sortField + " " + sortOrder;
         Vector<Product> sortlistProduct = new Vector<>();
@@ -106,6 +107,77 @@ public class ProductDAO extends jdbc.DBConnect {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return sortlistProduct;
+    }
+
+    public int updateProduct(Product product) {
+        int rowsAffected = 0;
+        String sql = "UPDATE [dbo].[Product]\n"
+                + "   SET [categoryId] = ?\n"
+                + "      ,[providerId] = ?\n"
+                + "      ,[name] = ?\n"
+                + "      ,[description] = ?\n"
+                + "      ,[price] = ?\n"
+                + "      ,[discount] = ?\n"
+                + "      ,[quantity] = ?\n"
+                + "      ,[image] = ?\n"
+                + " WHERE id = ?";
+        PreparedStatement pre;
+        try {
+            pre = conn.prepareStatement(sql);
+            pre.setInt(1, product.getCategoryId());
+            pre.setInt(2, product.getProviderId());
+            pre.setString(3, product.getName());
+            pre.setString(4, product.getDescription());
+            pre.setDouble(5, product.getPrice());
+            pre.setDouble(6, product.getDiscount());
+            pre.setInt(7, product.getQuantity());
+            pre.setString(8, product.getImage());
+            pre.setInt(9, product.getId());
+            int affectedRows = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rowsAffected;
+    }
+
+    public void deleteProduct(String id) {
+        setNullOrderDetail(id);
+        setNullCartItem(id);
+        String sql = "DELETE FROM [dbo].[Product]\n"
+                + "      WHERE id=?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, id);
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void setNullOrderDetail(String id) {
+        String sql = "update [dbo].OrderDetail\n"
+                + "set productId = null\n"
+                + "where productId = ?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, id);
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void setNullCartItem(String id) {
+        String sql = "update [dbo].CartItem\n"
+                + "set productId = null\n"
+                + "where productId = ?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, id);
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public int updateQty(int id, int qty) throws SQLException {

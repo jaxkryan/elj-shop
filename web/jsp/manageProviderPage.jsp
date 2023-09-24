@@ -58,19 +58,14 @@
                                         </span>
                                     </th>
                                     <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Provider</th>
-                                    <th>description</th>
-                                    <th>price</th>
-                                    <th>discount</th>
-                                    <th>quantity</th>
-                                    <th>image</th>
+                                    <th>Company</th>
+                                    <th>Email</th>
+                                    <th>Image</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${products}" var="product">
+                                <c:forEach items="${providers}" var="provider">
                                     <tr>
                                         <td>
                                             <span class="custom-checkbox">
@@ -78,25 +73,17 @@
                                                 <label for="checkbox1"></label>
                                             </span>
                                         </td>
-                                        <td>${product.id}</td>
-                                        <td>${product.name}</td>
-                                        <td>${categories.get(product.categoryId - 1).name}</td>
-                                        <c:if test="${empty providers[product.providerId - 1].companyName}">
-                                            <td>Not Available</td>
-                                        </c:if>
-                                        <c:if test="${not empty providers[product.providerId - 1].companyName}">
-                                            <td>${providers[product.providerId - 1].companyName}</td>
-                                        </c:if>   
-                                        <td>${product.description}</td>
-                                        <td>${product.price} $</td>
-                                        <td>${product.discount}%</td>
-                                        <td>${product.quantity}</td>
+                                        <td>${provider.id}</td>
+                                        <td>${provider.companyName}</td>
                                         <td>
-                                            <img src="${product.image}">
+                                            ${provider.email}
+                                        </td>
+                                        <td>
+                                            <img src="${provider.image}">
                                         </td>
                                         <td>
                                             <a href="#editEmployeeModal"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                            <a href="home?go=delete&pid=${product.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                            <a href="provider?go=delete&pid=${provider.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -158,53 +145,28 @@
         <div id="editEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <!-- Edit Form -->
-                    <form action="manager/home" method="POST">
+                    <form>
                         <div class="modal-header">						
-                            <h4 class="modal-title">Edit Product</h4>
+                            <h4 class="modal-title">Edit Employee</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>catagoryId</label>
-                                <input value="abcd" class="form-control" required>
-                            </div><!-- comment -->
-                            
-                            <div class="form-group">
-                                <label>providerId</label>
-                                <input class="form-control" required>
-                            </div><!-- comment -->
-                            
+                        <div class="modal-body">					
                             <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" class="form-control" required>
-                            </div><!-- comment -->
-                            
-                            <div class="form-group">
-                                <label>description</label>
-                                <input type="text" class="form-control" required>
                             </div>
-                            
                             <div class="form-group">
-                                <label>price</label>
-                                <input class="form-control" required>
+                                <label>Email</label>
+                                <input type="email" class="form-control" required>
                             </div>
-                            
                             <div class="form-group">
-                                <label>discount</label>
+                                <label>Address</label>
                                 <textarea class="form-control" required></textarea>
                             </div>
-                            
                             <div class="form-group">
-                                <label>quantity</label>
-                                <input class="form-control" required>
-                            </div>			
-                            
-                            <div class="form-group">
-                                <label>image</label>
-                                <input class="form-control" required>
-                            </div>
-                            
+                                <label>Phone</label>
+                                <input type="text" class="form-control" required>
+                            </div>					
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
