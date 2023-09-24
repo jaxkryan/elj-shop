@@ -56,6 +56,26 @@
         <servlet-name>ShopController</servlet-name>
         <servlet-class>controller.ShopController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StorageController</servlet-name>
+        <servlet-class>controller.StorageController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SortControlelr</servlet-name>
+        <servlet-class>controller.SortControlelr</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SortController</servlet-name>
+        <servlet-class>controller.SortController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StorageSortController</servlet-name>
+        <servlet-class>controller.StorageController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StorageUpdateQty</servlet-name>
+        <servlet-class>controller.StorageUpdateQty</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -111,6 +131,14 @@
     <servlet-mapping>
         <servlet-name>ShopController</servlet-name>
         <url-pattern>/shop</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StorageController</servlet-name>
+        <url-pattern>/StorageController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StorageController</servlet-name>
+        <url-pattern>/storage-staff/StorageController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
