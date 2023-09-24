@@ -22,7 +22,8 @@
                     <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Profile</span></h5>
                     <div class="bg-light p-30 mb-5">
                         <div class="row">
-                            <form class="row" action="" method="POST">
+                            <form class="row" action="profile" method="POST">
+                                <input name="id" type="hidden" value="${user.getId()}">
                                 <div class="col-md-6 form-group">
                                     <label>First Name</label>
                                     <input name="firstName" class="form-control" type="text" value="${user.getFirstName()}" required>

@@ -28,7 +28,6 @@ public class MarketingStaffManageProfileController extends HttpServlet {
         HttpSession session = request.getSession();
         UserDAO udao = new UserDAO();
         User user = udao.getById((Integer)session.getAttribute("userId"));
-        System.out.println(user.getId());
         request.setAttribute("user", user);
         request.getRequestDispatcher("/jsp/marketingStaffProfilePage.jsp").forward(request, response);
     } 
@@ -43,6 +42,22 @@ public class MarketingStaffManageProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        if (request.getParameter("marketingStaffEditProfileSubmit") != null) {
+            UserDAO udao = new UserDAO();
+            int id = Integer.parseInt(request.getParameter("id"));
+            String firstName = request.getParameter("firstName");
+            String lastName = request.getParameter("lastName");
+            String dateOfBirth = request.getParameter("dateOfBirth");
+            String street = request.getParameter("street");
+            String city = request.getParameter("city");
+            String province = request.getParameter("province");
+            String country = request.getParameter("country");
+            String phone = request.getParameter("phone");
+            String email = request.getParameter("email");
+            User userToUpdate = new User(id, 0, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, "");
+            udao.updateUser(userToUpdate);
+        }
+        response.sendRedirect("profile");
     }
 
     /** 
