@@ -1,7 +1,7 @@
 <%-- 
     Document   : ManagerProduct
     Created on : Dec 28, 2020, 5:19:02 PM
-    Author     : trinh
+    Author     : maclife
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -34,6 +34,23 @@
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
+            
+            <div class="">
+                <div>                   
+                    <form action="${pageContext.request.contextPath}/marketing-staff/home" method="POST">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="code" placeholder="Search by code">
+                            <div class="input-group-append">
+                                <button type="submit" class="text-primary" title="Search" name="search">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
@@ -46,54 +63,56 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>
-                                <span class="custom-checkbox">
-                                    <input type="checkbox" id="selectAll">
-                                    <label for="selectAll"></label>
-                                </span>
-                            </th>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Image</th>
-                            <th>Price</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach begin="1" end="5" var="o">
-                            <tr>
-                                <td>
-                                    <span class="custom-checkbox">
-                                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                        <label for="checkbox1"></label>
-                                    </span>
-                                </td>
-                                <td>1</td>
-                                <td>Giày thể thao</td>
-                                <td>
-                                    <img src="https://image.yes24.vn/Upload/ProductImage/GmarketSport/2058803_L.jpg?width=550&height=550">
-                                </td>
-                                <td>100 $</td>
-                                <td>
-                                    <a href="#editEmployeeModal"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                <c:choose>
+                    <c:when test="${param.go == null || param.go == 'displayAll'}">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span class="custom-checkbox">
+                                            <input type="checkbox" id="selectAll">
+                                            <label for="selectAll"></label>
+                                        </span>
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Code</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${voucher}" var="voucher">
+                                    <tr>
+                                        <td>
+                                            <span class="custom-checkbox">
+                                                <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                                <label for="checkbox1"></label>
+                                            </span>
+                                        </td>
+                                        <td class="align-middle">${voucher.id}</td>
+                                        <td class="align-middle">${voucher.code}</td>
+                                        <td>
+                                            <a href="#editEmployeeModal"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                            
+                                        </td>
+                                        <td><a href="${pageContext.request.contextPath}/marketing-staff/home?go=displayAll">VoucherDetail</a></td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:when>
+                </c:choose>
             </div>
         </div>
-        <!-- Edit Modal HTML -->
+
+
+
+        <!-- Add Modal HTML -->
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form action="add" method="post">
                         <div class="modal-header">						
-                            <h4 class="modal-title">Add Product</h4>
+                            <h4 class="modal-title">Add Voucher</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">					
@@ -195,3 +214,4 @@
     <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
 </body>
 </html>
+        
