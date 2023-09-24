@@ -22,18 +22,18 @@
             <div class="row px-xl-5">
                 <!-- Shop Sidebar Start -->
                 <div class="col-lg-3 col-md-4">
-                    <form action="shop" method="GET">
+                    <form action="productfilter" method="GET">
                         <!-- Categories Start -->
                         <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Categories</span></h5>
                         <div class="bg-light p-4 mb-30">
                             <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                <input type="radio" class="custom-control-input" id="cate-all" name="cateId" value="-1" onclick="this.form.submit()" <c:if test="${param.cateId == -1 || param.cateId == null}">checked</c:if>>
+                                <input type="radio" class="custom-control-input" id="cate-all" name="categoryId" value="-1" onclick="this.form.submit()" <c:if test="${param.categoryId == -1 || param.categoryId == null}">checked</c:if>>
                                     <label class="custom-control-label" for="cate-all">All</label>
                                 </div>
                             <c:forEach items="${categories}" var="cate">
                                 <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                    <input type="radio" class="custom-control-input" id="cate-${cate.id}" name="cateId" value="${cate.id}" onclick="this.form.submit()" <c:if test="${param.cateId == cate.id}">checked</c:if>>
-                                    <label class="custom-control-label" for="cate-${cate.id}">${cate.name}</label>
+                                    <input type="radio" class="custom-control-input" id="category-${cate.id}" name="categoryId" value="${cate.id}" onclick="this.form.submit()" <c:if test="${param.categoryId == cate.id}">checked</c:if>>
+                                    <label class="custom-control-label" for="category-${cate.id}">${cate.name}</label>
                                 </div>
                             </c:forEach>
                         </div>
@@ -47,19 +47,19 @@
                                     <label class="custom-control-label" for="priceAll">All</label>
                                 </div>
                                 <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                    <input type="radio" class="custom-control-input" name="price" id="price1" value="0-100000" onclick="this.form.submit()" <c:if test="${param.price == '0-100000'}">checked</c:if>>
+                                    <input type="radio" class="custom-control-input" name="price" id="price1" value="0-100" onclick="this.form.submit()" <c:if test="${param.price == '0-100'}">checked</c:if>>
                                     <label class="custom-control-label" for="price1">Below 100đ</label>
                                 </div>
                                 <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                    <input type="radio" class="custom-control-input" name="price" id="price2" value="100000-200000" onclick="this.form.submit()" <c:if test="${param.price == '100000-200000'}">checked</c:if>>
+                                    <input type="radio" class="custom-control-input" name="price" id="price2" value="100-200" onclick="this.form.submit()" <c:if test="${param.price == '100-200'}">checked</c:if>>
                                     <label class="custom-control-label" for="price2">100đ - 200đ</label>
                                 </div>
                                 <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                    <input type="radio" class="custom-control-input" name="price" id="price3" value="200000-500000" onclick="this.form.submit()" <c:if test="${param.price == '200000-500000'}">checked</c:if>>
+                                    <input type="radio" class="custom-control-input" name="price" id="price3" value="200-500" onclick="this.form.submit()" <c:if test="${param.price == '200-500'}">checked</c:if>>
                                     <label class="custom-control-label" for="price3">200đ - 500đ</label>
                                 </div>
                                 <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                    <input type="radio" class="custom-control-input" name="price" id="price4" value="500000-100000000" onclick="this.form.submit()" <c:if test="${param.price == '500000-100000000'}">checked</c:if>>
+                                    <input type="radio" class="custom-control-input" name="price" id="price4" value="500-1000000" onclick="this.form.submit()" <c:if test="${param.price == '500-1000000'}">checked</c:if>>
                                     <label class="custom-control-label" for="price4">Above 500đ</label>
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
@@ -84,6 +84,7 @@
                                     <label class="custom-control-label" for="provider-${provider.id}">${provider.companyName}</label>
                                 </div>
                             </c:forEach>
+                            <input type="hidden" name="searchName" value="${searchName}">
                         </div>
                     </form>
                     <!-- Brand End -->
