@@ -38,19 +38,19 @@
     </servlet>
     <servlet>
         <servlet-name>AdminManageProfileController</servlet-name>
-        <servlet-class>controller.AdminManageProfileController</servlet-class>
+        <servlet-class>controller.admin.AdminManageProfileController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ManagerManageProfileController</servlet-name>
-        <servlet-class>controller.ManagerManageProfileController</servlet-class>
+        <servlet-class>controller.manager.ManagerManageProfileController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MarketingStaffManageProfileController</servlet-name>
-        <servlet-class>controller.MarketingStaffManageProfileController</servlet-class>
+        <servlet-class>controller.marketingstaff.MarketingStaffManageProfileController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>StorageStaffManageProfileController</servlet-name>
-        <servlet-class>controller.StorageStaffManageProfileController</servlet-class>
+        <servlet-class>controller.storagestaff.StorageStaffManageProfileController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>

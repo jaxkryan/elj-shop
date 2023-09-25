@@ -1,8 +1,9 @@
-package controller;
+package controller.seller;
 
 import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,7 +14,8 @@ import model.User;
  *
  * @author Huy Nguyen
  */
-public class AdminManageProfileController extends HttpServlet {
+@WebServlet(name="SellerManageProfileController", urlPatterns={"/seller/profile"})
+public class SellerManageProfileController extends HttpServlet {
 
     /** 
      * Handles the HTTP <code>GET</code> method.
@@ -29,7 +31,7 @@ public class AdminManageProfileController extends HttpServlet {
         UserDAO udao = new UserDAO();
         User user = udao.getById((Integer)session.getAttribute("userId"));
         request.setAttribute("user", user);
-        request.getRequestDispatcher("/jsp/adminProfilePage.jsp").forward(request, response);
+        request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
     } 
 
     /** 
@@ -42,7 +44,7 @@ public class AdminManageProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        if (request.getParameter("adminEditProfileSubmit") != null) {
+        if (request.getParameter("sellerEditProfileSubmit") != null) {
             UserDAO udao = new UserDAO();
             int id = Integer.parseInt(request.getParameter("id"));
             String firstName = request.getParameter("firstName");
@@ -55,7 +57,7 @@ public class AdminManageProfileController extends HttpServlet {
             String phone = request.getParameter("phone");
             String email = request.getParameter("email");
             User userToUpdate = new User(id, 0, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, "");
-            udao.updateUser(userToUpdate);
+            udao.update(userToUpdate);
         }
         response.sendRedirect("profile");
     }
