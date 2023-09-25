@@ -37,9 +37,9 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6 col-12 text-left">
-                    <form action="search" method="POST">
+                    <form action="searchproduct" method="post">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="searchName" placeholder="Search for products">
+                            <input value="${searchName}" name="searchName" type="text" class="form-control" placeholder="Search for products">
                             <div class="input-group-append">
                                 <button type="submit" class="input-group-text bg-transparent text-primary" title="Search" name="searchSubmit">
                                     <i class="fa fa-search"></i>
@@ -75,7 +75,7 @@
                     <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
                         <div class="navbar-nav w-100">
                             <c:forEach items="${categories}" var="cate">
-                                <a href="${pageContext.request.contextPath}/shop?cateId=${cate.key.id}" class="nav-item nav-link">${cate.key.name}</a>
+                                <a href="${pageContext.request.contextPath}/productfilter?categoryId=${cate.id}" class="nav-item nav-link">${cate.name}</a>
                             </c:forEach>
                         </div>
                     </nav>
@@ -98,8 +98,8 @@
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Brands <i class="fa fa-angle-down mt-1"></i></a>
                                     <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                        <c:forEach items="${brands}" var="brand">
-                                            <a href="${pageContext.request.contextPath}/shop?brandId=${brand.key.id}" class="dropdown-item">${brand.key.name}</a>
+                                        <c:forEach items="${providers}" var="provider">
+                                            <a href="${pageContext.request.contextPath}/productfilter?providerId=${provider.id}" class="dropdown-item">${provider.companyName}</a>
                                         </c:forEach>
                                     </div>
                                 </div>

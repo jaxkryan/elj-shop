@@ -1,14 +1,18 @@
 package controller.marketingstaff;
 
+import dao.VoucherDAO;
+import dao.VoucherDetailDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Vector;
+import model.Voucher;
 
 /**
  *
- * @author Huy Nguyen
+ * @author maclile
  */
 public class MaketingStaffHomeController extends HttpServlet {
 
@@ -22,8 +26,18 @@ public class MaketingStaffHomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("/jsp/manageVoucherPage.jsp").forward(request, response);
+        String service = request.getParameter("go");
+        if (service == null || service.equals("")) {
+            service = "displayAll";
+        }
+        if (service.equals("displayAll")) {
+            VoucherDAO voucherDAO = new VoucherDAO();
+            Vector<Voucher> voucher = voucherDAO.getAll();
+            request.setAttribute("voucher", voucher);
+            request.getRequestDispatcher("/jsp/manageVoucherPage.jsp").forward(request, response);
+        }
     } 
+
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -35,7 +49,13 @@ public class MaketingStaffHomeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
+        VoucherDAO voucherDAO = new VoucherDAO();
+        if(request.getParameter("search") != null){
+            String code = request.getParameter("code");
+            Vector<Voucher> voucher = voucherDAO.findByCode(code);
+            request.setAttribute("voucher", voucher);
+            request.getRequestDispatcher("/jsp/manageVoucherPage.jsp").forward(request, response);
+        }
     }
 
     /** 

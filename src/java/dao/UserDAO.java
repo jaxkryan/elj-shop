@@ -10,7 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.User;
 
-public class UserDAO extends jdbc.DBConnect{
+public class UserDAO extends jdbc.DBConnect {
+
     public Vector<User> getAll() {
         Vector<User> users = new Vector<>();
         String sql = "SELECT [id]\n"
@@ -196,7 +197,7 @@ public class UserDAO extends jdbc.DBConnect{
             pre.setString(9, user.getPhone());
             pre.setString(10, user.getEmail());
             pre.setString(11, user.getPassword());
-            
+
             int affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();

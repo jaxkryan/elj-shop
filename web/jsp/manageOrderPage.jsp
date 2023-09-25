@@ -30,64 +30,90 @@
         </style>
     <body>
         <div class="container">
+
+
             <div class="row p-3 text-right">
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
+
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
                             <h2>Manage <b>Order</b></h2>
                         </div>
-                        <div class="col-sm-6">
-                            <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
-                            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                        <!--       <div class="col-sm-6">
+                                   <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
+                                   <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                        </div>-->
+                        <div>                   
+                            <form action="${pageContext.request.contextPath}/seller/home" method="POST">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="keyword" placeholder="Search by name">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="text-primary" title="Search" name="sellerSearchCustomerSubmit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>
-                                <span class="custom-checkbox">
-                                    <input type="checkbox" id="selectAll">
-                                    <label for="selectAll"></label>
-                                </span>
-                            </th>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Image</th>
-                            <th>Price</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach begin="1" end="5" var="o">
-                            <tr>
-                                <td>
-                                    <span class="custom-checkbox">
-                                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                        <label for="checkbox1"></label>
-                                    </span>
-                                </td>
-                                <td>1</td>
-                                <td>Giày thể thao</td>
-                                <td>
-                                    <img src="https://image.yes24.vn/Upload/ProductImage/GmarketSport/2058803_L.jpg?width=550&height=550">
-                                </td>
-                                <td>100 $</td>
-                                <td>
-                                    <a href="#editEmployeeModal"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                <c:choose>
+                    <c:when test="${param.go == null || param.go == 'displayAll'}">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span class="custom-checkbox">
+                                            <input type="checkbox" id="selectAll">
+                                            <label for="selectAll"></label>
+                                        </span>
+                                    </th>
+                                    <th>ID</th>
+                                    <th>CustomerID</th>
+                                    <th>Receiver</th>
+                                    <th>Address</th>
+                                    <th>ShipCusInfo</th>
+                                    <th>Status</th>
+                                    <th>CreatedTime</th>
+                                    <th>TotalPrice</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${orders}" var="order">
+                                    <tr>
+                                        <td>
+                                            <span class="custom-checkbox">
+                                                <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                                <label for="checkbox1"></label>
+                                            </span>
+                                        </td>
+                                        <td class="align-middle">${order.id}</td>
+                                        <td class="align-middle">${order.customerId}</td>
+                                        <td class="align-middle text-left" style="text-wrap: nowrap;">${order.receiver}</td>
+                                        <td class="align-middle text-left">${order.shipStreet}, ${order.shipCity}, ${order.shipProvince}, ${order.shipCountry}</td>
+                                        <td class="align-middle">${order.shipEmail}, ${order.shipPhone}</td>
+                                        <td class="align-middle">${order.status}</td>
+                                        <td class="align-middle">${order.createdTime}</td>
+                                        <td class="align-middle">${order.totalPrice}</td>
+                                        <td>
+                                            <a href="#editEmployeeModal"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:when>
+                </c:choose>
             </div>
         </div>
-        <!-- Edit Modal HTML -->
+
+        <!-- Add Modal HTML -->
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -135,6 +161,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Edit Modal HTML -->
         <div id="editEmployeeModal" class="modal fade">
             <div class="modal-dialog">
@@ -170,6 +197,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Delete Modal HTML -->
         <div id="deleteEmployeeModal" class="modal fade">
             <div class="modal-dialog">

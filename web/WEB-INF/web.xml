@@ -52,6 +52,42 @@
         <servlet-name>StorageStaffManageProfileController</servlet-name>
         <servlet-class>controller.storagestaff.StorageStaffManageProfileController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShopController</servlet-name>
+        <servlet-class>controller.ShopController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StorageController</servlet-name>
+        <servlet-class>controller.StorageController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SortControlelr</servlet-name>
+        <servlet-class>controller.SortControlelr</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SortController</servlet-name>
+        <servlet-class>controller.SortController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StorageSortController</servlet-name>
+        <servlet-class>controller.StorageController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StorageUpdateQty</servlet-name>
+        <servlet-class>controller.StorageUpdateQty</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageProviderController</servlet-name>
+        <servlet-class>controller.manager.ManageProviderController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchProductController</servlet-name>
+        <servlet-class>controller.SearchProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductFilterController</servlet-name>
+        <servlet-class>controller.ProductFilterController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -103,6 +139,30 @@
     <servlet-mapping>
         <servlet-name>StorageStaffManageProfileController</servlet-name>
         <url-pattern>/storage-staff/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShopController</servlet-name>
+        <url-pattern>/shop</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StorageController</servlet-name>
+        <url-pattern>/StorageController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StorageController</servlet-name>
+        <url-pattern>/storage-staff/StorageController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageProviderController</servlet-name>
+        <url-pattern>/manager/provider</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchProductController</servlet-name>
+        <url-pattern>/searchproduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductFilterController</servlet-name>
+        <url-pattern>/productfilter</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

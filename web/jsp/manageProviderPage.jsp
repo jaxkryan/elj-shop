@@ -1,7 +1,7 @@
 <%-- 
     Document   : ManagerProduct
     Created on : Dec 28, 2020, 5:19:02 PM
-    Author     : maclife
+    Author     : trinh
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -34,28 +34,11 @@
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
-            
-            <div class="">
-                <div>                   
-                    <form action="${pageContext.request.contextPath}/marketing-staff/home" method="POST">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="code" placeholder="Search by code">
-                            <div class="input-group-append">
-                                <button type="submit" class="text-primary" title="Search" name="search">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            
-            
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Manage <b>Voucher</b></h2>
+                            <h2>Manage <b>Product</b></h2>
                         </div>
                         <div class="col-sm-6">
                             <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
@@ -75,11 +58,14 @@
                                         </span>
                                     </th>
                                     <th>ID</th>
-                                    <th>Code</th> 
+                                    <th>Company</th>
+                                    <th>Email</th>
+                                    <th>Image</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${voucher}" var="voucher">
+                                <c:forEach items="${providers}" var="provider">
                                     <tr>
                                         <td>
                                             <span class="custom-checkbox">
@@ -87,14 +73,18 @@
                                                 <label for="checkbox1"></label>
                                             </span>
                                         </td>
-                                        <td class="align-middle">${voucher.id}</td>
-                                        <td class="align-middle">${voucher.code}</td>
+                                        <td>${provider.id}</td>
+                                        <td>${provider.companyName}</td>
+                                        <td>
+                                            ${provider.email}
+                                        </td>
+                                        <td>
+                                            <img src="${provider.image}">
+                                        </td>
                                         <td>
                                             <a href="#editEmployeeModal"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                            
+                                            <a href="provider?go=delete&pid=${provider.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                         </td>
-                                        <td><a href="${pageContext.request.contextPath}/marketing-staff/home?go=displayAll">VoucherDetail</a></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -103,16 +93,13 @@
                 </c:choose>
             </div>
         </div>
-
-
-
-        <!-- Add Modal HTML -->
+        <!-- Edit Modal HTML -->
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form action="add" method="post">
                         <div class="modal-header">						
-                            <h4 class="modal-title">Add Voucher</h4>
+                            <h4 class="modal-title">Add Product</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">					
@@ -214,4 +201,3 @@
     <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
 </body>
 </html>
-        

@@ -1,10 +1,13 @@
 package controller.seller;
 
+import dao.OrderDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Vector;
+import model.Order;
 
 /**
  *
@@ -22,7 +25,22 @@ public class SellerHomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("/jsp/manageOrderPage.jsp").forward(request, response);
+        String service = request.getParameter("go");
+        if (service == null || service.equals("")) {
+            service = "displayAll";
+        }
+        if (service.equals("displayAll")) {
+            OrderDAO orderDAO = new OrderDAO();
+            Vector<Order> orders = orderDAO.getAll();
+            request.setAttribute("orders", orders);
+            request.getRequestDispatcher("/jsp/manageOrderPage.jsp").forward(request, response);
+        } else if (service.equals("update")) {
+            OrderDAO orderDAO = new OrderDAO();
+            int orderId = Integer.parseInt(request.getParameter("id"));
+            Order orderToUpdate = orderDAO.getById(orderId);
+            request.setAttribute("orderToUpdate", orderToUpdate);
+            request.getRequestDispatcher("/jsp/manageOrderPage.jsp").forward(request, response);
+        }
     } 
 
     /** 
@@ -35,7 +53,13 @@ public class SellerHomeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
+        OrderDAO orderDAO = new OrderDAO();
+        if (request.getParameter("sellerSearchCustomerSubmit") != null) {
+            String keyword = request.getParameter("keyword");
+            Vector<Order> orders = orderDAO.getByName(keyword);
+            request.setAttribute("orders", orders);
+            request.getRequestDispatcher("/jsp/manageOrderPage.jsp").forward(request, response);
+            }
     }
 
     /** 
