@@ -1,10 +1,15 @@
 package controller.admin;
 
+import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.Vector;
+import model.User;
+import util.Helper;
 
 /**
  *
@@ -22,7 +27,31 @@ public class AdminHomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("/jsp/manageAccountPage.jsp").forward(request, response);
+        String service = request.getParameter("go");
+        if (service == null || service.equals("")) {
+            service = "displayAll";
+        }
+        if (service.equals("displayAll")) {
+            UserDAO udao = new UserDAO();
+            Vector<User> users = udao.getAll();
+            request.setAttribute("users", users);
+            request.getRequestDispatcher("/jsp/manageAccountPage.jsp").forward(request, response);
+        } else if (service.equals("delete")) {
+            if (!isUserExists(request)) {
+                Helper.setNotification(request, "User doesn't exists!", "RED");
+            } else {
+                UserDAO udao = new UserDAO();
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                HttpSession session = request.getSession();
+                if (userId == (Integer)session.getAttribute("userId")) {
+                    Helper.setNotification(request, "You cannot delete your-self!", "RED");
+                } else {
+                    User userToDelete = udao.getById(userId);
+                    udao.delete(userToDelete);
+                }
+                response.sendRedirect("home");
+            }
+        }
     } 
 
     /** 
@@ -47,4 +76,13 @@ public class AdminHomeController extends HttpServlet {
         return "Short description";
     }
 
+    private boolean isUserExists(HttpServletRequest request) {
+        if (request.getParameter("userId") == null) {
+            return false;
+        } else {
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            UserDAO udao = new UserDAO();
+            return udao.getById(userId) != null;
+        }
+    }
 }

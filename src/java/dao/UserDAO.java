@@ -169,7 +169,7 @@ public class UserDAO extends jdbc.DBConnect {
         return null;
     }
 
-    public int addUser(User user) {
+    public int insert(User user) {
         int rowsAffected = 0;
         String sql = "INSERT INTO [dbo].[User]\n"
                 + "      ,[roleId]\n"
@@ -206,9 +206,9 @@ public class UserDAO extends jdbc.DBConnect {
         return rowsAffected;
     }
 
-    public int addUser(User user, boolean returnId) {
+    public int insert(User user, boolean returnId) {
         if (!returnId) {
-            return addUser(user);
+            return insert(user);
         }
         int userId = -1;
         String sql = "INSERT INTO [dbo].[User]\n"
@@ -262,7 +262,7 @@ public class UserDAO extends jdbc.DBConnect {
      * @param user user to update
      * @return number of affected rows in database
      */
-    public int updateUser(User user) {
+    public int update(User user) {
         int rowsAffected = 0;
         String sql = "UPDATE [dbo].[User]\n"
                 + "   SET [firstName] = ?\n"
@@ -295,10 +295,17 @@ public class UserDAO extends jdbc.DBConnect {
         return rowsAffected;
     }
 
-    public int deleteUser(User user) {
+    public int delete(User user) {
         int rowsAffected = 0;
 
-        //not delete user related info yet
+        if (user.getRole().equals("Customer")) {
+            CustomerDAO cdao = new CustomerDAO();
+            cdao.deleteById(user.getId());
+        } else {
+            EmployeeDAO edao = new EmployeeDAO();
+            edao.deleteById(user.getId(), user.getRole());
+        }
+        
         String sql = "DELETE FROM [dbo].[User]\n"
                 + " WHERE id = ?";
         try {

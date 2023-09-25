@@ -1,4 +1,4 @@
-package controller;
+package controller.marketingstaff;
 
 import dao.UserDAO;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import model.User;
  *
  * @author Huy Nguyen
  */
-public class StorageStaffManageProfileController extends HttpServlet {
+public class MarketingStaffManageProfileController extends HttpServlet {
 
     /** 
      * Handles the HTTP <code>GET</code> method.
@@ -29,7 +29,7 @@ public class StorageStaffManageProfileController extends HttpServlet {
         UserDAO udao = new UserDAO();
         User user = udao.getById((Integer)session.getAttribute("userId"));
         request.setAttribute("user", user);
-        request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
+        request.getRequestDispatcher("/jsp/marketingStaffProfilePage.jsp").forward(request, response);
     } 
 
     /** 
@@ -42,7 +42,7 @@ public class StorageStaffManageProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        if (request.getParameter("storageStaffEditProfileSubmit") != null) {
+        if (request.getParameter("marketingStaffEditProfileSubmit") != null) {
             UserDAO udao = new UserDAO();
             int id = Integer.parseInt(request.getParameter("id"));
             String firstName = request.getParameter("firstName");
@@ -55,7 +55,7 @@ public class StorageStaffManageProfileController extends HttpServlet {
             String phone = request.getParameter("phone");
             String email = request.getParameter("email");
             User userToUpdate = new User(id, 0, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, "");
-            udao.updateUser(userToUpdate);
+            udao.update(userToUpdate);
         }
         response.sendRedirect("profile");
     }
