@@ -35,28 +35,28 @@ CREATE TABLE [Provider] (
   [companyName] varchar(20) NOT NULL,
   [email] nvarchar(100),
   [image] nvarchar(max),
-  [Active] int
+  [active] int
 )
 GO
 
 CREATE TABLE [Employee] (
   [id] int PRIMARY KEY NOT NULL,
   [salary] int,
-  [Active] int
+  [active] int
 )
 GO
 
 CREATE TABLE [Customer] (
   [id] int PRIMARY KEY NOT NULL,
   [balance] float,
-  [Active] int
+  [active] int
 )
 GO
 
 CREATE TABLE [Role] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [roleName] varchar(15) NOT NULL,
-  [Active] int
+  [active] int
 )
 GO
 
@@ -70,7 +70,7 @@ CREATE TABLE [Product] (
   [discount] float DEFAULT (0),
   [quantity] int NOT NULL DEFAULT (0),
   [image] nvarchar(max) NULL ,
-  [Active] int
+  [active] int
 )
 GO
 
@@ -78,7 +78,7 @@ CREATE TABLE [Category] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [name] varchar(20) NOT NULL,
   [image] nvarchar(max),
-  [Active] int
+  [active] int
 )
 GO
 
@@ -95,34 +95,34 @@ CREATE TABLE [Order] (
   [status] nvarchar(255) NOT NULL,
   [createdTime] datetime,
   [totalPrice] float NOT NULL,
-  [Active] int
+  [active] int
 )
 GO
 
 CREATE TABLE [OrderDetail] (
-  [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [productId] int,
   [orderId] int NOT NULL,
   [price] float NOT NULL,
   [quantity] int NOT NULL DEFAULT (1),
-  [Active] int
+  [active] int,
+  PRIMARY KEY(productId,orderId)
 )
 GO
 
 CREATE TABLE [Cart] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [customerId] int NOT NULL,
-  [Active] int
+  [active] int
 )
 GO
 
 CREATE TABLE [CartItem] (
-  [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [productId] int,
   [cartId] int NOT NULL,
   [price] float NOT NULL,
   [quantity] int NOT NULL DEFAULT (1),
-  [Active] int
+  [active] int,
+  PRIMARY KEY(productId,cartId)
 )
 GO
 
@@ -132,7 +132,7 @@ CREATE TABLE [ImportOrder] (
   [managerId] int NOT NULL,
   [status] nvarchar(255) NOT NULL,
   [createdTime] datetime,
-  [Active] int
+  [active] int
 )
 GO
 
@@ -142,31 +142,30 @@ CREATE TABLE [ImportOrderDetails] (
   [productInfomration] varchar(200),
   [price] float NOT NULL,
   [quantity] int NOT NULL DEFAULT (1),
-  [Active] int
+  [active] int
 )
 GO
 
 CREATE TABLE [OrderVoucher] (
   [orderId] int NOT NULL,
   [voucherId] int NOT NULL,
-  [Active] int
+  [active] int
 )
 GO
 
 CREATE TABLE [Voucher] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [code] nvarchar(50) NOT NULL,
-  [Active] int
+  [active] int
 )
 GO
 
 CREATE TABLE [VoucherDetails] (
-  [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [voucherId] int NOT NULL,
+  [voucherId] int NOT NULL PRIMARY KEY,
   [startDate] datetime,
   [endDate] datetime,
   [value] int,
-  [Active] int
+  [active] int
 )
 GO
 
