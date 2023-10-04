@@ -18,7 +18,7 @@ public class ProductDAO extends jdbc.DBConnect {
 
     public Vector<Product> getAllProduct() {
         Vector<Product> listP = new Vector<>();
-        String sql = "SELECT * from product";
+        String sql = "SELECT * from product where active = 1";
         try {
             ResultSet rs = getData(sql);
             while (rs.next()) {
@@ -31,7 +31,8 @@ public class ProductDAO extends jdbc.DBConnect {
                 float discount = rs.getFloat(7);
                 int quantity = rs.getInt(8);
                 String image = rs.getString(9);
-                listP.add(new Product(id, categoryId, providerId, name, description, price, discount, quantity, image));
+                Boolean active = rs.getBoolean(10);
+                listP.add(new Product(id, categoryId, providerId, name, description, price, discount, quantity, image, active));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -55,7 +56,8 @@ public class ProductDAO extends jdbc.DBConnect {
                 float discount = rs.getFloat(7);
                 int quantity = rs.getInt(8);
                 String image = rs.getString(9);
-                listP.add(new Product(id, categoryId, providerId, name, description, price, discount, quantity, image));
+                Boolean active = rs.getBoolean(10);
+                listP.add(new Product(id, categoryId, providerId, name, description, price, discount, quantity, image, active));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -78,7 +80,8 @@ public class ProductDAO extends jdbc.DBConnect {
                 float discount = rs.getFloat(7);
                 int quantity = rs.getInt(8);
                 String image = rs.getString(9);
-                searchlistProduct.add(new Product(id, categoryId, providerId, name, description, price, discount, quantity, image));
+                Boolean active = rs.getBoolean(10);
+                searchlistProduct.add(new Product(id, categoryId, providerId, name, description, price, discount, quantity, image, active));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -101,7 +104,8 @@ public class ProductDAO extends jdbc.DBConnect {
                 float discount = rs.getFloat(7);
                 int quantity = rs.getInt(8);
                 String image = rs.getString(9);
-                sortlistProduct.add(new Product(id, categoryId, providerId, name, description, price, discount, quantity, image));
+                Boolean active = rs.getBoolean(10);
+                sortlistProduct.add(new Product(id, categoryId, providerId, name, description, price, discount, quantity, image, active));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -141,10 +145,9 @@ public class ProductDAO extends jdbc.DBConnect {
     }
 
     public void deleteProduct(String id) {
-        setNullOrderDetail(id);
-        setNullCartItem(id);
-        String sql = "DELETE FROM [dbo].[Product]\n"
-                + "      WHERE id=?";
+        String sql = "UPDATE [dbo].[Product]\n"
+                + "   SET [active] = 0\n"
+                + " WHERE id = ?";
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setString(1, id);
@@ -208,7 +211,8 @@ public class ProductDAO extends jdbc.DBConnect {
                 float discount = rs.getFloat(7);
                 int quantity = rs.getInt(8);
                 String image = rs.getString(9);
-                listP.add(new Product(id, categoryId, providerId, name, description, price, discount, quantity, image));
+                Boolean active = rs.getBoolean(10);
+                listP.add(new Product(id, categoryId, providerId, name, description, price, discount, quantity, image, active));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -258,7 +262,8 @@ public class ProductDAO extends jdbc.DBConnect {
                 float discount = rs.getFloat(7);
                 int quantity = rs.getInt(8);
                 String image = rs.getString(9);
-                listP.add(new Product(id, categoryId, providerId, name, description, price, discount, quantity, image));
+                Boolean active = rs.getBoolean(10);
+                listP.add(new Product(id, categoryId, providerId, name, description, price, discount, quantity, image, active));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
