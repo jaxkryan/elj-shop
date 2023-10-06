@@ -54,7 +54,7 @@ public class MarketingStaffManageProfileController extends HttpServlet {
             String country = request.getParameter("country");
             String phone = request.getParameter("phone");
             String email = request.getParameter("email");
-            User userToUpdate = new User(id, 0, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, "");
+            User userToUpdate = new User(id, "Marketing Staff", firstName, lastName, dateOfBirth, street, city, province, country, phone, email, "");
             udao.update(userToUpdate);
         }
         response.sendRedirect("profile");
