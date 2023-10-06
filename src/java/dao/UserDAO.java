@@ -169,7 +169,7 @@ public class UserDAO extends jdbc.DBConnect {
     }
 
     public int insert(User user) {
-        int rowsAffected = 0;
+        int affectedRows = 0;
         String sql = "INSERT INTO [dbo].[User]\n"
                 + "      ,[role]\n"
                 + "      ,[firstName]\n"
@@ -197,12 +197,12 @@ public class UserDAO extends jdbc.DBConnect {
             pre.setString(10, user.getEmail());
             pre.setString(11, user.getPassword());
 
-            int affectedRows = pre.executeUpdate();
+            affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return rowsAffected;
+        return affectedRows;
     }
 
     public int insert(User user, boolean returnId) {
@@ -262,7 +262,7 @@ public class UserDAO extends jdbc.DBConnect {
      * @return number of affected rows in database
      */
     public int update(User user) {
-        int rowsAffected = 0;
+        int affectedRows = 0;
         String sql = "UPDATE [dbo].[User]\n"
                 + "   SET [firstName] = ?\n"
                 + "      ,[lastName] = ?\n"
@@ -286,12 +286,12 @@ public class UserDAO extends jdbc.DBConnect {
             pre.setString(8, user.getPhone());
             pre.setString(9, user.getEmail());
             pre.setInt(10, user.getId());
-            int affectedRows = pre.executeUpdate();
+            affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return rowsAffected;
+        return affectedRows;
     }
 
     public int delete(User user) {
