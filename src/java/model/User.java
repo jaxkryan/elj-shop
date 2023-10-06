@@ -4,7 +4,7 @@ import util.Helper;
 
 public class User {
     private int id;
-    private int roleId;
+    private String role;
     private String firstName;
     private String lastName;
     private String dateOfBirth;
@@ -19,9 +19,9 @@ public class User {
     public User() {
     }
 
-    public User(int id, int roleId, String firstName, String lastName, String dateOfBirth, String street, String city, String province, String country, String phone, String email, String password) {
+    public User(int id, String role, String firstName, String lastName, String dateOfBirth, String street, String city, String province, String country, String phone, String email, String password) {
         this.id = id;
-        this.roleId = roleId;
+        this.role = role;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -42,12 +42,12 @@ public class User {
         this.id = id;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getFirstName() {
@@ -130,14 +130,10 @@ public class User {
         this.password = password;
     }
     
-    public String getRole() {
-        return Helper.getUserRole(roleId);
-    }
-    
     @Override
     public String toString() {
         return "User{id=" + id
-                + ", roleId=" + roleId
+                + ", role=" + role
                 + ", firstName=" + firstName
                 + ", lastName=" + lastName
                 + ", dateOfBirth=" + dateOfBirth

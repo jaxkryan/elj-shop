@@ -60,8 +60,8 @@ public class LoginController extends HttpServlet {
                 //Get new infomation
                 session = request.getSession();
                 session.setAttribute("userId", user.getId());
-                session.setAttribute("userRole", Helper.getUserRole(user.getRoleId()));
-                sendRedirectByRole(response, Helper.getUserRole(user.getRoleId()));
+                session.setAttribute("userRole", user.getRole());
+                sendRedirectByRole(response, user.getRole());
             } else {
                 Helper.setNotification(request, "Wrong password!", "RED");
                 request.getRequestDispatcher("/jsp/loginPage.jsp").forward(request, response);

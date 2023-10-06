@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +14,7 @@ public class UserDAO extends jdbc.DBConnect {
     public Vector<User> getAll() {
         Vector<User> users = new Vector<>();
         String sql = "SELECT [id]\n"
-                + "      ,[roleId]\n"
+                + "      ,[role]\n"
                 + "      ,[firstName]\n"
                 + "      ,[lastName]\n"
                 + "      ,[dateOfBirth]\n"
@@ -31,7 +30,7 @@ public class UserDAO extends jdbc.DBConnect {
             ResultSet rs = getData(sql);
             while (rs.next()) {
                 int id = rs.getInt(1);
-                int roleId = rs.getInt(2);
+                String role = rs.getString(2);
                 String firstName = rs.getString(3);
                 String lastName = rs.getString(4);
                 String dateOfBirth = rs.getString(5);
@@ -42,7 +41,7 @@ public class UserDAO extends jdbc.DBConnect {
                 String phone = rs.getString(10);
                 String email = rs.getString(11);
                 String password = rs.getString(12);
-                users.add(new User(id, roleId, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password));
+                users.add(new User(id, role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password));
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -52,7 +51,7 @@ public class UserDAO extends jdbc.DBConnect {
 
     public User getById(int id) {
         String sql = "SELECT [id]\n"
-                + "      ,[roleId]\n"
+                + "      ,[role]\n"
                 + "      ,[firstName]\n"
                 + "      ,[lastName]\n"
                 + "      ,[dateOfBirth]\n"
@@ -70,7 +69,7 @@ public class UserDAO extends jdbc.DBConnect {
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                int roleId = rs.getInt(2);
+                String role = rs.getString(2);
                 String firstName = rs.getString(3);
                 String lastName = rs.getString(4);
                 String dateOfBirth = rs.getString(5);
@@ -81,7 +80,7 @@ public class UserDAO extends jdbc.DBConnect {
                 String phone = rs.getString(10);
                 String email = rs.getString(11);
                 String password = rs.getString(12);
-                return new User(id, roleId, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password);
+                return new User(id, role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password);
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -92,7 +91,7 @@ public class UserDAO extends jdbc.DBConnect {
     public Vector<User> getByName(String name) {
         Vector<User> users = new Vector<>();
         String sql = "SELECT [id]\n"
-                + "      ,[roleId]\n"
+                + "      ,[role]\n"
                 + "      ,[firstName]\n"
                 + "      ,[lastName]\n"
                 + "      ,[dateOfBirth]\n"
@@ -112,7 +111,7 @@ public class UserDAO extends jdbc.DBConnect {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt(1);
-                int roleId = rs.getInt(2);
+                String role = rs.getString(2);
                 String firstName = rs.getString(3);
                 String lastName = rs.getString(4);
                 String dateOfBirth = rs.getString(5);
@@ -123,7 +122,7 @@ public class UserDAO extends jdbc.DBConnect {
                 String phone = rs.getString(10);
                 String email = rs.getString(11);
                 String password = rs.getString(12);
-                users.add(new User(id, roleId, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password));
+                users.add(new User(id, role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password));
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -133,7 +132,7 @@ public class UserDAO extends jdbc.DBConnect {
 
     public User getByEmail(String email) {
         String sql = "SELECT [id]\n"
-                + "      ,[roleId]\n"
+                + "      ,[role]\n"
                 + "      ,[firstName]\n"
                 + "      ,[lastName]\n"
                 + "      ,[dateOfBirth]\n"
@@ -151,7 +150,7 @@ public class UserDAO extends jdbc.DBConnect {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt(1);
-                int roleId = rs.getInt(2);
+                String role = rs.getString(2);
                 String firstName = rs.getString(3);
                 String lastName = rs.getString(4);
                 String dateOfBirth = rs.getString(5);
@@ -161,7 +160,7 @@ public class UserDAO extends jdbc.DBConnect {
                 String country = rs.getString(9);
                 String phone = rs.getString(10);
                 String password = rs.getString(11);
-                return new User(id, roleId, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password);
+                return new User(id, role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password);
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -172,7 +171,7 @@ public class UserDAO extends jdbc.DBConnect {
     public int insert(User user) {
         int rowsAffected = 0;
         String sql = "INSERT INTO [dbo].[User]\n"
-                + "      ,[roleId]\n"
+                + "      ,[role]\n"
                 + "      ,[firstName]\n"
                 + "      ,[lastName]\n"
                 + "      ,[dateOfBirth]\n"
@@ -186,7 +185,7 @@ public class UserDAO extends jdbc.DBConnect {
                 + "     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
-            pre.setInt(1, user.getRoleId());
+            pre.setString(1, user.getRole());
             pre.setString(2, user.getFirstName());
             pre.setString(3, user.getLastName());
             pre.setString(4, user.getDateOfBirth());
@@ -212,7 +211,7 @@ public class UserDAO extends jdbc.DBConnect {
         }
         int userId = -1;
         String sql = "INSERT INTO [dbo].[User]\n"
-                + "      ,[roleId]\n"
+                + "      ,[role]\n"
                 + "      ,[firstName]\n"
                 + "      ,[lastName]\n"
                 + "      ,[dateOfBirth]\n"
@@ -226,7 +225,7 @@ public class UserDAO extends jdbc.DBConnect {
                 + "     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement pre = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            pre.setInt(1, user.getRoleId());
+            pre.setString(1, user.getRole());
             pre.setString(2, user.getFirstName());
             pre.setString(3, user.getLastName());
             pre.setString(4, user.getDateOfBirth());
