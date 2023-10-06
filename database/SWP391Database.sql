@@ -15,7 +15,7 @@ go
 
 CREATE TABLE [User] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [roleId] int NOT NULL,
+  [role] varchar(20) NOT NULL,
   [firstName] nvarchar(50),
   [lastName] nvarchar(50),
   [dateOfBirth] date,
@@ -26,37 +26,29 @@ CREATE TABLE [User] (
   [phone] varchar(15),
   [email] varchar(50),
   [password] varchar(20),
-  active int
+  active bit
 )
 GO
 
 CREATE TABLE [Provider] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [companyName] varchar(20) NOT NULL,
-  [email] nvarchar(100),
   [image] nvarchar(max),
-  [active] int
+  active bit
 )
 GO
 
 CREATE TABLE [Employee] (
   [id] int PRIMARY KEY NOT NULL,
   [salary] int,
-  [active] int
+  hireDate date,
+  leaveDate date
 )
 GO
 
 CREATE TABLE [Customer] (
   [id] int PRIMARY KEY NOT NULL,
-  [balance] float,
-  [active] int
-)
-GO
-
-CREATE TABLE [Role] (
-  [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [roleName] varchar(15) NOT NULL,
-  [active] int
+  [balance] float
 )
 GO
 
@@ -70,7 +62,7 @@ CREATE TABLE [Product] (
   [discount] float DEFAULT (0),
   [quantity] int NOT NULL DEFAULT (0),
   [image] nvarchar(max) NULL ,
-  [active] int
+  active bit
 )
 GO
 
@@ -78,13 +70,14 @@ CREATE TABLE [Category] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [name] varchar(20) NOT NULL,
   [image] nvarchar(max),
-  [active] int
+  active bit
 )
 GO
 
 CREATE TABLE [Order] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [customerId] int NOT NULL,
+  [voucherId] int,
   [receiver] nvarchar(50),
   [shipStreet] varchar(50),
   [shipCity] varchar(30),
@@ -95,24 +88,22 @@ CREATE TABLE [Order] (
   [status] nvarchar(255) NOT NULL,
   [createdTime] datetime,
   [totalPrice] float NOT NULL,
-  [active] int
+  active bit
 )
 GO
 
-CREATE TABLE [OrderDetail] (
+CREATE TABLE [OrderDetails] (
   [productId] int,
   [orderId] int NOT NULL,
   [price] float NOT NULL,
   [quantity] int NOT NULL DEFAULT (1),
-  [active] int,
   PRIMARY KEY(productId,orderId)
 )
 GO
 
 CREATE TABLE [Cart] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [customerId] int NOT NULL,
-  [active] int
+  [customerId] int NOT NULL
 )
 GO
 
@@ -121,7 +112,6 @@ CREATE TABLE [CartItem] (
   [cartId] int NOT NULL,
   [price] float NOT NULL,
   [quantity] int NOT NULL DEFAULT (1),
-  [active] int,
   PRIMARY KEY(productId,cartId)
 )
 GO
@@ -132,7 +122,7 @@ CREATE TABLE [ImportOrder] (
   [managerId] int NOT NULL,
   [status] nvarchar(255) NOT NULL,
   [createdTime] datetime,
-  [active] int
+  active bit
 )
 GO
 
@@ -141,66 +131,41 @@ CREATE TABLE [ImportOrderDetails] (
   [importOrderId] int NOT NULL,
   [productInfomration] varchar(200),
   [price] float NOT NULL,
-  [quantity] int NOT NULL DEFAULT (1),
-  [active] int
-)
-GO
-
-CREATE TABLE [OrderVoucher] (
-  [orderId] int NOT NULL,
-  [voucherId] int NOT NULL,
-  [active] int
+  [quantity] int NOT NULL DEFAULT (1)
 )
 GO
 
 CREATE TABLE [Voucher] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [code] nvarchar(50) NOT NULL,
-  [active] int
-)
-GO
-
-CREATE TABLE [VoucherDetails] (
-  [voucherId] int NOT NULL PRIMARY KEY,
   [startDate] datetime,
   [endDate] datetime,
   [value] int,
-  [active] int
-)
-GO
-
-CREATE TABLE [ProductFeedback] (
-  ProductId int ,
-  FeedbackId int,
+  active bit
 )
 GO
 
 CREATE TABLE [CustomerFeedback] (
-  CustomerId int ,
-  FeedbackId int,
+  customerId int,
+  feedbackId int,
 )
 GO
 
 CREATE TABLE [Feedback] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [Content] nvarchar(200),
-  Checked int 
+  productId int,
+  content nvarchar(1000),
+  checked bit 
 )
 GO
 
-ALTER TABLE ProductFeedback ADD FOREIGN KEY ([productId]) REFERENCES [Product] ([id])
-GO
-
-ALTER TABLE CustomerFeedback ADD FOREIGN KEY (customerId) REFERENCES customer ([id])
-GO
-
-ALTER TABLE ProductFeedback ADD FOREIGN KEY (FeedbackId) REFERENCES Feedback ([id])
-GO
-
-ALTER TABLE CustomerFeedback ADD FOREIGN KEY (FeedbackId) REFERENCES Feedback ([id])
-GO
-
-ALTER TABLE [User] ADD FOREIGN KEY ([roleId]) REFERENCES [Role] ([id])
+CREATE TABLE [Report] (
+  [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  storageStaffId int,
+  managerId int,
+  title varchar(50),
+  content varchar(1000)
+)
 GO
 
 ALTER TABLE [Employee] ADD FOREIGN KEY ([id]) REFERENCES [User] ([id])
@@ -218,10 +183,13 @@ GO
 ALTER TABLE [Order] ADD FOREIGN KEY ([customerId]) REFERENCES [Customer] ([id])
 GO
 
-ALTER TABLE [OrderDetail] ADD FOREIGN KEY ([productId]) REFERENCES [Product] ([id])
+ALTER TABLE [Order] ADD FOREIGN KEY ([voucherId]) REFERENCES [Voucher] ([id])
 GO
 
-ALTER TABLE [OrderDetail] ADD FOREIGN KEY ([orderId]) REFERENCES [Order] ([id])
+ALTER TABLE [OrderDetails] ADD FOREIGN KEY ([productId]) REFERENCES [Product] ([id])
+GO
+
+ALTER TABLE [OrderDetails] ADD FOREIGN KEY ([orderId]) REFERENCES [Order] ([id])
 GO
 
 ALTER TABLE [Cart] ADD FOREIGN KEY ([customerId]) REFERENCES [Customer] ([id])
@@ -242,52 +210,55 @@ GO
 ALTER TABLE [ImportOrderDetails] ADD FOREIGN KEY ([importOrderId]) REFERENCES [ImportOrder] ([id])
 GO
 
-ALTER TABLE [OrderVoucher] ADD FOREIGN KEY ([orderId]) REFERENCES [Order] ([id])
+ALTER TABLE Feedback ADD FOREIGN KEY ([productId]) REFERENCES [Product] ([id])
 GO
 
-ALTER TABLE [OrderVoucher] ADD FOREIGN KEY ([voucherId]) REFERENCES [Voucher] ([id])
+ALTER TABLE CustomerFeedback ADD FOREIGN KEY (customerId) REFERENCES Customer ([id])
 GO
 
-ALTER TABLE [VoucherDetails] ADD FOREIGN KEY ([voucherId]) REFERENCES [Voucher] ([id])
+ALTER TABLE CustomerFeedback ADD FOREIGN KEY (feedbackId) REFERENCES Feedback ([id])
 GO
 
-INSERT [Role] ([roleName],[active]) VALUES ('Admin', 1)
-INSERT [Role] ([roleName],[active]) VALUES ('Customer', 1)
-INSERT [Role] ([roleName],[active]) VALUES ('Seller', 1)
-INSERT [Role] ([roleName],[active]) VALUES ('Storage Staff', 1)
-INSERT [Role] ([roleName],[active]) VALUES ('Marketing Staff', 1)
-INSERT [Role] ([roleName],[active]) VALUES ('Manager', 1)
+ALTER TABLE [Report] ADD FOREIGN KEY ([storageStaffId]) REFERENCES [Employee] ([id])
+GO
 
-INSERT [User] ([roleId],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active]) VALUES (1, 'Nguyen Ngoc Tuan', 'Huy', '2003-08-20', 'Tran Hung Dao', 'Ha Noi', 'Ha Dong', 'Viet Nam', '0808123546', 'huynnthe176587@fpt.edu.vn', '123', 1)
-INSERT [User] ([roleId],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active]) VALUES (2, 'Nguyen Bao', 'Ngoc', '2004-1-23', 'Trang Hat', 'Ho Chi Minh', 'Quan 1', 'Viet Nam', '0863846324', 'ngoc123@gmail.com', 'abcd', 1)
-INSERT [User] ([roleId],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active]) VALUES (3, 'Phan Van', 'Khai', '1999-06-17', 'Nguyen Trai','Ha Noi', 'Dong Da', 'Viet Nam', '0823745343', 'khaipvhe175487@fpt.edu.vn', '456', 1)
-INSERT [User] ([roleId],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active]) VALUES (2, 'Nguyen Tien', 'Dat', '1995-12-11', 'Quan Trung', 'Ho Chi Minh', 'Quan 3', 'Viet Nam', '0896787365', 'datbiettuot@gmail.com', 'ghi', 1)
-INSERT [User] ([roleId],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active]) VALUES (3, 'Ha Thanh', 'Hung', '1999-06-29', 'Ly Cong Uan','Ha Noi', 'Nam Tu Loem', 'Viet Nam', '0823745343', 'khaipvhe175487@fpt.edu.vn', '789', 1)
-INSERT [User] ([roleId],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active]) VALUES (2, 'Nguyen Duc', 'Tai', '1989-2-21', 'Nguyen Hue', 'Can Tho', 'Lac Thuy', 'Viet Nam', '0853673278', 'tailoc@gmail.com', 'xzc', 1)
-INSERT [User] ([roleId],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active]) VALUES (2, 'Nguyen Ba', 'Khanh', '2006-4-4', 'Ton Quyen', 'Nha Trang', 'Tu Hai', 'Viet Nam', '0823846368', 'khanh456@gmail.com', 'uio', 1)
-INSERT [User] ([roleId],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active]) VALUES (2, 'Pham Truong', 'Giang', '1999-8-11', 'NguyenTrai', 'Hoa Binh', 'Da Hop', 'Viet Nam', '0895736482', 'gianggiang@gmail.com', 'rty', 1)
-INSERT [User] ([roleId],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active]) VALUES (2, 'Nguyen Tuan', 'Anh', '1997-5-24', 'Xom Che', 'Yen Bai', 'Xuyen Son', 'Viet Nam', '0845783629', 'anhtuan@gmail.com', 'bnm', 1)
-INSERT [User] ([roleId],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active]) VALUES (4, 'Le Dang', 'Huy', '2003-6-4', 'Hung Dao Vuong', 'Thai Nguyen', 'Son Ky', 'Viet Nam', '0834672984', 'huyldhe176498fpt.edu.vn', '234', 1)
-INSERT [User] ([roleId],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active]) VALUES (5, 'Dinh Thu', 'Ngan', '2003-9-12', 'Tran Quoc Tuan', 'Hung Yen', 'Dai Quan', 'Viet Nam', '0823945218', 'ngandthe173298@fpt.edu.vn', '567', 1)
-INSERT [User] ([roleId],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active]) VALUES (6, 'Pham Hoang', 'Nam', '2003-1-1', 'Tran Hung Dao', 'Hai Phong', 'Ky Xa', 'Viet Nam', '0839984672', 'namquanli@fpt.edu.vn', '891', 1)
+ALTER TABLE [Report] ADD FOREIGN KEY ([managerId]) REFERENCES [Employee] ([id])
+GO
 
-INSERT [Provider] ([companyName], [email], [image],[active]) VALUES ('Adidas', 'Adidas@gmail.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Adidas_logo.png/800px-Adidas_logo.png', 1)
-INSERT [Provider] ([companyName], [email], [image],[active]) VALUES ('Nike', 'Nike@gmail.com', 'https://static.nike.com/a/images/f_jpg,q_auto:eco/61b4738b-e1e1-4786-8f6c-26aa0008e80b/swoosh-logo-black.png', 1)
-INSERT [Provider] ([companyName], [email], [image],[active]) VALUES ('Puma', 'Puma@gmail.com', 'https://1000logos.net/wp-content/uploads/2017/05/PUMA-logo.jpg', 1)
+INSERT [User] ([role],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active])
+VALUES ('Admin', 'Nguyen Ngoc Tuan', 'Huy', '2003-08-20', 'Tran Hung Dao', 'Ha Noi', 'Ha Dong', 'Viet Nam', '0808123546', 'huynnthe176587@fpt.edu.vn', '123', 1),
+	('Customer', 'Nguyen Bao', 'Ngoc', '2004-1-23', 'Trang Hat', 'Ho Chi Minh', 'Quan 1', 'Viet Nam', '0863846324', 'ngoc123@gmail.com', 'abcd', 1),
+	('Seller', 'Phan Van', 'Khai', '1999-06-17', 'Nguyen Trai','Ha Noi', 'Dong Da', 'Viet Nam', '0823745343', 'khaipvhe175487@fpt.edu.vn', '456', 1),
+	('Customer', 'Nguyen Tien', 'Dat', '1995-12-11', 'Quan Trung', 'Ho Chi Minh', 'Quan 3', 'Viet Nam', '0896787365', 'datbiettuot@gmail.com', 'ghi', 1),
+	('Seller', 'Ha Thanh', 'Hung', '1999-06-29', 'Ly Cong Uan','Ha Noi', 'Nam Tu Loem', 'Viet Nam', '0823745343', 'khaipvhe175487@fpt.edu.vn', '789', 1),
+	('Customer', 'Nguyen Duc', 'Tai', '1989-2-21', 'Nguyen Hue', 'Can Tho', 'Lac Thuy', 'Viet Nam', '0853673278', 'tailoc@gmail.com', 'xzc', 1),
+	('Customer', 'Nguyen Ba', 'Khanh', '2006-4-4', 'Ton Quyen', 'Nha Trang', 'Tu Hai', 'Viet Nam', '0823846368', 'khanh456@gmail.com', 'uio', 1),
+	('Customer', 'Pham Truong', 'Giang', '1999-8-11', 'NguyenTrai', 'Hoa Binh', 'Da Hop', 'Viet Nam', '0895736482', 'gianggiang@gmail.com', 'rty', 1),
+	('Customer', 'Nguyen Tuan', 'Anh', '1997-5-24', 'Xom Che', 'Yen Bai', 'Xuyen Son', 'Viet Nam', '0845783629', 'anhtuan@gmail.com', 'bnm', 1),
+	('Storage Staff', 'Le Dang', 'Huy', '2003-6-4', 'Hung Dao Vuong', 'Thai Nguyen', 'Son Ky', 'Viet Nam', '0834672984', 'huyldhe176498fpt.edu.vn', '234', 1),
+	('Marketing Staff', 'Dinh Thu', 'Ngan', '2003-9-12', 'Tran Quoc Tuan', 'Hung Yen', 'Dai Quan', 'Viet Nam', '0823945218', 'ngandthe173298@fpt.edu.vn', '567', 1),
+	('Manager', 'Pham Hoang', 'Nam', '2003-1-1', 'Tran Hung Dao', 'Hai Phong', 'Ky Xa', 'Viet Nam', '0839984672', 'namquanli@fpt.edu.vn', '891', 1)
 
-INSERT [Employee] ([id],[salary],[active]) VALUES (1, 8000, 1)
-INSERT [Employee] ([id],[salary],[active]) VALUES (3, 2000, 1)
-INSERT [Employee] ([id],[salary],[active]) VALUES (5, 1800, 1)
-INSERT [Employee] ([id],[salary],[active]) VALUES (10, 2200, 1)
-INSERT [Employee] ([id],[salary],[active]) VALUES (11, 2100, 1)
-INSERT [Employee] ([id],[salary],[active]) VALUES (12, 1900, 1)
+INSERT [Provider] ([companyName], [image],[active]) 
+VALUES ('Adidas', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Adidas_logo.png/800px-Adidas_logo.png', 1),
+	('Nike', 'https://static.nike.com/a/images/f_jpg,q_auto:eco/61b4738b-e1e1-4786-8f6c-26aa0008e80b/swoosh-logo-black.png', 1),
+	('Puma', 'https://1000logos.net/wp-content/uploads/2017/05/PUMA-logo.jpg', 1)
 
-INSERT [Customer] ([id],[balance],[active]) VALUES (2, 17500, 1)
-INSERT [Customer] ([id],[balance],[active]) VALUES (4, 400, 1)
-INSERT [Customer] ([id],[balance],[active]) VALUES (6, 1500, 1)
-INSERT [Customer] ([id],[balance],[active]) VALUES (7, 8000, 1)
-INSERT [Customer] ([id],[balance],[active]) VALUES (8, 4189, 1)
-INSERT [Customer] ([id],[balance],[active]) VALUES (9, 23015, 1)
+INSERT [Employee] ([id],[salary]) 
+VALUES (1, 8000),
+	(3, 2000),
+	(5, 1800),
+	(10, 2200),
+	(11, 2100),
+	(12, 1900)
+
+INSERT [Customer] ([id],[balance]) 
+VALUES (2, 17500),
+	(4, 400),
+	(6, 1500),
+	(7, 8000),
+	(8, 4189),
+	(9, 23015)
 
 INSERT [Category] ([name], [image],[active]) VALUES ('Sport', 'https://hips.hearstapps.com/hmg-prod/images/hoka-zinal-13085-1643565794.jpg?crop=1.00xw:0.752xh;0,0.115xh&resize=1200:*', 1)
 INSERT [Category] ([name], [image],[active]) VALUES ('Business', 'https://assets.adidas.com/images/w_600,f_auto,q_auto/877f87fbcbf34e299720aef600eff064_9366/ADIZERO_SL_Black_HQ1349_01_standard.jpg', 1)
@@ -318,87 +289,84 @@ INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvinc
 INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (7, 'James Thomas', 'Connecticut Avenue NW', 'Washington', 'Washington', 'USA', 'thomasj@gmail.com', '05234268319', 'Received', '2023-09-02 23:15:47', 1636.7, 1)
 INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (9, 'Hanashi Aoi', 'Kabukicho', 'Tokyo', 'Tokyo', 'Japan', 'Aoihana@gmail.com', '0723539877', 'Received', '2023-08-29 02:10:55', 320, 1)
 
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (1, 1, 180, 2, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (9, 9, 520, 1, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (2, 2, 220, 3, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (3, 7, 280, 4, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (6, 9, 100, 3, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (3, 5, 280, 4, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (6, 6, 100, 4, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (9, 10, 520, 3, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (7, 9, 320, 4, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (4, 10, 199, 2, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (12, 7, 240, 2, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (3, 10, 280, 2, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (12, 3, 240, 3, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (9, 4, 520, 2, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (1, 8, 180, 2, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (8, 7, 333, 5, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (2, 4, 220, 5, 1)
-INSERT [OrderDetail] ([productId], [orderId], [price], [quantity],[active]) VALUES (7, 11, 320, 1, 1)
+INSERT [OrderDetails] ([productId], [orderId], [price], [quantity]) 
+VALUES (1, 1, 180, 2),
+	(9, 9, 520, 1),
+	(2, 2, 220, 3),
+	(3, 7, 280, 4),
+	(6, 9, 100, 3),
+	(3, 5, 280, 4),
+	(6, 6, 100, 4),
+	(9, 10, 520, 3),
+	(7, 9, 320, 4),
+	(4, 10, 199, 2),
+	(12, 7, 240, 2),
+	(3, 10, 280, 2),
+	(12, 3, 240, 3),
+	(9, 4, 520, 2),
+	(1, 8, 180, 2),
+	(8, 7, 333, 5),
+	(2, 4, 220, 5),
+	(7, 11, 320, 1)
 
-INSERT [Cart] ([customerId],[active]) VALUES (2, 1)
-INSERT [Cart] ([customerId],[active]) VALUES (4, 1)
-INSERT [Cart] ([customerId],[active]) VALUES (6, 1)
-INSERT [Cart] ([customerId],[active]) VALUES (7, 1)
-INSERT [Cart] ([customerId],[active]) VALUES (8, 1)
-INSERT [Cart] ([customerId],[active]) VALUES (9, 1)
+INSERT [Cart] ([customerId]) 
+VALUES (2),
+	(4),
+	(6),
+	(7),
+	(8),
+	(9)
 
-INSERT [CartItem] ([productId], [cartId], [price], [quantity],[active]) VALUES (1, 1, 180, 4, 1)
-INSERT [CartItem] ([productId], [cartId], [price], [quantity],[active]) VALUES (5, 1, 350, 2, 1)
-INSERT [CartItem] ([productId], [cartId], [price], [quantity],[active]) VALUES (3, 2, 280, 3, 1)
-INSERT [CartItem] ([productId], [cartId], [price], [quantity],[active]) VALUES (7, 3, 320, 1, 1)
-INSERT [CartItem] ([productId], [cartId], [price], [quantity],[active]) VALUES (8, 3, 333, 4, 1)
-INSERT [CartItem] ([productId], [cartId], [price], [quantity],[active]) VALUES (3, 3, 280, 2, 1)
-INSERT [CartItem] ([productId], [cartId], [price], [quantity],[active]) VALUES (6, 5, 100, 2, 1)
-INSERT [CartItem] ([productId], [cartId], [price], [quantity],[active]) VALUES (4, 5, 199, 1, 1)
-INSERT [CartItem] ([productId], [cartId], [price], [quantity],[active]) VALUES (2, 6, 220, 3, 1)
-INSERT [CartItem] ([productId], [cartId], [price], [quantity],[active]) VALUES (9, 5, 520, 6, 1)
+INSERT [CartItem] ([productId], [cartId], [price], [quantity]) 
+VALUES (1, 1, 180, 4),
+	(5, 1, 350, 2),
+	(3, 2, 280, 3),
+	(7, 3, 320, 1),
+	(8, 3, 333, 4),
+	(3, 3, 280, 2),
+	(6, 5, 100, 2),
+	(4, 5, 199, 1),
+	(2, 6, 220, 3),
+	(9, 5, 520, 6)
 
-INSERT [ImportOrder] ([providerId], [managerId], [status], [createdTime],[active]) VALUES (1, 12, 'Received', '2022-12-11 8:25:31', 1)
-INSERT [ImportOrder] ([providerId], [managerId], [status], [createdTime],[active]) VALUES (1, 12, 'Accepted', '2023-9-21 8:52:12', 1)
-INSERT [ImportOrder] ([providerId], [managerId], [status], [createdTime],[active]) VALUES (1, 12, 'Canceled', '2022-07-25 8:47:42', 1)
-INSERT [ImportOrder] ([providerId], [managerId], [status], [createdTime],[active]) VALUES (2, 12, 'Received', '2023-05-28 9:02:03', 1)
-INSERT [ImportOrder] ([providerId], [managerId], [status], [createdTime],[active]) VALUES (2, 12, 'Accepted', '2023-8-22 8:59:25', 1)
-INSERT [ImportOrder] ([providerId], [managerId], [status], [createdTime],[active]) VALUES (3, 12, 'Received', '2023-03-29 9:12:53', 1)
+INSERT [ImportOrder] ([providerId], [managerId], [status], [createdTime],[active])
+VALUES (1, 12, 'Received', '2022-12-11 8:25:31', 1),
+	(1, 12, 'Accepted', '2023-9-21 8:52:12', 1),
+	(1, 12, 'Canceled', '2022-07-25 8:47:42', 1),
+	(2, 12, 'Received', '2023-05-28 9:02:03', 1),
+	(2, 12, 'Accepted', '2023-8-22 8:59:25', 1),
+	(3, 12, 'Received', '2023-03-29 9:12:53', 1)
 
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (1, 'Adidas Gazelle Shoes', 120, 50, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (1, 'Adidas Ultraboost Light Running Shoes', 150, 80, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (1, 'Adidas x Gucci ZX8000 Sneakers', 180, 70, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (1, 'Adidas 4DFWD 2 Running Shoes', 130, 60, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (4, 'Nike Roshe', 210, 90, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (4, 'Nike Air Zoom Huarache 2K4', 60, 80, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (4, 'Nike Waffle Racer', 190, 40, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (4, 'Nike Air Zoom Generation', 200, 75, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (6, 'PUMA RS-X', 360, 150, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (6, 'Puma Slipstream', 90, 30, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (6, 'PUMA Future Rider', 270, 70, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (6, 'PUMA Clasico Trainers', 140, 60, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (2, 'Adidas Gazelle Shoes', 120, 40, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (2, 'Adidas Ultraboost Light Running Shoes', 150, 50, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (2, 'Adidas x Gucci ZX8000 Sneakers', 180, 45, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (3, 'Adidas 4DFWD 2 Running Shoes', 130, 35, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (3, 'Adidas Gazelle Shoes', 120, 30, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (5, 'Nike Roshe', 210, 60, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (5, 'Nike Air Zoom Huarache 2K4', 60, 55, 1)
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity],[active]) VALUES (5, 'Nike Air Zoom Generation', 200, 45, 1)
+INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity]) 
+VALUES (1, 'Adidas Gazelle Shoes', 120, 50),
+	(1, 'Adidas Ultraboost Light Running Shoes', 150, 80),
+	(1, 'Adidas x Gucci ZX8000 Sneakers', 180, 70),
+	(1, 'Adidas 4DFWD 2 Running Shoes', 130, 60),
+	(4, 'Nike Roshe', 210, 90),
+	(4, 'Nike Air Zoom Huarache 2K4', 60, 80),
+	(4, 'Nike Waffle Racer', 190, 40),
+	(4, 'Nike Air Zoom Generation', 200, 75),
+	(6, 'PUMA RS-X', 360, 150),
+	(6, 'Puma Slipstream', 90, 30),
+	(6, 'PUMA Future Rider', 270, 70),
+	(6, 'PUMA Clasico Trainers', 140, 60),
+	(2, 'Adidas Gazelle Shoes', 120, 40),
+	(2, 'Adidas Ultraboost Light Running Shoes', 150, 50),
+	(2, 'Adidas x Gucci ZX8000 Sneakers', 180, 45),
+	(3, 'Adidas 4DFWD 2 Running Shoes', 130, 35),
+	(3, 'Adidas Gazelle Shoes', 120, 30),
+	(5, 'Nike Roshe', 210, 60),
+	(5, 'Nike Air Zoom Huarache 2K4', 60, 55),
+	(5, 'Nike Air Zoom Generation', 200, 45)
 
-INSERT [Voucher] ([code],[active]) VALUES ('Voucher for Christmas', 1)
-INSERT [Voucher] ([code],[active]) VALUES ('Voucher for Tet holiday', 1)
-INSERT [Voucher] ([code],[active]) VALUES ('Voucher for Vietnam National Day', 1)
-INSERT [Voucher] ([code],[active]) VALUES ('Voucher for New Year holiday', 1)
+INSERT [Voucher] ([code], [startDate], [endDate], [value], [active]) 
+VALUES ('Voucher for Christmas', '2022-12-20 00:00:00', '2022-12-28 00:00:00', 30, 1),
+	('Voucher for Tet holiday', '2023-01-20 00:00:00', '2023-02-20 00:00:00', 40, 1),
+	('Voucher for Vietnam National Day', '2023-09-01 00:00:00', '2023-09-04 00:00:00', 35, 1),
+	('Voucher for New Year holiday', '2022-12-28 00:00:00', '2023-01-03 00:00:00', 25, 1)
 
-INSERT [VoucherDetails] ([voucherId], [startDate], [endDate], [value],[active]) VALUES (1, '2022-12-20 00:00:00', '2022-12-28 00:00:00', 30, 1)
-INSERT [VoucherDetails] ([voucherId], [startDate], [endDate], [value],[active]) VALUES (1, '2023-01-20 00:00:00', '2023-02-20 00:00:00', 40, 1)
-INSERT [VoucherDetails] ([voucherId], [startDate], [endDate], [value],[active]) VALUES (1, '2023-09-01 00:00:00', '2023-09-04 00:00:00', 35, 1)
-INSERT [VoucherDetails] ([voucherId], [startDate], [endDate], [value],[active]) VALUES (1, '2022-12-28 00:00:00', '2023-01-03 00:00:00', 25, 1)
-
-INSERT [OrderVoucher] ([orderId], [voucherId],[active]) VALUES (1 ,1, 1)
-INSERT [OrderVoucher] ([orderId], [voucherId],[active]) VALUES (4 ,2, 1)
-INSERT [OrderVoucher] ([orderId], [voucherId],[active]) VALUES (5 ,2, 1)
-INSERT [OrderVoucher] ([orderId], [voucherId],[active]) VALUES (7 ,2, 1)
-INSERT [OrderVoucher] ([orderId], [voucherId],[active]) VALUES (9 ,3, 1)
-INSERT [OrderVoucher] ([orderId], [voucherId],[active]) VALUES (10 ,3, 1)
+INSERT [Report] ([storageStaffId], [managerId], [title], [content])
+VALUES (10, 12, 'Report title', 'asdfawfsf')
 
 USE master;
 GO
