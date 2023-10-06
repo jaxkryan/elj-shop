@@ -34,15 +34,24 @@
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
-            <div class="table-wrapper">
-                <div class="table-title">
+            <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <h2>Manage <b>Product</b></h2>
+                        <div class="col-sm-3">
+                            <a href="home"><h2>Manage <b>Product</b></h2></a>
                         </div>
+                        <div class="col-sm-3">
+                            <a href="provider"><h2>Manage <b>provider</b></h2></a>
+                        </div>
+                        <!--Search bar-->
+                        <form action="home?go=search" method="post">
+                            <div class="text-right" style="margin-top: 0.5%">
+                                <input name = "keyword" type="text" class="search-bar" placeholder="Search product...">
+                                <input style="color: #000000" type="submit" name = "search" value="Search">
+                            </div>
+                        </form>
                         <div class="col-sm-6">
                             <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
-                            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>                        
                         </div>
                     </div>
                 </div>

@@ -16,23 +16,41 @@ public class Provider {
     private String companyName;
     private String email;
     private String image;
+    private boolean active;
 
     public Provider() {
     }
 
-    public Provider(int Id, String companyName, String email, String image) {
+    public Provider(int Id, String companyName, String email, String image, boolean active) {
         this.Id = Id;
         this.companyName = companyName;
         this.email = email;
         this.image = image;
+        this.active = active;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int Id) {
+        this.Id = Id;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getImage() {
@@ -43,20 +61,13 @@ public class Provider {
         this.image = image;
     }
 
-    public int getId() {
-        return Id;
+    public boolean isActive() {
+        return active;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public void setActive(boolean active) {
+        this.active = active;
     }
-
-    public void setId(int Id) {
-        this.Id = Id;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
+    
+    
 }

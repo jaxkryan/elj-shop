@@ -22,7 +22,7 @@ public class ProviderDAO extends jdbc.DBConnect {
 
     public Vector<Provider> getAllProvider() {
         Vector<Provider> listProvider = new Vector<>();
-        String sql = "SELECT * from provider";
+        String sql = "SELECT * from provider where active = 1";
         try {
             ResultSet rs = getData(sql);
             while (rs.next()) {
@@ -30,14 +30,15 @@ public class ProviderDAO extends jdbc.DBConnect {
                 String companyName = rs.getString(2);
                 String email = rs.getString(3);
                 String image = rs.getString(4);
-                listProvider.add(new Provider(id, companyName, email, image));
+                Boolean active = rs.getBoolean(5);
+                listProvider.add(new Provider(id, companyName, email, image, active));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listProvider;
     }
-    
+
     public int updateProvider(Provider provider) {
         int rowsAffected = 0;
         String sql = "UPDATE [dbo].[Provider]\n"
@@ -60,10 +61,9 @@ public class ProviderDAO extends jdbc.DBConnect {
     }
 
     public void deleteProvider(String id) {
-        setNullProduct(id);
-        setNullImportOrder(id);
-        String sql = "DELETE FROM [dbo].[Provider]\n"
-                + "      WHERE id=?";
+        String sql = "UPDATE [dbo].[Provider]\n"
+                + "   SET [active] = 0\n"
+                + " WHERE id=?";
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setString(1, id);
@@ -98,12 +98,12 @@ public class ProviderDAO extends jdbc.DBConnect {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public static void main(String[] args) {
         ProviderDAO pDao = new ProviderDAO();
         pDao.deleteProvider("1");
         List<Provider> providers = pDao.getAllProvider();
         System.out.println(providers);
     }
-    
+
 }

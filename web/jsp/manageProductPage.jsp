@@ -37,8 +37,11 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <h2>Manage <b>Product</b></h2>
+                         <div class="col-sm-3">
+                            <a href="home"><h2>Manage <b>Product</b></h2></a>
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="provider"><h2>Manage <b>provider</b></h2></a>
                         </div>
                         <div class="col-sm-6">
                             <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
