@@ -3,24 +3,28 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import model.User;
+import java.time.format.DateTimeFormatter;
 
-public class EmployeeDAO extends jdbc.DBConnect{
-    public int deleteById(int employeeId, String role) {
-        int rowsAffected = 0;
-        if (role.equals("Manager")) {
-            ImportOrderDAO importOrderDAO = new ImportOrderDAO(); 
-            importOrderDAO.deleteByManagerId(employeeId);
+public class EmployeeDAO extends jdbc.DBConnect {
+    public int store(User user) {
+        int affectedRows = 0;
+        if (user.getRole().equals("Manager")) {
+            ImportOrderDAO importOrderDAO = new ImportOrderDAO();
+            importOrderDAO.storeByManagerId(user.getId());
         }
-        String sql = "DELETE FROM [dbo].[Employee]\n"
+        String sql = "UPDATE [dbo].[Employee]\n"
+                + "   SET [leaveDate] = ?\n"
                 + " WHERE id = ?";
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
-            pre.setInt(1, employeeId);
-            int affectedRows = pre.executeUpdate();
+            String leaveDate = java.time.LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
+            pre.setString(1, leaveDate);
+            pre.setInt(2, user.getId());
+            affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return rowsAffected;
+        return affectedRows;
     }
 }
