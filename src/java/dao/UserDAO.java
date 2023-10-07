@@ -48,6 +48,45 @@ public class UserDAO extends jdbc.DBConnect {
         }
         return users;
     }
+    
+    public Vector<User> getActiveUsers() {
+        Vector<User> users = new Vector<>();
+        String sql = "SELECT [id]\n"
+                + "      ,[role]\n"
+                + "      ,[firstName]\n"
+                + "      ,[lastName]\n"
+                + "      ,[dateOfBirth]\n"
+                + "      ,[street]\n"
+                + "      ,[city]\n"
+                + "      ,[province]\n"
+                + "      ,[country]"
+                + "      ,[phone]\n"
+                + "      ,[email]\n"
+                + "      ,[password]\n"
+                + "  FROM [dbo].[User]"
+                + " where active = 'true'";
+        try {
+            ResultSet rs = getData(sql);
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String role = rs.getString(2);
+                String firstName = rs.getString(3);
+                String lastName = rs.getString(4);
+                String dateOfBirth = rs.getString(5);
+                String street = rs.getString(6);
+                String city = rs.getString(7);
+                String province = rs.getString(8);
+                String country = rs.getString(9);
+                String phone = rs.getString(10);
+                String email = rs.getString(11);
+                String password = rs.getString(12);
+                users.add(new User(id, role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return users;
+    }
 
     public User getById(int id) {
         String sql = "SELECT [id]\n"
@@ -257,7 +296,7 @@ public class UserDAO extends jdbc.DBConnect {
 
     /**
      * Update user's information except roleId and password
-     * 
+     *
      * @param user user to update
      * @return number of affected rows in database
      */
@@ -295,26 +334,35 @@ public class UserDAO extends jdbc.DBConnect {
     }
 
     public int delete(User user) {
-        int rowsAffected = 0;
+        int affectedRows = 0;
 
         if (user.getRole().equals("Customer")) {
             CustomerDAO cdao = new CustomerDAO();
             cdao.deleteById(user.getId());
+            String sql = "DELETE FROM [dbo].[User]\n"
+                    + " WHERE id = ?";
+            try {
+                PreparedStatement pre = conn.prepareStatement(sql);
+                pre.setInt(1, user.getId());
+                affectedRows = pre.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         } else {
             EmployeeDAO edao = new EmployeeDAO();
-            edao.deleteById(user.getId(), user.getRole());
-        }
-        
-        String sql = "DELETE FROM [dbo].[User]\n"
-                + " WHERE id = ?";
-        try {
-            PreparedStatement pre = conn.prepareStatement(sql);
-            pre.setInt(1, user.getId());
-            int affectedRows = pre.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            edao.store(user);
+            String sql = "UPDATE [dbo].[User]\n"
+                    + "   SET [active] = 'false'\n"
+                    + " WHERE id = ?";
+            try {
+                PreparedStatement pre = conn.prepareStatement(sql);
+                pre.setInt(1, user.getId());
+                affectedRows = pre.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
 
-        return rowsAffected;
+        return affectedRows;
     }
 }

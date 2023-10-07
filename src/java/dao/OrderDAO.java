@@ -129,30 +129,19 @@ public class OrderDAO extends jdbc.DBConnect {
         return orders;
     }
 
-    public int deleteByCustomerId(int customerId) {
-        int rowsAffected = 0;
+    public int storeByCustomerId(int customerId) {
+        int affectedRows = 0;
         try {
-            String sql = "SELECT id FROM [dbo].[Order]\n"
+            String sql = "UPDATE [dbo].[Order]\n"
+                    + "   SET [active] = 'false'\n"
                     + " WHERE customerId = ?";
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setInt(1, customerId);
-            ResultSet rs = pre.executeQuery();
-            OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAO();
-            OrderVoucherDAO orderVoucherDAO = new OrderVoucherDAO();
-            while (rs.next()) {
-                orderDetailsDAO.deleteByOrderId(rs.getInt(1));
-                orderVoucherDAO.deleteByOrderId(rs.getInt(1));
-            }
-
-            sql = "DELETE FROM [dbo].[Order]\n"
-                    + " WHERE customerId = ?";
-            pre = conn.prepareStatement(sql);
-            pre.setInt(1, customerId);
-            int affectedRows = pre.executeUpdate();
+            affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return rowsAffected;
+        return affectedRows;
     }
 }
