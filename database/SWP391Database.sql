@@ -76,7 +76,7 @@ GO
 
 CREATE TABLE [Order] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [customerId] int NOT NULL,
+  [customerId] int,
   [voucherId] int,
   [receiver] nvarchar(50),
   [shipStreet] varchar(50),
@@ -180,7 +180,10 @@ GO
 ALTER TABLE [Product] ADD FOREIGN KEY ([providerId]) REFERENCES [Provider] ([id])
 GO
 
-ALTER TABLE [Order] ADD FOREIGN KEY ([customerId]) REFERENCES [Customer] ([id])
+ALTER TABLE [Order] ADD FOREIGN KEY ([customerId]) REFERENCES [Customer] ([id]) ON DELETE SET NULL;
+GO
+
+ALTER TABLE [Order] ALTER COLUMN [customerId] int NULL;
 GO
 
 ALTER TABLE [Order] ADD FOREIGN KEY ([voucherId]) REFERENCES [Voucher] ([id])
