@@ -64,7 +64,7 @@ public class UserDAO extends jdbc.DBConnect {
                 + "      ,[email]\n"
                 + "      ,[password]\n"
                 + "  FROM [dbo].[User]"
-                + " where active = 'true'";
+                + " where active = 1";
         try {
             ResultSet rs = getData(sql);
             while (rs.next()) {
@@ -364,5 +364,33 @@ public class UserDAO extends jdbc.DBConnect {
         }
 
         return affectedRows;
+    }
+    
+    
+        public Vector<User> getActiveManager() {
+        Vector<User> users = new Vector<>();
+        String sql = "SELECT * FROM [dbo].[User]\n" +
+"               where active = 1 and role = 'Manager'";
+        try {
+            ResultSet rs = getData(sql);
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String role = rs.getString(2);
+                String firstName = rs.getString(3);
+                String lastName = rs.getString(4);
+                String dateOfBirth = rs.getString(5);
+                String street = rs.getString(6);
+                String city = rs.getString(7);
+                String province = rs.getString(8);
+                String country = rs.getString(9);
+                String phone = rs.getString(10);
+                String email = rs.getString(11);
+                String password = rs.getString(12);
+                users.add(new User(id, role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return users;
     }
 }
