@@ -22,16 +22,15 @@ public class ProviderDAO extends jdbc.DBConnect {
 
     public Vector<Provider> getAllProvider() {
         Vector<Provider> listProvider = new Vector<>();
-        String sql = "SELECT * from provider where active = 1";
+        String sql = "SELECT * from [provider] where active = 1";
         try {
             ResultSet rs = getData(sql);
             while (rs.next()) {
                 int id = rs.getInt(1);
                 String companyName = rs.getString(2);
-                String email = rs.getString(3);
-                String image = rs.getString(4);
-                Boolean active = rs.getBoolean(5);
-                listProvider.add(new Provider(id, companyName, email, image, active));
+                String image = rs.getString(3);
+                Boolean active = rs.getBoolean(4);
+                listProvider.add(new Provider(id, companyName, image, active));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -43,16 +42,14 @@ public class ProviderDAO extends jdbc.DBConnect {
         int rowsAffected = 0;
         String sql = "UPDATE [dbo].[Provider]\n"
                 + "   SET [companyName] = ?\n"
-                + "      ,[email] = ?\n"
                 + "      ,[image] = ?\n"
                 + " WHERE id = ?";
         PreparedStatement pre;
         try {
             pre = conn.prepareStatement(sql);
-            pre.setInt(4, provider.getId());
+            pre.setInt(3, provider.getId());
             pre.setString(1, provider.getCompanyName());
-            pre.setString(2, provider.getEmail());
-            pre.setString(3, provider.getImage());
+            pre.setString(2, provider.getImage());
             int affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProviderDAO.class.getName()).log(Level.SEVERE, null, ex);

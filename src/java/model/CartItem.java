@@ -12,13 +12,13 @@ public class CartItem {
     private int productId;
     private int cartId;
     private float price;
-    private int quantit;
+    private int quantity;
 
-    public CartItem(int productId, int cartId, float price, int quantit) {
+    public CartItem(int productId, int cartId, float price, int quantity) {
         this.productId = productId;
         this.cartId = cartId;
         this.price = price;
-        this.quantit = quantit;
+        this.quantity = quantity;
     }
 
     public int getProductId() {
@@ -33,8 +33,8 @@ public class CartItem {
         return price;
     }
 
-    public int getQuantit() {
-        return quantit;
+    public int getQuantity() {
+        return quantity;
     }
 
     public void setProductId(int productId) {
@@ -49,8 +49,8 @@ public class CartItem {
         this.price = price;
     }
 
-    public void setQuantit(int quantit) {
-        this.quantit = quantit;
+    public void setQuantity(int y) {
+        this.quantity = quantity;
     }
     
 }
