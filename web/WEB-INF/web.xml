@@ -99,6 +99,8 @@
     <servlet>
         <servlet-name>DeleteReportController</servlet-name>
         <servlet-class>controller.storagestaff.DeleteReportController</servlet-class>
+        <servlet-name>AddToCartController</servlet-name>
+        <servlet-class>controller.AddToCartController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -187,6 +189,8 @@
     <servlet-mapping>
         <servlet-name>DeleteReportController</servlet-name>
         <url-pattern>/delete-report</url-pattern>
+        <servlet-name>AddToCartController</servlet-name>
+        <url-pattern>/add-to-cart</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

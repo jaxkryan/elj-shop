@@ -29,4 +29,21 @@ public class CartDAO extends jdbc.DBConnect {
 
         return affectedRows;
     }
+
+    public int getCartIdByCustomerId(int customerId) {
+        int cartId = -1;
+        try {
+            String sql = "SELECT id FROM [dbo].[Cart]\n"
+                    + " WHERE customerId = ?";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, customerId);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) { // Kiểm tra xem có dữ liệu trong ResultSet hay không
+                cartId = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return cartId;
+    }
 }

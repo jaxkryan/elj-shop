@@ -270,4 +270,28 @@ public class ProductDAO extends jdbc.DBConnect {
         }
         return listP;
     }
+
+    public Product getProductById(int proId) {
+        String sql = "select * from [product] where [product].[id] = ? ";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, proId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return (new Product(rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getFloat(6),
+                        rs.getFloat(7),
+                        rs.getInt(8),
+                        rs.getString(9),
+                        rs.getBoolean(10)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }
