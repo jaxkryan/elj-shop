@@ -93,6 +93,12 @@
         <servlet-class>controller.admin.DeleteUserController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ReportController</servlet-name>
+        <servlet-class>controller.ReportController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteReportController</servlet-name>
+        <servlet-class>controller.storagestaff.DeleteReportController</servlet-class>
         <servlet-name>AddToCartController</servlet-name>
         <servlet-class>controller.AddToCartController</servlet-class>
     </servlet>
@@ -154,11 +160,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StorageController</servlet-name>
-        <url-pattern>/StorageController</url-pattern>
+        <url-pattern>/storage-manage-product</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StorageController</servlet-name>
-        <url-pattern>/storage-staff/StorageController</url-pattern>
+        <url-pattern>/storage-staff/storage-manage-product</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManageProviderController</servlet-name>
@@ -177,6 +183,12 @@
         <url-pattern>/admin/delete-user</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>ReportController</servlet-name>
+        <url-pattern>/write-report</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteReportController</servlet-name>
+        <url-pattern>/delete-report</url-pattern>
         <servlet-name>AddToCartController</servlet-name>
         <url-pattern>/add-to-cart</url-pattern>
     </servlet-mapping>
