@@ -3,6 +3,10 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.CartItem;
 import model.Product;
 
 public class CartItemDAO extends jdbc.DBConnect {
@@ -53,5 +57,24 @@ public class CartItemDAO extends jdbc.DBConnect {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    public Vector<CartItem> getCartItemByCartId(int cartId) {
+        Vector<CartItem> cartItems = new Vector<>();
+        String sql = "select * from [CartItem] where [cartId] = ? ";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, cartId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                cartItems.add(new CartItem(rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getFloat(3),
+                        rs.getInt(4)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cartItems;
     }
 }
