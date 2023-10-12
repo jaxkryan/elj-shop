@@ -33,7 +33,7 @@ public class CartItemDAO extends jdbc.DBConnect {
                 PreparedStatement pre = conn.prepareStatement(sql);
                 pre.setInt(1, product.getId());
                 pre.setInt(2, cartId);
-                pre.setFloat(3, product.getPrice());
+                pre.setFloat(3, product.getPrice() - product.getDiscount());
                 pre.executeUpdate();
             } catch (SQLException ex) {
                 ex.printStackTrace();
