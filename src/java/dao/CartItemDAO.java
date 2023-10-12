@@ -39,7 +39,19 @@ public class CartItemDAO extends jdbc.DBConnect {
                 ex.printStackTrace();
             }
         } else {
-            System.out.println("Product already exists in cart. 😊");
+            String sql = "update [dbo].CartItem\n"
+                    + "                set quantity = (select top 1 quantity from cartItem where productId = ? and cartId = ? ) +1\n"
+                    + "                where productId = ? and cartId = ? ";
+            try {
+                PreparedStatement pre = conn.prepareStatement(sql);
+                pre.setInt(1, product.getId());
+                pre.setInt(2, cartId);
+                pre.setInt(3, product.getId());
+                pre.setInt(4, cartId);
+                pre.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -76,5 +88,65 @@ public class CartItemDAO extends jdbc.DBConnect {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return cartItems;
+    }
+
+    public void updateCartItemQuantity(int productId, int cartId, String change) {
+        if (change.equals("minus")) {
+            String sql = "update [dbo].CartItem\n"
+                    + "                set quantity = (select top 1 quantity from cartItem where productId = ? and cartId = ? ) -1\n"
+                    + "                where productId = ? and cartId = ? ";
+            try {
+                PreparedStatement pre = conn.prepareStatement(sql);
+                pre.setInt(1, productId);
+                pre.setInt(2, cartId);
+                pre.setInt(3, productId);
+                pre.setInt(4, cartId);
+                pre.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            String sql = "update [dbo].CartItem\n"
+                    + "                set quantity = (select top 1 quantity from cartItem where productId = ? and cartId = ? ) +1\n"
+                    + "                where productId = ? and cartId = ? ";
+            try {
+                PreparedStatement pre = conn.prepareStatement(sql);
+                pre.setInt(1, productId);
+                pre.setInt(2, cartId);
+                pre.setInt(3, productId);
+                pre.setInt(4, cartId);
+                pre.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void updateQuantity(int productId, int cartIdOfItem, int quantity) {
+        String sql = "update [dbo].CartItem\n"
+                + "                set quantity = ? \n"
+                + "                where productId = ? and cartId = ? ";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, quantity);
+            pre.setInt(2, productId);
+            pre.setInt(3, cartIdOfItem);
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void deleteCartItem(int productId, int cartId) {
+        String sql = "DELETE FROM [dbo].[CartItem]\n"
+                + " WHERE productId = ? and cartId = ?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, productId);
+            pre.setInt(2, cartId);
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }

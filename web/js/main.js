@@ -112,13 +112,11 @@
             if(currentCol.hasClass('align-middle')) {
                 var newTotal = (parseInt(oldTotal) + parseInt(price));
                 var subtotal = parseInt($("#subtotalText").text().slice(0,-1).replace(/\./g, '')) - oldTotal + newTotal;
-                var shipping = parseInt($("#shippingText").text().slice(0,-1).replace(/\./g, '')) + 5000;
             }
         } else {
             if(currentCol.hasClass('align-middle')) {
                 var newTotal = (parseInt(oldTotal) - parseInt(price));
                 var subtotal = parseInt($("#subtotalText").text().slice(0,-1).replace(/\./g, '')) - oldTotal + newTotal;
-                var shipping = parseInt($("#shippingText").text().slice(0,-1).replace(/\./g, '')) - 5000;
             }
         }
         var total = subtotal + shipping;
