@@ -47,6 +47,33 @@ public class ReportController extends HttpServlet {
                 request.setAttribute("reports", reports);
                 request.getRequestDispatcher("/jsp/storageReport.jsp").forward(request, response);
             }
+            if (action.equals("delete")) {
+                ReportDAO rpdao = new ReportDAO();
+                int rpId = Integer.parseInt(request.getParameter("reportId"));
+                rpdao.deleteReport(rpId);
+                response.sendRedirect("write-report?action=view");
+            }
+            if (action.equals("reply")) {
+                Vector<Report> reports = reportDAO.getAllReport();
+                Vector<User> staff = userDAO.getActiveStorageStaff();
+                request.setAttribute("staff", staff);
+                request.setAttribute("reports", reports);
+                request.getRequestDispatcher("/jsp/manageStorageReport.jsp").forward(request, response);
+            }
+            if (action.equals("reply-staff")) {
+                HttpSession session = request.getSession();
+                int managerId = (int) session.getAttribute("userId");
+                int staffId = Integer.parseInt(request.getParameter("staffId"));
+                String title = "Reply for " + request.getParameter("title");
+                String content = request.getParameter("reply-content");
+                Report report = new Report(staffId, managerId, title, content);
+                reportDAO.insertReport(report);
+                Vector<Report> reports = reportDAO.getAllReport();
+                Vector<User> staff = userDAO.getActiveStorageStaff();
+                request.setAttribute("staff", staff);
+                request.setAttribute("reports", reports);
+                request.getRequestDispatcher("/jsp/manageStorageReport.jsp").forward(request, response);
+            }
             if (action.equals("add")) {
                 int managerId = Integer.parseInt(request.getParameter("name"));
                 String title = request.getParameter("title");
@@ -60,6 +87,20 @@ public class ReportController extends HttpServlet {
                 request.setAttribute("reports", reports);
                 request.setAttribute("managers", managers);
                 request.getRequestDispatcher("/jsp/storageReport.jsp").forward(request, response);
+            }
+            if (action.equals("manager-add")) {
+                HttpSession session = request.getSession();
+                int managerId = (int) session.getAttribute("userId");
+                int staffId = Integer.parseInt(request.getParameter("name"));
+                String title = request.getParameter("title");
+                String content = request.getParameter("reply-content");
+                Report report = new Report(staffId, managerId, title, content);
+                reportDAO.insertReport(report);
+                Vector<Report> reports = reportDAO.getAllReport();
+                Vector<User> staff = userDAO.getActiveStorageStaff();
+                request.setAttribute("staff", staff);
+                request.setAttribute("reports", reports);
+                request.getRequestDispatcher("/jsp/manageStorageReport.jsp").forward(request, response);;
             }
         }
     }
