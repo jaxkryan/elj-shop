@@ -148,7 +148,7 @@
                                                 </fmt:formatNumber>
                                             </h5>
                                         </div>
-                                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" onclick="home">Proceed To Checkout</button>
+                                        <a href="${pageContext.request.contextPath}/checkout?subtotal=<%= subtotal %>" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</a>
                                     </div>
                                 </div>
                             </div>

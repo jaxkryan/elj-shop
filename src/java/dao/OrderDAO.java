@@ -6,10 +6,13 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.CartItem;
 import model.Order;
 import model.User;
+import model.Voucher;
 
 public class OrderDAO extends jdbc.DBConnect {
+
     public Vector<Order> getAll() {
         Vector<Order> orders = new Vector<>();
         String sql = "SELECT [id]\n"
@@ -143,5 +146,108 @@ public class OrderDAO extends jdbc.DBConnect {
         }
 
         return affectedRows;
+    }
+
+    public void createOrderWithoutVoucher(int userId, String receiver, String street, String city, String province, String country, String email, String phone, String orderDate, Float orderPrice, Vector<CartItem> cartItem) {
+        String sql = "INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) "
+                + "VALUES "
+                + "( ? , ? , ? , ? , ? , ? , ? , ? , 'Processed', ? , ? , 1 ) ";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, userId);
+            pre.setString(2, receiver);
+            pre.setString(3, street);
+            pre.setString(4, city);
+            pre.setString(5, province);
+            pre.setString(6, country);
+            pre.setString(7, email);
+            pre.setString(8, phone);
+            pre.setString(9, orderDate);
+            pre.setFloat(10, orderPrice);
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        for (int i = 0; i < cartItem.size(); i++) {
+            String sqls = "INSERT [OrderDetails] ([productId], [orderId], [price], [quantity]) \n"
+                    + "VALUES (?, ?, ?, ?)";
+            try {
+                PreparedStatement pre = conn.prepareStatement(sqls);
+                pre.setInt(1, cartItem.get(i).getProductId());
+                pre.setInt(2, getLastOrderId());
+                pre.setFloat(3, cartItem.get(i).getPrice());
+                pre.setInt(4, cartItem.get(i).getQuantity());
+                pre.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        String sqlss = "delete from [cartItem] where cartid = ? ";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sqlss);
+            pre.setInt(1, cartItem.get(0).getCartId());
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private int getLastOrderId() {
+        int lastOrrderId = 0;
+        String sql = "select id from [order] order by id desc";
+        try {
+            ResultSet rs = getData(sql);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lastOrrderId;
+    }
+
+    public void createOrderWithVoucher(int userId, Voucher voucher, String receiver, String street, String city, String province, String country, String email, String phone, String orderDate, Float orderPrice, Vector<CartItem> cartItem) {
+        String sql = "INSERT [Order] ([customerId], [voucherId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) "
+                + "VALUES "
+                + "( ? , ? , ? , ? , ? , ? , ? , ? , ? , 'Processed', ? , ? , 1 ) ";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, userId);
+            pre.setInt(2, voucher.getId());
+            pre.setString(3, receiver);
+            pre.setString(4, street);
+            pre.setString(5, city);
+            pre.setString(6, province);
+            pre.setString(7, country);
+            pre.setString(8, email);
+            pre.setString(9, phone);
+            pre.setString(10, orderDate);
+            pre.setFloat(11, (float) (orderPrice * (1 - voucher.getValue() / 100)));
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        for (int i = 0; i < cartItem.size(); i++) {
+            String sqls = "INSERT [OrderDetails] ([productId], [orderId], [price], [quantity]) \n"
+                    + "VALUES (?, ?, ?, ?)";
+            try {
+                PreparedStatement pre = conn.prepareStatement(sqls);
+                pre.setInt(1, cartItem.get(i).getProductId());
+                pre.setInt(2, getLastOrderId());
+                pre.setFloat(3, (float) (cartItem.get(i).getPrice() * (1 - voucher.getValue() / 100)));
+                pre.setInt(4, cartItem.get(i).getQuantity());
+                pre.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        String sqlss = "delete from [cartItem] where cartid = ? ";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sqlss);
+            pre.setInt(1, cartItem.get(0).getCartId());
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }
