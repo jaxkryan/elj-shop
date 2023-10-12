@@ -91,14 +91,14 @@
                                             <td>${providers[product.providerId - 1].companyName}</td>
                                         </c:if>   
                                         <td>${product.description}</td>
-                                        <td>${product.price} $</td>
+                                        <td>${product.price}$</td>
                                         <td>${product.discount}%</td>
                                         <td>${product.quantity}</td>
                                         <td>
                                             <img src="${product.image}">
                                         </td>
                                         <td>
-                                            <a href="#editEmployeeModal"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                            <a href="home?go=getEditProduct&pid=${product.id}""  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                             <a href="home?go=delete&pid=${product.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                         </td>
                                     </tr>
@@ -113,7 +113,7 @@
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="add" method="post">
+                    <form action="home" method="POST">
                         <div class="modal-header">						
                             <h4 class="modal-title">Add Product</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -124,30 +124,42 @@
                                 <input name="name" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Image</label>
-                                <input name="image" type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
                                 <label>Price</label>
                                 <input name="price" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Title</label>
-                                <textarea name="title" class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea name="description" class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Category</label>
-                                <select name="category" class="form-select" aria-label="Default select example">
-                                    <c:forEach begin="1" end="3" var="o">
-                                        <option value="1">Giày Adidas</option>
+                                <label>Provider</label>
+                                <select name="provider" class="form-control" aria-label="Default select example">
+                                    <c:forEach items="${providers}"  var="provider">
+                                        <option value="${provider.id}">${provider.companyName}</option>
                                     </c:forEach>
                                 </select>
                             </div>
-
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select name="category" class="form-control" aria-label="Default select example">
+                                    <c:forEach items="${categories}"  var="category">
+                                        <option value="${category.id}">${category.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Quantity</label>
+                                <input name="quantity" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Image</label>
+                                <input name="image" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Discount</label>
+                                <input name="discount" class="form-control" required>
+                            </div><!-- comment -->
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea name="description" class="form-control" required></textarea>
+                            </div>    
+                            <input type="hidden" name="go" value="AddProduct">
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -162,16 +174,13 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <!-- Edit Form -->
-                    <form action="manager/home" method="POST">
+                    <form action="home" method="POST">
                         <div class="modal-header">						
                             <h4 class="modal-title">Edit Product</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <div class="form-group">
-                                <label>catagoryId</label>
-                                <input value="abcd" class="form-control" required>
-                            </div><!-- comment -->
+                            
                             
                             <div class="form-group">
                                 <label>providerId</label>

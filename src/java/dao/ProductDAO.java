@@ -113,6 +113,46 @@ public class ProductDAO extends jdbc.DBConnect {
         return sortlistProduct;
     }
 
+    public int insertProduct( int categoryId, int providerId, String name, String description, float price, float discount, int quantity, String image) {
+        int rowsAffected = 0;
+        String sql = "INSERT INTO [dbo].[Product]\n"
+                + "           ([categoryId]\n"
+                + "           ,[providerId]\n"
+                + "           ,[name]\n"
+                + "           ,[description]\n"
+                + "           ,[price]\n"
+                + "           ,[discount]\n"
+                + "           ,[quantity]\n"
+                + "           ,[image]\n"
+                + "           ,[active])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,1)";
+        PreparedStatement pre;
+        try {
+            pre = conn.prepareStatement(sql);
+            pre.setInt(1, categoryId);
+            pre.setInt(2, providerId);
+            pre.setString(3, name);
+            pre.setString(4, description);
+            pre.setDouble(5, price);
+            pre.setDouble(6, discount);
+            pre.setInt(7, quantity);
+            pre.setString(8, image);
+            rowsAffected = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rowsAffected;
+    }
+
     public int updateProduct(Product product) {
         int rowsAffected = 0;
         String sql = "UPDATE [dbo].[Product]\n"

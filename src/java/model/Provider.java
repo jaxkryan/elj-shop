@@ -14,17 +14,15 @@ public class Provider {
 
     private int Id;
     private String companyName;
-    private String email;
     private String image;
     private boolean active;
 
     public Provider() {
     }
 
-    public Provider(int Id, String companyName, String email, String image, boolean active) {
+    public Provider(int Id, String companyName, String image, boolean active) {
         this.Id = Id;
         this.companyName = companyName;
-        this.email = email;
         this.image = image;
         this.active = active;
     }
@@ -43,14 +41,6 @@ public class Provider {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getImage() {
