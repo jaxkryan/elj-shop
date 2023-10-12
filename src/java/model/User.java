@@ -1,7 +1,5 @@
 package model;
 
-import util.Helper;
-
 public class User {
     private int id;
     private String role;

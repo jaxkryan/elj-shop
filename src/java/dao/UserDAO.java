@@ -295,12 +295,12 @@ public class UserDAO extends jdbc.DBConnect {
     }
 
     /**
-     * Update user's information except roleId and password
+     * Update user's information except role and password
      *
      * @param user user to update
      * @return number of affected rows in database
      */
-    public int update(User user) {
+    public int updateProfile(User user) {
         int affectedRows = 0;
         String sql = "UPDATE [dbo].[User]\n"
                 + "   SET [firstName] = ?\n"
@@ -325,6 +325,43 @@ public class UserDAO extends jdbc.DBConnect {
             pre.setString(8, user.getPhone());
             pre.setString(9, user.getEmail());
             pre.setInt(10, user.getId());
+            affectedRows = pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return affectedRows;
+    }
+    
+    public int update(User user) {
+        int affectedRows = 0;
+        String sql = "UPDATE [dbo].[User]\n"
+                + "   SET [firstName] = ?\n"
+                + "      ,[lastName] = ?\n"
+                + "      ,[role] = ?\n"
+                + "      ,[dateOfBirth] = ?\n"
+                + "      ,[street] = ?\n"
+                + "      ,[city] = ?\n"
+                + "      ,[province] = ?\n"
+                + "      ,[country] = ?\n"
+                + "      ,[phone] = ?\n"
+                + "      ,[email] = ?\n"
+                + "      ,[password] = ?\n"
+                + " WHERE id = ?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, user.getFirstName());
+            pre.setString(2, user.getLastName());
+            pre.setString(3, user.getRole());
+            pre.setString(4, user.getDateOfBirth());
+            pre.setString(5, user.getStreet());
+            pre.setString(6, user.getCity());
+            pre.setString(7, user.getProvince());
+            pre.setString(8, user.getCountry());
+            pre.setString(9, user.getPhone());
+            pre.setString(10, user.getEmail());
+            pre.setString(11, user.getPassword());
+            pre.setInt(12, user.getId());
             affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();

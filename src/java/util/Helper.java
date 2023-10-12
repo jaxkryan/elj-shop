@@ -1,5 +1,6 @@
 package util;
 
+import dao.UserDAO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -17,8 +18,13 @@ public class Helper {
         session.setAttribute("notification", notification);
     }
     
-    public static String getUserRole(int roleId) {
-        String[] roles = {"Admin", "Customer", "Seller", "Storage Staff", "Marketing Staff", "Manager"};
-        return roles[roleId - 1];
-    } 
+    public static boolean isUserExists(HttpServletRequest request) {
+        if (request.getParameter("userId") == null) {
+            return false;
+        } else {
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            UserDAO udao = new UserDAO();
+            return udao.getById(userId) != null;
+        }
+    }
 }
