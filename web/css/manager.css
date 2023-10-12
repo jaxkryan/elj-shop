@@ -223,6 +223,11 @@ table.table .avatar {
 .p-3 {
   padding: 1rem !important;
 }
+
+.text-left {
+  text-align: left !important;
+}
+
 .text-right {
   text-align: right !important;
 }

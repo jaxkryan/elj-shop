@@ -93,8 +93,48 @@
         <servlet-class>controller.admin.DeleteUserController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>UpdateUserController</servlet-name>
+        <servlet-class>controller.admin.UpdateUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportController</servlet-name>
+        <servlet-class>controller.ReportController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteReportController</servlet-name>
+        <servlet-class>controller.storagestaff.DeleteReportController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AddToCartController</servlet-name>
-        <servlet-class>controller.AddToCartController</servlet-class>
+        <servlet-class>controller.customer.AddToCartController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CartControl</servlet-name>
+        <servlet-class>controller.customer.CartControl</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductDetailController</servlet-name>
+        <servlet-class>controller.ProductDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCartItemController</servlet-name>
+        <servlet-class>controller.customer.UpdateCartItemController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteCartItemController</servlet-name>
+        <servlet-class>controller.customer.DeleteCartItemController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddToCartShopPageController</servlet-name>
+        <servlet-class>controller.customer.AddToCartShopPageController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckoutController</servlet-name>
+        <servlet-class>controller.customer.CheckoutController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateOrderController</servlet-name>
+        <servlet-class>controller.customer.CreateOrderController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -154,11 +194,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StorageController</servlet-name>
-        <url-pattern>/StorageController</url-pattern>
+        <url-pattern>/storage-manage-product</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StorageController</servlet-name>
-        <url-pattern>/storage-staff/StorageController</url-pattern>
+        <url-pattern>/storage-staff/storage-manage-product</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManageProviderController</servlet-name>
@@ -177,8 +217,48 @@
         <url-pattern>/admin/delete-user</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>UpdateUserController</servlet-name>
+        <url-pattern>/admin/update-user</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportController</servlet-name>
+        <url-pattern>/write-report</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteReportController</servlet-name>
+        <url-pattern>/delete-report</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>AddToCartController</servlet-name>
         <url-pattern>/add-to-cart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CartControl</servlet-name>
+        <url-pattern>/cart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductDetailController</servlet-name>
+        <url-pattern>/details</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCartItemController</servlet-name>
+        <url-pattern>/update-cartitem</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteCartItemController</servlet-name>
+        <url-pattern>/delete-cartitem</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddToCartShopPageController</servlet-name>
+        <url-pattern>/add-to-cart-shop-page</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckoutController</servlet-name>
+        <url-pattern>/checkout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateOrderController</servlet-name>
+        <url-pattern>/create-order</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

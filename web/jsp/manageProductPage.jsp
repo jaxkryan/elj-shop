@@ -37,12 +37,14 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                         <div class="col-sm-3">
+                        <div class="col-sm-3">
                             <a href="home"><h2>Manage <b>Product</b></h2></a>
                         </div>
                         <div class="col-sm-3">
                             <a href="provider"><h2>Manage <b>provider</b></h2></a>
                         </div>
+                        <!--Report-->
+                        <a href="${pageContext.request.contextPath}/write-report?action=reply">Report</a>
                         <div class="col-sm-6">
                             <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
                             <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
@@ -180,43 +182,46 @@
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">
-                            
-                            
+                            <div class="form-group">
+                                <label>catagoryId</label>
+                                <input value="abcd" class="form-control" required>
+                            </div><!-- comment -->
+
                             <div class="form-group">
                                 <label>providerId</label>
                                 <input class="form-control" required>
                             </div><!-- comment -->
-                            
+
                             <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" class="form-control" required>
                             </div><!-- comment -->
-                            
+
                             <div class="form-group">
                                 <label>description</label>
                                 <input type="text" class="form-control" required>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label>price</label>
                                 <input class="form-control" required>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label>discount</label>
                                 <textarea class="form-control" required></textarea>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label>quantity</label>
                                 <input class="form-control" required>
                             </div>			
-                            
+
                             <div class="form-group">
                                 <label>image</label>
                                 <input class="form-control" required>
                             </div>
-                            
+
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">

@@ -2,11 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.customer;
 
-import dao.CartDAO;
-import dao.CartItemDAO;
-import dao.ProductDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,13 +13,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.Vector;
-import model.Product;
+import model.CartItem;
+import model.User;
 
 /**
  *
  * @author Admin
  */
-public class AddToCartController extends HttpServlet {
+public class CheckoutController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,31 +33,16 @@ public class AddToCartController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        if (request.getParameter("proId") == null || request.getParameter("proId").equals("")) {
-            response.sendRedirect("jsp/Error.jsp");
-        } else {
-            int proId = Integer.parseInt(request.getParameter("proId"));
-            ProductDAO pdao = new ProductDAO();
-            Product product = pdao.getProductById(proId);
-            if (product == null) {
-                response.sendRedirect("jsp/Error.jsp");
-            } else {
-                HttpSession session = request.getSession();
-                if (session.getAttribute("userId") == null) {
-                    response.sendRedirect("jsp/Error.jsp");
-                } else {
-                    int userId = (int) session.getAttribute("userId");
-                    CartDAO cdao = new CartDAO();
-                    int cartId = cdao.getCartIdByCustomerId(userId);
-                    CartItemDAO cidao = new CartItemDAO();
-                    cidao.addToCart(product, cartId);
-                    String message = "Added " + product.getName() + " to Cart";
-                    session.setAttribute("notification", message);
-                    response.sendRedirect("home");
-                }
-            }
-        }
+        HttpSession session = request.getSession();
+        int userId = (int) session.getAttribute("userId");
+        Vector<CartItem> cartItem = (Vector<CartItem>) session.getAttribute("cartItem");
+        float subtotal = Float.parseFloat(request.getParameter("subtotal"));
+        UserDAO udao = new UserDAO();
+        User user = udao.getById(userId);
+        request.setAttribute("user", user);
+        request.setAttribute("cartItem", cartItem);
+        request.setAttribute("subtotal", subtotal);
+        request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -87,6 +71,7 @@ public class AddToCartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**

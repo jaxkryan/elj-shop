@@ -1,20 +1,20 @@
-package controller.admin;
+package controller.storagestaff;
 
-import dao.UserDAO;
+import dao.ReportDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.User;
+import model.Report;
 import util.Helper;
 
 /**
  *
  * @author Huy Nguyen
  */
-public class DeleteUserController extends HttpServlet {
+public class DeleteReportController extends HttpServlet {
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -27,20 +27,10 @@ public class DeleteUserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (!Helper.isUserExists(request)) {
-            Helper.setNotification(request, "User doesn't exists!", "RED");
-        } else {
-            UserDAO udao = new UserDAO();
-            int userId = Integer.parseInt(request.getParameter("userId"));
-            HttpSession session = request.getSession();
-            if (userId == (Integer) session.getAttribute("userId")) {
-                Helper.setNotification(request, "You cannot delete your-self!", "RED");
-            } else {
-                User userToDelete = udao.getById(userId);
-                udao.delete(userToDelete);
-            }
-            response.sendRedirect("home");
-        }
+            ReportDAO rpdao = new ReportDAO();
+            int rpId = Integer.parseInt(request.getParameter("reportId"));
+            rpdao.deleteReport(rpId);
+            response.sendRedirect("write-report?action=view");
     }
 
     /**

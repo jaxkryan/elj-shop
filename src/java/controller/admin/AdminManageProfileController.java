@@ -55,7 +55,7 @@ public class AdminManageProfileController extends HttpServlet {
             String phone = request.getParameter("phone");
             String email = request.getParameter("email");
             User userToUpdate = new User(id, "Admin", firstName, lastName, dateOfBirth, street, city, province, country, phone, email, "");
-            udao.update(userToUpdate);
+            udao.updateProfile(userToUpdate);
         }
         response.sendRedirect("profile");
     }

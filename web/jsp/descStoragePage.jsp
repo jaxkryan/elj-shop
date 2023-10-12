@@ -43,16 +43,18 @@
                             <h2>Manage <b>Product</b></h2>
                         </div>
                         <!--Search bar-->
-                        <form action="StorageController?go=Desc" method="post">
+                        <form action="storage-manage-product?search=Desc" method="post">
                             <div class="text-right" style="margin-top: 0.5%">
-                                <input type="text" name = "keyword" class="search-bar" placeholder="Search product...">
+                                <input style="color: black" type="text" name = "keyword" class="search-bar" placeholder="Search product...">
                                 <input style="color: #000000" type="submit" name = "search" value="Search">
                             </div>
                         </form>
                     </div>
                 </div>
+                <!--Report-->
+                <a href="${pageContext.request.contextPath}/write-report?action=view">Report</a>
                 <!--sorting-->
-                <form id="sortForm" action="StorageController" method="post">
+                <form id="sortForm" action="storage-manage-product" method="post">
                     <select name="sort" id="sort" onchange="submitForm()">
                         <option value="Desc">Descending</option>
                         <option value="All">Display All</option>
@@ -62,7 +64,7 @@
 
                 <script>
                     function submitForm() {
-                        document.getElementById("sortForm").action = "StorageController?go=" + document.getElementById("sort").value;
+                        document.getElementById("sortForm").action = "storage-manage-product?sort=" + document.getElementById("sort").value;
                         document.getElementById("sortForm").submit();
                     }
                 </script>
@@ -105,7 +107,7 @@
                         <div id="editProductQuantModal${pro.id}" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form action="StorageController?go=Desc" method="post">
+                                    <form action="storage-manage-product?sort=Desc" method="post">
                                         <input type="hidden" name="go" value="update">
                                         <input type="hidden" name ="prodId" class="form-control" value ="${pro.id}">
                                         <div class="modal-header">						
@@ -128,7 +130,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="hidden" action = "StorageController?go=Desc" method="post">
+                                            <input type="hidden" action = "storage-manage-product?sort=Desc" method="post">
 
                                             <input type="submit" name = "submit" class="btn btn-info" value="Save">
                                         </div>

@@ -19,42 +19,57 @@ import model.Voucher;
  */
 public class VoucherDAO extends DBConnect {
 
-    public Vector<Voucher> getAll() {
-        Vector<Voucher> voucher = new Vector<>();
-        String sql = "SELECT [id]\n"
-                + "      ,[code]\n"
-                + "  FROM [OnlineShop].[dbo].[Voucher]";
-        try {
-            ResultSet rs = getData(sql);
-            while (rs.next()) {
-                int id = rs.getInt(1);
-                String code = rs.getString(2);
-                voucher.add(new Voucher(id, code));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return voucher;
-    }
+//    public Vector<Voucher> getAll() {
+//        Vector<Voucher> voucher = new Vector<>();
+//        String sql = "SELECT [id]\n"
+//                + "      ,[code]\n"
+//                + "  FROM [OnlineShop].[dbo].[Voucher]";
+//        try {
+//            ResultSet rs = getData(sql);
+//            while (rs.next()) {
+//                int id = rs.getInt(1);
+//                String code = rs.getString(2);
+//                voucher.add(new Voucher(id, code));
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return voucher;
+//    }
+//
+//    public Vector<Voucher> findByCode(String vcode) {
+//        Vector<Voucher> voucher = new Vector<>();
+//        try {
+//            String sql = "SELECT [id]\n"
+//                    + "      ,[code]\n"
+//                    + "  FROM [OnlineShop].[dbo].[Voucher] where code like ?";
+//            PreparedStatement statement = conn.prepareStatement(sql);
+//            statement.setString(1, "%" + vcode + "%");
+//            ResultSet rs = statement.executeQuery();
+//            while (rs.next()) {
+//                int id = rs.getInt(1);
+//                String code = rs.getString(2);
+//                voucher.add(new Voucher(id, code));
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return voucher;
+//    }
 
-    public Vector<Voucher> findByCode(String vcode) {
-        Vector<Voucher> voucher = new Vector<>();
+    public Voucher getVoucherByVoucherCode(String voucherCode) {
         try {
-        String sql = "SELECT [id]\n"
-                + "      ,[code]\n"
-                + "  FROM [OnlineShop].[dbo].[Voucher] where code like ?";
+            String sql = "SELECT * FROM [OnlineShop].[dbo].[Voucher] where code = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, "%" + vcode + "%");
+            statement.setString(1, voucherCode);
             ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt(1);
-                String code = rs.getString(2);
-                voucher.add(new Voucher(id, code));
+            if (rs.next()) {
+                return new Voucher(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getFloat(5));
             }
         } catch (SQLException ex) {
             Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return voucher;
+        return null;
     }
-    
+
 }

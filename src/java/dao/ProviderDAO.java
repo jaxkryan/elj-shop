@@ -19,10 +19,10 @@ import model.Provider;
  * @author Admin
  */
 public class ProviderDAO extends jdbc.DBConnect {
-
+    
     public Vector<Provider> getAllProvider() {
         Vector<Provider> listProvider = new Vector<>();
-        String sql = "SELECT * from provider where active = 1";
+        String sql = "SELECT * from [provider] where active = 1";
         try {
             ResultSet rs = getData(sql);
             while (rs.next()) {
@@ -37,7 +37,7 @@ public class ProviderDAO extends jdbc.DBConnect {
         }
         return listProvider;
     }
-
+    
     public int updateProvider(Provider provider) {
         int rowsAffected = 0;
         String sql = "UPDATE [dbo].[Provider]\n"
@@ -56,7 +56,7 @@ public class ProviderDAO extends jdbc.DBConnect {
         }
         return rowsAffected;
     }
-
+    
     public void deleteProvider(String id) {
         String sql = "UPDATE [dbo].[Provider]\n"
                 + "   SET [active] = 0\n"
@@ -105,7 +105,7 @@ public class ProviderDAO extends jdbc.DBConnect {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public void setNullImportOrder(String id) {
         String sql = "update [dbo].[ImportOrder]\n"
                 + "set providerId = null\n"
@@ -143,5 +143,19 @@ public class ProviderDAO extends jdbc.DBConnect {
         List<Provider> providers = pDao.getAllProvider();
         System.out.println(providers);
     }
-
+    
+    public Provider getProviderById(int providerId) {
+        try {
+            String sql = "SELECT * from [provider] where id = ? ";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, providerId);
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()) {
+                return (new Provider(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }
