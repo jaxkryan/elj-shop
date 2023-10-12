@@ -4,26 +4,24 @@
  */
 package controller;
 
-import dao.CategoryDAO;
-import dao.ProductDAO;
-import dao.ProviderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.StringTokenizer;
+import model.Report;
 import java.util.Vector;
-import model.Category;
-import model.Product;
-import model.Provider;
+import dao.ReportDAO;
+import dao.UserDAO;
+import jakarta.servlet.http.HttpSession;
+import model.User;
 
 /**
  *
- * @author Admin
+ * @author Datalia
  */
-public class ProductFilterController extends HttpServlet {
+public class ReportController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,36 +34,34 @@ public class ProductFilterController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
-        int categoryId = Integer.parseInt(request.getParameter("categoryId") != null ? request.getParameter("categoryId") : "-1");
-        int providerId = Integer.parseInt(request.getParameter("providerId") != null ? request.getParameter("providerId") : "-1");
-        String price = request.getParameter("price");
-        double minPrice = 0.0;
-        double maxPrice = 10000000000000.0;
-        String sale = request.getParameter("sale") != null ? "ON_SALE" : "NOT_SALE";
-        String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
 
-        if (price != null && !price.equals("")) {
-            StringTokenizer tokenizer = new StringTokenizer(request.getParameter("price"), "-");
-            minPrice = Double.parseDouble(tokenizer.nextToken());
-            maxPrice = Double.parseDouble(tokenizer.nextToken());
+        response.setContentType("text/html;charset=UTF-8");
+        try ( PrintWriter out = response.getWriter()) {
+            ReportDAO reportDAO = new ReportDAO();
+            UserDAO userDAO = new UserDAO();
+            String action = request.getParameter("action");
+            if (action.equals("view")) {
+                Vector<Report> reports = reportDAO.getAllReport();
+                Vector<User> managers = userDAO.getActiveManager();
+                request.setAttribute("managers", managers);
+                request.setAttribute("reports", reports);
+                request.getRequestDispatcher("/jsp/storageReport.jsp").forward(request, response);
+            }
+            if (action.equals("add")) {
+                int managerId = Integer.parseInt(request.getParameter("name"));
+                String title = request.getParameter("title");
+                String content = request.getParameter("content");
+                HttpSession session = request.getSession();
+                int staffId = (int) session.getAttribute("userId");
+                Report report = new Report(staffId, managerId, title, content);
+                reportDAO.insertReport(report);
+                Vector<Report> reports = reportDAO.getAllReport();
+                Vector<User> managers = userDAO.getActiveManager();
+                request.setAttribute("reports", reports);
+                request.setAttribute("managers", managers);
+                request.getRequestDispatcher("/jsp/storageReport.jsp").forward(request, response);
+            }
         }
-        ProductDAO productDAO = new ProductDAO();
-        CategoryDAO categoryDAO = new CategoryDAO();
-        ProviderDAO providerDAO = new ProviderDAO();
-        Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, sale, searchName);
-        Vector<Category> categories = categoryDAO.getAllCategory();
-        Vector<Provider> providers = providerDAO.getAllProvider();
-        request.setAttribute("sort", sort);
-        request.setAttribute("searchName", searchName);
-        request.setAttribute("products", products);
-        request.setAttribute("categoryId", categoryId);
-        request.setAttribute("providerId", providerId);
-        request.setAttribute("price", price);
-        request.setAttribute("categories", categories);
-        request.setAttribute("providers", providers);
-        request.getRequestDispatcher("/jsp/shopPage.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -105,7 +101,6 @@ public class ProductFilterController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
-    // </editor-fold>
+    }// </editor-fold>
 
 }

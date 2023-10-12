@@ -108,12 +108,6 @@
                             <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                                 <a href="${pageContext.request.contextPath}/cart" class="btn px-0 ml-3">
                                     <i class="fas fa-shopping-cart text-primary"></i>
-                                    <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">
-                                        <c:choose>
-                                            <c:when test="${numberOfItemsInCart == null || numberOfItemsInCart == 0}">0</c:when>
-                                            <c:otherwise>${numberOfItemsInCart}</c:otherwise>
-                                        </c:choose>
-                                    </span>
                                 </a>
                             </div>
                         </div>
