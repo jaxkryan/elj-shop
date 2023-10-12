@@ -65,21 +65,24 @@ public class ManageProviderController extends HttpServlet {
         String service = request.getParameter("go");
         CategoryDAO cdao = new CategoryDAO();
         Vector<Category> categories = cdao.getAllCategory();
+        ProviderDAO providerDAO = new ProviderDAO();
         request.setAttribute("categories", categories);
         if (service == null || service.equals("")) {
             service = "displayAll";
         }
         if (service.equals("displayAll")) {
-            ProviderDAO providerDAO = new ProviderDAO();
             Vector<Provider> providers = providerDAO.getAllProvider();
             request.setAttribute("providers", providers);
             request.getRequestDispatcher("/jsp/manageProviderPage.jsp").forward(request, response);
         } else if (service.equals("delete")) {
             String pid = request.getParameter("pid");
-            ProviderDAO providerDAO = new ProviderDAO();
             providerDAO.deleteProvider(pid);
             response.sendRedirect("provider");
-
+        }else if (service.equals("getEditProvider")) {
+            int pUpdateId = Integer.parseInt(request.getParameter("pid"));
+            Provider updateProvider = providerDAO.getProviderById(pUpdateId);
+            request.setAttribute("updateProvider", updateProvider);
+            request.getRequestDispatcher("/jsp/updateProviderPage.jsp").forward(request, response);
         }
     }
 
@@ -94,7 +97,35 @@ public class ManageProviderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String service = request.getParameter("go");
+        CategoryDAO cdao = new CategoryDAO();
+        ProviderDAO providerDAO = new ProviderDAO();
+        Vector<Category> categories = cdao.getAllCategory();
+        request.setAttribute("categories", categories);
+        if (service.equals("AddProvider")) {
+            String pCompanyName = request.getParameter("companyName");
+            String pImage = request.getParameter("image");
+            ProviderDAO pro = new ProviderDAO();
+            int checkInsert = pro.insertProvider(pCompanyName, pImage);
+            if (checkInsert != 0 ) {
+                //Insert success notification
+            }else{
+                //Insert fail notification
+            }
+            response.sendRedirect("provider");
+        }else if(service.equals("UpdateProvider")){
+            int pId = Integer.parseInt(request.getParameter("id"));
+            String pName = request.getParameter("name");
+            String pImage = request.getParameter("image");
+            Provider updateProvider = new Provider(pId, pName, pImage, true);
+            int checkUpdate =  providerDAO.updateProvider(updateProvider);
+            if (checkUpdate != 0) {
+                //Insert success notification
+            } else {
+                //Insert fail notification
+            }
+            response.sendRedirect("provider");
+        }
     }
 
     /**

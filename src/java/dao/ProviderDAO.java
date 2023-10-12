@@ -41,7 +41,7 @@ public class ProviderDAO extends jdbc.DBConnect {
     public int updateProvider(Provider provider) {
         int rowsAffected = 0;
         String sql = "UPDATE [dbo].[Provider]\n"
-                + "   SET [companyName] = ?\n"
+                + "   SET [companyName] = ?\n"                
                 + "      ,[image] = ?\n"
                 + " WHERE id = ?";
         PreparedStatement pre;
@@ -50,7 +50,7 @@ public class ProviderDAO extends jdbc.DBConnect {
             pre.setInt(3, provider.getId());
             pre.setString(1, provider.getCompanyName());
             pre.setString(2, provider.getImage());
-            int affectedRows = pre.executeUpdate();
+            rowsAffected = pre.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProviderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -70,6 +70,29 @@ public class ProviderDAO extends jdbc.DBConnect {
         }
     }
     
+
+    public int insertProvider(String companyName, String image) {
+        int rowsAffected = 0;
+        String sql = "INSERT INTO [dbo].[Provider]\n"
+                + "           ([companyName]\n"
+                + "           ,[image]\n"
+                + "           ,[active])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?\n"
+                + "           ,1)";
+        PreparedStatement pre;
+        try {
+            pre = conn.prepareStatement(sql);
+            pre.setString(1, companyName);
+            pre.setString(2, image);
+            rowsAffected = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProviderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rowsAffected;
+    }
+
     public void setNullProduct(String id) {
         String sql = "update [dbo].Product\n"
                 + "set providerId = null\n"
@@ -96,6 +119,24 @@ public class ProviderDAO extends jdbc.DBConnect {
         }
     }
     
+    public Provider getProviderById(int proId) {
+        String sql = "select * from [provider] where [provider].[id] = ? ";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, proId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return (new Provider(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getBoolean(4)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProviderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         ProviderDAO pDao = new ProviderDAO();
         pDao.deleteProvider("1");
