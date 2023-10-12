@@ -118,8 +118,7 @@
                                 <div class="product-img position-relative overflow-hidden">
                                     <img class="img-fluid w-100" style="height: 174.08px; width: 174.08px;" src="${pro.image}" alt="">
                                     <div class="product-action">
-                                        <a title="Add to cart" class="btn btn-outline-dark btn-square" href="${pageContext.request.contextPath}/add-to-cart?proId=${pro.id}"><i class="fa fa-shopping-cart"></i></a>
-                                        <a title="Add to favorite" class="btn btn-outline-dark btn-square" href="${pageContext.request.contextPath}/add-to-favorite?proId=${pro.id}"><i class="far fa-heart"></i></a>
+                                        <a title="Add to cart" class="btn btn-outline-dark btn-square" href="${pageContext.request.contextPath}/add-to-cart-shop-page?proId=${pro.id}&sort=${sort}&categoryId=${categoryId}&price=${price}&providerId=${providerId}&searchName=${searchName}"><i class="fa fa-shopping-cart"></i></a>
                                         <a title="See details" class="btn btn-outline-dark btn-square" href="${pageContext.request.contextPath}/details?proId=${pro.id}"><i class="fa fa-search"></i></a>
                                     </div>
                                 </div>
@@ -139,17 +138,6 @@
                             </div>
                         </div>
                     </c:forEach>
-                    <!--                        <div class="col-12">
-                                                <nav>
-                                                    <ul class="pagination justify-content-center">
-                                                        <li class="page-item disabled"><a class="page-link" href="#">Previous</span></a></li>
-                                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                                    </ul>
-                                                </nav>
-                                            </div>-->
                 </div>
             </div>
             <!-- Shop Product End -->

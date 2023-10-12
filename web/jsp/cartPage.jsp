@@ -1,9 +1,3 @@
-<%-- 
-    Document   : cartPage
-    Created on : Jul 8, 2023, 3:03:38 PM
-    Author     : Huy Nguyen
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -39,8 +33,9 @@
 
 
         <!-- Cart Start -->
-        <form action="checkout" method="GET">
-            <div class="container-fluid">
+
+        <div class="container-fluid">
+            <form action="${pageContext.request.contextPath}/update-cartitem" method="GET">
                 <c:choose>
                     <c:when test="${cartItem.size() == 0}">
                         <div class="col-12 pb-1">
@@ -53,6 +48,7 @@
                     </c:when>
                     <c:otherwise>
                         <% ProductDAO pdao = new ProductDAO(); %>
+                        <% Vector<CartItem> cartItem = (Vector<CartItem>) session.getAttribute("cartItem"); %>
                         <div class="row px-xl-5">                    
                             <div class="col-lg-8 table-responsive mb-5">
                                 <table class="table table-light table-borderless table-hover text-center mb-0">
@@ -65,43 +61,62 @@
                                             <th>Remove</th>
                                         </tr>
                                     </thead>
+                                    <script>
+                                        function addQuantity(index) {
+                                            var quantityInput = document.getElementById("quantity-" + index);
+                                            var quantityValue = parseInt(quantityInput.value);
+                                            quantityInput.value = quantityValue + 1;
+                                        }
+
+                                        function subtractQuantity(index) {
+                                            var quantityInput = document.getElementById("quantity-" + index);
+                                            var quantityValue = parseInt(quantityInput.value);
+                                            if (quantityValue > 1) {
+                                                quantityInput.value = quantityValue - 1;
+                                            }
+                                        }
+                                    </script>
                                     <tbody class="align-middle">
-                                        <fmt:setLocale value="vi_VN"/>
-                                        <% Vector<CartItem> cartItem = (Vector<CartItem>) session.getAttribute("cartItem"); %>
                                         <% float subtotal = 0; %>
                                         <% for(int i=0; i < cartItem.size(); i++) {%>
-                                            <tr>
-                                                <td class="align-middle container-fluid" style="display: flex; align-items: center;">
-                                                    <img src="<%= pdao.getProductById(cartItem.get(i).getProductId()).getImage() %>" alt="" style="width: 50px;">
-                                                    <a href="${pageContext.request.contextPath}/details?proId=<%= cartItem.get(i).getProductId() %>" title="<%= pdao.getProductById(cartItem.get(i).getProductId()).getName() %>" class="product-name-in-cart text-truncate ml-2"> <%= pdao.getProductById(cartItem.get(i).getProductId()).getName() %>
-                                                    </a>
-                                                </td>
-                                                <td class="align-middle"><fmt:formatNumber type="currency" pattern="###,###¤"><%= cartItem.get(i).getPrice() %></fmt:formatNumber></td>
-                                                    <td class="align-middle">
-                                                        <div class="input-group quantity mx-auto" style="width: 100px;">
-                                                            <div class="input-group-btn">
-                                                                <button type="button" class="btn btn-sm btn-primary btn-minus" >
-                                                                    <i class="fa fa-minus"></i>
-                                                                </button>
-                                                            </div>
-                                                            <input name="quantityToBuy" id="quantityToBuy" type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="<%= cartItem.get(i).getQuantity() %>">
-                                                        <div class="input-group-btn">
-                                                            <button type="button" class="btn btn-sm btn-primary btn-plus">
-                                                                <i class="fa fa-plus"></i>
-                                                            </button>
-                                                        </div>
+                                        <% Product product = pdao.getProductById(cartItem.get(i).getProductId()); %>
+                                        <tr>
+                                            <td class="align-middle container-fluid" style="display: flex; align-items: center;">
+                                                <img src="<%= product.getImage() %>" alt="" style="width: 50px;">
+                                                <a href="${pageContext.request.contextPath}/details?proId=<%= cartItem.get(i).getProductId() %>" title="<%= product.getName() %>" class="product-name-in-cart text-truncate ml-2"> <%= product.getName() %> </a>
+                                            </td>
+                                            <td class="align-middle">
+                                                <fmt:formatNumber type="currency" pattern="###,###¤"><%= cartItem.get(i).getPrice() %></fmt:formatNumber>
+                                                <input type="hidden" id="price-<%= i %>" value="<%= cartItem.get(i).getPrice() %>">
+                                            </td>
+                                            <td class="align-middle">
+                                                <div class="input-group quantity mx-auto" style="width: 100px;">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-sm btn-primary btn-minus" onclick="subtractQuantity(<%= i %>)">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
                                                     </div>
-                                                </td>
-                                                <% float cartItemPrice = cartItem.get(i).getPrice() * cartItem.get(i).getQuantity(); %>
-                                                <% subtotal += cartItemPrice; %>
-                                                <td class="align-middle"><fmt:formatNumber type="currency" pattern="###,###¤"><%= cartItemPrice %></fmt:formatNumber></td>
-                                                    <td class="align-middle">
-                                                        <button type="button" class="btn btn-sm btn-danger"><i class="fa fa-times"></i>
-                                                        </button></td>
-                                                </tr>
+                                                    <input name="quantity-<%= i %>" id="quantity-<%= i %>" type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="<%= cartItem.get(i).getQuantity() %>">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-sm btn-primary btn-plus" onclick="addQuantity(<%= i %>)">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle">
+                                                <fmt:formatNumber type="currency" pattern="###,###¤"><%= cartItem.get(i).getPrice() * cartItem.get(i).getQuantity() %></fmt:formatNumber>
+                                                <input type="hidden" id="total-price-<%= i %>" value="<%= cartItem.get(i).getPrice() * cartItem.get(i).getQuantity() %>">
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="${pageContext.request.contextPath}/delete-cartitem?productId=<%= cartItem.get(i).getProductId() %>&cartId=<%= cartItem.get(i).getCartId() %>" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a>
+                                            </td>
+                                        </tr>
+                                        <% subtotal += cartItem.get(i).getPrice() * cartItem.get(i).getQuantity(); %>
                                         <% } %>
                                     </tbody>
                                 </table>
+                                <button type="submit" class="btn btn-block btn-primary font-weight-bold my-3 py-3" onclick="home">Save Quantity Change</button>
                             </div>
                             <div class="col-lg-4">
                                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
@@ -133,15 +148,16 @@
                                                 </fmt:formatNumber>
                                             </h5>
                                         </div>
-                                        <button type="submit" class="btn btn-block btn-primary font-weight-bold my-3 py-3" onclick="home">Proceed To Checkout</button>
+                                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" onclick="home">Proceed To Checkout</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </c:otherwise>
                 </c:choose>
-            </div>
-        </form>
+            </form>
+        </div>
+
         <!-- Cart End -->
 
         <%@include file="footer.jsp" %>
@@ -153,7 +169,6 @@
         <script src="${pageContext.request.contextPath}/lib/owlcarousel/owl.carousel.min.js"></script>
 
         <!-- Template Javascript -->
-        <script src="${pageContext.request.contextPath}/js/main.js"></script>
     </body>
 
 </html>

@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -17,6 +18,7 @@ public class CategoryDAO extends jdbc.DBConnect {
         Vector<Category> listC = new Vector<>();
         String sql = "SELECT * from category";
         try {
+
             ResultSet rs = getData(sql);
             while (rs.next()) {
                 int id = rs.getInt(1);
@@ -28,5 +30,20 @@ public class CategoryDAO extends jdbc.DBConnect {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listC;
+    }
+
+    public Category getCategoryById(int cateId) {
+        try {
+            String sql = "SELECT * from category where id = ? ";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, cateId);
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()) {
+                return (new Category(rs.getInt(1), rs.getString(2), rs.getString(3)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

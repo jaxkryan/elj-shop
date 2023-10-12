@@ -2,28 +2,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.customer;
 
-import dao.CategoryDAO;
-import dao.ProductDAO;
-import dao.ProviderDAO;
+import dao.CartDAO;
+import dao.CartItemDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.StringTokenizer;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
-import model.Category;
-import model.Product;
-import model.Provider;
+import model.CartItem;
+import util.Helper;
 
 /**
  *
  * @author Admin
  */
-public class ProductFilterController extends HttpServlet {
+public class UpdateCartItemController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,35 +36,35 @@ public class ProductFilterController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
-        int categoryId = Integer.parseInt(request.getParameter("categoryId") != null ? request.getParameter("categoryId") : "-1");
-        int providerId = Integer.parseInt(request.getParameter("providerId") != null ? request.getParameter("providerId") : "-1");
-        String price = request.getParameter("price");
-        double minPrice = 0.0;
-        double maxPrice = 10000000000000.0;
-        String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
-
-        if (price != null && !price.equals("")) {
-            StringTokenizer tokenizer = new StringTokenizer(request.getParameter("price"), "-");
-            minPrice = Double.parseDouble(tokenizer.nextToken());
-            maxPrice = Double.parseDouble(tokenizer.nextToken());
+        HttpSession session = request.getSession();
+        Vector<CartItem> cartItem = (Vector<CartItem>) session.getAttribute("cartItem");
+        int productId = 0;
+        int cartIdOfItem = 0;
+        int quantity = 0;
+        CartDAO cdao = new CartDAO();
+        CartItemDAO cidao = new CartItemDAO();
+        for (int i = 0; i < cartItem.size(); i++) {
+            productId = cartItem.get(i).getProductId();
+            cartIdOfItem = cartItem.get(i).getCartId();
+            try {
+                quantity = Integer.parseInt(request.getParameter("quantity-" + i));
+            } catch (Exception e) {
+                Helper.setNotification(request, "Please enter valid quantity!", "RED");
+                response.sendRedirect("jsp/cartPage.jsp");
+                return;
+            }
+            if (quantity < 1) {
+                Helper.setNotification(request, "Please enter valid quantity!", "RED");
+                response.sendRedirect("jsp/cartPage.jsp");
+                return;
+            }
+            cidao.updateQuantity(productId, cartIdOfItem, quantity);
         }
-        ProductDAO productDAO = new ProductDAO();
-        CategoryDAO categoryDAO = new CategoryDAO();
-        ProviderDAO providerDAO = new ProviderDAO();
-        Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName);
-        Vector<Category> categories = categoryDAO.getAllCategory();
-        Vector<Provider> providers = providerDAO.getAllProvider();
-        request.setAttribute("sort", sort);
-        request.setAttribute("searchName", searchName);
-        request.setAttribute("products", products);
-        request.setAttribute("categoryId", categoryId);
-        request.setAttribute("providerId", providerId);
-        request.setAttribute("price", price);
-        request.setAttribute("categories", categories);
-        request.setAttribute("providers", providers);
-        request.getRequestDispatcher("/jsp/shopPage.jsp").forward(request, response);
+        int userId = (int) session.getAttribute("userId");
+        int cartId = cdao.getCartIdByCustomerId(userId);
+        cartItem = cidao.getCartItemByCartId(cartId);
+        session.setAttribute("cartItem", cartItem);
+        response.sendRedirect("jsp/cartPage.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -104,7 +104,6 @@ public class ProductFilterController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
-    // </editor-fold>
+    }// </editor-fold>
 
 }

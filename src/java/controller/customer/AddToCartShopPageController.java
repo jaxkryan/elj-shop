@@ -6,7 +6,9 @@ package controller.customer;
 
 import dao.CartDAO;
 import dao.CartItemDAO;
+import dao.CategoryDAO;
 import dao.ProductDAO;
+import dao.ProviderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,16 +16,19 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.StringTokenizer;
 import java.util.Vector;
 import model.CartItem;
+import model.Category;
 import model.Product;
+import model.Provider;
 import util.Helper;
 
 /**
  *
  * @author Admin
  */
-public class AddToCartController extends HttpServlet {
+public class AddToCartShopPageController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -60,7 +65,34 @@ public class AddToCartController extends HttpServlet {
                     Vector<CartItem> cartItem = cidao.getCartItemByCartId(cartId);
                     session.setAttribute("cartItem", cartItem);
                     Helper.setNotification(request, "Added " + product.getName() + " to Cart", "GREEN");
-                    response.sendRedirect("home");
+                    String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
+                    int categoryId = Integer.parseInt(request.getParameter("categoryId") != null ? request.getParameter("categoryId") : "-1");
+                    int providerId = Integer.parseInt(request.getParameter("providerId") != null ? request.getParameter("providerId") : "-1");
+                    String price = request.getParameter("price");
+                    double minPrice = 0.0;
+                    double maxPrice = 10000000000000.0;
+                    String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
+
+                    if (price != null && !price.equals("")) {
+                        StringTokenizer tokenizer = new StringTokenizer(request.getParameter("price"), "-");
+                        minPrice = Double.parseDouble(tokenizer.nextToken());
+                        maxPrice = Double.parseDouble(tokenizer.nextToken());
+                    }
+                    ProductDAO productDAO = new ProductDAO();
+                    CategoryDAO categoryDAO = new CategoryDAO();
+                    ProviderDAO providerDAO = new ProviderDAO();
+                    Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName);
+                    Vector<Category> categories = categoryDAO.getAllCategory();
+                    Vector<Provider> providers = providerDAO.getAllProvider();
+                    request.setAttribute("sort", sort);
+                    request.setAttribute("searchName", searchName);
+                    request.setAttribute("products", products);
+                    request.setAttribute("categoryId", categoryId);
+                    request.setAttribute("providerId", providerId);
+                    request.setAttribute("price", price);
+                    request.setAttribute("categories", categories);
+                    request.setAttribute("providers", providers);
+                    request.getRequestDispatcher("/jsp/shopPage.jsp").forward(request, response);
                 }
             }
         }

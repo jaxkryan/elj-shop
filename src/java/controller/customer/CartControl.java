@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.Vector;
 import model.CartItem;
 import model.Product;
+import util.Helper;
 
 /**
  *
@@ -39,15 +40,10 @@ public class CartControl extends HttpServlet {
         ProductDAO pdao = new ProductDAO();
         HttpSession session = request.getSession();
         if (session.getAttribute("userId") == null) {
-            response.sendRedirect("jsp/Error.jsp");
+            Helper.setNotification(request, "Please login!", "RED");
+            response.sendRedirect("home");
         } else {
-            int userId = (int) session.getAttribute("userId");
-            CartDAO cdao = new CartDAO();
-            int cartId = cdao.getCartIdByCustomerId(userId);
-            CartItemDAO cidao = new CartItemDAO();
-            Vector<CartItem> cartItem =  cidao.getCartItemByCartId(cartId);
-            session.setAttribute("cartItem", cartItem);
-            request.getRequestDispatcher("/jsp/cartPage.jsp").forward(request, response);
+            response.sendRedirect("jsp/cartPage.jsp");
         }
     }
 

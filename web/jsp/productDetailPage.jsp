@@ -24,8 +24,8 @@
             <div class="row px-xl-5">
                 <div class="col-12">
                     <nav class="breadcrumb bg-light mb-30">
-                        <a class="breadcrumb-item text-dark" href="#">Home</a>
-                        <a class="breadcrumb-item text-dark" href="#">Shop</a>
+                        <a class="breadcrumb-item text-dark" href="${pageContext.request.contextPath}/home">Home</a>
+                        <a class="breadcrumb-item text-dark" href="${pageContext.request.contextPath}/shop">Shop</a>
                         <span class="breadcrumb-item active">Shop Detail</span>
                     </nav>
                 </div>
@@ -40,7 +40,7 @@
                 <div class="col-lg-5 mb-30">
                     <div class="bg-light">
                         <div class="product-img position-relative overflow-hidden">
-                            <img class="w-100 h-100" src="${pageContext.request.contextPath}/img/product-${product.id}.jpg" alt="Image">
+                            <img class="w-100 h-100" src="${product.image}" alt="Image">
                         </div>
                     </div>
                 </div>
@@ -48,20 +48,10 @@
                 <div class="col-lg-7 h-auto mb-30">
                     <div class="h-100 bg-light p-30">
                         <h3>${product.name}</h3>
-                        <div class="d-flex mb-3">
-                            <div class="text-primary mr-2">
-                                <small class="fas fa-star"></small>
-                                <small class="fas fa-star"></small>
-                                <small class="fas fa-star"></small>
-                                <small class="fas fa-star-half-alt"></small>
-                                <small class="far fa-star"></small>
-                            </div>
-                            <small class="pt-1">(99 Reviews)</small>
-                        </div>
                         <div class="d-flex" style="
                              align-items: center;
                              ">
-                            <c:set var="currentPrice" value="${product.price * (1-product.discount)}"/>
+                            <c:set var="currentPrice" value="${product.price - product.discount}"/>
                             <fmt:setLocale value="vi_VN"/>
                             <h3 class="font-weight-semi-bold mb-4"><fmt:formatNumber type="currency" pattern="###,###¤">${currentPrice}</fmt:formatNumber></h3>
                             <c:if test="${currentPrice < product.price}">
@@ -112,18 +102,11 @@
                             <div class="tab-pane fade" id="tab-pane-2">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h4 class="mb-4">1 review for "Product Name"</h4>
+                                        <h4 class="mb-4"> review for ${product.name}</h4>
                                         <div class="media mb-4">
                                             <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                             <div class="media-body">
                                                 <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
-                                                <div class="text-primary mb-2">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                    <i class="far fa-star"></i>
-                                                </div>
                                                 <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
                                             </div>
                                         </div>
@@ -131,16 +114,6 @@
                                     <div class="col-md-6">
                                         <h4 class="mb-4">Leave a review</h4>
                                         <small>Your email address will not be published. Required fields are marked *</small>
-                                        <div class="d-flex my-3">
-                                            <p class="mb-0 mr-2">Your Rating * :</p>
-                                            <div class="text-primary">
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                            </div>
-                                        </div>
                                         <form>
                                             <div class="form-group">
                                                 <label for="message">Your Review *</label>
