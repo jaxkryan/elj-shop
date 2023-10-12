@@ -93,6 +93,10 @@
         <servlet-class>controller.admin.DeleteUserController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>UpdateUserController</servlet-name>
+        <servlet-class>controller.admin.UpdateUserController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ReportController</servlet-name>
         <servlet-class>controller.ReportController</servlet-class>
     </servlet>
@@ -187,6 +191,10 @@
     <servlet-mapping>
         <servlet-name>DeleteUserController</servlet-name>
         <url-pattern>/admin/delete-user</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateUserController</servlet-name>
+        <url-pattern>/admin/update-user</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ReportController</servlet-name>

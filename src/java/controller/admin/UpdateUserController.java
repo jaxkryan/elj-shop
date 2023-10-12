@@ -1,4 +1,4 @@
-package controller.manager;
+package controller.admin;
 
 import dao.UserDAO;
 import java.io.IOException;
@@ -6,17 +6,18 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import model.User;
+import util.Helper;
 
 /**
  *
  * @author Huy Nguyen
  */
-public class ManagerManageProfileController extends HttpServlet {
+public class UpdateUserController extends HttpServlet {
 
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -24,16 +25,21 @@ public class ManagerManageProfileController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        UserDAO udao = new UserDAO();
-        User user = udao.getById((Integer)session.getAttribute("userId"));
-        request.setAttribute("user", user);
-        request.getRequestDispatcher("/jsp/managerProfilePage.jsp").forward(request, response);
-    } 
+            throws ServletException, IOException {
+        if (!Helper.isUserExists(request)) {
+            Helper.setNotification(request, "User doesn't exists!", "RED");
+            response.sendRedirect("home");
+        } else {
+            UserDAO udao = new UserDAO();
+            User userToUpdate = udao.getById(Integer.parseInt(request.getParameter("userId")));
+            request.setAttribute("userToUpdate", userToUpdate);
+            request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+        }
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -41,10 +47,10 @@ public class ManagerManageProfileController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        if (request.getParameter("managerEditProfileSubmit") != null) {
-            UserDAO udao = new UserDAO();
+            throws ServletException, IOException {
+        if (request.getParameter("updateUserSubmit") != null) {
             int id = Integer.parseInt(request.getParameter("id"));
+            String role = request.getParameter("role");
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
             String dateOfBirth = request.getParameter("dateOfBirth");
@@ -54,14 +60,17 @@ public class ManagerManageProfileController extends HttpServlet {
             String country = request.getParameter("country");
             String phone = request.getParameter("phone");
             String email = request.getParameter("email");
-            User userToUpdate = new User(id, "Manager", firstName, lastName, dateOfBirth, street, city, province, country, phone, email, "");
-            udao.updateProfile(userToUpdate);
+            String password = request.getParameter("password");
+            UserDAO udao = new UserDAO();
+            udao.update(new User(id, role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password));
+            Helper.setNotification(request, "Update user information successfully!", "GREEN");
         }
-        response.sendRedirect("profile");
+        response.sendRedirect("home");
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

@@ -27,7 +27,7 @@ public class DeleteUserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (!isUserExists(request)) {
+        if (!Helper.isUserExists(request)) {
             Helper.setNotification(request, "User doesn't exists!", "RED");
         } else {
             UserDAO udao = new UserDAO();
@@ -64,15 +64,5 @@ public class DeleteUserController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
-
-    private boolean isUserExists(HttpServletRequest request) {
-        if (request.getParameter("userId") == null) {
-            return false;
-        } else {
-            int userId = Integer.parseInt(request.getParameter("userId"));
-            UserDAO udao = new UserDAO();
-            return udao.getById(userId) != null;
-        }
     }
 }
