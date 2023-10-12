@@ -206,6 +206,45 @@ public class UserDAO extends jdbc.DBConnect {
         }
         return null;
     }
+    
+    public Vector<User> getActiveUsersByRole(String role) {
+        Vector<User> users = new Vector<>();
+        String sql = "SELECT [id]\n"
+                + "      ,[firstName]\n"
+                + "      ,[lastName]\n"
+                + "      ,[dateOfBirth]\n"
+                + "      ,[street]\n"
+                + "      ,[city]\n"
+                + "      ,[province]\n"
+                + "      ,[country]"
+                + "      ,[phone]\n"
+                + "      ,[email]\n"
+                + "      ,[password]\n"
+                + "  FROM [dbo].[User]"
+                + " where active = 1 and role = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, role);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String firstName = rs.getString(2);
+                String lastName = rs.getString(3);
+                String dateOfBirth = rs.getString(4);
+                String street = rs.getString(5);
+                String city = rs.getString(6);
+                String province = rs.getString(7);
+                String country = rs.getString(8);
+                String phone = rs.getString(9);
+                String email = rs.getString(10);
+                String password = rs.getString(11);
+                users.add(new User(id, role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return users;
+    }
 
     public int insert(User user) {
         int affectedRows = 0;

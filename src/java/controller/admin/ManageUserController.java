@@ -29,7 +29,12 @@ public class ManageUserController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         UserDAO udao = new UserDAO();
-        Vector<User> users = udao.getActiveUsers();
+        Vector<User> users = new Vector<>();
+        if (request.getParameter("roleFilter") == null || request.getParameter("roleFilter").equals("All")) {
+            users = udao.getActiveUsers();
+        } else {
+            users = udao.getActiveUsersByRole(request.getParameter("roleFilter"));
+        }
         request.setAttribute("users", users);
         request.getRequestDispatcher("/jsp/manageUserPage.jsp").forward(request, response);
     }
