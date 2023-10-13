@@ -7,6 +7,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="dao.UserDAO" %>
+<%@ page import="model.Product" %>
+<%@ page import="model.User" %>
+<%@ page import="model.Feedback" %>
+<%@ page import="java.util.Vector" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -99,9 +104,10 @@
             <div class="row px-xl-5">
                 <div class="col">
                     <div class="bg-light p-30">
+                        <% Vector<Feedback> feedbacks = (Vector<Feedback>) request.getAttribute("feedbacks"); %>
                         <div class="nav nav-tabs mb-4">
                             <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Description</a>
-                            <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Reviews (0)</a>
+                            <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Reviews (<%=feedbacks.size()%>)</a>
                         </div>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="tab-pane-1">
@@ -111,33 +117,40 @@
                             <div class="tab-pane fade" id="tab-pane-2">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h4 class="mb-4"> review for ${product.name}</h4>
+                                        <h4 class="mb-4"> Review for ${product.name}</h4>
+                                        <% UserDAO udao = new UserDAO(); %>
+                                        <% for(int i =0 ;i< feedbacks.size() ;i++ ) {%>
+                                        <% User user = udao.getById(feedbacks.get(i).getCustomerId()); %>
                                         <div class="media mb-4">
-                                            <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                                            <img src="https://tse1.mm.bing.net/th?id=OIP.4j4jNaPU3bIzDJHBj6HDSwHaHa&pid=Api&rs=1&c=1&qlt=95&w=114&h=114" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                             <div class="media-body">
-                                                <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
-                                                <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
+                                                <%String userName = user.getLastName() +" "+ user.getFirstName(); %>
+                                                <h6><%= userName%><small> - <i><%= feedbacks.get(i).getFeedbackDate() %></i></small></h6>
+                                                <p><%= feedbacks.get(i).getContent()%></p>
                                             </div>
                                         </div>
+                                        <%}%>
                                     </div>
                                     <div class="col-md-6">
                                         <h4 class="mb-4">Leave a review</h4>
-                                        <small>Your email address will not be published. Required fields are marked *</small>
-                                        <form>
+                                        <small>(Your email address will not be published)</small>
+                                        <form action="add-feedback">
                                             <div class="form-group">
-                                                <label for="message">Your Review *</label>
-                                                <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="name">Your Name *</label>
-                                                <input type="text" class="form-control" id="name">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="email">Your Email *</label>
-                                                <input type="email" class="form-control" id="email">
-                                            </div>
+                                                <label for="message"></label>
+                                                <textarea name="content" id="message" cols="30" rows="5" class="form-control" required></textarea>
+                                            </div>  
+                                            <input type="hidden" name="from" value="${from}">
+                                            <input type="hidden" name="proId" value="${product.id}">
+                                            <input name="sort" type="hidden" id="sort" value="${sort}">
+                                            <input name="searchName" type="hidden" id="searchName" value="${searchName}">
+                                            <input name="products" type="hidden" id="products" value="${products}">
+                                            <input name="categoryId" type="hidden" id="categoryId" value="${categoryId}">
+                                            <input name="providerId" type="hidden" id="providerId" value="${providerId}">
+                                            <input name="price" type="hidden" id="price" value="${price}">
+                                            <input name="categories" type="hidden" id="categories" value="${categories}">
+                                            <input name="providers" type="hidden" id="providers" value="${providers}">
                                             <div class="form-group mb-0">
-                                                <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
+                                                <input type="submit" value="Leave Review" class="btn btn-primary px-3">
                                             </div>
                                         </form>
                                     </div>

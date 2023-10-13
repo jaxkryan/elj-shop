@@ -5,6 +5,7 @@
 package controller;
 
 import dao.CategoryDAO;
+import dao.FeedbackDAO;
 import dao.ProductDAO;
 import dao.ProviderDAO;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import model.Category;
+import model.Feedback;
 import model.Product;
 import model.Provider;
 
@@ -87,6 +89,11 @@ public class ProductDetailController extends HttpServlet {
         request.setAttribute("price", price);
         request.setAttribute("categories", categories);
         request.setAttribute("providers", providers);
+
+        FeedbackDAO fdao = new FeedbackDAO();
+        Vector<Feedback> feedbacks = fdao.getFeedbackByProductId(proId);
+        request.setAttribute("feedbacks", feedbacks);
+
         request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
     }
 
