@@ -63,19 +63,19 @@
                                 </div>
                                 <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
                                     <input type="radio" class="custom-control-input" name="price" id="price1" value="0-100" onclick="this.form.submit()" <c:if test="${param.price == '0-100'}">checked</c:if>>
-                                    <label class="custom-control-label" for="price1">Below 100đ</label>
+                                    <label class="custom-control-label" for="price1">Below 100$</label>
                                 </div>
                                 <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
                                     <input type="radio" class="custom-control-input" name="price" id="price2" value="100-200" onclick="this.form.submit()" <c:if test="${param.price == '100-200'}">checked</c:if>>
-                                    <label class="custom-control-label" for="price2">100đ - 200đ</label>
+                                    <label class="custom-control-label" for="price2">100$ - 200$</label>
                                 </div>
                                 <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
                                     <input type="radio" class="custom-control-input" name="price" id="price3" value="200-500" onclick="this.form.submit()" <c:if test="${param.price == '200-500'}">checked</c:if>>
-                                    <label class="custom-control-label" for="price3">200đ - 500đ</label>
+                                    <label class="custom-control-label" for="price3">200$ - 500$</label>
                                 </div>
                                 <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
                                     <input type="radio" class="custom-control-input" name="price" id="price4" value="500-1000000" onclick="this.form.submit()" <c:if test="${param.price == '500-1000000'}">checked</c:if>>
-                                    <label class="custom-control-label" for="price4">Above 500đ</label>
+                                    <label class="custom-control-label" for="price4">Above 500$</label>
                                 </div>
                             </div>
                             <!-- Price End -->
@@ -126,7 +126,6 @@
                                         <a title="${pro.name}" class="h6 text-decoration-none text-truncate" href="${pageContext.request.contextPath}/details?proId=${pro.id}">${pro.name}</a>
                                         <div class="d-flex align-items-center justify-content-center mt-2">
                                             <c:set var="currentPrice" value="${pro.price * (1-pro.discount)}"/>
-                                            <fmt:setLocale value="vi_VN"/>
                                             <h5 class="text-primary"><fmt:formatNumber type="currency" pattern="###,###¤">${currentPrice}</fmt:formatNumber></h5>
                                             <c:if test="${currentPrice < pro.price}">
                                                 <h6 class="text-muted ml-2">

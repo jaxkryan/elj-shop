@@ -250,4 +250,45 @@ public class OrderDAO extends jdbc.DBConnect {
             ex.printStackTrace();
         }
     }
+
+    public Vector<Order> getAllOrderById(int userId) {
+        Vector<Order> orders = new Vector<>();
+        String sql = "SELECT [id]\n"
+                + "      ,[customerId]\n"
+                + "      ,[receiver]\n"
+                + "      ,[shipStreet]\n"
+                + "      ,[shipCity]\n"
+                + "      ,[shipProvince]\n"
+                + "      ,[shipCountry]\n"
+                + "      ,[shipEmail]\n"
+                + "      ,[shipPhone]"
+                + "      ,[status]\n"
+                + "      ,[createdTime]\n"
+                + "      ,[totalPrice]\n"
+                + "  FROM [dbo].[Order] where customerId = ? ";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                int customerId = rs.getInt(2);
+                String receiver = rs.getString(3);
+                String shipStreet = rs.getString(4);
+                String shipCity = rs.getString(5);
+                String shipProvince = rs.getString(6);
+                String shipCountry = rs.getString(7);
+                String shipEmail = rs.getString(8);
+                String shipPhone = rs.getString(9);
+                String status = rs.getString(10);
+                String createdTime = rs.getString(11);
+                float totalPrice = rs.getFloat(12);
+                orders.add(new Order(id, customerId, receiver, shipStreet, shipCity,
+                        shipProvince, shipCountry, shipEmail, shipPhone, status, createdTime, totalPrice));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return orders;
+    }
 }

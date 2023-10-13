@@ -153,8 +153,7 @@
                             <div class="text-center py-4">
                                 <a title="${pro.name}" class="h6 text-decoration-none text-truncate" href="details?proId=${pro.id}">${pro.name}</a>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <c:set var="currentPrice" value="${pro.price - product.discount}"/>
-                                    <fmt:setLocale value="vi_VN"/>
+                                    <c:set var="currentPrice" value="${pro.price - pro.discount}"/>
                                     <h5 class="text-primary"><fmt:formatNumber type="currency" pattern="###,###¤">${currentPrice}</fmt:formatNumber></h5>
                                     <c:if test="${currentPrice < pro.price}">
                                         <h6 class="text-muted ml-2">

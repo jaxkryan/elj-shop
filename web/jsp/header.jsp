@@ -101,7 +101,7 @@
                                         </c:forEach>
                                     </div>
                                 </div>
-                                <a href="${pageContext.request.contextPath}/customer-order" class="nav-item nav-link">Order History</a>
+                                <a href="${pageContext.request.contextPath}/customer-view-history" class="nav-item nav-link">History</a>
                             </div>
                             <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                                 <a href="${pageContext.request.contextPath}/cart" class="btn px-0 ml-3">
