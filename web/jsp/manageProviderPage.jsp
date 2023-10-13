@@ -34,71 +34,88 @@
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
-
-            <div class="table-title">
-                <div class="row">
-                    <!-- title--> 
-                    <div class="col-sm-3">
-                        <a href="home"><h2>Manage <b>Product</b></h2></a>
-                    </div>
-                    <div class="col-sm-3">
-                        <a href="provider"><h2>Manage <b>provider</b></h2></a>
-                    </div>
-                    <!-- title-->
-                    <!--Search bar-->
-                    <form action="home?go=search" method="post">
-                        <div class="text-right" style="margin-top: 0.5%">
-                            <input name = "keyword" type="text" class="search-bar" placeholder="Search product...">
-                            <input style="color: #000000" type="submit" name = "search" value="Search">
+            <!-- Notification Start -->
+            <c:if test="${notification != null}">
+                <div class="container-fluid mb-3">
+                    <div class="row px-xl-5">
+                        <div class="col-lg-12">
+                            <div class="alert <c:choose><c:when test="${notiType == 'RED'}">alert-danger</c:when><c:otherwise>alert-success</c:otherwise></c:choose>">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <strong><%= session.getAttribute("notification")%></strong>
+                                <%session.removeAttribute("notification");%>
+                                <%session.removeAttribute("notiType");%>
+                            </div>
                         </div>
-                    </form>
-                    <div class="col-sm-6">
-                        <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
-                        <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>                        
                     </div>
                 </div>
-            </div>
-            <c:choose>
-                <c:when test="${param.go == null || param.go == 'displayAll'}">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <span class="custom-checkbox">
-                                        <input type="checkbox" id="selectAll">
-                                        <label for="selectAll"></label>
-                                    </span>
-                                </th>
-                                <th>ID</th>
-                                <th>Company</th>
-                                <th>Image</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${providers}" var="provider">
+            </c:if>
+            <!-- Notification End -->
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <!-- title--> 
+                        <div class="col-sm-3">
+                            <a href="home"><h2>Manage <b>Product</b></h2></a>
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="provider"><h2>Manage <b>provider</b></h2></a>
+                        </div>
+                        <!-- title-->
+                        <!--Search bar-->
+                        <form action="home?go=search" method="post">
+                            <div class="text-right" style="margin-top: 0.5%">
+                                <input name = "keyword" type="text" class="search-bar" placeholder="Search product...">
+                                <input style="color: #000000" type="submit" name = "search" value="Search">
+                            </div>
+                        </form>
+                        <div class="col-sm-6">
+                            <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
+                            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>                        
+                        </div>
+                    </div>
+                </div>
+                <c:choose>
+                    <c:when test="${param.go == null || param.go == 'displayAll'}">
+                        <table class="table table-striped table-hover">
+                            <thead>
                                 <tr>
-                                    <td>
+                                    <th>
                                         <span class="custom-checkbox">
-                                            <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                            <label for="checkbox1"></label>
+                                            <input type="checkbox" id="selectAll">
+                                            <label for="selectAll"></label>
                                         </span>
-                                    </td>
-                                    <td>${provider.id}</td>
-                                    <td>${provider.companyName}</td>
-                                    <td>
-                                        <img src="${provider.image}">
-                                    </td>
-                                    <td>
-                                        <a href="provider?go=getEditProvider&pid=${provider.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="provider?go=delete&pid=${provider.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                    </td>
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Company</th>
+                                    <th>Image</th>
+                                    <th>Actions</th>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </c:when>
-            </c:choose>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${providers}" var="provider">
+                                    <tr>
+                                        <td>
+                                            <span class="custom-checkbox">
+                                                <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                                <label for="checkbox1"></label>
+                                            </span>
+                                        </td>
+                                        <td>${provider.id}</td>
+                                        <td>${provider.companyName}</td>
+                                        <td>
+                                            <img src="${provider.image}">
+                                        </td>
+                                        <td>
+                                            <a href="provider?go=getEditProvider&pid=${provider.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                            <a href="provider?go=delete&pid=${provider.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:when>
+                </c:choose>
+            </div>
         </div>
     </div>
     <!-- Edit Modal HTML -->

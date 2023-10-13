@@ -12,6 +12,7 @@ import java.util.Vector;
 import model.Category;
 import model.Product;
 import model.Provider;
+import util.Helper;
 
 /**
  *
@@ -34,7 +35,7 @@ public class ManagerHomeController extends HttpServlet {
         CategoryDAO cdao = new CategoryDAO();
         Vector<Category> categories = cdao.getAllCategory();
         request.setAttribute("categories", categories);
-        ProductDAO proDAO = new ProductDAO();
+        ProductDAO productDAO = new ProductDAO();
         if (service == null || service.equals("")) {
             service = "displayAll";
         }
@@ -47,13 +48,20 @@ public class ManagerHomeController extends HttpServlet {
             request.setAttribute("providers", providers);
             request.getRequestDispatcher("/jsp/manageProductPage.jsp").forward(request, response);
         } else if (service.equals("delete")) {
-            String pid = request.getParameter("pid");
-            ProductDAO pdao = new ProductDAO();
-            pdao.deleteProduct(pid);
+            int pid = Integer.parseInt(request.getParameter("pid"));            
+            Product deleteProduct = productDAO.getProductById(pid);
+            int checkDelete = productDAO.deleteProduct(pid);
+            if (checkDelete != 0 ) {
+                //Delete success notification
+                Helper.setNotification(request, "Delete product " + deleteProduct.getName() + " successfully!", "GREEN");
+            }else{
+                //Delete fail notification
+                Helper.setNotification(request, "Delete product " + deleteProduct.getName() + " fail!", "RED");
+            }
             response.sendRedirect("home");
         }else if (service.equals("getEditProduct")) {
             int  pUpdateId = Integer.parseInt(request.getParameter("pid"));
-            Product updateProduct = proDAO.getProductById(pUpdateId);
+            Product updateProduct = productDAO.getProductById(pUpdateId);
             request.setAttribute("updateProduct", updateProduct);
             ProviderDAO providerDAO = new ProviderDAO();
             Vector<Provider> providers = providerDAO.getAllProvider();
@@ -92,8 +100,10 @@ public class ManagerHomeController extends HttpServlet {
             int checkInsert = proDAO.insertProduct(pCategory, pProvider, pName, pDescription, pPrice, pDiscount, pQuantity, pImage);
             if (checkInsert != 0) {
                 //Insert success notification
+                Helper.setNotification(request, "Product " + pName + " added successfully!", "GREEN");
             } else {
                 //Insert fail notification
+                Helper.setNotification(request, "Added " + pName + " fail!", "RED");
             }
             response.sendRedirect("home");
         }else if (service.equals("UpdateProduct")) {
@@ -110,8 +120,10 @@ public class ManagerHomeController extends HttpServlet {
             int checkUpdate = proDAO.updateProduct(UpdateProduct);
             if (checkUpdate != 0) {
                 //Insert success notification
+                Helper.setNotification(request, "Update product " + pName + " successfully!", "GREEN");
             } else {
                 //Insert fail notification
+                Helper.setNotification(request, "Update " + pName + " fail!", "RED");
             }
             response.sendRedirect("home");
         }

@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input value="${updateProvider.companyName}" name="name" type="text" class="form-control" required>
+                                    <input value="${updateProvider.companyName}" name="companyName" type="text" class="form-control" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Image</label>
