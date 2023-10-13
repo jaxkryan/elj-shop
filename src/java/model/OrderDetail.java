@@ -10,7 +10,6 @@ package model;
  */
 public class OrderDetail {
 
-    private int id;
     private int productID;
     private int orderID;
     private double price;
@@ -19,20 +18,11 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public OrderDetail(int id, int productID, int orderID, double price, int quantity) {
-        this.id = id;
+    public OrderDetail(int productID, int orderID, double price, int quantity) {
         this.productID = productID;
         this.orderID = orderID;
         this.price = price;
         this.quantity = quantity;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getProductID() {
@@ -65,11 +55,6 @@ public class OrderDetail {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderDetail{" + "id=" + id + ", productID=" + productID + ", orderID=" + orderID + ", price=" + price + ", quantity=" + quantity + '}';
     }
 
 }

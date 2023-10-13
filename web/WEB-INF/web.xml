@@ -136,6 +136,14 @@
         <servlet-name>AddToCartCartPage</servlet-name>
         <servlet-class>controller.customer.AddToCartCartPage</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CustomerViewHistoryController</servlet-name>
+        <servlet-class>controller.customer.CustomerViewHistoryController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CustomerViewHistoryDetailsController</servlet-name>
+        <servlet-class>controller.customer.CustomerViewHistoryDetailsController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -259,6 +267,14 @@
     <servlet-mapping>
         <servlet-name>AddToCartCartPage</servlet-name>
         <url-pattern>/add-to-cart-cart-page</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CustomerViewHistoryController</servlet-name>
+        <url-pattern>/customer-view-history</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CustomerViewHistoryDetailsController</servlet-name>
+        <url-pattern>/customer-view-history-details</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

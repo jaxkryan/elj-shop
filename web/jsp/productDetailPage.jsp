@@ -19,21 +19,6 @@
     <body>
         <%@include file="header.jsp" %>
 
-        <!-- Breadcrumb Start -->
-        <div class="container-fluid">
-            <div class="row px-xl-5">
-                <div class="col-12">
-                    <nav class="breadcrumb bg-light mb-30">
-                        <a class="breadcrumb-item text-dark" href="${pageContext.request.contextPath}/home">Home</a>
-                        <a class="breadcrumb-item text-dark" href="${pageContext.request.contextPath}/shop">Shop</a>
-                        <span class="breadcrumb-item active">Shop Detail</span>
-                    </nav>
-                </div>
-            </div>
-        </div>
-        <!-- Breadcrumb End -->
-
-
         <!-- Shop Detail Start -->
         <div class="container-fluid pb-5">
             <div class="row px-xl-5">
@@ -52,7 +37,6 @@
                              align-items: center;
                              ">
                             <c:set var="currentPrice" value="${product.price - product.discount}"/>
-                            <fmt:setLocale value="vi_VN"/>
                             <h3 class="font-weight-semi-bold mb-4"><fmt:formatNumber type="currency" pattern="###,###¤">${currentPrice}</fmt:formatNumber></h3>
                             <c:if test="${currentPrice < product.price}">
                                 <h4 class="font-weight-semi-bold text-muted ml-2 mb-4">
@@ -165,44 +149,6 @@
             </div>
         </div>
         <!-- Shop Detail End -->
-
-
-        <!-- Products Start -->
-        <div class="container-fluid py-5">
-            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also Like</span></h2>
-            <div class="row px-xl-5">
-                <div class="col">
-                    <div class="owl-carousel related-carousel">
-                        <c:forEach items="${relatedProducts}" var="relate">
-                            <div class="product-item bg-light">
-                                <div class="product-img position-relative overflow-hidden">
-                                    <img class="img-fluid w-100" src="img/product-${relate.id}.jpg" alt="">
-                                    <div class="product-action">
-                                        <a title="Add to cart" class="btn btn-outline-dark btn-square" href="${pageContext.request.contextPath}/add-to-cart?proId=${pro.id}"><i class="fa fa-shopping-cart"></i></a>
-                                        <a title="Add to favorite" class="btn btn-outline-dark btn-square" href="${pageContext.request.contextPath}/add-to-favorite"><i class="far fa-heart"></i></a>
-                                        <a title="See details" class="btn btn-outline-dark btn-square" href="${pageContext.request.contextPath}/details?proId=${relate.id}"><i class="fa fa-search"></i></a>
-                                    </div>
-                                </div>
-                                <div class="text-center py-4">
-                                    <a class="h6 text-decoration-none text-truncate" href="${pageContext.request.contextPath}/details?proId=${relate.id}">${relate.name}</a>
-                                    <div class="d-flex align-items-center justify-content-center mt-2">
-                                        <c:set var="currentPrice" value="${relate.price * (1-relate.discount)}"/>
-                                        <fmt:setLocale value="vi_VN"/>
-                                        <h5 class="text-primary"><fmt:formatNumber type="currency" pattern="###,###¤">${currentPrice}</fmt:formatNumber></h5>
-                                        <c:if test="${currentPrice < relate.price}">
-                                            <h6 class="text-muted ml-2">
-                                                <del><fmt:formatNumber type="currency" pattern="###,###¤">${relate.price}</fmt:formatNumber></del>
-                                                </h6>
-                                        </c:if>
-                                    </div>
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Products End -->
 
         <%@include file="footer.jsp" %>
 

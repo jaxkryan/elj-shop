@@ -22,7 +22,6 @@
     <body>
         <%@include file="header.jsp" %>
 
-        <fmt:setLocale value="vi_VN"/>
         <!-- Checkout Start -->
         <form action="create-order" method="POST">
             <div class="container-fluid">
