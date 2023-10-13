@@ -17,6 +17,7 @@ import java.util.Vector;
 import model.Category;
 import model.Product;
 import model.Provider;
+import util.Helper;
 
 /**
  *
@@ -75,8 +76,16 @@ public class ManageProviderController extends HttpServlet {
             request.setAttribute("providers", providers);
             request.getRequestDispatcher("/jsp/manageProviderPage.jsp").forward(request, response);
         } else if (service.equals("delete")) {
-            String pid = request.getParameter("pid");
-            providerDAO.deleteProvider(pid);
+            int pid = Integer.parseInt(request.getParameter("pid"));
+            int checkDelete = providerDAO.deleteProvider(pid);
+            Provider deleteProvider = providerDAO.getProviderById(pid);
+            if (checkDelete != 0 ) {
+                //Delete success notification
+                Helper.setNotification(request, "Delete provider " + deleteProvider.getCompanyName() + " successfully!", "GREEN");
+            }else{
+                //Delete fail notification
+                Helper.setNotification(request, "Delete provider " + deleteProvider.getCompanyName() + " fail!", "RED");
+            }
             response.sendRedirect("provider");
         }else if (service.equals("getEditProvider")) {
             int pUpdateId = Integer.parseInt(request.getParameter("pid"));
@@ -109,20 +118,24 @@ public class ManageProviderController extends HttpServlet {
             int checkInsert = pro.insertProvider(pCompanyName, pImage);
             if (checkInsert != 0 ) {
                 //Insert success notification
+                Helper.setNotification(request, "Provider " + pCompanyName + " added successfully!", "GREEN");
             }else{
                 //Insert fail notification
+                Helper.setNotification(request, "Added " + pCompanyName + " fail!", "RED");
             }
             response.sendRedirect("provider");
         }else if(service.equals("UpdateProvider")){
             int pId = Integer.parseInt(request.getParameter("id"));
-            String pName = request.getParameter("name");
+            String pCompanyName = request.getParameter("companyName");
             String pImage = request.getParameter("image");
-            Provider updateProvider = new Provider(pId, pName, pImage, true);
+            Provider updateProvider = new Provider(pId, pCompanyName, pImage, true);
             int checkUpdate =  providerDAO.updateProvider(updateProvider);
             if (checkUpdate != 0) {
-                //Insert success notification
+                //Update success notification
+                Helper.setNotification(request, "Update provider " + pCompanyName + " successfully!", "GREEN");
             } else {
-                //Insert fail notification
+                //Update fail notification
+                Helper.setNotification(request, "Update " + pCompanyName + " fail!", "RED");
             }
             response.sendRedirect("provider");
         }

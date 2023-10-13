@@ -1,7 +1,6 @@
 package controller.marketingstaff;
 
 import dao.VoucherDAO;
-import dao.VoucherDetailDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;

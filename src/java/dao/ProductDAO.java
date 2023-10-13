@@ -177,24 +177,27 @@ public class ProductDAO extends jdbc.DBConnect {
             pre.setInt(7, product.getQuantity());
             pre.setString(8, product.getImage());
             pre.setInt(9, product.getId());
-            int affectedRows = pre.executeUpdate();
+            rowsAffected = pre.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rowsAffected;
     }
 
-    public void deleteProduct(String id) {
+    public int deleteProduct(int productId) {
+        int rowsAffected = 0;
         String sql = "UPDATE [dbo].[Product]\n"
                 + "   SET [active] = 0\n"
                 + " WHERE id = ?";
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
-            pre.setString(1, id);
+            pre.setInt(1, productId);
             pre.executeUpdate();
+            rowsAffected = pre.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return rowsAffected;
     }
 
     public void setNullOrderDetail(String id) {
