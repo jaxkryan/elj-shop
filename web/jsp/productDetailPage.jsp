@@ -67,15 +67,40 @@
                         <div class="d-flex mb-4">
                             <strong class="text-dark mr-1">Brand: </strong>${brandName}
                         </div>
-                        <form action="add-to-cart" class="d-flex align-items-center mb-4 pt-2">
+                        <div class="d-flex mb-4">
+                            <strong class="text-dark mr-1">In Stock: </strong>${product.quantity}
+                        </div>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                var form = document.getElementById("addToCartForm");
+                                var fromParam = "${from}";
+
+                                if (fromParam === "home") {
+                                    form.action = "add-to-cart";
+                                } else if (fromParam === "shop") {
+                                    form.action = "add-to-cart-shop-page";
+                                } else if (fromParam == "cart") {
+                                    form.action = "add-to-cart-cart-page";
+                                }
+                            });
+                        </script>
+                        <form id="addToCartForm" class="d-flex align-items-center mb-4 pt-2">
                             <input type="hidden" name="proId" value="${product.id}">
+                            <input name="sort" type="hidden" id="sort" value="${sort}">
+                            <input name="searchName" type="hidden" id="searchName" value="${searchName}">
+                            <input name="products" type="hidden" id="products" value="${products}">
+                            <input name="categoryId" type="hidden" id="categoryId" value="${categoryId}">
+                            <input name="providerId" type="hidden" id="providerId" value="${providerId}">
+                            <input name="price" type="hidden" id="price" value="${price}">
+                            <input name="categories" type="hidden" id="categories" value="${categories}">
+                            <input name="providers" type="hidden" id="providers" value="${providers}">
                             <div class="input-group quantity mr-3" style="width: 130px;">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-primary btn-minus">
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
-                                <input name="quantityToBuy" id="quantityToBuy" type="text" class="form-control bg-secondary border-0 text-center" value="1">
+                                <input name="quantityToBuy" id="quantityToBuy" class="form-control bg-secondary border-0 text-center" value="1" required>
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-primary btn-plus">
                                         <i class="fa fa-plus"></i>

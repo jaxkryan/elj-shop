@@ -41,7 +41,7 @@
                                     <div class="p-3" style="max-width: 700px;">
                                         <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Adidas</h1>
                                         <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Make a statement - Stand out from the crowd and express your unique sense of style.</p>
-                                        <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="${pageContext.request.contextPath}/shop?cateId=6">Shop Now</a>
+                                        <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="${pageContext.request.contextPath}/productfilter?providerId=1">Shop Now</a>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                     <div class="p-3" style="max-width: 700px;">
                                         <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Nike</h1>
                                         <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Style up your game - Boost your confidence and stand out in every activity!</p>
-                                        <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="${pageContext.request.contextPath}/shop?cateId=5">Shop Now</a>
+                                        <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="${pageContext.request.contextPath}/productfilter?providerId=2">Shop Now</a>
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                     <div class="p-3" style="max-width: 700px;">
                                         <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Puma</h1>
                                         <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Elegance and genteel - Shoes for true gentlemen</p>
-                                        <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="${pageContext.request.contextPath}/shop?cateId=4">Shop Now</a>
+                                        <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="${pageContext.request.contextPath}/productfilter?providerId=3">Shop Now</a>
                                     </div>
                                 </div>
                             </div>
@@ -72,17 +72,17 @@
                     <div class="product-offer mb-30" style="height: 200px;">
                         <img class="img-fluid" src="https://www.barkershoes.com/cdn/shop/collections/8I5A5326_1024x700_crop_center.jpg?v=1618574799" alt="">
                         <div class="offer-text">
-                            <h6 class="text-white text-uppercase">Sale up</h6>
-                            <h3 class="text-white mb-3">Special Offer</h3>
-                            <a href="${pageContext.request.contextPath}/shop?sale=" class="btn btn-primary">Shop Now</a>
+                            <h3 class="text-white mb-3">Style</h3>
+                            <h6 class="text-white text-uppercase">Style up yourself</h6>
+                            <a href="${pageContext.request.contextPath}/shop" class="btn btn-primary">Shop Now</a>
                         </div>
                     </div>
                     <div class="product-offer mb-30" style="height: 200px;">
                         <img class="img-fluid" src="https://www.barkershoes.com/cdn/shop/files/SS20_HOMEPAGE_MCCLEANPAIR_880x550_crop_center.jpg?v=1614334815" alt="">
                         <div class="offer-text">
-                            <h6 class="text-white text-uppercase">Save More</h6>
-                            <h3 class="text-white mb-3">Special Combo</h3>
-                            <a href="shop?cateId=2" class="btn btn-primary">Shop Now</a>
+                            <h3 class="text-white mb-3">fashioned</h3>
+                            <h6 class="text-white text-uppercase">Become a gentlemen</h6>
+                            <a href="${pageContext.request.contextPath}/shop" class="btn btn-primary">Shop Now</a>
                         </div>
                     </div>
                 </div>
@@ -90,7 +90,86 @@
         </div>
         <!-- Carousel End -->
 
-        <!-- Featured Start -->
+        <!-- Categories Start -->
+        <div class="container-fluid pt-5">
+            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Categories</span></h2>
+            <div class="row px-xl-5 pb-3">
+                <c:forEach items="${categories}" var="cate">
+                    <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                        <a class="text-decoration-none" href="${pageContext.request.contextPath}/productfilter?categoryId=${cate.id}">
+                            <div class="cat-item d-flex align-items-center mb-4">
+                                <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; justify-content: center;">
+                                    <img class="img-category" style="width: 100px; height: 100px" src="${cate.image}" alt="">
+                                </div>
+                                <div class="flex-fill pl-3">
+                                    <h6>${cate.name}</h6>
+                                    <small class="text-body">${cate.name} Shoes</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+        <!-- Categories End -->
+
+        <!-- Brands Start -->
+        <div class="container-fluid pt-5">
+            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Brands</span></h2>
+            <div class="row px-xl-5 pb-3">
+                <c:forEach items="${providers}" var="provider">
+                    <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                        <a class="text-decoration-none" href="${pageContext.request.contextPath}/productfilter?providerId=${provider.id}">
+                            <div class="cat-item d-flex align-items-center mb-4">
+                                <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; justify-content: center;">
+                                    <img class="img-provider" style="width: 100px; height: 100px" src="${provider.image}" alt="">
+                                </div>
+                                <div class="flex-fill pl-3">
+                                    <h6>${provider.companyName}</h6>
+                                    <small class="text-body">${provider.companyName} Shoes</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+        <!-- Brands End -->
+
+        <!-- Products Start -->
+        <div class="container-fluid pt-5 pb-3">
+            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Hot Products</span></h2>
+            <div class="row px-xl-5">
+                <c:forEach items="${products}" var="pro">
+                    <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                        <div class="product-item bg-light mb-4">
+                            <div class="product-img position-relative overflow-hidden">
+                                <img class="img-fluid w-100" style="width: 276.13px; height: 276.13px" src="${pro.image}" alt="">
+                                <div class="product-action">
+                                    <a title="Add to cart" class="btn btn-outline-dark btn-square" href="add-to-cart?proId=${pro.id}"><i class="fa fa-shopping-cart"></i></a>
+                                    <a title="See details" class="btn btn-outline-dark btn-square" href="details?proId=${pro.id}&from=home"><i class="fa fa-search"></i></a>
+                                </div>
+                            </div>
+                            <div class="text-center py-4">
+                                <a title="${pro.name}" class="h6 text-decoration-none text-truncate" href="details?proId=${pro.id}">${pro.name}</a>
+                                <div class="d-flex align-items-center justify-content-center mt-2">
+                                    <c:set var="currentPrice" value="${pro.price - product.discount}"/>
+                                    <fmt:setLocale value="vi_VN"/>
+                                    <h5 class="text-primary"><fmt:formatNumber type="currency" pattern="###,###¤">${currentPrice}</fmt:formatNumber></h5>
+                                    <c:if test="${currentPrice < pro.price}">
+                                        <h6 class="text-muted ml-2">
+                                            <del><fmt:formatNumber type="currency" pattern="###,###¤">${pro.price}</fmt:formatNumber></del>
+                                            </h6>
+                                    </c:if>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+        <!-- Products End -->
+
         <div class="container-fluid pt-5">
             <div class="row px-xl-5 pb-3">
                 <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
@@ -119,87 +198,6 @@
                 </div>
             </div>
         </div>
-        <!-- Featured End -->
-
-        <!-- Categories Start -->
-        <div class="container-fluid pt-5">
-            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Categories</span></h2>
-            <div class="row px-xl-5 pb-3">
-                <c:forEach items="${categories}" var="cate">
-                    <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                        <a class="text-decoration-none" href="shop?cateId=${cate.id}">
-                            <div class="cat-item d-flex align-items-center mb-4">
-                                <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; justify-content: center;">
-                                    <img class="img-category" style="width: 100px; height: 100px" src="${cate.image}" alt="">
-                                </div>
-                                <div class="flex-fill pl-3">
-                                    <h6>${cate.name}</h6>
-                                    <small class="text-body">${cate.name} Shoes</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </c:forEach>
-            </div>
-        </div>
-        <!-- Categories End -->
-
-        <!-- Brands Start -->
-        <div class="container-fluid pt-5">
-            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Brands</span></h2>
-            <div class="row px-xl-5 pb-3">
-                <c:forEach items="${providers}" var="provider">
-                    <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                        <a class="text-decoration-none" href="shop?brandId=${provider.id}">
-                            <div class="cat-item d-flex align-items-center mb-4">
-                                <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; justify-content: center;">
-                                    <img class="img-provider" style="width: 100px; height: 100px" src="${provider.image}" alt="">
-                                </div>
-                                <div class="flex-fill pl-3">
-                                    <h6>${provider.companyName}</h6>
-                                    <small class="text-body">${provider.companyName} Shoes</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </c:forEach>
-            </div>
-        </div>
-        <!-- Brands End -->
-
-        <!-- Products Start -->
-        <div class="container-fluid pt-5 pb-3">
-            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Hot Products</span></h2>
-            <div class="row px-xl-5">
-                <c:forEach items="${products}" var="pro">
-                    <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                        <div class="product-item bg-light mb-4">
-                            <div class="product-img position-relative overflow-hidden">
-                                <img class="img-fluid w-100" style="width: 276.13px; height: 276.13px" src="${pro.image}" alt="">
-                                <div class="product-action">
-                                    <a title="Add to cart" class="btn btn-outline-dark btn-square" href="add-to-cart?proId=${pro.id}"><i class="fa fa-shopping-cart"></i></a>
-                                    <a title="See details" class="btn btn-outline-dark btn-square" href="details?proId=${pro.id}"><i class="fa fa-search"></i></a>
-                                </div>
-                            </div>
-                            <div class="text-center py-4">
-                                <a title="${pro.name}" class="h6 text-decoration-none text-truncate" href="details?proId=${pro.id}">${pro.name}</a>
-                                <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <c:set var="currentPrice" value="${pro.price - product.discount}"/>
-                                    <fmt:setLocale value="vi_VN"/>
-                                    <h5 class="text-primary"><fmt:formatNumber type="currency" pattern="###,###¤">${currentPrice}</fmt:formatNumber></h5>
-                                    <c:if test="${currentPrice < pro.price}">
-                                        <h6 class="text-muted ml-2">
-                                            <del><fmt:formatNumber type="currency" pattern="###,###¤">${pro.price}</fmt:formatNumber></del>
-                                            </h6>
-                                    </c:if>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
-        </div>
-        <!-- Products End -->
 
         <%@include file="footer.jsp" %>
 

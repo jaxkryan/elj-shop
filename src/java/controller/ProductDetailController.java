@@ -13,6 +13,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.StringTokenizer;
+import java.util.Vector;
 import model.Category;
 import model.Product;
 import model.Provider;
@@ -35,15 +37,56 @@ public class ProductDetailController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int proId = Integer.parseInt(request.getParameter("proId"));
+        String from = request.getParameter("from");
         ProductDAO pdao = new ProductDAO();
         CategoryDAO cdao = new CategoryDAO();
         ProviderDAO providerDAO = new ProviderDAO();
         Product product = pdao.getProductById(proId);
         Category category = cdao.getCategoryById(product.getCategoryId());
         Provider provider = providerDAO.getProviderById(product.getProviderId());
+        request.setAttribute("from", from);
         request.setAttribute("product", product);
         request.setAttribute("categoryName", category.getName());
         request.setAttribute("brandName", provider.getCompanyName());
+        String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
+        String categoryIdParam = request.getParameter("categoryId");
+        int categoryId;
+        if (categoryIdParam != null && !"".equals(categoryIdParam)) {
+            categoryId = Integer.parseInt(categoryIdParam);
+        } else {
+            categoryId = -1; // Giá trị mặc định khi categoryId là null hoặc rỗng
+        }
+        String providerIdParam = request.getParameter("providerId");
+        int providerId;
+
+        if (providerIdParam != null && !"".equals(providerIdParam)) {
+            providerId = Integer.parseInt(providerIdParam);
+        } else {
+            providerId = -1; // Giá trị mặc định khi categoryId là null hoặc rỗng
+        }
+        String price = request.getParameter("price");
+        double minPrice = 0.0;
+        double maxPrice = 10000000000000.0;
+        String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
+
+        if (price != null && !price.equals("")) {
+            StringTokenizer tokenizer = new StringTokenizer(request.getParameter("price"), "-");
+            minPrice = Double.parseDouble(tokenizer.nextToken());
+            maxPrice = Double.parseDouble(tokenizer.nextToken());
+        }
+        ProductDAO productDAO = new ProductDAO();
+        CategoryDAO categoryDAO = new CategoryDAO();
+        Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName);
+        Vector<Category> categories = categoryDAO.getAllCategory();
+        Vector<Provider> providers = providerDAO.getAllProvider();
+        request.setAttribute("sort", sort);
+        request.setAttribute("searchName", searchName);
+        request.setAttribute("products", products);
+        request.setAttribute("categoryId", categoryId);
+        request.setAttribute("providerId", providerId);
+        request.setAttribute("price", price);
+        request.setAttribute("categories", categories);
+        request.setAttribute("providers", providers);
         request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
     }
 

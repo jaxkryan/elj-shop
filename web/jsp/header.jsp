@@ -93,8 +93,6 @@
                             <div class="navbar-nav mr-auto py-0">
                                 <a href="${pageContext.request.contextPath}/home" class="nav-item nav-link active">Home</a>
                                 <a href="${pageContext.request.contextPath}/shop" class="nav-item nav-link">Shop</a>
-                                <a href="${pageContext.request.contextPath}/shop?sale=" class="nav-item nav-link">On sale</a>
-                                <a href="${pageContext.request.contextPath}/shop?cateId=2" class="nav-item nav-link">Combo</a>
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Brands <i class="fa fa-angle-down mt-1"></i></a>
                                     <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
@@ -103,7 +101,7 @@
                                         </c:forEach>
                                     </div>
                                 </div>
-                                <a href="${pageContext.request.contextPath}/about-us" class="nav-item nav-link">About us</a>
+                                <a href="${pageContext.request.contextPath}/customer-order" class="nav-item nav-link">Order History</a>
                             </div>
                             <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                                 <a href="${pageContext.request.contextPath}/cart" class="btn px-0 ml-3">

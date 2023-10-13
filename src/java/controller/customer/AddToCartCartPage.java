@@ -27,7 +27,7 @@ import util.Helper;
  *
  * @author Admin
  */
-public class AddToCartController extends HttpServlet {
+public class AddToCartCartPage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -80,7 +80,6 @@ public class AddToCartController extends HttpServlet {
                 request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
                 return;
             }
-            String thisPage = request.getParameter("thisPage");
             ProductDAO pdao = new ProductDAO();
             Product product = pdao.getProductById(proId);
             if (product == null) {
@@ -91,6 +90,7 @@ public class AddToCartController extends HttpServlet {
                 if (session.getAttribute("userId") == null) {
                     Helper.setNotification(request, "Please login!", "RED");
                     response.sendRedirect("home");
+                    return;
                 } else {
                     int userId = (int) session.getAttribute("userId");
                     CartDAO cdao = new CartDAO();
@@ -106,14 +106,14 @@ public class AddToCartController extends HttpServlet {
                     }
                     if (quantity + quantityInCart > product.getQuantity()) {
                         Helper.setNotification(request, "Not enough " + product.getName() + " in stock!", "RED");
-                        response.sendRedirect("home");
+                        response.sendRedirect("cart");
                         return;
                     }
                     cidao.addToCart(product, cartId, quantity);
                     cartItem = cidao.getCartItemByCartId(cartId);
                     session.setAttribute("cartItem", cartItem);
                     Helper.setNotification(request, "Added " + quantity + " " + product.getName() + " to Cart", "GREEN");
-                    response.sendRedirect("home");
+                    response.sendRedirect("cart");
                 }
             }
         }
@@ -145,6 +145,7 @@ public class AddToCartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**

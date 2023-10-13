@@ -59,7 +59,7 @@ public class VoucherDAO extends DBConnect {
 
     public Voucher getVoucherByVoucherCode(String voucherCode) {
         try {
-            String sql = "SELECT * FROM [OnlineShop].[dbo].[Voucher] where code = ?";
+            String sql = "SELECT * FROM [OnlineShop].[dbo].[Voucher] where code = ? and active=1 ";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, voucherCode);
             ResultSet rs = statement.executeQuery();

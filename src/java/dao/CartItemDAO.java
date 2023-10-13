@@ -25,29 +25,31 @@ public class CartItemDAO extends jdbc.DBConnect {
         return affectedRows;
     }
 
-    public void addToCart(Product product, int cartId) {
+    public void addToCart(Product product, int cartId, int quantity) {
         if (!existed(product.getId(), cartId)) {
             String sql = "INSERT INTO [CartItem] ([productId], [cartId], [price], [quantity]) \n"
-                    + "VALUES (?, ?, ?, 1)";
+                    + "VALUES (?, ?, ?, ?)";
             try {
                 PreparedStatement pre = conn.prepareStatement(sql);
                 pre.setInt(1, product.getId());
                 pre.setInt(2, cartId);
                 pre.setFloat(3, product.getPrice() - product.getDiscount());
+                pre.setInt(4, quantity);
                 pre.executeUpdate();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         } else {
             String sql = "update [dbo].CartItem\n"
-                    + "                set quantity = (select top 1 quantity from cartItem where productId = ? and cartId = ? ) +1\n"
+                    + "                set quantity = (select top 1 quantity from cartItem where productId = ? and cartId = ? ) + ? \n"
                     + "                where productId = ? and cartId = ? ";
             try {
                 PreparedStatement pre = conn.prepareStatement(sql);
                 pre.setInt(1, product.getId());
                 pre.setInt(2, cartId);
-                pre.setInt(3, product.getId());
-                pre.setInt(4, cartId);
+                pre.setInt(3, quantity);
+                pre.setInt(4, product.getId());
+                pre.setInt(5, cartId);
                 pre.executeUpdate();
             } catch (SQLException ex) {
                 ex.printStackTrace();

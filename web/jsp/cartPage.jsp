@@ -83,7 +83,7 @@
                                         <tr>
                                             <td class="align-middle container-fluid" style="display: flex; align-items: center;">
                                                 <img src="<%= product.getImage() %>" alt="" style="width: 50px;">
-                                                <a href="${pageContext.request.contextPath}/details?proId=<%= cartItem.get(i).getProductId() %>" title="<%= product.getName() %>" class="product-name-in-cart text-truncate ml-2"> <%= product.getName() %> </a>
+                                                <a href="${pageContext.request.contextPath}/details?proId=<%= cartItem.get(i).getProductId() %>&from=cart" title="<%= product.getName() %>" class="product-name-in-cart text-truncate ml-2"> <%= product.getName() %> </a>
                                             </td>
                                             <td class="align-middle">
                                                 <fmt:formatNumber type="currency" pattern="###,###¤"><%= cartItem.get(i).getPrice() %></fmt:formatNumber>
@@ -96,7 +96,7 @@
                                                             <i class="fa fa-minus"></i>
                                                         </button>
                                                     </div>
-                                                    <input name="quantity-<%= i %>" id="quantity-<%= i %>" type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="<%= cartItem.get(i).getQuantity() %>">
+                                                    <input name="quantity-<%= i %>" id="quantity-<%= i %>" type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="<%= cartItem.get(i).getQuantity() %>" required>
                                                     <div class="input-group-btn">
                                                         <button type="button" class="btn btn-sm btn-primary btn-plus" onclick="addQuantity(<%= i %>)">
                                                             <i class="fa fa-plus"></i>
