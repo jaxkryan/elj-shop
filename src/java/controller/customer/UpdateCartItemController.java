@@ -6,6 +6,7 @@ package controller.customer;
 
 import dao.CartDAO;
 import dao.CartItemDAO;
+import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import model.CartItem;
+import model.Product;
 import util.Helper;
 
 /**
@@ -46,6 +48,8 @@ public class UpdateCartItemController extends HttpServlet {
         for (int i = 0; i < cartItem.size(); i++) {
             productId = cartItem.get(i).getProductId();
             cartIdOfItem = cartItem.get(i).getCartId();
+            ProductDAO pdao = new ProductDAO();
+            Product product = pdao.getProductById(productId);
             try {
                 quantity = Integer.parseInt(request.getParameter("quantity-" + i));
             } catch (Exception e) {
@@ -58,12 +62,18 @@ public class UpdateCartItemController extends HttpServlet {
                 response.sendRedirect("jsp/cartPage.jsp");
                 return;
             }
+            if (quantity > product.getQuantity()) {
+                Helper.setNotification(request, "Not Enough " + product.getName() + " in stock!", "RED");
+                response.sendRedirect("jsp/cartPage.jsp");
+                return;
+            }
             cidao.updateQuantity(productId, cartIdOfItem, quantity);
         }
         int userId = (int) session.getAttribute("userId");
         int cartId = cdao.getCartIdByCustomerId(userId);
         cartItem = cidao.getCartItemByCartId(cartId);
         session.setAttribute("cartItem", cartItem);
+        Helper.setNotification(request, "Save changed!", "GREEN");
         response.sendRedirect("jsp/cartPage.jsp");
     }
 

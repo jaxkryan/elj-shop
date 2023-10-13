@@ -58,16 +58,114 @@ public class AddToCartShopPageController extends HttpServlet {
                     response.sendRedirect("home");
                 } else {
                     int userId = (int) session.getAttribute("userId");
+                    int quantity = 0;
+                    try {
+                        quantity = Integer.parseInt(request.getParameter("quantityToBuy") != null ? request.getParameter("quantityToBuy") : "1");
+                    } catch (Exception e) {
+                        String from = request.getParameter("from");
+                        CategoryDAO cdao = new CategoryDAO();
+                        ProviderDAO providerDAO = new ProviderDAO();
+                        Category category = cdao.getCategoryById(product.getCategoryId());
+                        Provider provider = providerDAO.getProviderById(product.getProviderId());
+                        request.setAttribute("from", from);
+                        request.setAttribute("product", product);
+                        request.setAttribute("categoryName", category.getName());
+                        request.setAttribute("brandName", provider.getCompanyName());
+                        Helper.setNotification(request, "Please enter a valid quantity!", "RED");
+                        request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
+                        return;
+                    }
+                    if (quantity <= 0) {
+                        String from = request.getParameter("from");
+                        CategoryDAO cdao = new CategoryDAO();
+                        ProviderDAO providerDAO = new ProviderDAO();
+                        Category category = cdao.getCategoryById(product.getCategoryId());
+                        Provider provider = providerDAO.getProviderById(product.getProviderId());
+                        request.setAttribute("from", from);
+                        request.setAttribute("product", product);
+                        request.setAttribute("categoryName", category.getName());
+                        request.setAttribute("brandName", provider.getCompanyName());
+                        Helper.setNotification(request, "Please enter a valid quantity!", "RED");
+                        request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
+                        return;
+                    }
                     CartDAO cdao = new CartDAO();
                     int cartId = cdao.getCartIdByCustomerId(userId);
                     CartItemDAO cidao = new CartItemDAO();
-                    cidao.addToCart(product, cartId);
                     Vector<CartItem> cartItem = cidao.getCartItemByCartId(cartId);
+                    int quantityInCart = 0;
+                    for (int i = 0; i < cartItem.size(); i++) {
+                        CartItem item = cartItem.get(i);
+                        if (item.getProductId() == product.getId()) {
+                            quantityInCart = item.getQuantity();
+                        }
+                    }
+                    if (quantity + quantityInCart > product.getQuantity()) {
+                        Helper.setNotification(request, "Not enough " + product.getName() + " in stock!", "RED");
+                        String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
+                        String categoryIdParam = request.getParameter("categoryId");
+                        int categoryId;
+                        if (categoryIdParam != null && !"".equals(categoryIdParam)) {
+                            categoryId = Integer.parseInt(categoryIdParam);
+                        } else {
+                            categoryId = -1; // Giá trị mặc định khi categoryId là null hoặc rỗng
+                        }
+                        String providerIdParam = request.getParameter("providerId");
+                        int providerId;
+
+                        if (providerIdParam != null && !"".equals(providerIdParam)) {
+                            providerId = Integer.parseInt(providerIdParam);
+                        } else {
+                            providerId = -1; // Giá trị mặc định khi categoryId là null hoặc rỗng
+                        }
+                        String price = request.getParameter("price");
+                        double minPrice = 0.0;
+                        double maxPrice = 10000000000000.0;
+                        String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
+
+                        if (price != null && !price.equals("")) {
+                            StringTokenizer tokenizer = new StringTokenizer(request.getParameter("price"), "-");
+                            minPrice = Double.parseDouble(tokenizer.nextToken());
+                            maxPrice = Double.parseDouble(tokenizer.nextToken());
+                        }
+                        ProductDAO productDAO = new ProductDAO();
+                        CategoryDAO categoryDAO = new CategoryDAO();
+                        ProviderDAO providerDAO = new ProviderDAO();
+                        Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName);
+                        Vector<Category> categories = categoryDAO.getAllCategory();
+                        Vector<Provider> providers = providerDAO.getAllProvider();
+                        request.setAttribute("sort", sort);
+                        request.setAttribute("searchName", searchName);
+                        request.setAttribute("products", products);
+                        request.setAttribute("categoryId", categoryId);
+                        request.setAttribute("providerId", providerId);
+                        request.setAttribute("price", price);
+                        request.setAttribute("categories", categories);
+                        request.setAttribute("providers", providers);
+                        request.getRequestDispatcher("/jsp/shopPage.jsp").forward(request, response);
+                        return;
+                    }
+                    cidao.addToCart(product, cartId, quantity);
+                    cartItem = cidao.getCartItemByCartId(cartId);
                     session.setAttribute("cartItem", cartItem);
-                    Helper.setNotification(request, "Added " + product.getName() + " to Cart", "GREEN");
+                    Helper.setNotification(request, "Added " + quantity + " " + product.getName() + " to Cart", "GREEN");
                     String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
-                    int categoryId = Integer.parseInt(request.getParameter("categoryId") != null ? request.getParameter("categoryId") : "-1");
-                    int providerId = Integer.parseInt(request.getParameter("providerId") != null ? request.getParameter("providerId") : "-1");
+                    String categoryIdParam = request.getParameter("categoryId");
+                    int categoryId;
+
+                    if (categoryIdParam != null && !"".equals(categoryIdParam)) {
+                        categoryId = Integer.parseInt(categoryIdParam);
+                    } else {
+                        categoryId = -1; 
+                    }
+                    String providerIdParam = request.getParameter("providerId");
+                    int providerId;
+
+                    if (providerIdParam != null && !"".equals(providerIdParam)) {
+                        providerId = Integer.parseInt(providerIdParam);
+                    } else {
+                        providerId = -1; 
+                    }
                     String price = request.getParameter("price");
                     double minPrice = 0.0;
                     double maxPrice = 10000000000000.0;

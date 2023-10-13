@@ -102,59 +102,59 @@
 
                 <!-- Shop Product Start -->
                 <div class="col-lg-9 col-md-8">
-                     <div class="row pb-3">
-                    <c:if test="${products.size() == 0}">
-                        <div class="col-12 pb-1">
-                            <p style="
-                               text-align: center;
-                               font-weight: 500;
-                               font-size: 24px
-                               ">No matching products found</p>
-                        </div>
-                    </c:if>
-                    <c:forEach items="${products}" var="pro">
-                        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                            <div class="product-item bg-light mb-4">
-                                <div class="product-img position-relative overflow-hidden">
-                                    <img class="img-fluid w-100" style="height: 174.08px; width: 174.08px;" src="${pro.image}" alt="">
-                                    <div class="product-action">
-                                        <a title="Add to cart" class="btn btn-outline-dark btn-square" href="${pageContext.request.contextPath}/add-to-cart-shop-page?proId=${pro.id}&sort=${sort}&categoryId=${categoryId}&price=${price}&providerId=${providerId}&searchName=${searchName}"><i class="fa fa-shopping-cart"></i></a>
-                                        <a title="See details" class="btn btn-outline-dark btn-square" href="${pageContext.request.contextPath}/details?proId=${pro.id}"><i class="fa fa-search"></i></a>
+                    <div class="row pb-3">
+                        <c:if test="${products.size() == 0}">
+                            <div class="col-12 pb-1">
+                                <p style="
+                                   text-align: center;
+                                   font-weight: 500;
+                                   font-size: 24px
+                                   ">No matching products found</p>
+                            </div>
+                        </c:if>
+                        <c:forEach items="${products}" var="pro">
+                            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                                <div class="product-item bg-light mb-4">
+                                    <div class="product-img position-relative overflow-hidden">
+                                        <img class="img-fluid w-100" style="height: 174.08px; width: 174.08px;" src="${pro.image}" alt="">
+                                        <div class="product-action">
+                                            <a title="Add to cart" class="btn btn-outline-dark btn-square" href="${pageContext.request.contextPath}/add-to-cart-shop-page?proId=${pro.id}&sort=${sort}&categoryId=${categoryId}&price=${price}&providerId=${providerId}&searchName=${searchName}"><i class="fa fa-shopping-cart"></i></a>
+                                            <a title="See details" class="btn btn-outline-dark btn-square" href="${pageContext.request.contextPath}/details?proId=${pro.id}&from=shop&sort=${sort}&categoryId=${categoryId}&price=${price}&providerId=${providerId}&searchName=${searchName}"><i class="fa fa-search"></i></a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="text-center py-4">
-                                    <a title="${pro.name}" class="h6 text-decoration-none text-truncate" href="${pageContext.request.contextPath}/details?proId=${pro.id}">${pro.name}</a>
-                                    <div class="d-flex align-items-center justify-content-center mt-2">
-                                        <c:set var="currentPrice" value="${pro.price * (1-pro.discount)}"/>
-                                        <fmt:setLocale value="vi_VN"/>
-                                        <h5 class="text-primary"><fmt:formatNumber type="currency" pattern="###,###¤">${currentPrice}</fmt:formatNumber></h5>
-                                        <c:if test="${currentPrice < pro.price}">
-                                            <h6 class="text-muted ml-2">
-                                                <del><fmt:formatNumber type="currency" pattern="###,###¤">${pro.price}</fmt:formatNumber></del>
-                                                </h6>
-                                        </c:if>
+                                    <div class="text-center py-4">
+                                        <a title="${pro.name}" class="h6 text-decoration-none text-truncate" href="${pageContext.request.contextPath}/details?proId=${pro.id}">${pro.name}</a>
+                                        <div class="d-flex align-items-center justify-content-center mt-2">
+                                            <c:set var="currentPrice" value="${pro.price * (1-pro.discount)}"/>
+                                            <fmt:setLocale value="vi_VN"/>
+                                            <h5 class="text-primary"><fmt:formatNumber type="currency" pattern="###,###¤">${currentPrice}</fmt:formatNumber></h5>
+                                            <c:if test="${currentPrice < pro.price}">
+                                                <h6 class="text-muted ml-2">
+                                                    <del><fmt:formatNumber type="currency" pattern="###,###¤">${pro.price}</fmt:formatNumber></del>
+                                                    </h6>
+                                            </c:if>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </c:forEach>
+                        </c:forEach>
+                    </div>
                 </div>
+                <!-- Shop Product End -->
             </div>
-            <!-- Shop Product End -->
         </div>
-    </div>
-    <!-- Shop End -->
+        <!-- Shop End -->
 
-    <%@include file="footer.jsp" %>
+        <%@include file="footer.jsp" %>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="${pageContext.request.contextPath}/lib/easing/easing.min.js"></script>
-    <script src="${pageContext.request.contextPath}/lib/owlcarousel/owl.carousel.min.js"></script>
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="${pageContext.request.contextPath}/lib/easing/easing.min.js"></script>
+        <script src="${pageContext.request.contextPath}/lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="${pageContext.request.contextPath}/js/main.js"></script>
-</body>
+        <!-- Template Javascript -->
+        <script src="${pageContext.request.contextPath}/js/main.js"></script>
+    </body>
 
 </html>
