@@ -42,6 +42,7 @@ public class CartControl extends HttpServlet {
         if (session.getAttribute("userId") == null) {
             Helper.setNotification(request, "Please login!", "RED");
             response.sendRedirect("home");
+            return;
         } else {
             response.sendRedirect("jsp/cartPage.jsp");
         }

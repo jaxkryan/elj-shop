@@ -145,16 +145,12 @@ CREATE TABLE [Voucher] (
 )
 GO
 
-CREATE TABLE [CustomerFeedback] (
-  customerId int,
-  feedbackId int,
-)
-GO
-
 CREATE TABLE [Feedback] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  customerId int,
   productId int,
   content nvarchar(1000),
+  feedbackDate date,
   checked bit 
 )
 GO
@@ -216,10 +212,7 @@ GO
 ALTER TABLE Feedback ADD FOREIGN KEY ([productId]) REFERENCES [Product] ([id])
 GO
 
-ALTER TABLE CustomerFeedback ADD FOREIGN KEY (customerId) REFERENCES Customer ([id])
-GO
-
-ALTER TABLE CustomerFeedback ADD FOREIGN KEY (feedbackId) REFERENCES Feedback ([id])
+ALTER TABLE Feedback ADD FOREIGN KEY (customerId) REFERENCES [user] ([id])
 GO
 
 ALTER TABLE [Report] ADD FOREIGN KEY ([storageStaffId]) REFERENCES [Employee] ([id])
@@ -370,6 +363,12 @@ VALUES ('Voucher for Christmas', '2022-12-20 00:00:00', '2022-12-28 00:00:00', 3
 
 INSERT [Report] ([storageStaffId], [managerId], [title], [content])
 VALUES (10, 12, 'Report title', 'asdfawfsf')
+
+Insert [Feedback] (customerId, productId, content, feedbackDate, [checked])values (2 , 10,'Nice product','2023-01-09 00:00:00', 0)
+Insert [Feedback] (customerId, productId, content, feedbackDate, [checked])values (2 , 10,'Nice shoes','2023-01-03 00:00:00', 0)
+
+Insert [Feedback] (customerId, productId, content, feedbackDate, [checked])values (4 , 10,'Nice ones','2023-04-03 00:00:00', 0)
+
 
 USE master;
 GO
