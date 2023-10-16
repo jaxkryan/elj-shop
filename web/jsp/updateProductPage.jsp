@@ -45,7 +45,7 @@
                         <form action="home" method="post">
                             <div class="modal-header">						
                                 <h4 class="modal-title">Add Product</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <a type="button" class="close" href="home?"  data-dismiss="modal" aria-hidden="true">&times;</a>
                             </div>
                             <div class="modal-body">					
                                 <div class="form-group">

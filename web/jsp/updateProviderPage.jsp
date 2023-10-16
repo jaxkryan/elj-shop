@@ -46,7 +46,8 @@
                         <form action="provider" method="post">
                             <div class="modal-header">						
                                 <h4 class="modal-title">Add Product</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <a type="button" class="close" href="provider?"  data-dismiss="modal" aria-hidden="true">&times;</a>
+
                             </div>
                             <div class="modal-body">					
                                 <div class="form-group">
@@ -61,7 +62,7 @@
                                     <label>Image</label>
                                     <textarea name="image" type="text" class="form-control" required>${updateProvider.image}</textarea>
                                 </div>
-                                                         
+
                                 <input type="hidden" name="go" value="UpdateProvider">
                             </div>
                             <div class="modal-footer">

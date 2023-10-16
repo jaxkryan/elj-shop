@@ -111,6 +111,13 @@ public class ManageProviderController extends HttpServlet {
         ProviderDAO providerDAO = new ProviderDAO();
         Vector<Category> categories = cdao.getAllCategory();
         request.setAttribute("categories", categories);
+        String search = request.getParameter("search") == null ? "" : request.getParameter("search");
+        if (search.equals("All")){
+            String keyword = request.getParameter("keyword");
+            Vector<Provider> searchProviders = providerDAO.getProviderByName(keyword);
+            request.setAttribute("providers", searchProviders);
+            request.getRequestDispatcher("/jsp/manageProviderPage.jsp").forward(request, response);
+        }
         if (service.equals("AddProvider")) {
             String pCompanyName = request.getParameter("companyName");
             String pImage = request.getParameter("image");
