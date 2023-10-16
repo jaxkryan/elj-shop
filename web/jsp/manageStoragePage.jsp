@@ -45,7 +45,7 @@
                         <form action="storage-manage-product?search=All" method="post">
                             <div class="text-right" style="margin-top: 0.5%">
                                 <input style="color: black" name = "keyword" type="text" class="search-bar" placeholder="Search product...">
-                                <input style="color: #000000" type="submit" name = "search" value="Search">
+                                <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
                             </div>
                         </form>
                     </div>
@@ -144,3 +144,4 @@
         <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
     </body>
 </html>
+
