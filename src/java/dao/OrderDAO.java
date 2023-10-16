@@ -22,12 +22,14 @@ public class OrderDAO extends jdbc.DBConnect {
                 + "      ,[shipCity]\n"
                 + "      ,[shipProvince]\n"
                 + "      ,[shipCountry]\n"
-                + "      ,[shipEmail]\n"
-                + "      ,[shipPhone]"
+                + "      ,[shipEmail]"
+                + "      ,[shipPhone]\n"
                 + "      ,[status]\n"
                 + "      ,[createdTime]\n"
                 + "      ,[totalPrice]\n"
-                + "  FROM [dbo].[Order]";
+                + "      ,[active]\n"
+                + "  FROM [dbo].[Order]"
+                + " where active = 1";
         try {
             ResultSet rs = getData(sql);
             while (rs.next()) {
@@ -43,8 +45,10 @@ public class OrderDAO extends jdbc.DBConnect {
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
                 float totalPrice = rs.getFloat(12);
-                orders.add(new Order(id, customerId, receiver, shipStreet, shipCity,
-                        shipProvince, shipCountry, shipEmail, shipPhone, status, createdTime, totalPrice));
+                Boolean active = rs.getBoolean(13);
+                orders.add(new Order(id, customerId, receiver, shipStreet,
+                        shipCity, shipProvince, shipCountry, shipEmail,
+                        shipPhone, status, createdTime, totalPrice, active));
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,6 +69,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 + "      ,[status]\n"
                 + "      ,[createdTime]\n"
                 + "      ,[totalPrice]\n"
+                + "      ,[active]\n"
                 + "  FROM [dbo].[Order]"
                 + " where id = ?";
         try {
@@ -83,7 +88,10 @@ public class OrderDAO extends jdbc.DBConnect {
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
                 float totalPrice = rs.getFloat(12);
-                return new Order(id, customerId, receiver, shipStreet, shipCity, shipProvince, shipCountry, shipEmail, shipPhone, status, createdTime, totalPrice);
+                Boolean active = rs.getBoolean(13);
+                return new Order(id, customerId, receiver, shipStreet,
+                        shipCity, shipProvince, shipCountry, shipEmail,
+                        shipPhone, status, createdTime, totalPrice, true);
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -105,8 +113,9 @@ public class OrderDAO extends jdbc.DBConnect {
                 + "      ,[status]\n"
                 + "      ,[createdTime]\n"
                 + "      ,[totalPrice]\n"
+                + "      ,[active]\n"
                 + "  FROM [dbo].[Order]"
-                + " where receiver like ?";
+                + " where receiver like ? and active = 1";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, "%" + name + "%");
@@ -124,12 +133,67 @@ public class OrderDAO extends jdbc.DBConnect {
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
                 float totalPrice = rs.getFloat(12);
-                orders.add(new Order(id, customerId, receiver, shipStreet, shipCity, shipProvince, shipCountry, shipEmail, shipPhone, status, createdTime, totalPrice));
+                Boolean active = rs.getBoolean(13);
+                orders.add(new Order(id, customerId, receiver, shipStreet,
+                        shipCity, shipProvince, shipCountry, shipEmail,
+                        shipPhone, status, createdTime, totalPrice, active));
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return orders;
+    }
+
+    public int updateOrderInfo(Order order) {
+        int rowsAffected = 0;
+        String sql = "UPDATE [dbo].[Order]\n"
+                + "   SET [customerId] = ?\n"
+                + "    ,[receiver] = ?\n"
+                + "    ,[shipStreet] = ?\n"
+                + "    ,[shipCity] = ?\n"
+                + "    ,[shipProvince] = ?\n"
+                + "    ,[shipCountry] = ?\n"
+                + "    ,[shipEmail] = ?\n"
+                + "    ,[shipPhone] = ?\n"
+                + "    ,[status] = ?\n"
+                + "    ,[createdTime] = ?\n"
+                + "    ,[totalPrice] = ?\n"
+                + " WHERE id = ?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, order.getCustomerId());
+            pre.setString(2, order.getReceiver());
+            pre.setString(3, order.getShipStreet());
+            pre.setString(4, order.getShipCity());
+            pre.setString(5, order.getShipProvince());
+            pre.setString(6, order.getShipCountry());
+            pre.setString(7, order.getShipEmail());
+            pre.setString(8, order.getShipPhone());
+            pre.setString(9, order.getStatus());
+            pre.setString(10, order.getCreatedTime());
+            pre.setFloat(11, order.getTotalPrice());
+            pre.setInt(12, order.getId());
+            rowsAffected = pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return rowsAffected;
+    }
+
+    public int deleteOrder(int orderId) {
+        int rowsAffected = 0;
+        String sql = "UPDATE [dbo].[Order]\n"
+                + "   SET [active] = 0\n"
+                + " WHERE id = ?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, orderId);
+            pre.executeUpdate();
+            rowsAffected = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rowsAffected;
     }
 
     public int storeByCustomerId(int customerId) {
@@ -265,6 +329,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 + "      ,[status]\n"
                 + "      ,[createdTime]\n"
                 + "      ,[totalPrice]\n"
+                + "      ,[active]\n"
                 + "  FROM [dbo].[Order] where customerId = ? ";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -283,8 +348,10 @@ public class OrderDAO extends jdbc.DBConnect {
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
                 float totalPrice = rs.getFloat(12);
-                orders.add(new Order(id, customerId, receiver, shipStreet, shipCity,
-                        shipProvince, shipCountry, shipEmail, shipPhone, status, createdTime, totalPrice));
+                Boolean active = rs.getBoolean(13);
+                orders.add(new Order(id, customerId, receiver, shipStreet, 
+                        shipCity, shipProvince, shipCountry, shipEmail, shipPhone,
+                        status, createdTime, totalPrice, true));
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -292,3 +359,4 @@ public class OrderDAO extends jdbc.DBConnect {
         return orders;
     }
 }
+

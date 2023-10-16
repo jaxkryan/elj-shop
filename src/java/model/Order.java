@@ -9,9 +9,10 @@ package model;
  * @author LENOVO
  */
 public class Order {
+
     private int id;
     private int customerId;
-    private String receiver ;
+    private String receiver;
     private String shipStreet;
     private String shipCity;
     private String shipProvince;
@@ -21,11 +22,12 @@ public class Order {
     private String status;
     private String createdTime;
     private float totalPrice;
+    private boolean active;
 
     public Order() {
     }
-    
-     public Order(int customerId, String receiver, String shipStreet, String shipCity, String shipProvince, String shipCountry, String shipEmail, String shipPhone, String status, String createdTime, float totalPrice) {
+
+    public Order(int customerId, String receiver, String shipStreet, String shipCity, String shipProvince, String shipCountry, String shipEmail, String shipPhone, String status, String createdTime, float totalPrice, boolean active) {
         this.customerId = customerId;
         this.receiver = receiver;
         this.shipStreet = shipStreet;
@@ -37,8 +39,11 @@ public class Order {
         this.status = status;
         this.createdTime = createdTime;
         this.totalPrice = totalPrice;
+        this.active = active;
+
     }
-    public Order(int id, int customerId, String receiver, String shipStreet, String shipCity, String shipProvince, String shipCountry, String shipEmail, String shipPhone, String status, String createdTime, float totalPrice) {
+
+    public Order(int id, int customerId, String receiver, String shipStreet, String shipCity, String shipProvince, String shipCountry, String shipEmail, String shipPhone, String status, String createdTime, float totalPrice, boolean active) {
         this.id = id;
         this.customerId = customerId;
         this.receiver = receiver;
@@ -51,8 +56,8 @@ public class Order {
         this.status = status;
         this.createdTime = createdTime;
         this.totalPrice = totalPrice;
+        this.active = active;
     }
- 
 
     public int getId() {
         return id;
@@ -150,23 +155,33 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" + "id=" + id 
-                + ", customerId=" + customerId 
-                + ", receiver=" + receiver 
-                + ", shipStreet=" + shipStreet 
-                + ", shipCity=" + shipCity 
-                + ", shipProvince=" + shipProvince 
-                + ", shipCountry=" + shipCountry 
-                + ", shipEmail=" + shipEmail 
-                + ", shipPhone=" + shipPhone 
-                + ", status=" + status 
-                + ", createdTime=" + createdTime 
-                + ", totalPrice=" + totalPrice 
-                + '}';
+    public boolean isActive() {
+        return active;
     }
 
- 
-      
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" + "id=" + id + 
+                ", customerId=" + customerId + 
+                ", receiver=" + receiver + 
+                ", shipStreet=" + shipStreet + 
+                ", shipCity=" + shipCity + 
+                ", shipProvince=" + shipProvince + 
+                ", shipCountry=" + shipCountry + 
+                ", shipEmail=" + shipEmail + 
+                ", shipPhone=" + shipPhone + 
+                ", status=" + status + 
+                ", createdTime=" + createdTime + 
+                ", totalPrice=" + totalPrice + 
+                ", active=" + active + 
+                '}';
+    }
+
+  
+
+
 }

@@ -29,12 +29,12 @@ public class MaketingStaffHomeController extends HttpServlet {
         if (service == null || service.equals("")) {
             service = "displayAll";
         }
-        if (service.equals("displayAll")) {
-            VoucherDAO voucherDAO = new VoucherDAO();
-            Vector<Voucher> voucher = voucherDAO.getAll();
-            request.setAttribute("voucher", voucher);
-            request.getRequestDispatcher("/jsp/manageVoucherPage.jsp").forward(request, response);
-        }
+//        if (service.equals("displayAll")) {
+//            VoucherDAO voucherDAO = new VoucherDAO();
+//            Vector<Voucher> voucher = voucherDAO.getAll();
+//            request.setAttribute("voucher", voucher);
+//            request.getRequestDispatcher("/jsp/manageVoucherPage.jsp").forward(request, response);
+//        }
     } 
 
 
@@ -49,12 +49,12 @@ public class MaketingStaffHomeController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         VoucherDAO voucherDAO = new VoucherDAO();
-        if(request.getParameter("search") != null){
-            String code = request.getParameter("code");
-            Vector<Voucher> voucher = voucherDAO.findByCode(code);
-            request.setAttribute("voucher", voucher);
-            request.getRequestDispatcher("/jsp/manageVoucherPage.jsp").forward(request, response);
-        }
+//        if(request.getParameter("search") != null){
+//            String code = request.getParameter("code");
+//            Vector<Voucher> voucher = voucherDAO.findByCode(code);
+//            request.setAttribute("voucher", voucher);
+//            request.getRequestDispatcher("/jsp/manageVoucherPage.jsp").forward(request, response);
+//        }
     }
 
     /** 
