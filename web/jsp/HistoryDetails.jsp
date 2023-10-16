@@ -32,39 +32,80 @@
                 <c:otherwise>
                     <% ProductDAO pdao = new ProductDAO(); %>
                     <% Vector<OrderDetail> details = (Vector<OrderDetail>) request.getAttribute("details"); %>
-                    <div class="row px-xl-5">    
-                        <div class="col-lg-12 table-responsive mb-5">
-                            <table class="table table-light table-borderless table-hover mb-0">
-                                <thead class="thead-dark text-center">
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Unit Price</th>
-                                        <th>Quantity</th>
-                                        <th>Subtotal Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="align-middle">
-                                    <% for(int i = 0; i < details.size(); i++) {%>
-                                    <% Product product = pdao.getProductById(details.get(i).getProductID()); %>
-                                    <tr>
-                                        <td class="text-left">
-                                            <a ><%= product.getName() %></a>
-                                        </td>
-                                        <td class="text-center">
-                                            <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice() %></fmt:formatNumber>
+                    <c:if test="${status != 'Processed'}">
+                        <div class="row px-xl-5">    
+                            <div class="col-lg-12 table-responsive mb-5">
+                                <table class="table table-light table-borderless table-hover mb-0">
+                                    <thead class="thead-dark text-center">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Unit Price</th>
+                                            <th>Quantity</th>
+                                            <th>Subtotal Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="align-middle">
+                                        <% for(int i = 0; i < details.size(); i++) {%>
+                                        <% Product product = pdao.getProductById(details.get(i).getProductID()); %>
+                                        <tr>
+                                            <td class="text-left">
+                                                <a ><%= product.getName() %></a>
                                             </td>
                                             <td class="text-center">
-                                                <a ><%= details.get(i).getQuantity() %></a>
-                                        </td>
-                                        <td class="text-center">
-                                            <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice()*details.get(i).getQuantity() %></fmt:formatNumber>
+                                                <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice() %></fmt:formatNumber>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a ><%= details.get(i).getQuantity() %></a>
+                                            </td>
+                                            <td class="text-center">
+                                                <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice()*details.get(i).getQuantity() %></fmt:formatNumber>
+                                                </td>
+                                            </tr>
+                                        <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </c:if>
+                    <c:if test="${status == 'Processed'}">
+                        <div class="row px-xl-5">    
+                            <div class="col-lg-12 table-responsive mb-5">
+                                <table class="table table-light table-borderless table-hover mb-0">
+                                    <thead class="thead-dark text-center">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Unit Price</th>
+                                            <th>Quantity</th>
+                                            <th>Subtotal Price</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="align-middle">
+                                        <% for(int i = 0; i < details.size(); i++) {%>
+                                        <% Product product = pdao.getProductById(details.get(i).getProductID()); %>
+                                        <tr>
+                                            <td class="text-left">
+                                                <a ><%= product.getName() %></a>
+                                            </td>
+                                            <td class="text-center">
+                                                <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice() %></fmt:formatNumber>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a ><%= details.get(i).getQuantity() %></a>
+                                            </td>
+                                            <td class="text-center">
+                                                <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice()*details.get(i).getQuantity() %></fmt:formatNumber>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="${pageContext.request.contextPath}/customer-delete-history-detail?status=${status}&orderId=<%= details.get(i).getOrderID() %>&proId=<%= details.get(i).getProductID()%>" title="Delete Order Detail"><i style="color: red; font-size: 22px;" class="fa fa-times"></i></a>
                                             </td>
                                         </tr>
-                                    <%}%>
-                                </tbody>
-                            </table>
+                                        <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
+                    </c:if>
                 </c:otherwise>
             </c:choose>
         </div>

@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Feedback;
 import model.Provider;
+import org.eclipse.jdt.internal.compiler.ast.FalseLiteral;
 
 /**
  *
@@ -52,5 +53,23 @@ public class FeedbackDAO extends jdbc.DBConnect {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public boolean isBought(int userId, int proId) {
+        String sql = "select customerId,productId from [order] join"
+                + " [orderdetails] on [order].[id]=orderdetails.[orderid]"
+                + " where status='Received' and customerid=? and productId=?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, userId);
+            pre.setInt(2, proId);
+            ResultSet rs = pre.executeQuery();
+            while (rs.isBeforeFirst()) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 }
