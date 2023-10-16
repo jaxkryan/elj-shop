@@ -29,7 +29,6 @@
             }
         </style>
     <body>
-
         <div class="container">
             <div class="row p-3 text-right">
                 <a href="profile" class="btn btn-primary">Profile</a>
@@ -54,21 +53,51 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-3">
-                            <a href="home"><h2>Manage <b>Product</b></h2></a>
+                        <div class="col-sm-2">
+                            <a href="home"><h2> <b>Manage Product</b></h2></a>
                         </div>
-                        <div class="col-sm-3">
-                            <a href="provider"><h2>Manage <b>provider</b></h2></a>
+                        <div class="col-sm-2">
+                            <a href="provider"><h2> <b>Manage provider</b></h2></a>
                         </div>
                         <!--Report-->
-                        <a href="${pageContext.request.contextPath}/write-report?action=reply">Report</a>
+                        <div class="col-sm-2">
+                            <a href="${pageContext.request.contextPath}/write-report?action=reply"><h2><b>Report</b></h2></a>
+                        </div>
+
                         <div class="col-sm-6">
                             <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
                             <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                         </div>
                     </div>
-                </div>
+                </div> 
+                <!--Search bar-->
+                <div class="row text-right"> 
 
+                    <form action="home?search=All" method="post">
+                        <div class="text-right" style="margin-top: 0.5%">
+                            <input style="color: black" name = "keyword" type="text" class="search-bar" placeholder="Search product...">
+                            <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
+
+                        </div>
+                    </form>
+                </div>
+                <!--Filter bar-->
+                <div class="row text-left"> 
+                    <form action="home?search=Filter" method="post">
+                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" class="custom-control-input" name="sort" id="default" value="" onclick="this.form.submit()" <c:if test="${(param.sort == null || param.sort == '')}">checked</c:if>>
+                                <label class="custom-control-label" for="default">Default</label>
+                            </div>
+                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                                <input type="radio" class="custom-control-input" name="sort" id="sort-ascending" value="ascending" onclick="this.form.submit()" <c:if test="${param.sort == 'ascending'}">checked</c:if>>
+                                <label class="custom-control-label" for="sort-ascending">Ascending</label>
+                            </div>
+                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                                <input type="radio" class="custom-control-input" name="sort" id="sort-descending" value="descending" onclick="this.form.submit()" <c:if test="${param.sort == 'descending'}">checked</c:if>>
+                                <label class="custom-control-label" for="sort-descending">Descending</label>
+                            </div>
+                        </form>
+                    </div>
                 <c:choose>
                     <c:when test="${param.go == null || param.go == 'displayAll'}">
                         <table class="table table-striped table-hover">
@@ -112,7 +141,7 @@
                                         </c:if>   
                                         <td>${product.description}</td>
                                         <td>${product.price}$</td>
-                                        <td>${product.discount}%</td>
+                                        <td>${product.discount}$</td>
                                         <td>${product.quantity}</td>
                                         <td>
                                             <img src="${product.image}">
@@ -141,11 +170,12 @@
                         <div class="modal-body">					
                             <div class="form-group">
                                 <label>Name</label>
-                                <input name="name" type="text" class="form-control" required>
+                                <input name="name" type="text" class="form-control" maxlength="64" pattern="[A-Za-z0-9 ]{1,64}" title="Name can only contain letters, numbers, and spaces, with a maximum length of 64 characters" required>
                             </div>
+
                             <div class="form-group">
                                 <label>Price</label>
-                                <input name="price" type="text" class="form-control" required>
+                                <input name="price" type="text" class="form-control" maxlength="64" pattern="^\d{1,10}(\.\d{1,2})?$" title="Price can only contain numbers with a maximum of 10 digits and up to 2 decimal places" required>
                             </div>
                             <div class="form-group">
                                 <label>Provider</label>
@@ -165,16 +195,18 @@
                             </div>
                             <div class="form-group">
                                 <label>Quantity</label>
-                                <input name="quantity" class="form-control" required>
+                                <input name="quantity" type="text" class="form-control" maxlength="64" pattern="^[1-9]\d*$" title="Positive integer greater than 0, with a maximum length of 64 characters" required>
                             </div>
+
                             <div class="form-group">
                                 <label>Image</label>
-                                <input name="image" type="text" class="form-control" required>
+                                <input name="image" type="text" class="form-control" pattern="^(http(s?):\/\/|www.)+[a-zA-Z0-9-]+\.[a-zA-Z0-9]+\/?[a-zA-Z0-9-]*\.(png|jpg|jpeg|gif|bmp|svg)$" title="Please enter a valid image link" required>
                             </div>
+
                             <div class="form-group">
                                 <label>Discount</label>
-                                <input name="discount" class="form-control" required>
-                            </div><!-- comment -->
+                                <input name="discount" type="text" class="form-control" pattern="^\d{1,10}(\.\d{1,2})?$" title="Discount can only contain numbers with a maximum of 10 digits and up to 2 decimal places. Must be greater than or equal to 0 and less than Price" required>
+                            </div>
                             <div class="form-group">
                                 <label>Description</label>
                                 <textarea name="description" class="form-control" required></textarea>
@@ -272,5 +304,31 @@
         </div>
     </a>
     <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
+    <script>
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        var priceInput = document.getElementsByName("price")[0];
+                                        var discountInput = document.getElementsByName("discount")[0];
+
+                                        // Add input event listener to validate Discount
+                                        discountInput.addEventListener("input", function () {
+                                            var priceValue = parseFloat(priceInput.value);
+                                            var discountValue = parseFloat(discountInput.value);
+
+                                            if (isNaN(priceValue) || isNaN(discountValue)) {
+                                                // Invalid numeric input, reset Discount value
+                                                discountInput.setCustomValidity("");
+                                            } else {
+                                                // Check Discount validity based on the conditions
+                                                if (discountValue >= 0 && discountValue <= priceValue) {
+                                                    // Valid Discount
+                                                    discountInput.setCustomValidity("");
+                                                } else {
+                                                    // Invalid Discount
+                                                    discountInput.setCustomValidity("Discount must be greater than or equal to 0 and less than or equal to Price");
+                                                }
+                                            }
+                                        });
+                                    });
+    </script>
 </body>
 </html>

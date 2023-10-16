@@ -32,6 +32,7 @@ public class ManagerHomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String service = request.getParameter("go");
+        
         CategoryDAO cdao = new CategoryDAO();
         Vector<Category> categories = cdao.getAllCategory();
         request.setAttribute("categories", categories);
@@ -39,6 +40,7 @@ public class ManagerHomeController extends HttpServlet {
         if (service == null || service.equals("")) {
             service = "displayAll";
         }
+        
         if (service.equals("displayAll")) {
             ProductDAO pdao = new ProductDAO();
             Vector<Product> products = pdao.getAllProduct();
@@ -87,7 +89,24 @@ public class ManagerHomeController extends HttpServlet {
         CategoryDAO cdao = new CategoryDAO();
         Vector<Category> categories = cdao.getAllCategory();
         request.setAttribute("categories", categories);
-        ProductDAO proDAO = new ProductDAO();
+        String search = request.getParameter("search") == null ? "" : request.getParameter("search");
+        ProductDAO productDAO = new ProductDAO();
+        if (search.equals("All")){
+            String keyword = request.getParameter("keyword");
+            Vector<Product> searchProducts = productDAO.getProductByName(keyword);
+            request.setAttribute("products", searchProducts);
+            ProviderDAO providerDAO = new ProviderDAO();
+            Vector<Provider> providers = providerDAO.getAllProvider();
+            request.setAttribute("providers", providers);
+            request.getRequestDispatcher("/jsp/manageProductPage.jsp").forward(request, response);
+            return;
+        }
+//        if (search.equals("Filter")){
+//            String keyword = request.getParameter("sort");
+//            if (keyword.equals("Ascending"))
+//            if (keyword.equals("Descending"))
+//            if (keyword.equals(""))
+//        }
         if (service.equals("AddProduct")) {
             String pName = request.getParameter("name");
             String pImage = request.getParameter("image");
@@ -97,7 +116,7 @@ public class ManagerHomeController extends HttpServlet {
             int pProvider = Integer.parseInt(request.getParameter("provider"));
             int pQuantity = Integer.parseInt(request.getParameter("quantity"));
             float pDiscount = Float.parseFloat(request.getParameter("discount"));        
-            int checkInsert = proDAO.insertProduct(pCategory, pProvider, pName, pDescription, pPrice, pDiscount, pQuantity, pImage);
+            int checkInsert = productDAO.insertProduct(pCategory, pProvider, pName, pDescription, pPrice, pDiscount, pQuantity, pImage);
             if (checkInsert != 0) {
                 //Insert success notification
                 Helper.setNotification(request, "Product " + pName + " added successfully!", "GREEN");
@@ -117,7 +136,7 @@ public class ManagerHomeController extends HttpServlet {
             int pQuantity = Integer.parseInt(request.getParameter("quantity"));
             float pDiscount = Float.parseFloat(request.getParameter("discount"));
             Product UpdateProduct = new Product(pId, pCategory, pProvider, pName, pDescription, pPrice, pDiscount, pQuantity, pImage, true);
-            int checkUpdate = proDAO.updateProduct(UpdateProduct);
+            int checkUpdate = productDAO.updateProduct(UpdateProduct);
             if (checkUpdate != 0) {
                 //Insert success notification
                 Helper.setNotification(request, "Update product " + pName + " successfully!", "GREEN");
