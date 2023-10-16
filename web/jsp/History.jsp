@@ -39,8 +39,9 @@
                                         <th>Phone</th>
                                         <th>Address</th>
                                         <th>Total Price</th>
+                                        <th>Create Date</th>
                                         <th>Status</th>
-                                        <th>Detail</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="align-middle">
@@ -58,11 +59,15 @@
                                             <td class="text-center">
                                                 <fmt:formatNumber type="currency" pattern="###,###¤">${order.totalPrice}</fmt:formatNumber>
                                                 </td>
-                                                <td class="text-center">
-                                                    <a >${order.status}</a>
+                                                <td class="text-center"><a >${order.createdTime}</a></td>
+                                            <td class="text-center">
+                                                <a >${order.status}</a>
                                             </td>
                                             <td class="text-center">
-                                                <a href="${pageContext.request.contextPath}/customer-view-history-details?orderId=${order.id}" class="btn btn-sm btn-success"><i class="fa fa-eye"></i></a>
+                                                <a href="${pageContext.request.contextPath}/customer-view-history-details?orderId=${order.id}&status=${order.status}" title="View Order Detail" ><i style="color: green; font-size: 22px" class="fa fa-eye"></i></a>
+                                                    <c:if test="${order.status == 'Processed'}">
+                                                    <a href="${pageContext.request.contextPath}/customer-delete-history?orderId=${order.id}" title="Delete Order"><i style="color: red; font-size: 22px; margin-left: 10px" class="fa fa-times"></i></a>
+                                                    </c:if>
                                             </td>
                                         </tr>
                                     </c:forEach>

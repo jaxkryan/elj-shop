@@ -4,24 +4,21 @@
  */
 package controller.customer;
 
-import dao.OrderDAO;
-import dao.ProductDAO;
+import dao.OrderDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.Vector;
-import model.Order;
-import util.Helper;
+import model.OrderDetail;
 
 /**
  *
  * @author Admin
  */
-public class CustomerViewHistoryController extends HttpServlet {
+public class DeleteHistoryDetailController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,19 +31,15 @@ public class CustomerViewHistoryController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductDAO pdao = new ProductDAO();
-        HttpSession session = request.getSession();
-        if (session.getAttribute("userId") == null) {
-            Helper.setNotification(request, "Please login!", "RED");
-            response.sendRedirect("home");
-            return;
-        } else {
-            int userId = (int) session.getAttribute("userId");
-            OrderDAO odao = new OrderDAO();
-            Vector<Order> orders = odao.getAllOrderById(userId);
-            request.setAttribute("orders", orders);
-            request.getRequestDispatcher("/jsp/History.jsp").forward(request, response);
-        }
+        int proId = Integer.parseInt(request.getParameter("proId"));
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
+        String status = request.getParameter("status");
+        OrderDetailDAO oddao = new OrderDetailDAO();
+        oddao.deleteOrderDetail(proId, orderId);
+        Vector<OrderDetail> details = oddao.getOrderDetailsById(orderId);
+        request.setAttribute("details", details);
+        request.setAttribute("status", status);
+        request.getRequestDispatcher("/jsp/HistoryDetails.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
