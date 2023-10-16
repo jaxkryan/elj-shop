@@ -37,6 +37,23 @@
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
 
+            <!-- Notification Start -->
+            <c:if test="${notification != null}">
+                <div class="container-fluid mb-3">
+                    <div class="row px-xl-5">
+                        <div class="col-lg-12">
+                            <div class="alert <c:choose><c:when test="${notiType == 'RED'}">alert-danger</c:when><c:otherwise>alert-success</c:otherwise></c:choose>">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <strong><%= session.getAttribute("notification")%></strong>
+                                <%session.removeAttribute("notification");%>
+                                <%session.removeAttribute("notiType");%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+            <!-- Notification End -->
+
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
@@ -100,8 +117,8 @@
                                         <td class="align-middle">${order.createdTime}</td>
                                         <td class="align-middle">${order.totalPrice}</td>
                                         <td>
-                                            <a href="#editEmployeeModal"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                            <a href="home?go=getEditOrder&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                            <a href="home?go=delete&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                         </td>
                                         <td></td>
                                     </tr>
