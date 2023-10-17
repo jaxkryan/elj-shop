@@ -9,7 +9,7 @@ package constant;
  * @author Admin
  */
 public interface IConstant {
-
+    String REGEX_PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
     String REGEX_FIRSTNAME = "^[a-zA-Z-. ]+$";
     String REGEX_LASTNAME = "^[a-zA-Z-. ]+$";
     String REGEX_STREET = "^[a-zA-Z0-9-. ]+$";

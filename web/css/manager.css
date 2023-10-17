@@ -67,7 +67,7 @@ table.table th i {
     font-size: 13px;
     margin: 0 5px;
     cursor: pointer;
-}	
+}   
 table.table td:last-child i {
     opacity: 0.9;
     font-size: 22px;
@@ -115,7 +115,7 @@ table.table .avatar {
 }
 .pagination li a:hover {
     color: #666;
-}	
+}   
 .pagination li.active a, .pagination li.active a.page-link {
     background: #03A9F4;
 }
@@ -213,7 +213,7 @@ table.table .avatar {
 .modal .btn {
     border-radius: 2px;
     min-width: 100px;
-}	
+}   
 .modal form label {
     font-weight: normal;
 }
@@ -222,6 +222,10 @@ table.table .avatar {
 
 .p-3 {
   padding: 1rem !important;
+}
+
+.ml-3 {
+    margin-left: 1rem !important;
 }
 
 .text-left {

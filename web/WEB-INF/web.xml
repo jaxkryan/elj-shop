@@ -161,6 +161,10 @@
         <servlet-class>controller.customer.DeleteHistoryController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>RegisterController</servlet-name>
+        <servlet-class>controller.RegisterController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ManageOrderController</servlet-name>
         <servlet-class>controller.manager.ManageOrderController</servlet-class>
     </servlet>
@@ -311,6 +315,10 @@
     <servlet-mapping>
         <servlet-name>DeleteHistoryController</servlet-name>
         <url-pattern>/customer-delete-history</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterController</servlet-name>
+        <url-pattern>/register</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManageOrderController</servlet-name>

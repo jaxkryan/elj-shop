@@ -31,7 +31,7 @@
     <div class="wrapper">
         <form action="${pageContext.request.contextPath}/login" class="login" method="POST">
             <p class="title">Log in</p>
-            
+
             <c:if test="${notification != null}">
                 <div class="alert <c:choose><c:when test="${notiType == 'RED'}">alert-danger</c:when><c:otherwise>alert-success</c:otherwise></c:choose>">
                     <strong>${notification}</strong>
@@ -43,11 +43,10 @@
             <i class="fa fa-user"></i>
             <input name="password" type="password" placeholder="Password" />
             <i class="fa fa-key"></i>
-            <a href="${pageContext.request.contextPath}/signup">Sign Up</a>
-            <button onclick="this.form.submit()">
-                <i class="spinner"></i>
-                <span class="state">Log in</span>
-            </button>
+            <a href="${pageContext.request.contextPath}/register">Register</a>
+            <div class="row text-center">
+                <input name="loginSubmit" class="registerSubmit" type="submit" value="Login">
+            </div>
         </form>
     </p>
 </div>
