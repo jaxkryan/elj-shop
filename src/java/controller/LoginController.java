@@ -51,9 +51,11 @@ public class LoginController extends HttpServlet {
         if (username == null || username.equals("")) {
             Helper.setNotification(request, "Email cannot be blank!", "RED");
             request.getRequestDispatcher("/jsp/loginPage.jsp").forward(request, response);
+            return;
         } else if (password == null || password.equals("")) {
             Helper.setNotification(request, "Password cannot be blank!", "RED");
             request.getRequestDispatcher("/jsp/loginPage.jsp").forward(request, response);
+            return;
         }
         UserDAO udao = new UserDAO();
         User user = udao.getByEmail(username);
