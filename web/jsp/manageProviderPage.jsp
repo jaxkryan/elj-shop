@@ -112,11 +112,44 @@
                                         <img src="${provider.image}">
                                     </td>
                                     <td>
-                                        <a href="provider?go=getEditProvider&pid=${provider.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <a href="#editEmployeeModal${provider.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                         <a href="provider?go=delete&pid=${provider.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                     </td>
-                                </tr>
-                            </c:forEach>
+                                    <!-- Edit Modal HTML -->
+                            <div id="editEmployeeModal${provider.id}" class="modal fade">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="provider" method="post">
+                                            <div class="modal-header">						
+                                                <h4 class="modal-title">Add Product</h4>
+                                                <a type="button" class="close" href="provider?"  data-dismiss="modal" aria-hidden="true">&times;</a>
+
+                                            </div>
+                                            <div class="modal-body">					
+                                                <div class="form-group">
+                                                    <label>ID</label>
+                                                    <input value="${provider.id}" name="id" type="text" class="form-control" readonly required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Name</label>
+                                                    <input value="${provider.companyName}" name="companyName" type="text" class="form-control" maxlength="64" pattern="^[A-Za-z0-9\s]+$" title="Company name can only contain letters and numbers, with a maximum length of 64 characters" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Image</label>
+                                                    <textarea name="image" type="text" class="form-control" pattern="^(http(s?):\/\/|www.)+[a-zA-Z0-9-]+\.[a-zA-Z0-9]+\/?[a-zA-Z0-9-]*\.(png|jpg|jpeg|gif|bmp|svg)$" title="Please enter a valid image link" required>${provider.image}</textarea>
+                                                </div>
+
+                                                <input type="hidden" name="go" value="UpdateProvider">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="submit" class="btn btn-success" value="Edit">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </c:when>
@@ -152,41 +185,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Edit Modal HTML -->
-            <div id="editEmployeeModal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form>
-                            <div class="modal-header">						
-                                <h4 class="modal-title">Edit Employee</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            </div>
-                            <div class="modal-body">					
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Address</label>
-                                    <textarea class="form-control" required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Phone</label>
-                                    <input type="text" class="form-control" required>
-                                </div>					
-                            </div>
-                            <div class="modal-footer">
-                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                <input type="submit" class="btn btn-info" value="Save">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+
             <!-- Delete Modal HTML -->
             <div id="deleteEmployeeModal" class="modal fade">
                 <div class="modal-dialog">
