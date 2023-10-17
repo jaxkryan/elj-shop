@@ -34,7 +34,7 @@
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
-            
+
             <!-- Notification Start -->
             <c:if test="${notification != null}">
                 <div class="row p-3">
@@ -49,7 +49,7 @@
                 </div>
             </c:if>
             <!-- Notification End -->
-            
+
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
@@ -60,6 +60,20 @@
                             <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>					
                         </div>
                     </div>
+                </div>
+                <div class="row text-right">
+                    <form action="home" method='GET'>
+                        <label>Role: </label>
+                        <select name="roleFilter" onchange="this.form.submit()">
+                            <option value="All" <c:if test="${param.roleFilter != 'All'}">selected</c:if> value>All</option>
+                            <option value="Admin" <c:if test="${param.roleFilter == 'Admin'}">selected</c:if>>Admin</option>
+                            <option value="Customer" <c:if test="${param.roleFilter == 'Customer'}">selected</c:if>>Customer</option>
+                            <option value="Manager" <c:if test="${param.roleFilter == 'Manager'}">selected</c:if>>Manager</option>
+                            <option value="Seller" <c:if test="${param.roleFilter == 'Seller'}">selected</c:if>>Seller</option>
+                            <option value="Storage Staff" <c:if test="${param.roleFilter == 'Storage Staff'}">selected</c:if>>Storage Staff</option>
+                            <option value="Marketing Staff" <c:if test="${param.roleFilter == 'Marketing Staff'}">selected</c:if>>Marketing Staff</option>
+                        </select>
+                    </form>
                 </div>
                 <table class="table table-striped table-hover">
                     <thead>
@@ -79,25 +93,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${users}" var="user">
-                            <tr>
-                                <td>${user.id}</td>
-                                <td>${user.getRole()}</td>
-                                <td>${user.firstName}</td>
-                                <td>${user.lastName}</td>
-                                <td>${user.dateOfBirth}</td>
-                                <td>${user.street}</td>
-                                <td>${user.city}</td>
-                                <td>${user.province}</td>
-                                <td>${user.country}</td>
-                                <td>${user.phone}</td>
-                                <td>${user.email}</td>
-                                <td>
-                                    <a href="update-user?userId=${user.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Update">&#xE254;</i></a>
-                                    <a href="delete-user?userId=${user.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                    <c:forEach items="${users}" var="user">
+                        <tr>
+                            <td>${user.id}</td>
+                            <td>${user.getRole()}</td>
+                            <td>${user.firstName}</td>
+                            <td>${user.lastName}</td>
+                            <td>${user.dateOfBirth}</td>
+                            <td>${user.street}</td>
+                            <td>${user.city}</td>
+                            <td>${user.province}</td>
+                            <td>${user.country}</td>
+                            <td>${user.phone}</td>
+                            <td>${user.email}</td>
+                            <td>
+                                <a href="update-user?userId=${user.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Update">&#xE254;</i></a>
+                                <a href="delete-user?userId=${user.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
