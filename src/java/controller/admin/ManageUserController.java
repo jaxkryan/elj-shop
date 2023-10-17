@@ -30,10 +30,12 @@ public class ManageUserController extends HttpServlet {
             throws ServletException, IOException {
         UserDAO udao = new UserDAO();
         Vector<User> users = new Vector<>();
-        if (request.getParameter("roleFilter") == null || request.getParameter("roleFilter").equals("All")) {
+        String roleFilter = request.getParameter("roleFilter") == null ? "" : request.getParameter("roleFilter");
+        String searchName = request.getParameter("searchName") == null ? "" : request.getParameter("searchName");
+        if (roleFilter.isEmpty() || roleFilter.equals("All") && searchName.isEmpty()) {
             users = udao.getActiveUsers();
         } else {
-            users = udao.getActiveUsersByRole(request.getParameter("roleFilter"));
+            users = udao.filterUsers(roleFilter, searchName);
         }
         request.setAttribute("users", users);
         request.getRequestDispatcher("/jsp/manageUserPage.jsp").forward(request, response);

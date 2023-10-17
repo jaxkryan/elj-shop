@@ -54,7 +54,9 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
+                            <a style="color: #FFF" href="home">
                             <h2>Manage <b>User</b></h2>
+                            </a>
                         </div>
                         <div class="col-sm-6">
                             <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>					
@@ -72,46 +74,48 @@
                             <option value="Seller" <c:if test="${param.roleFilter == 'Seller'}">selected</c:if>>Seller</option>
                             <option value="Storage Staff" <c:if test="${param.roleFilter == 'Storage Staff'}">selected</c:if>>Storage Staff</option>
                             <option value="Marketing Staff" <c:if test="${param.roleFilter == 'Marketing Staff'}">selected</c:if>>Marketing Staff</option>
-                        </select>
-                    </form>
-                </div>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Role</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Date Of Birth</th>
-                            <th>Street</th>
-                            <th>City</th>
-                            <th>Province</th>
-                            <th>Country</th>
-                            <th>Phone</th>
-                            <th>Email</th>
-                            <th>Update/Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${users}" var="user">
-                        <tr>
-                            <td>${user.id}</td>
-                            <td>${user.getRole()}</td>
-                            <td>${user.firstName}</td>
-                            <td>${user.lastName}</td>
-                            <td>${user.dateOfBirth}</td>
-                            <td>${user.street}</td>
-                            <td>${user.city}</td>
-                            <td>${user.province}</td>
-                            <td>${user.country}</td>
-                            <td>${user.phone}</td>
-                            <td>${user.email}</td>
-                            <td>
-                                <a href="update-user?userId=${user.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Update">&#xE254;</i></a>
-                                <a href="delete-user?userId=${user.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                            </select>
+                            <input style="color: black" name = "searchName" type="text" class="search-bar ml-3" placeholder="Enter user's name" value="${param.searchName}">
+                            <input style="color: #000000" type="submit" name = "searchUserSubmit" value="Search">
+                        </form>
+                    </div>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Role</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Date Of Birth</th>
+                                <th>Street</th>
+                                <th>City</th>
+                                <th>Province</th>
+                                <th>Country</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Update/Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${users}" var="user">
+                            <tr>
+                                <td>${user.id}</td>
+                                <td>${user.getRole()}</td>
+                                <td>${user.firstName}</td>
+                                <td>${user.lastName}</td>
+                                <td>${user.dateOfBirth}</td>
+                                <td>${user.street}</td>
+                                <td>${user.city}</td>
+                                <td>${user.province}</td>
+                                <td>${user.country}</td>
+                                <td>${user.phone}</td>
+                                <td>${user.email}</td>
+                                <td>
+                                    <a href="update-user?userId=${user.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Update">&#xE254;</i></a>
+                                    <a href="delete-user?userId=${user.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                </td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
