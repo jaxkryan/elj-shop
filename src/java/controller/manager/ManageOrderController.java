@@ -67,7 +67,7 @@ public class ManageOrderController extends HttpServlet {
         }
         if (service.equals("displayAll")) {
             OrderDAO orderDAO = new OrderDAO();
-            Vector<Order> orders = orderDAO.getAll();
+            Vector<Order> orders = orderDAO.GetManagerManageOrder();
             request.setAttribute("orders", orders);
             String[] arr = {"Processed", "Accepted", "Shipped", "Received", "Canceled"};
             List<String> status = Arrays.asList(arr);            
@@ -83,17 +83,22 @@ public class ManageOrderController extends HttpServlet {
             } else {
                 Helper.setNotification(request, "Delete product " + deleteOrder.getReceiver() + " fail!", "RED");
             }
-            response.sendRedirect("home");
+            response.sendRedirect("order");
         } else if (service.equals("getEditOrder")) {
             OrderDAO orderDAO = new OrderDAO();
             int orderId = Integer.parseInt(request.getParameter("id"));
             Order updateOrder = orderDAO.getById(orderId);
-
             String[] arr = {"Processed", "Accepted", "Shipped", "Received", "Canceled"};
             List<String> status = Arrays.asList(arr);
             request.setAttribute("status", status);
             request.setAttribute("updateOrder", updateOrder);
             request.getRequestDispatcher("/jsp/updateOrderPage.jsp").forward(request, response);
+        }else if (service.equals("changeOrderStatus")) {
+            int orderId = Integer.parseInt(request.getParameter("id"));
+            String newStatus = request.getParameter("newStatus");
+            OrderDAO orderDAO = new OrderDAO();
+            orderDAO.changeOrderStatus(orderId, newStatus);
+            response.sendRedirect("order");
         }
     }
 
@@ -136,7 +141,7 @@ public class ManageOrderController extends HttpServlet {
                     status, createdTime, totalPrice, true);
             orderDAO.updateOrderInfo(updateOrder);
 
-            response.sendRedirect("home");
+            response.sendRedirect("order");
         }
     }
 

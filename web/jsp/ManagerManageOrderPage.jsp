@@ -143,14 +143,14 @@
                                         <td class="align-middle">${order.createdTime}</td>
                                         <td class="align-middle">${order.totalPrice}</td>
                                         <td>
-                                            <a href="#editEmployeeModal${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                            <a href="home?go=delete&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                            <a href="order?go=changeOrderStatus&newStatus=Received&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Received">&#xE254;</i></a>
+                                            <a href="order?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
                                         </td>
                                         <!-- Edit Modal HTML -->
                                 <div id="editEmployeeModal${order.id}" class="modal fade">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form action="home" method="POST">
+                                            <form action="order" method="POST">
                                                 <div class="modal-header">						
                                                     <h4 class="modal-title">Edit Order</h4>
                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
