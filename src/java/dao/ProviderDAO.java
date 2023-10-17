@@ -141,7 +141,7 @@ public class ProviderDAO extends jdbc.DBConnect {
 
     public Vector<Provider> getProviderByName(String searchName) {
         Vector<Provider> listP = new Vector<>();
-        String sql = "  select * from [Provider] where [Provider].[companyName] like ?";
+        String sql = "  select * from [Provider] where [Provider].[companyName] like ? and active =1";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, "%" + searchName + "%");
