@@ -65,13 +65,15 @@
                     <thead>
                         <tr>
                             <th>Title</th>
-                            <th>Delete</th>
+                            <th>Date</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach items="${reports}" var="reports">
                             <tr>
                                 <td>${reports.title}</td>
+                                <td>${reports.writeDate}</td>
                                 <td>                 
                                     <a href="#viewReport${reports.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Report">&#xe8f4;</i></a>
                                     <a href="delete-report?reportId=${reports.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -93,7 +95,7 @@
                                                         <input name="name" type="text" class="form-control" value="${managers.firstName} ${managers.lastName}" readonly>
                                                     </c:if>
                                                 </c:forEach>
-                                               
+
                                             </div>
                                             <div class="form-group">
                                                 <label>Title</label>

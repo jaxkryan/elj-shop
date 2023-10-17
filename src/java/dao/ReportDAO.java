@@ -31,7 +31,9 @@ public class ReportDAO extends jdbc.DBConnect {
                 int managerId = rs.getInt(3);
                 String title = rs.getString(4);
                 String content = rs.getString(5);
-                reportList.add(new Report(id, storageStaffId, managerId, title, content));
+                String writeDate = rs.getString(6);
+                boolean readStatus = rs.getBoolean(7);
+                reportList.add(new Report(id, storageStaffId, managerId, title, content, writeDate, readStatus));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReportDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -46,6 +48,8 @@ public class ReportDAO extends jdbc.DBConnect {
                 + "      ,[managerId] = ?\n"
                 + "      ,[title] = ?\n"
                 + "      ,[content] = ?\n"
+                + "      ,[writeDate] = ?\n"
+                + "      ,[readStatus] = ?\n"
                 + " WHERE id = ?\n";
         PreparedStatement pre;
         try {
@@ -54,7 +58,9 @@ public class ReportDAO extends jdbc.DBConnect {
             pre.setInt(2, report.getManagerId());
             pre.setString(3, report.getTitle());
             pre.setString(4, report.getContent());
-            pre.setDouble(5, report.getId());;
+            pre.setString(5, report.getWriteDate());
+            pre.setBoolean(6, report.isReadStatus());
+            pre.setInt(7, report.getId());;
             rowsAffected = pre.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ReportDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -80,15 +86,19 @@ public class ReportDAO extends jdbc.DBConnect {
                 + "           ([storageStaffId]\n"
                 + "           ,[managerId]\n"
                 + "           ,[title]\n"
-                + "           ,[content])\n"
-                + "     VALUES\n"
-                + "           (?,?,?,?)";
+                + "           ,[content]\n"
+                + "           ,[writeDate]\n"
+                + "           ,[readStatus])\n"
+                + "     VALUES"
+                + "           (?,?,?,?,?,?)";
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setInt(1, report.getStorageStaffId());
             pre.setInt(2, report.getManagerId());
             pre.setString(3, report.getTitle());
             pre.setString(4, report.getContent());
+            pre.setString(5, report.getWriteDate());
+            pre.setBoolean(6, report.isReadStatus());
             affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -102,6 +112,8 @@ public class ReportDAO extends jdbc.DBConnect {
                 + "      ,[managerId]\n"
                 + "      ,[title]\n"
                 + "      ,[content]\n"
+                + "      ,[writeDate]\n"
+                + "      ,[readStatus]\n"
                 + "  FROM [dbo].[Report]"
                 + " where id = ?";
         try {
@@ -113,7 +125,9 @@ public class ReportDAO extends jdbc.DBConnect {
                 int managerId = rs.getInt(3);
                 String title = rs.getString(3);
                 String content = rs.getString(4);
-                return new Report(id, storageStaffId, managerId, title, content);
+                String writeDate = rs.getString(5);
+                boolean readStatus = rs.getBoolean(6);
+                return new Report(id, storageStaffId, managerId, title, content, writeDate, readStatus);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReportDAO.class.getName()).log(Level.SEVERE, null, ex);

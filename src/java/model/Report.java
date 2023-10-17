@@ -11,24 +11,26 @@ package model;
 public class Report {
 
     private int id, storageStaffId, managerId;
-    String title, content;
+    private String title, content, writeDate;
+    private boolean readStatus;
 
-    public Report(int id, int storageStaffId, int managerId, String title, String content) {
+    public Report(int id, int storageStaffId, int managerId, String title, String content, String writeDate, boolean readStatus) {
         this.id = id;
         this.storageStaffId = storageStaffId;
         this.managerId = managerId;
         this.title = title;
         this.content = content;
+        this.writeDate = writeDate;
+        this.readStatus = readStatus;
     }
 
-    public Report(int storageStaffId, int managerId, String title, String content) {
+        public Report(int storageStaffId, int managerId, String title, String content, String writeDate, boolean readStatus) {
         this.storageStaffId = storageStaffId;
         this.managerId = managerId;
         this.title = title;
         this.content = content;
-    }
-
-    public Report() {
+        this.writeDate = writeDate;
+        this.readStatus = readStatus;
     }
 
     public int getId() {
@@ -69,5 +71,21 @@ public class Report {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getWriteDate() {
+        return writeDate;
+    }
+
+    public void setWriteDate(String writeDate) {
+        this.writeDate = writeDate;
+    }
+
+    public boolean isReadStatus() {
+        return readStatus;
+    }
+
+    public void setReadStatus(boolean readStatus) {
+        this.readStatus = readStatus;
     }
 }
