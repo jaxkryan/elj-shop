@@ -45,8 +45,9 @@
                         <!--Search bar-->
                         <form action="storage-manage-product?search=Desc" method="post">
                             <div class="text-right" style="margin-top: 0.5%">
-                                <input style="color: black" type="text" name = "keyword" class="search-bar" placeholder="Search product...">
+                                <input style="color: black" type="text" name = "keyword" class="search-bar" value="${requestScope.keySearch}">
                                 <input style="color: #000000" type="submit" name = "search" value="Search">
+                                <input type="hidden" name="keySearch" value="${requestScope.keySearch}">
                             </div>
                         </form>
                     </div>
@@ -56,9 +57,10 @@
                 <!--sorting-->
                 <form id="sortForm" action="storage-manage-product" method="post">
                     <select name="sort" id="sort" onchange="submitForm()">
-                        <option value="Desc">Descending</option>
+                        <option value="Desc">Quantity Descending</option>
                         <option value="All">Display All</option>
-                        <option value="Asc">Ascending</option>
+                        <option value="Asc">Quantity Ascending</option>
+                        <input type="hidden" name="keySearch" value="${requestScope.keySearch}">
                     </select>
                 </form>
 

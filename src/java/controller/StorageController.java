@@ -44,26 +44,27 @@ public class StorageController extends HttpServlet {
             String service = request.getParameter("sort");
             String submit = request.getParameter("submit");
             String search = request.getParameter("search") != null ? request.getParameter("search") : "";
+            String keyword = request.getParameter("keyword");
+            request.setAttribute("keySearch", keyword);
             if (search.equals("All")) {
-                String keyword = request.getParameter("keyword");
-                System.out.println(keyword);
                 String statement = "Select * from product where name like '%" + keyword + "%' ";
                 Vector<Product> products = productDAO.searchProducts(statement, "");
                 request.setAttribute("products", products);
+                request.setAttribute("keySearch", keyword);
                 request.getRequestDispatcher("/jsp/manageStoragePage.jsp").forward(request, response);
                 return;
             } else if (search.equals("Asc")) {
-                String keyword = request.getParameter("keyword");
                 String statement = "Select * from product where name like '%" + keyword + "%' ";
                 Vector<Product> products = productDAO.searchProducts(statement, " order by quantity asc");
                 request.setAttribute("products", products);
+                request.setAttribute("keySearch", keyword);
                 request.getRequestDispatcher("/jsp/ascStoragePage.jsp").forward(request, response);
                 return;
             } else if (search.equals("Desc")) {
-                String keyword = request.getParameter("keyword");
                 String statement = "Select * from product where name like '%" + keyword + "%' ";
                 Vector<Product> products = productDAO.searchProducts(statement, " order by quantity desc");
                 request.setAttribute("products", products);
+                request.setAttribute("keySearch", keyword);
                 request.getRequestDispatcher("/jsp/descStoragePage.jsp").forward(request, response);
                 return;
             }
@@ -97,6 +98,14 @@ public class StorageController extends HttpServlet {
                         Logger.getLogger(StorageController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                String keySearch = request.getParameter("keySearch") != null ? request.getParameter("keySearch") : "";
+                if (!keySearch.equals("")) {
+                    String statement = "Select * from product where name like '%" + keySearch + "%' ";
+                    Vector<Product> products = productDAO.searchProducts(statement, " order by quantity asc");
+                    request.setAttribute("products", products);
+                    request.setAttribute("keySearch", keySearch);
+                    request.getRequestDispatcher("/jsp/ascStoragePage.jsp").forward(request, response);
+                }
                 RequestDispatcher disp = request.getRequestDispatcher("/jsp/ascStoragePage.jsp");
                 Vector<Product> products = productDAO.sortProducts("quantity", "Asc");
                 request.setAttribute("products", products);
@@ -114,9 +123,19 @@ public class StorageController extends HttpServlet {
                         Logger.getLogger(StorageController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                String keySearch = request.getParameter("keySearch") != null ? request.getParameter("keySearch") : "";
+                if (!keySearch.equals("")) {
+                    String statement = "Select * from product where name like '%" + keySearch + "%' ";
+                    Vector<Product> products = productDAO.searchProducts(statement, " order by quantity desc");
+                    request.setAttribute("products", products);
+                    request.setAttribute("keySearch", keySearch);
+                    request.getRequestDispatcher("/jsp/descStoragePage.jsp").forward(request, response);
+                }
                 RequestDispatcher disp = request.getRequestDispatcher("/jsp/descStoragePage.jsp");
                 Vector<Product> products = productDAO.sortProducts("quantity", "Desc");
+                Vector<Product> ascProducts = productDAO.sortProducts("quantity", "Asc");
                 request.setAttribute("products", products);
+                request.setAttribute("ascProduct", ascProducts);
                 disp.forward(request, response);
                 service = "Desc";
             }
@@ -162,11 +181,3 @@ public class StorageController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 }
-
-
-
-
-
-
-
-
