@@ -95,9 +95,9 @@ public class RegisterController extends HttpServlet {
             request.getRequestDispatcher("/jsp/registerPage.jsp").forward(request, response);
         } else {
             UserDAO udao = new UserDAO();
-            udao.insert(new User(0, "Customer", firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password));
+            udao.insert(new User("Customer", firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password));
             Helper.setNotification(request, "Register successfully! Please login to access your account", "GREEN");
-            request.getRequestDispatcher("/jsp/loginPage.jsp").forward(request, response);
+            response.sendRedirect("login");
         }
     }
 

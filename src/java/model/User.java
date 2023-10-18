@@ -13,10 +13,25 @@ public class User {
     private String phone;
     private String email;
     private String password;
+    private boolean active;
 
     public User() {
     }
 
+    public User(String role, String firstName, String lastName, String dateOfBirth, String street, String city, String province, String country, String phone, String email, String password) {
+        this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.street = street;
+        this.city = city;
+        this.province = province;
+        this.country = country;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+    }
+    
     public User(int id, String role, String firstName, String lastName, String dateOfBirth, String street, String city, String province, String country, String phone, String email, String password) {
         this.id = id;
         this.role = role;
@@ -127,6 +142,14 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
     
     @Override
     public String toString() {
@@ -142,6 +165,7 @@ public class User {
                 + ", phone=" + phone 
                 + ", email=" + email
                 + ", password=" + password
+                + ", active=" + active
                 + "}";
     }
 }
