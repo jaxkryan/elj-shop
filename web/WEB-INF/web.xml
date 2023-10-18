@@ -12,6 +12,14 @@
         <filter-name>SellerAuthenticationFilter</filter-name>
         <filter-class>filter.SellerAuthenticationFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>StorageStaffAuthenticationFilter</filter-name>
+        <filter-class>filter.StorageStaffAuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>StorageStaffAuthenticationFilter</filter-name>
+        <url-pattern>/storage-staff/*</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>SellerAuthenticationFilter</filter-name>
         <url-pattern>/seller/*</url-pattern>
