@@ -97,7 +97,15 @@ public class ManageOrderController extends HttpServlet {
             int orderId = Integer.parseInt(request.getParameter("id"));
             String newStatus = request.getParameter("newStatus");
             OrderDAO orderDAO = new OrderDAO();
-            orderDAO.changeOrderStatus(orderId, newStatus);
+            Order changeStatusOrder = orderDAO.getById(orderId);
+            int checkStatusChange = orderDAO.changeOrderStatus(orderId, newStatus);
+            if (checkStatusChange != 0) {
+                //Update success notification
+                Helper.setNotification(request, "Order status changed to " + newStatus + " successfully for " + changeStatusOrder.getReceiver() + "'s order!", "GREEN");
+            } else {
+                //Update fail notification
+                Helper.setNotification(request, "Failed to change order status to " + newStatus + " for " + changeStatusOrder.getReceiver() + "'s order. Please try again.", "RED");
+            }
             response.sendRedirect("order");
         }
     }
@@ -133,9 +141,7 @@ public class ManageOrderController extends HttpServlet {
             String shipPhone = request.getParameter("shipPhone");
             String status = request.getParameter("status");
             String createdTime = request.getParameter("createdTime");
-
             float totalPrice = Float.parseFloat(request.getParameter("totalprice"));
-
             Order updateOrder = new Order(id, customerId, receiver, shipStreet,
                     shipCity, shipProvince, shipCountry, shipEmail, shipPhone,
                     status, createdTime, totalPrice, true);
