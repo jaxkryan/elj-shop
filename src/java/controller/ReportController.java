@@ -16,6 +16,8 @@ import dao.ReportDAO;
 import dao.UserDAO;
 import jakarta.servlet.http.HttpSession;
 import model.User;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -61,12 +63,15 @@ public class ReportController extends HttpServlet {
                 request.getRequestDispatcher("/jsp/manageStorageReport.jsp").forward(request, response);
             }
             if (action.equals("reply-staff")) {
+                Date date = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                String formattedDate = formatter.format(date);
                 HttpSession session = request.getSession();
                 int managerId = (int) session.getAttribute("userId");
                 int staffId = Integer.parseInt(request.getParameter("staffId"));
                 String title = "Reply for " + request.getParameter("title");
                 String content = request.getParameter("reply-content");
-                Report report = new Report(staffId, managerId, title, content);
+                Report report = new Report(staffId, managerId, title, content, formattedDate, false);
                 reportDAO.insertReport(report);
                 Vector<Report> reports = reportDAO.getAllReport();
                 Vector<User> staff = userDAO.getActiveStorageStaff();
@@ -75,12 +80,15 @@ public class ReportController extends HttpServlet {
                 request.getRequestDispatcher("/jsp/manageStorageReport.jsp").forward(request, response);
             }
             if (action.equals("add")) {
+                Date date = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                String formattedDate = formatter.format(date);
                 int managerId = Integer.parseInt(request.getParameter("name"));
                 String title = request.getParameter("title");
                 String content = request.getParameter("content");
                 HttpSession session = request.getSession();
                 int staffId = (int) session.getAttribute("userId");
-                Report report = new Report(staffId, managerId, title, content);
+                Report report = new Report(staffId, managerId, title, content, formattedDate, false);
                 reportDAO.insertReport(report);
                 Vector<Report> reports = reportDAO.getAllReport();
                 Vector<User> managers = userDAO.getActiveManager();
@@ -89,12 +97,15 @@ public class ReportController extends HttpServlet {
                 request.getRequestDispatcher("/jsp/storageReport.jsp").forward(request, response);
             }
             if (action.equals("manager-add")) {
+                Date date = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                String formattedDate = formatter.format(date);
                 HttpSession session = request.getSession();
                 int managerId = (int) session.getAttribute("userId");
                 int staffId = Integer.parseInt(request.getParameter("name"));
                 String title = request.getParameter("title");
                 String content = request.getParameter("reply-content");
-                Report report = new Report(staffId, managerId, title, content);
+                Report report = new Report(staffId, managerId, title, content, formattedDate, false);
                 reportDAO.insertReport(report);
                 Vector<Report> reports = reportDAO.getAllReport();
                 Vector<User> staff = userDAO.getActiveStorageStaff();

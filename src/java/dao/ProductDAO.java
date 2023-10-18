@@ -239,7 +239,7 @@ public class ProductDAO extends jdbc.DBConnect {
 
     public Vector<Product> getProductByName(String searchName) {
         Vector<Product> listP = new Vector<>();
-        String sql = "select * from [product] where [product].[name] like ?";
+        String sql = "select * from [product] where [product].[name] like ? and active =1";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, "%" + searchName + "%");

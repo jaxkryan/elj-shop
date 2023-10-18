@@ -87,11 +87,6 @@ public class ManageProviderController extends HttpServlet {
                 Helper.setNotification(request, "Delete provider " + deleteProvider.getCompanyName() + " fail!", "RED");
             }
             response.sendRedirect("provider");
-        }else if (service.equals("getEditProvider")) {
-            int pUpdateId = Integer.parseInt(request.getParameter("pid"));
-            Provider updateProvider = providerDAO.getProviderById(pUpdateId);
-            request.setAttribute("updateProvider", updateProvider);
-            request.getRequestDispatcher("/jsp/updateProviderPage.jsp").forward(request, response);
         }
     }
 

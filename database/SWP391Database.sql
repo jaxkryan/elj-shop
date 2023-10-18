@@ -160,7 +160,9 @@ CREATE TABLE [Report] (
   storageStaffId int,
   managerId int,
   title varchar(50),
-  content varchar(1000)
+  content varchar(1000),
+  writeDate datetime,
+  readStatus bit
 )
 GO
 
@@ -361,8 +363,8 @@ VALUES ('Voucher for Christmas', '2022-12-20 00:00:00', '2022-12-28 00:00:00', 3
 	('Voucher for Vietnam National Day', '2023-09-01 00:00:00', '2023-09-04 00:00:00', 35, 1),
 	('Voucher for New Year holiday', '2022-12-28 00:00:00', '2023-01-03 00:00:00', 25, 1)
 
-INSERT [Report] ([storageStaffId], [managerId], [title], [content])
-VALUES (10, 12, 'Report title', 'asdfawfsf')
+INSERT [Report] ([storageStaffId], [managerId], [title], [content], [writeDate],[readStatus])
+VALUES (10, 12, 'Report title', 'asdfawfsf', '2023-01-03 00:00:00', 1)
 
 Insert [Feedback] (customerId, productId, content, feedbackDate, [checked])values (2 , 10,'Nice product','2023-01-09 00:00:00', 0)
 Insert [Feedback] (customerId, productId, content, feedbackDate, [checked])values (2 , 10,'Nice shoes','2023-01-03 00:00:00', 0)

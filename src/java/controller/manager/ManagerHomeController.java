@@ -61,15 +61,6 @@ public class ManagerHomeController extends HttpServlet {
                 Helper.setNotification(request, "Delete product " + deleteProduct.getName() + " fail!", "RED");
             }
             response.sendRedirect("home");
-        }else if (service.equals("getEditProduct")) {
-            int  pUpdateId = Integer.parseInt(request.getParameter("pid"));
-            Product updateProduct = productDAO.getProductById(pUpdateId);
-            request.setAttribute("updateProduct", updateProduct);
-            ProviderDAO providerDAO = new ProviderDAO();
-            Vector<Provider> providers = providerDAO.getAllProvider();
-            request.setAttribute("providers", providers);
-            request.setAttribute("categories", categories);
-            request.getRequestDispatcher("/jsp/updateProductPage.jsp").forward(request, response);
         }
 
     }

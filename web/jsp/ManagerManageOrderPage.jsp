@@ -1,7 +1,7 @@
 <%-- 
-    Document   : ManagerProduct
-    Created on : Dec 28, 2020, 5:19:02 PM
-    Author     : trinh
+    Document   : ManagerManageOrderPage
+    Created on : Oct 17, 2023, 10:53:16 PM
+    Author     : admin
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -30,10 +30,13 @@
         </style>
     <body>
         <div class="container">
+
+
             <div class="row p-3 text-right">
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
+
             <!-- Notification Start -->
             <c:if test="${notification != null}">
                 <div class="container-fluid mb-3">
@@ -113,19 +116,17 @@
                                         </span>
                                     </th>
                                     <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Provider</th>
-                                    <th>description</th>
-                                    <th>price</th>
-                                    <th>discount</th>
-                                    <th>quantity</th>
-                                    <th>image</th>
-                                    <th>Actions</th>
+                                    <th>CustomerID</th>
+                                    <th>Receiver</th>
+                                    <th>Address</th>
+                                    <th>ShipCusInfo</th>
+                                    <th>Status</th>
+                                    <th>CreatedTime</th>
+                                    <th>TotalPrice</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${products}" var="product">
+                                <c:forEach items="${orders}" var="order">
                                     <tr>
                                         <td>
                                             <span class="custom-checkbox">
@@ -133,100 +134,90 @@
                                                 <label for="checkbox1"></label>
                                             </span>
                                         </td>
-                                        <td>${product.id}</td>
-                                        <td>${product.name}</td>
-                                        <td>${categories.get(product.categoryId - 1).name}</td>
-                                        <c:if test="${empty providers[product.providerId - 1].companyName}">
-                                            <td>Not Available</td>
-                                        </c:if>
-                                        <c:if test="${not empty providers[product.providerId - 1].companyName}">
-                                            <td>${providers[product.providerId - 1].companyName}</td>
-                                        </c:if>   
-                                        <td>${product.description}</td>
-                                        <td>${product.price}$</td>
-                                        <td>${product.discount}$</td>
-                                        <td>${product.quantity}</td>
+                                        <td class="align-middle">${order.id}</td>
+                                        <td class="align-middle">${order.customerId}</td>
+                                        <td class="align-middle text-left" style="text-wrap: nowrap;">${order.receiver}</td>
+                                        <td class="align-middle text-left">${order.shipStreet}, ${order.shipCity}, ${order.shipProvince}, ${order.shipCountry}</td>
+                                        <td class="align-middle">${order.shipEmail}, ${order.shipPhone}</td>
+                                        <td class="align-middle">${order.status}</td>
+                                        <td class="align-middle">${order.createdTime}</td>
+                                        <td class="align-middle">${order.totalPrice}</td>
                                         <td>
-                                            <img src="${product.image}">
-                                        </td>
-                                        <td>
-                                            <a href="#editEmployeeModal${product.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                            <a href="home?go=delete&pid=${product.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                            <a href="order?go=changeOrderStatus&newStatus=Received&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Received">&#xE254;</i></a>
+                                            <a href="order?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
                                         </td>
                                         <!-- Edit Modal HTML -->
-                                <div id="editEmployeeModal${product.id}" class="modal fade">
+                                <div id="editEmployeeModal${order.id}" class="modal fade">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <!-- Edit Form -->
-                                            <form action="home" method="post">
+                                            <form action="order" method="POST">
                                                 <div class="modal-header">						
-                                                    <h4 class="modal-title">Add Product</h4>
-                                                    <a type="button" class="close" href="home?"  data-dismiss="modal" aria-hidden="true">&times;</a>
+                                                    <h4 class="modal-title">Edit Order</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                                 </div>
                                                 <div class="modal-body">					
                                                     <div class="form-group">
                                                         <label>ID</label>
-                                                        <input value="${product.id}" name="id" type="text" class="form-control" readonly required>
+                                                        <input value="${order.id}" name="id" type="text" class="form-control" readonly required>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Name</label>
-                                                        <input value="${product.name}" name="name" type="text" class="form-control" maxlength="64" pattern="[A-Za-z0-9 ]{1,64}" title="Name can only contain letters, numbers, and spaces, with a maximum length of 64 characters" required required>
+                                                        <label>CustomerID</label>
+                                                        <input value="${order.customerId}" name="customerId" type="text" class="form-control" readonly required >
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Price</label>
-                                                        <input value="${product.price}" name="price" type="text" class="form-control" maxlength="64" pattern="^\d{1,10}(\.\d{1,2})?$" title="Price can only contain numbers with a maximum of 10 digits and up to 2 decimal places" required>
+                                                        <label>Receiver</label>
+                                                        <input value="${order.receiver}" name="receiver" type="text" class="form-control" readonly required>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Provider</label>
-                                                        <select name="provider" class="form-control" aria-label="Default select example">
-                                                            <c:forEach items="${providers}" var="provider">
+                                                        <label>ShipStreet</label>
+                                                        <input value="${order.shipStreet}" name="shipStreet" class="form-control" readonly required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>ShipCity</label>
+                                                        <input value="${order.shipCity}" name="shipCity" class="form-control" readonly required>
+                                                    </div><!-- comment -->    
+                                                    <div class="form-group">
+                                                        <label>ShipProvince</label>
+                                                        <input value="${order.shipProvince}" name="shipProvince" class="form-control" readonly required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>ShipCountry</label>
+                                                        <input value="${order.shipCountry}" name="shipCountry" class="form-control" readonly required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>ShipEmail</label>
+                                                        <input value="${order.shipEmail}" name="shipEmail" class="form-control" readonly required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>ShipPhone</label>
+                                                        <input value="${order.shipPhone}" name="shipPhone" class="form-control" readonly required>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Status</label>
+                                                        <select name="status" class="form-control" aria-label="Default select example">
+                                                            <c:forEach items="${status}" var="statust">
                                                                 <c:choose>
-                                                                    <c:when test="${provider.id eq product.providerId}">
-                                                                        <option value="${provider.id}" selected>${provider.companyName}</option>
+                                                                    <c:when test="${order.status eq statust}">
+                                                                        <option value="${statust}" selected>${statust}</option>
                                                                     </c:when>
                                                                     <c:otherwise>
-                                                                        <option value="${provider.id}">${provider.companyName}</option>
+                                                                        <option value="${statust}">${statust}</option>
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                             </c:forEach>
                                                         </select>
                                                     </div>
 
-
                                                     <div class="form-group">
-                                                        <label>Category</label>
-                                                        <select name="category" class="form-control" aria-label="Default select example">
-                                                            <c:forEach items="${categories}" var="category">
-                                                                <c:choose>
-                                                                    <c:when test="${category.id eq product.categoryId}">
-                                                                        <option value="${category.id}" selected>${category.name}</option>
-                                                                    </c:when>
-                                                                    <c:otherwise>
-                                                                        <option value="${category.id}">${category.name}</option>
-                                                                    </c:otherwise>
-                                                                </c:choose>
-                                                            </c:forEach>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>Quantity</label>
-                                                        <input value="${product.quantity}" name="quantity" class="form-control" maxlength="64" pattern="^[1-9]\d*$" title="Positive integer greater than 0, with a maximum length of 64 characters"  required>
+                                                        <label>CreatedTime</label>
+                                                        <input value="${order.createdTime}" name="createdTime" class="form-control" readonly required>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Image</label>
-                                                        <input value="${product.image}" name="image" class="form-control" pattern="^(http(s?):\/\/|www.)+[a-zA-Z0-9-]+\.[a-zA-Z0-9]+\/?[a-zA-Z0-9-]*\.(png|jpg|jpeg|gif|bmp|svg)$" title="Please enter a valid image link" required>
-                                                    </div><!-- comment -->
-                                                    <div class="form-group">
-                                                        <label>Discount</label>
-                                                        <input value="${product.discount}" name="discount" class="form-control" pattern="^\d{1,10}(\.\d{1,2})?$" title="Discount can only contain numbers with a maximum of 10 digits and up to 2 decimal places. Must be greater than or equal to 0 and less than Price" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Description</label>
-                                                        <textarea name="description" class="form-control" required>${product.description}</textarea>
-
+                                                        <label>TotalPrice</label>
+                                                        <input value="${order.totalPrice}" name="totalprice" class="form-control" readonly required>
                                                     </div>                               
-                                                    <input type="hidden" name="go" value="UpdateProduct">
+                                                    <input type="hidden" name="go" value="update">
                                                 </div>
                                                 <div class="modal-footer">
                                                     <input type="submit" class="btn btn-success" value="Edit">
@@ -243,11 +234,12 @@
                 </c:choose>
             </div>
         </div>
-        <!-- Edit Modal HTML -->
+
+        <!-- Add Modal HTML -->
         <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="home" method="POST">
+                    <form action="add" method="post">
                         <div class="modal-header">						
                             <h4 class="modal-title">Add Product</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -255,52 +247,73 @@
                         <div class="modal-body">					
                             <div class="form-group">
                                 <label>Name</label>
-                                <input name="name" type="text" class="form-control" maxlength="64" pattern="[A-Za-z0-9 ]{1,64}" title="Name can only contain letters, numbers, and spaces, with a maximum length of 64 characters" required>
+                                <input name="name" type="text" class="form-control" required>
                             </div>
-
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input name="price" type="text" class="form-control" maxlength="64" pattern="^\d{1,10}(\.\d{1,2})?$" title="Price can only contain numbers with a maximum of 10 digits and up to 2 decimal places" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Provider</label>
-                                <select name="provider" class="form-control" aria-label="Default select example">
-                                    <c:forEach items="${providers}"  var="provider">
-                                        <option value="${provider.id}">${provider.companyName}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Category</label>
-                                <select name="category" class="form-control" aria-label="Default select example">
-                                    <c:forEach items="${categories}"  var="category">
-                                        <option value="${category.id}">${category.name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Quantity</label>
-                                <input name="quantity" type="text" class="form-control" maxlength="64" pattern="^[1-9]\d*$" title="Positive integer greater than 0, with a maximum length of 64 characters" required>
-                            </div>
-
                             <div class="form-group">
                                 <label>Image</label>
-                                <input name="image" type="text" class="form-control" pattern="^(http(s?):\/\/|www.)+[a-zA-Z0-9-]+\.[a-zA-Z0-9]+\/?[a-zA-Z0-9-]*\.(png|jpg|jpeg|gif|bmp|svg)$" title="Please enter a valid image link" required>
+                                <input name="image" type="text" class="form-control" required>
                             </div>
-
                             <div class="form-group">
-                                <label>Discount</label>
-                                <input name="discount" type="text" class="form-control" pattern="^\d{1,10}(\.\d{1,2})?$" title="Discount can only contain numbers with a maximum of 10 digits and up to 2 decimal places. Must be greater than or equal to 0 and less than Price" required>
+                                <label>Price</label>
+                                <input name="price" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Title</label>
+                                <textarea name="title" class="form-control" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label>Description</label>
                                 <textarea name="description" class="form-control" required></textarea>
-                            </div>    
-                            <input type="hidden" name="go" value="AddProduct">
+                            </div>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select name="category" class="form-select" aria-label="Default select example">
+                                    <c:forEach begin="1" end="3" var="o">
+                                        <option value="1">Giày Adidas</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                             <input type="submit" class="btn btn-success" value="Add">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Modal HTML -->
+        <div id="editEmployeeModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form>
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Edit Employee</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">					
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea class="form-control" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" required>
+                            </div>					
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-info" value="Save">
                         </div>
                     </form>
                 </div>
@@ -330,31 +343,5 @@
         </div>
     </a>
     <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
-    <script>
-                                    document.addEventListener("DOMContentLoaded", function () {
-                                        var priceInput = document.getElementsByName("price")[0];
-                                        var discountInput = document.getElementsByName("discount")[0];
-
-                                        // Add input event listener to validate Discount
-                                        discountInput.addEventListener("input", function () {
-                                            var priceValue = parseFloat(priceInput.value);
-                                            var discountValue = parseFloat(discountInput.value);
-
-                                            if (isNaN(priceValue) || isNaN(discountValue)) {
-                                                // Invalid numeric input, reset Discount value
-                                                discountInput.setCustomValidity("");
-                                            } else {
-                                                // Check Discount validity based on the conditions
-                                                if (discountValue >= 0 && discountValue <= priceValue) {
-                                                    // Valid Discount
-                                                    discountInput.setCustomValidity("");
-                                                } else {
-                                                    // Invalid Discount
-                                                    discountInput.setCustomValidity("Discount must be greater than or equal to 0 and less than or equal to Price");
-                                                }
-                                            }
-                                        });
-                                    });
-    </script>
 </body>
 </html>
