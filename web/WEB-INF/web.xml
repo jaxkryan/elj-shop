@@ -278,10 +278,6 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StorageController</servlet-name>
-        <url-pattern>/storage-manage-product</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>StorageController</servlet-name>
         <url-pattern>/storage-staff/storage-manage-product</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

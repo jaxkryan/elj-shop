@@ -7,7 +7,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import model.User;
 import util.Helper;
 
@@ -95,7 +94,7 @@ public class RegisterController extends HttpServlet {
             request.getRequestDispatcher("/jsp/registerPage.jsp").forward(request, response);
         } else {
             UserDAO udao = new UserDAO();
-            udao.insert(new User("Customer", firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password));
+            udao.insert(new User("Customer", firstName, lastName, dateOfBirth, street, city, province, country, phone, email, Helper.hashPassword(password)));
             Helper.setNotification(request, "Register successfully! Please login to access your account", "GREEN");
             response.sendRedirect("login");
         }

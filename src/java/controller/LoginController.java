@@ -58,12 +58,13 @@ public class LoginController extends HttpServlet {
             return;
         }
         UserDAO udao = new UserDAO();
-        User user = udao.getByEmail(username);
+        User user = udao.getActiveUserByEmail(username);
         if (user != null) {
-            if (user.getPassword().equals(password)) {
+            if (user.getPassword().equals(Helper.hashPassword(password))) {
                 //Reset user infomation
                 session.removeAttribute("userId");
                 session.removeAttribute("userRole");
+                session.removeAttribute("cartItem");
 
                 //Get new infomation
                 session = request.getSession();
