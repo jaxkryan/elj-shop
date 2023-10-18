@@ -340,7 +340,7 @@ public class UserDAO extends jdbc.DBConnect {
     public int insert(User user) {
         int affectedRows = 0;
         String sql = "INSERT INTO [dbo].[User]\n"
-                + "      ,[role]\n"
+                + "      ([role]\n"
                 + "      ,[firstName]\n"
                 + "      ,[lastName]\n"
                 + "      ,[dateOfBirth]\n"
@@ -351,7 +351,8 @@ public class UserDAO extends jdbc.DBConnect {
                 + "      ,[phone]\n"
                 + "      ,[email]\n"
                 + "      ,[password]\n"
-                + "     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "      ,[active])\n"
+                + "     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setString(1, user.getRole());
@@ -380,7 +381,7 @@ public class UserDAO extends jdbc.DBConnect {
         }
         int userId = -1;
         String sql = "INSERT INTO [dbo].[User]\n"
-                + "      ,[role]\n"
+                + "      ([role]\n"
                 + "      ,[firstName]\n"
                 + "      ,[lastName]\n"
                 + "      ,[dateOfBirth]\n"
@@ -391,7 +392,8 @@ public class UserDAO extends jdbc.DBConnect {
                 + "      ,[phone]\n"
                 + "      ,[email]\n"
                 + "      ,[password]\n"
-                + "     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "      ,[active])\n"
+                + "     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
         try {
             PreparedStatement pre = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pre.setString(1, user.getRole());

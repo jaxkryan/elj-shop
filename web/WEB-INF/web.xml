@@ -165,6 +165,10 @@
         <servlet-class>controller.RegisterController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>AddUserController</servlet-name>
+        <servlet-class>controller.admin.AddUserController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ManageOrderController</servlet-name>
         <servlet-class>controller.manager.ManageOrderController</servlet-class>
     </servlet>
@@ -319,6 +323,10 @@
     <servlet-mapping>
         <servlet-name>RegisterController</servlet-name>
         <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddUserController</servlet-name>
+        <url-pattern>/admin/add-user</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManageOrderController</servlet-name>

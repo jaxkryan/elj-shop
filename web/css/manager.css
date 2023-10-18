@@ -260,3 +260,7 @@ table.table .avatar {
   background-color: #f8d7da;
   border-color: #f5c6cb;
 }
+
+.modal .modal-add-user-dialog {
+    max-width: 600px;
+}

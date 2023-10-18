@@ -30,9 +30,14 @@
         </style>
     <body>
         <div class="container">
-            <div class="row p-3 text-right">
-                <a href="profile" class="btn btn-primary">Profile</a>
-                <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
+            <div class="row p-3">
+                <div class="col-sm-6 text-left">
+                    <a href="home" class="btn btn-primary">Back</a>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <a href="profile" class="btn btn-primary">Profile</a>
+                    <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
+                </div>
             </div>
             <div class="table-wrapper">
                 <form class="row" action="profile" method="POST">
