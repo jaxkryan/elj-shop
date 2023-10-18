@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author Huy Nguyen
  */
-public class AdminAuthenticationFilter implements Filter {
+public class CustomerAuthenticationFilter implements Filter {
 
     private static final boolean debug = true;
 
@@ -26,10 +26,14 @@ public class AdminAuthenticationFilter implements Filter {
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
-
-    public AdminAuthenticationFilter() {
-    } 
-
+    private HttpServletRequest httpRequest;
+    private static final String[] customerLoginRequiredURLs = {
+            "/profile", "/add-to-cart", "/cart"
+    };
+    
+    public CustomerAuthenticationFilter() {
+    }
+    
     /**
      *
      * @param request The servlet request we are processing
@@ -42,24 +46,50 @@ public class AdminAuthenticationFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain)
 	throws IOException, ServletException {
-	HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        httpRequest = (HttpServletRequest) request;
+        String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
+        if (path.startsWith("/admin/") 
+                || path.startsWith("/manager/")
+                || path.startsWith("/seller/")
+                || path.startsWith("/storage-staff/")
+                || path.startsWith("/marketing-staff/")
+                ) {
+            chain.doFilter(request, response);
+            return;
+        }
+ 
         HttpSession session = httpRequest.getSession(false);
-        boolean isAdminLoggedIn = (
+        boolean isCustomerLoggedIn = (
                 session != null 
                 && session.getAttribute("userRole") != null 
-                && session.getAttribute("userRole").equals("Admin")
+                && session.getAttribute("userRole").equals("Customer")
                 );
-        if (isAdminLoggedIn) {
-            chain.doFilter(request, response);
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        String loginURI = httpRequest.getContextPath() + "/login";
+        boolean isLoginRequest = httpRequest.getRequestURI().equals(loginURI);
+ 
+        if (isCustomerLoggedIn && (isLoginRequest)) {
+            httpResponse.sendRedirect("home");
+        } else if (!isCustomerLoggedIn && isCustomerLoginRequired()) {
+            httpResponse.sendRedirect("login");
         } else {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
+            chain.doFilter(request, response);
         }
     }
     
+    private boolean isCustomerLoginRequired() {
+        String requestURL = httpRequest.getRequestURL().toString();
+        for (String loginRequiredURL : customerLoginRequiredURLs) {
+            if (requestURL.contains(loginRequiredURL)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
 	throws IOException, ServletException {
-	if (debug) log("AdminAuthenticationFilter:DoBeforeProcessing");
+	if (debug) log("CustomerAuthenticationFilter:DoBeforeProcessing");
 
 	// Write code here to process the request and/or response before
 	// the rest of the filter chain is invoked.
@@ -86,7 +116,7 @@ public class AdminAuthenticationFilter implements Filter {
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
 	throws IOException, ServletException {
-	if (debug) log("AdminAuthenticationFilter:DoAfterProcessing");
+	if (debug) log("CustomerAuthenticationFilter:DoAfterProcessing");
 
 	// Write code here to process the request and/or response after
 	// the rest of the filter chain is invoked.
@@ -108,7 +138,7 @@ public class AdminAuthenticationFilter implements Filter {
 	respOut.println("<P><B>This has been appended by an intrusive filter.</B>");
 	*/
     }
-
+    
     /**
      * Return the filter configuration object for this filter.
      */
@@ -138,7 +168,7 @@ public class AdminAuthenticationFilter implements Filter {
 	this.filterConfig = filterConfig;
 	if (filterConfig != null) {
 	    if (debug) { 
-		log("AdminAuthenticationFilter:Initializing filter");
+		log("CustomerAuthenticationFilter:Initializing filter");
 	    }
 	}
     }
@@ -148,8 +178,8 @@ public class AdminAuthenticationFilter implements Filter {
      */
     @Override
     public String toString() {
-	if (filterConfig == null) return ("AdminAuthenticationFilter()");
-	StringBuffer sb = new StringBuffer("AdminAuthenticationFilter(");
+	if (filterConfig == null) return ("CustomerAuthenticationFilter()");
+	StringBuffer sb = new StringBuffer("CustomerAuthenticationFilter(");
 	sb.append(filterConfig);
 	sb.append(")");
 	return (sb.toString());
