@@ -5,8 +5,9 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="model.Product, java.util.Vector" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -35,6 +36,18 @@
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
+            <!--Alert-->
+            <div style="  background-color: pink; color: red; padding: 2px">
+                <c:forEach items="${products}" var="pro">
+                    <c:if test="${pro.quantity < 50}">
+                        <c:set var="productNames" value="${productNames}, ${pro.name}"/>
+                    </c:if>
+                </c:forEach>
+                <c:if test="${!empty(productNames)}">
+                    <c:out value="${fn:substring(productNames, 1, fn:length(productNames))} 
+                           is nearly out of stock. Please re-supply it." />
+                </c:if>
+            </div>
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
@@ -46,7 +59,6 @@
                             <div class="text-right" style="margin-top: 0.5%">
                                 <input style="color: black" name = "keyword" type="text" class="search-bar" value="${requestScope.keySearch}">
                                 <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
-                                
                             </div>
                         </form>
                     </div>
