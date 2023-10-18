@@ -4,9 +4,17 @@
         <filter-name>AdminAuthenticationFilter</filter-name>
         <filter-class>filter.AdminAuthenticationFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>ManagerAuthenticationFilter</filter-name>
+        <filter-class>filter.ManagerAuthenticationFilter</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>AdminAuthenticationFilter</filter-name>
         <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>ManagerAuthenticationFilter</filter-name>
+        <url-pattern>/manager/*</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>LoginController</servlet-name>
