@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.StringTokenizer;
 import java.util.Vector;
 import model.Category;
 import model.Product;
@@ -32,35 +33,66 @@ public class ManagerHomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String service = request.getParameter("go");
-        
-        CategoryDAO cdao = new CategoryDAO();
-        Vector<Category> categories = cdao.getAllCategory();
+        CategoryDAO categoryDAO = new CategoryDAO();
+        Vector<Category> categories = categoryDAO.getAllCategory();
         request.setAttribute("categories", categories);
+
+        ProviderDAO providerDAO = new ProviderDAO();
+        Vector<Provider> providers = providerDAO.getAllProvider();
+        request.setAttribute("providers", providers);
         ProductDAO productDAO = new ProductDAO();
         if (service == null || service.equals("")) {
             service = "displayAll";
         }
-        
+
         if (service.equals("displayAll")) {
             ProductDAO pdao = new ProductDAO();
             Vector<Product> products = pdao.getAllProduct();
             request.setAttribute("products", products);
-            ProviderDAO providerDAO = new ProviderDAO();
-            Vector<Provider> providers = providerDAO.getAllProvider();
-            request.setAttribute("providers", providers);
             request.getRequestDispatcher("/jsp/manageProductPage.jsp").forward(request, response);
         } else if (service.equals("delete")) {
-            int pid = Integer.parseInt(request.getParameter("pid"));            
+            int pid = Integer.parseInt(request.getParameter("pid"));
             Product deleteProduct = productDAO.getProductById(pid);
             int checkDelete = productDAO.deleteProduct(pid);
-            if (checkDelete != 0 ) {
+            if (checkDelete != 0) {
                 //Delete success notification
                 Helper.setNotification(request, "Delete product " + deleteProduct.getName() + " successfully!", "GREEN");
-            }else{
+            } else {
                 //Delete fail notification
                 Helper.setNotification(request, "Delete product " + deleteProduct.getName() + " fail!", "RED");
             }
             response.sendRedirect("home");
+
+        } else if (service.equals("filter")) {
+            response.setContentType("text/html;charset=UTF-8");
+            String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
+            int categoryId = Integer.parseInt(request.getParameter("categoryId") != null ? request.getParameter("categoryId") : "-1");
+            int providerId = Integer.parseInt(request.getParameter("providerId") != null ? request.getParameter("providerId") : "-1");
+            String price = request.getParameter("price");
+            double minPrice = 0.0;
+            double maxPrice = 10000000000000.0;
+            String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
+            String filter = "filter";
+
+            if (price != null && !price.equals("")) {
+                StringTokenizer tokenizer = new StringTokenizer(request.getParameter("price"), "-");
+                minPrice = Double.parseDouble(tokenizer.nextToken());
+                maxPrice = Double.parseDouble(tokenizer.nextToken());
+            }
+            Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName);
+            System.out.println("Sort: " + sort);
+            System.out.println("CategoryId: " + categoryId);
+            System.out.println("ProviderId: " + providerId);
+            System.out.println("Price: " + price);
+            System.out.println("SearchName: " + searchName);
+            request.setAttribute("filter", filter);
+            request.setAttribute("sort", sort);
+            request.setAttribute("searchName", searchName);
+            request.setAttribute("products", products);
+            request.setAttribute("categoryId", categoryId);
+            request.setAttribute("providerId", providerId);
+            request.setAttribute("price", price);
+            request.getRequestDispatcher("/jsp/manageProductPage.jsp").forward(request, response);
         }
 
     }
@@ -77,28 +109,35 @@ public class ManagerHomeController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String service = request.getParameter("go");
-        CategoryDAO cdao = new CategoryDAO();
-        Vector<Category> categories = cdao.getAllCategory();
+        CategoryDAO categoryDAO = new CategoryDAO();
+        Vector<Category> categories = categoryDAO.getAllCategory();
         request.setAttribute("categories", categories);
-        String search = request.getParameter("search") == null ? "" : request.getParameter("search");
+
+        ProviderDAO providerDAO = new ProviderDAO();
+        Vector<Provider> providers = providerDAO.getAllProvider();
+        request.setAttribute("providers", providers);
+//        String search = request.getParameter("search") == null ? "" : request.getParameter("search");
         ProductDAO productDAO = new ProductDAO();
-        if (search.equals("All")){
-            String keyword = request.getParameter("keyword");
-            Vector<Product> searchProducts = productDAO.getProductByName(keyword);
-            request.setAttribute("products", searchProducts);
-            ProviderDAO providerDAO = new ProviderDAO();
-            Vector<Provider> providers = providerDAO.getAllProvider();
-            request.setAttribute("providers", providers);
-            request.getRequestDispatcher("/jsp/manageProductPage.jsp").forward(request, response);
-            return;
-        }
-//        if (search.equals("Filter")){
-//            String keyword = request.getParameter("sort");
-//            if (keyword.equals("Ascending"))
-//            if (keyword.equals("Descending"))
-//            if (keyword.equals(""))
+//        if (search.equals("All")){
+//            String keyword = request.getParameter("keyword");
+//            Vector<Product> searchProducts = productDAO.getProductByName(keyword);
+//            request.setAttribute("products", searchProducts);
+//            ProviderDAO providerDAO = new ProviderDAO();
+//            Vector<Provider> providers = providerDAO.getAllProvider();
+//            request.setAttribute("providers", providers);
+//            request.getRequestDispatcher("/jsp/manageProductPage.jsp").forward(request, response);
+//            return;
 //        }
-        if (service.equals("AddProduct")) {
+        if (service.equals("search")) {
+            String searchName = request.getParameter("searchName");
+            Vector<Product> products = new Vector<>();
+            if (searchName != null) {
+                products = productDAO.getProductByName(searchName);
+                request.setAttribute("searchName", searchName);
+                request.setAttribute("products", products);
+            }
+            request.getRequestDispatcher("/jsp/manageProductPage.jsp").forward(request, response);
+        } else if (service.equals("AddProduct")) {
             String pName = request.getParameter("name");
             String pImage = request.getParameter("image");
             float pPrice = Float.parseFloat(request.getParameter("price"));
@@ -106,7 +145,7 @@ public class ManagerHomeController extends HttpServlet {
             int pCategory = Integer.parseInt(request.getParameter("category"));
             int pProvider = Integer.parseInt(request.getParameter("provider"));
             int pQuantity = Integer.parseInt(request.getParameter("quantity"));
-            float pDiscount = Float.parseFloat(request.getParameter("discount"));        
+            float pDiscount = Float.parseFloat(request.getParameter("discount"));
             int checkInsert = productDAO.insertProduct(pCategory, pProvider, pName, pDescription, pPrice, pDiscount, pQuantity, pImage);
             if (checkInsert != 0) {
                 //Insert success notification
@@ -116,7 +155,7 @@ public class ManagerHomeController extends HttpServlet {
                 Helper.setNotification(request, "Added " + pName + " fail!", "RED");
             }
             response.sendRedirect("home");
-        }else if (service.equals("UpdateProduct")) {
+        } else if (service.equals("UpdateProduct")) {
             int pId = Integer.parseInt(request.getParameter("id"));
             String pName = request.getParameter("name");
             String pImage = request.getParameter("image");

@@ -46,7 +46,6 @@
                             <div class="text-right" style="margin-top: 0.5%">
                                 <input style="color: black" name = "keyword" type="text" class="search-bar" value="${requestScope.keySearch}">
                                 <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
-                                
                             </div>
                         </form>
                     </div>

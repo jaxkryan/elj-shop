@@ -78,32 +78,28 @@
                 </div> 
                 <!--Search bar-->
                 <div class="row text-right"> 
-
-                    <form action="home?search=All" method="post">
+                    <form action="order?search=All" method="post">
                         <div class="text-right" style="margin-top: 0.5%">
                             <input style="color: black" name = "keyword" type="text" class="search-bar" placeholder="Search product...">
                             <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
-
                         </div>
                     </form>
                 </div>
-                <!--Filter bar-->
-                <div class="row text-left"> 
-                    <form action="home?search=Filter" method="post">
-                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                            <input type="radio" class="custom-control-input" name="sort" id="default" value="" onclick="this.form.submit()" <c:if test="${(param.sort == null || param.sort == '')}">checked</c:if>>
-                                <label class="custom-control-label" for="default">Default</label>
-                            </div>
-                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                <input type="radio" class="custom-control-input" name="sort" id="sort-ascending" value="ascending" onclick="this.form.submit()" <c:if test="${param.sort == 'ascending'}">checked</c:if>>
-                                <label class="custom-control-label" for="sort-ascending">Ascending</label>
-                            </div>
-                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                <input type="radio" class="custom-control-input" name="sort" id="sort-descending" value="descending" onclick="this.form.submit()" <c:if test="${param.sort == 'descending'}">checked</c:if>>
-                                <label class="custom-control-label" for="sort-descending">Descending</label>
-                            </div>
-                        </form>
-                    </div>
+                <!--sorting-->
+                <form id="sortForm" action="order" method="post">
+                    <select name="sort" id="sort" onchange="submitForm()">
+                        <option value="All">Display All</option>
+                        <option value="Asc">Quantity Ascending</option>
+                        <option value="Desc">Quantity Descending</option>
+                        <input type="hidden" name="keySearch" value="${requestScope.keySearch}">
+                    </select>
+                </form>
+                <script>
+                    function submitForm() {
+                        document.getElementById("sortForm").action = "storage-manage-product?sort=" + document.getElementById("sort").value;
+                        document.getElementById("sortForm").submit();
+                    }
+                </script>
                 <c:choose>
                     <c:when test="${param.go == null || param.go == 'displayAll'}">
                         <table class="table table-striped table-hover">
