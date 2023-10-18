@@ -16,6 +16,14 @@
         <filter-name>StorageStaffAuthenticationFilter</filter-name>
         <filter-class>filter.StorageStaffAuthenticationFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>MarketingStaffAuthenticationFilter</filter-name>
+        <filter-class>filter.MarketingStaffAuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>MarketingStaffAuthenticationFilter</filter-name>
+        <url-pattern>/marketing-staff/*</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>StorageStaffAuthenticationFilter</filter-name>
         <url-pattern>/storage-staff/*</url-pattern>
