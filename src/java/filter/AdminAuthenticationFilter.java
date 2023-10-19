@@ -13,6 +13,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import util.Helper;
 
 /**
  *
@@ -53,6 +54,7 @@ public class AdminAuthenticationFilter implements Filter {
         if (isAdminLoggedIn) {
             chain.doFilter(request, response);
         } else {
+            Helper.setNotification(httpRequest, "You must to login first!", "RED");
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
         }
     }

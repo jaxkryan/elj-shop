@@ -13,6 +13,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import util.Helper;
 
 /**
  *
@@ -28,6 +29,32 @@ public class ManagerAuthenticationFilter implements Filter {
     private FilterConfig filterConfig = null;
 
     public ManagerAuthenticationFilter() {
+    }
+
+    /**
+     *
+     * @param request The servlet request we are processing
+     * @param response The servlet response we are creating
+     * @param chain The filter chain we are processing
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception ServletException if a servlet error occurs
+     */
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain)
+            throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        HttpSession session = httpRequest.getSession(false);
+        boolean isAdminLoggedIn = (session != null
+                && session.getAttribute("userRole") != null
+                && session.getAttribute("userRole").equals("Manager"));
+        if (isAdminLoggedIn) {
+            chain.doFilter(request, response);
+        } else {
+            Helper.setNotification(httpRequest, "You must to login first!", "RED");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
+        }
     }
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
@@ -81,31 +108,6 @@ public class ManagerAuthenticationFilter implements Filter {
 	PrintWriter respOut = new PrintWriter(response.getWriter());
 	respOut.println("<P><B>This has been appended by an intrusive filter.</B>");
          */
-    }
-
-    /**
-     *
-     * @param request The servlet request we are processing
-     * @param response The servlet response we are creating
-     * @param chain The filter chain we are processing
-     *
-     * @exception IOException if an input/output error occurs
-     * @exception ServletException if a servlet error occurs
-     */
-    public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain)
-            throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        HttpSession session = httpRequest.getSession(false);
-        boolean isAdminLoggedIn = (session != null
-                && session.getAttribute("userRole") != null
-                && session.getAttribute("userRole").equals("Manager"));
-        if (isAdminLoggedIn) {
-            chain.doFilter(request, response);
-        } else {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
-        }
     }
 
     /**
