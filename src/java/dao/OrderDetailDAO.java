@@ -151,4 +151,52 @@ public class OrderDetailDAO extends jdbc.DBConnect {
         }
         return price;
     }
+
+    public int updateProductQuantity(int orderId) {
+        int rowsAffected = 0;
+        String sql = "UPDATE P\n"
+                + "SET P.quantity = P.quantity - OD.quantity\n"
+                + "FROM OrderDetails OD\n"
+                + "INNER JOIN Product P ON OD.productId = P.id\n"
+                + "WHERE OD.orderId = ?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, orderId);
+            rowsAffected = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rowsAffected;
+    }
+
+    public Vector<OrderDetail> CheckOrdersQuantity(int orderId) {
+        Vector<OrderDetail> orders = new Vector<>();
+        String sql = "SELECT\n"
+                + "    OD.productId,\n"
+                + "    OD.orderId,\n"
+                + "	OD.price,\n"
+                + "    OD.quantity AS orderQuantity\n"
+                + "FROM\n"
+                + "    OrderDetails OD\n"
+                + "JOIN\n"
+                + "    Product P ON OD.productId = P.id\n"
+                + "WHERE\n"
+                + "    OD.orderId = ? AND OD.quantity > P.quantity;";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, orderId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                int productID = rs.getInt(1);
+                int orderID = rs.getInt(2);
+                double price = rs.getDouble(3);
+                int quantity = rs.getInt(4);
+                orders.add(new OrderDetail(productID, orderID, price, quantity)); 
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return orders;
+    }
+    
 }
