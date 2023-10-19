@@ -60,22 +60,18 @@
                         <div class="col-sm-6">
                             <h2>Manage <b>Order</b></h2>
                         </div>
-                        <!--       <div class="col-sm-6">
-                                   <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
-                                   <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
-                        </div>-->
-                        <div>                   
-                            <form action="${pageContext.request.contextPath}/seller/home" method="POST">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="keyword" placeholder="Search by name">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="text-primary" title="Search" name="sellerSearchCustomerSubmit">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </div>
+                    </div>
+                    <div class="row text-right"> 
+                        <form action="${pageContext.request.contextPath}/seller/home" method="POST">
+                            <div class="text-right" style="margin-top: 0.5%">
+                                <input style="color: black" name = "keyword" type="text" class="search-bar" placeholder="Search by name">
+                                <div class="input-group-append">
+                                    <button type="submit" class="text-primary" title="Search" name="sellerSearchCustomerSubmit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <c:choose>
@@ -117,10 +113,9 @@
                                         <td class="align-middle">${order.createdTime}</td>
                                         <td class="align-middle">${order.totalPrice}</td>
                                         <td>
-                                            <a href="home?go=getEditOrder&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                            <a href="home?go=delete&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                            <a href="home?go=updateStatus&newStatus=Accepted&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Accepted">&#xE254;</i></a>
+                                            <a href="home?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
                                         </td>
-                                        <td></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
