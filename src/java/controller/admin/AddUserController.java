@@ -100,7 +100,7 @@ public class AddUserController extends HttpServlet {
             Helper.setNotification(request, "Confirmed password does not match with password!", "RED");
             request.getRequestDispatcher("/jsp/manageUserPage.jsp").forward(request, response);
         } else {
-            udao.insert(new User(role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password));
+            udao.insert(new User(role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, Helper.hashPassword(password)));
             users = udao.getActiveUsers();
             request.setAttribute("users", users);
             Helper.setNotification(request, "Register successfully! Please login to access new account", "GREEN");

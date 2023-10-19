@@ -169,7 +169,7 @@ public class UserDAO extends jdbc.DBConnect {
         return users;
     }
 
-    public User getByEmail(String email) {
+    public User getActiveUserByEmail(String email) {
         String sql = "SELECT [id]\n"
                 + "      ,[role]\n"
                 + "      ,[firstName]\n"
@@ -182,7 +182,7 @@ public class UserDAO extends jdbc.DBConnect {
                 + "      ,[phone]\n"
                 + "      ,[password]\n"
                 + "  FROM [dbo].[User]"
-                + " where email = ?";
+                + " where email = ? and active = 1";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, email);

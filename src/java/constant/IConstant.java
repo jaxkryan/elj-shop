@@ -18,4 +18,6 @@ public interface IConstant {
     String REGEX_COUNTRY = "^[a-zA-Z ]+$";
     String REGEX_EMAIL = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
     String REGEX_PHONE = "^0[0-9]{9}$";
+    char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+    String SALT = "LHNHNH";
 }
