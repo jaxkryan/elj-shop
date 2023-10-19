@@ -42,6 +42,7 @@
                              align-items: center;
                              ">
                             <c:set var="currentPrice" value="${product.price - product.discount}"/>
+                            <fmt:setLocale value="en_US"/>
                             <h3 class="font-weight-semi-bold mb-4"><fmt:formatNumber type="currency" pattern="###,###¤">${currentPrice}</fmt:formatNumber></h3>
                             <c:if test="${currentPrice < product.price}">
                                 <h4 class="font-weight-semi-bold text-muted ml-2 mb-4">

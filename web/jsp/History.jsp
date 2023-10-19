@@ -56,6 +56,7 @@
                                             <td class="text-center">
                                                 <a >${order.shipStreet}, ${order.shipCity}, ${order.shipProvince}, ${order.shipCountry}</a>
                                             </td>
+                                            <fmt:setLocale value="en_US"/>
                                             <td class="text-center">
                                                 <fmt:formatNumber type="currency" pattern="###,###¤">${order.totalPrice}</fmt:formatNumber>
                                                 </td>

@@ -70,6 +70,7 @@
                                                 <img src="<%= product.getImage() %>" alt="" style="width: 50px;">
                                                 <a href="${pageContext.request.contextPath}/details?proId=<%= cartItem.get(i).getProductId() %>&from=cart" title="<%= product.getName() %>" class="product-name-in-cart text-truncate ml-2"> <%= product.getName() %> </a>
                                             </td>
+                                            <fmt:setLocale value="en_US"/>
                                             <td class="align-middle">
                                                 <fmt:formatNumber type="currency" pattern="###,###¤"><%= cartItem.get(i).getPrice() %></fmt:formatNumber>
                                                 <input type="hidden" id="price-<%= i %>" value="<%= cartItem.get(i).getPrice() %>">

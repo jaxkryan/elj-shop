@@ -81,6 +81,7 @@
                                 <% Product product = pdao.getProductById(cartItem.get(i).getProductId()); %>
                                 <div class="d-flex justify-content-between">
                                     <p><%= product.getName() %></p>
+                                    <fmt:setLocale value="en_US"/>
                                     <p><fmt:formatNumber type="currency" pattern="###,###¤"><%= product.getPrice() * cartItem.get(i).getQuantity() %></fmt:formatNumber></p>
                                     </div>
                                 <% } %>
