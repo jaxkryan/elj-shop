@@ -80,11 +80,7 @@ public class ManagerHomeController extends HttpServlet {
                 maxPrice = Double.parseDouble(tokenizer.nextToken());
             }
             Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName);
-            System.out.println("Sort: " + sort);
-            System.out.println("CategoryId: " + categoryId);
-            System.out.println("ProviderId: " + providerId);
-            System.out.println("Price: " + price);
-            System.out.println("SearchName: " + searchName);
+            
             request.setAttribute("filter", filter);
             request.setAttribute("sort", sort);
             request.setAttribute("searchName", searchName);
