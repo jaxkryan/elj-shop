@@ -235,7 +235,7 @@ GO
 ALTER TABLE Feedback ADD FOREIGN KEY (customerId) REFERENCES [user] ([id])
 GO
 
-ALTER TABLE [Report] ADD FOREIGN KEY ([employeeId]) REFERENCES [Employee] ([id])
+ALTER TABLE [Report] ADD FOREIGN KEY ([storageStaffId]) REFERENCES [Employee] ([id])
 GO
 
 ALTER TABLE [Report] ADD FOREIGN KEY ([managerId]) REFERENCES [Employee] ([id])
