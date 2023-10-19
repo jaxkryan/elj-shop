@@ -76,7 +76,7 @@
                                 <td>${reports.writeDate}</td>
                                 <td>                 
                                     <a href="#viewReport${reports.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Report">&#xe8f4;</i></a>
-                                    <a href="delete-report?reportId=${reports.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <a href="${pageContext.request.contextPath}/storage-staff/delete-report?reportId=${reports.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
                                 <!--View and reply report-->
                         <div id="viewReport${reports.id}" class="modal fade">
@@ -128,7 +128,7 @@
         <div id="addReportModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="write-report?action=manager-add" method="post">
+                    <form action="${pageContext.request.contextPath}/manager/write-report?action=manager-add" method="post">
                         <div class="modal-header">						
                             <h4 class="modal-title">Write message</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

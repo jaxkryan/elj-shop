@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <!--Report-->
-                <a href="${pageContext.request.contextPath}/write-report?action=view">Report</a>
+                <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view">Report</a>
                 <!--sorting-->
                 <form id="sortForm" action="storage-manage-product" method="post">
                     <select name="sort" id="sort" onchange="submitForm()">

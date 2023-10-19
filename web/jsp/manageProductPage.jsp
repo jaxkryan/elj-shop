@@ -144,7 +144,7 @@
                         </div>
                         <!--Report-->
                         <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/write-report?action=reply"><h2><b>Report</b></h2></a>
+                            <a href="${pageContext.request.contextPath}/manager/write-report?action=reply"><h2><b>Report</b></h2></a>
                         </div>
 
                         <div class="col-sm-6">
