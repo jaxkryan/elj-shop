@@ -30,8 +30,8 @@
     </head>
     <body>
         <div class="wrapper">
-            <form action="${pageContext.request.contextPath}/login" class="login" method="POST">
-                <p class="title">Log in</p>
+            <form action="${pageContext.request.contextPath}/forgot-password" class="login" method="POST">
+                <p class="title">Forgot Password</p>
                 <c:if test="${notification != null}">
                     <div class="alert <c:choose><c:when test="${notiType == 'RED'}">alert-danger</c:when><c:otherwise>alert-success</c:otherwise></c:choose>">
                         <strong>${notification}</strong>
@@ -39,15 +39,14 @@
                         <%session.removeAttribute("notiType");%>
                     </div>
                 </c:if>
-                <input name="username" type="text" placeholder="Email" autofocus/>
+                <p style="font-size: 0.8em;">Please enter your email, we'll send a new random password to your inbox</p>
+                <input name="email" type="text" placeholder="Email" autofocus/>
                 <i class="fa fa-user"></i>
-                <input name="password" type="password" placeholder="Password" />
-                <i class="fa fa-key"></i>
-                <a href="${pageContext.request.contextPath}/register">Register</a>
+                <a href="${pageContext.request.contextPath}/login">Log in</a>
                 <span style="font-size: 0.8em;">or</span>
-                <a href="${pageContext.request.contextPath}/forgot-password">Forgot password?</a>
+                <a href="${pageContext.request.contextPath}/register">Register</a>
                 <div class="row text-center">
-                    <input name="loginSubmit" class="registerSubmit" type="submit" value="Login">
+                    <input name="forgotPasswordSubmit" class="registerSubmit" type="submit" value="Send">
                 </div>
             </form>
         </div>

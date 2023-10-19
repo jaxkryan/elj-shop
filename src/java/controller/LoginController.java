@@ -60,6 +60,7 @@ public class LoginController extends HttpServlet {
         UserDAO udao = new UserDAO();
         User user = udao.getActiveUserByEmail(username);
         if (user != null) {
+            System.out.println(Helper.hashPassword(password));
             if (user.getPassword().equals(Helper.hashPassword(password))) {
                 //Reset user infomation
                 session.removeAttribute("userId");
