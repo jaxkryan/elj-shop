@@ -27,19 +27,35 @@
                 width: 200px;
                 height: 120px;
             }
+            .custom-radio-group {
+                background-color: white;
+                padding: 10px; /* Adjust padding as needed */
+                margin-bottom: 15px; /* Adjust margin as needed */
+            }
+
+            .custom-control-label {
+                margin: 0; /* Remove default margin on labels */
+            }
+            .custom-control{
+                /*               border-bottom: 1px solid;*/
+            }
+            .title-filter{
+                font-size: 17px;
+            }
         </style>
     <body>
         <!-- Shop Sidebar Start -->
-        <div class="col-lg-1 col-md-4"> <!-- goc: col-lg-3 col-md-4 -->
+        <div class="col-lg-2 col-md-4 " style="margin-top: 15%;
+             padding-left: 2%;"> <!-- goc: col-lg-3 col-md-4 -->
             <form action="home" method="GET">
                 <!-- Categories Start -->
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Sort By Price</span></h5>
-                <div class="bg-light p-4 mb-30">
+                <h5 class="section-title position-relative text-uppercase mb-3 title-filter" ><span class="bg-secondary pr-3" >Sort By Price</span></h5>
+                <div class="bg-light p-4 mb-30 custom-radio-group" >
                     <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                        <input type="radio" class="custom-control-input" name="sort" id="default" value="" onclick="this.form.submit()" <c:if test="${(param.sort == null || param.sort == '')}">checked</c:if>>
-                            <label class="custom-control-label" for="default">Default</label>
+                        <input type="radio" class="custom-control-input" name="sort" id="default" value=""  onclick="this.form.submit()" <c:if test="${(param.sort == null || param.sort == '')}">checked</c:if>>
+                            <label class="custom-control-label" for="default" border="1">Default</label>
                         </div>
-                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3" >
                             <input type="radio" class="custom-control-input" name="sort" id="sort-ascending" value="ascending" onclick="this.form.submit()" <c:if test="${param.sort == 'ascending'}">checked</c:if>>
                             <label class="custom-control-label" for="sort-ascending">Ascending</label>
                         </div>
@@ -48,8 +64,9 @@
                             <label class="custom-control-label" for="sort-descending">Descending</label>
                         </div>
                     </div>
-                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Categories</span></h5>
-                    <div class="bg-light p-4 mb-30">
+                <!-- Categories Start -->
+                    <h5 class="section-title position-relative text-uppercase mb-3 title-filter"><span class="bg-secondary pr-3">Categories</span></h5>
+                    <div class="bg-light p-4 mb-30 custom-radio-group">
                         <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
                             <input type="radio" class="custom-control-input" id="cate-all" name="categoryId" value="-1" onclick="this.form.submit()" <c:if test="${param.categoryId == -1 || param.categoryId == null}">checked</c:if>>
                             <label class="custom-control-label" for="cate-all">All</label>
@@ -64,8 +81,8 @@
                 <!-- Categories End -->
 
                 <!-- Price Start -->
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Price</span></h5>
-                <div class="bg-light p-4 mb-30">
+                <h5 class="section-title position-relative text-uppercase mb-3 title-filter"><span class="bg-secondary pr-3">Price</span></h5>
+                <div class="bg-light p-4 mb-30 custom-radio-group">
                     <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
                         <input type="radio" class="custom-control-input" name="price" id="priceAll" value="" onclick="this.form.submit()" <c:if test="${(param.price == null || param.price == '')}">checked</c:if>>
                             <label class="custom-control-label" for="priceAll">All</label>
@@ -90,8 +107,8 @@
                     <!-- Price End -->
 
                     <!-- Brand Start -->
-                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Brands</span></h5>
-                    <div class="bg-light p-4 mb-30">
+                    <h5 class="section-title position-relative text-uppercase mb-3 title-filter"><span class="bg-secondary pr-3">Brands</span></h5>
+                    <div class="bg-light p-4 mb-30 custom-radio-group">
                         <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
                             <input type="radio" class="custom-control-input" id="provider-all" name="providerId" value="-1" onclick="this.form.submit()" <c:if test="${(param.providerId == -1) || (param.providerId == null)}">checked</c:if>>
                             <label class="custom-control-label" for="provider-all">All</label>
@@ -390,30 +407,30 @@
     </a>
     <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
     <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        var priceInput = document.getElementsByName("price")[0];
-                        var discountInput = document.getElementsByName("discount")[0];
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    var priceInput = document.getElementsByName("price")[0];
+                                    var discountInput = document.getElementsByName("discount")[0];
 
-                        // Add input event listener to validate Discount
-                        discountInput.addEventListener("input", function () {
-                            var priceValue = parseFloat(priceInput.value);
-                            var discountValue = parseFloat(discountInput.value);
+                                    // Add input event listener to validate Discount
+                                    discountInput.addEventListener("input", function () {
+                                        var priceValue = parseFloat(priceInput.value);
+                                        var discountValue = parseFloat(discountInput.value);
 
-                            if (isNaN(priceValue) || isNaN(discountValue)) {
-                                // Invalid numeric input, reset Discount value
-                                discountInput.setCustomValidity("");
-                            } else {
-                                // Check Discount validity based on the conditions
-                                if (discountValue >= 0 && discountValue <= priceValue) {
-                                    // Valid Discount
-                                    discountInput.setCustomValidity("");
-                                } else {
-                                    // Invalid Discount
-                                    discountInput.setCustomValidity("Discount must be greater than or equal to 0 and less than or equal to Price");
-                                }
-                            }
-                        });
-                    });
+                                        if (isNaN(priceValue) || isNaN(discountValue)) {
+                                            // Invalid numeric input, reset Discount value
+                                            discountInput.setCustomValidity("");
+                                        } else {
+                                            // Check Discount validity based on the conditions
+                                            if (discountValue >= 0 && discountValue <= priceValue) {
+                                                // Valid Discount
+                                                discountInput.setCustomValidity("");
+                                            } else {
+                                                // Invalid Discount
+                                                discountInput.setCustomValidity("Discount must be greater than or equal to 0 and less than or equal to Price");
+                                            }
+                                        }
+                                    });
+                                });
     </script>
 </body>
 </html>
