@@ -157,12 +157,30 @@ GO
 
 CREATE TABLE [Report] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  storageStaffId int,
+  employeeId int,
   managerId int,
   title varchar(50),
   content varchar(1000),
   writeDate datetime,
   readStatus bit
+)
+GO
+
+CREATE TABLE [ResponseFeedback](
+  feedbackId int PRIMARY KEY,
+  sellerId int,
+  content varchar(1000),
+  responseDate datetime
+)
+GO
+
+CREATE TABLE [ResponseReport] (
+  reportId int PRIMARY KEY NOT NULL,
+  employeeId int,
+  managerId int,
+  title varchar(50),
+  content varchar(1000),
+  writeDate datetime
 )
 GO
 
@@ -217,10 +235,25 @@ GO
 ALTER TABLE Feedback ADD FOREIGN KEY (customerId) REFERENCES [user] ([id])
 GO
 
-ALTER TABLE [Report] ADD FOREIGN KEY ([storageStaffId]) REFERENCES [Employee] ([id])
+ALTER TABLE [Report] ADD FOREIGN KEY ([employeeId]) REFERENCES [Employee] ([id])
 GO
 
 ALTER TABLE [Report] ADD FOREIGN KEY ([managerId]) REFERENCES [Employee] ([id])
+GO
+
+ALTER TABLE [ResponseFeedback] ADD FOREIGN KEY ([feedbackId]) REFERENCES [Feedback] ([id])
+GO
+
+ALTER TABLE [ResponseFeedback] ADD FOREIGN KEY ([sellerId]) REFERENCES [Employee] ([id])
+GO
+
+ALTER TABLE [ResponseReport] ADD FOREIGN KEY ([reportId]) REFERENCES [Report] ([id])
+GO
+
+ALTER TABLE [ResponseReport] ADD FOREIGN KEY ([employeeId]) REFERENCES [employee] ([id])
+GO
+
+ALTER TABLE [ResponseReport] ADD FOREIGN KEY ([managerId]) REFERENCES [employee] ([id])
 GO
 
 INSERT [User] ([role],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active])
@@ -363,7 +396,7 @@ VALUES ('Voucher for Christmas', '2022-12-20 00:00:00', '2022-12-28 00:00:00', 3
 	('Voucher for Vietnam National Day', '2023-09-01 00:00:00', '2023-09-04 00:00:00', 35, 1),
 	('Voucher for New Year holiday', '2022-12-28 00:00:00', '2023-01-03 00:00:00', 25, 1)
 
-INSERT [Report] ([storageStaffId], [managerId], [title], [content], [writeDate],[readStatus])
+INSERT [Report] ([employeeId], [managerId], [title], [content], [writeDate],[readStatus])
 VALUES (10, 12, 'Report title', 'asdfawfsf', '2023-01-03 00:00:00', 1)
 
 Insert [Feedback] (customerId, productId, content, feedbackDate, [checked])values (2 , 10,'Nice product','2023-01-09 00:00:00', 0)
