@@ -51,6 +51,7 @@
                                             <td class="text-left">
                                                 <a ><%= product.getName() %></a>
                                             </td>
+                                            <fmt:setLocale value="en_US"/>
                                             <td class="text-center">
                                                 <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice() %></fmt:formatNumber>
                                                 </td>
