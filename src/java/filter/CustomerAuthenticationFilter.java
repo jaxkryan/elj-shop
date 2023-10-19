@@ -13,6 +13,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import util.Helper;
 
 /**
  *
@@ -28,7 +29,11 @@ public class CustomerAuthenticationFilter implements Filter {
     private FilterConfig filterConfig = null;
     private HttpServletRequest httpRequest;
     private static final String[] customerLoginRequiredURLs = {
-            "/profile", "/add-to-cart", "/cart"
+            "/profile", "/add-to-cart", "/cart", "/update-cartitem",
+            "/delete-cartitem", "/add-to-cart-shop-page", "/checkout",
+            "/create-order", "/add-to-cart-cart-page", "/customer-view-history",
+            "/customer-view-history-details", "/add-feedback", "/customer-delete-history-detail",
+            "/customer-delete-history"
     };
     
     public CustomerAuthenticationFilter() {
@@ -69,9 +74,10 @@ public class CustomerAuthenticationFilter implements Filter {
         boolean isLoginRequest = httpRequest.getRequestURI().equals(loginURI);
  
         if (isCustomerLoggedIn && (isLoginRequest)) {
-            httpResponse.sendRedirect("home");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/home");
         } else if (!isCustomerLoggedIn && isCustomerLoginRequired()) {
-            httpResponse.sendRedirect("login");
+            Helper.setNotification(httpRequest, "You must to login first!", "RED");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
         } else {
             chain.doFilter(request, response);
         }
@@ -80,7 +86,7 @@ public class CustomerAuthenticationFilter implements Filter {
     private boolean isCustomerLoginRequired() {
         String requestURL = httpRequest.getRequestURL().toString();
         for (String loginRequiredURL : customerLoginRequiredURLs) {
-            if (requestURL.contains(loginRequiredURL)) {
+            if (requestURL.endsWith(loginRequiredURL)) {
                 return true;
             }
         }
