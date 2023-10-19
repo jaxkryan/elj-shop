@@ -157,7 +157,7 @@ GO
 
 CREATE TABLE [Report] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  employeeId int,
+  storageStaffId int,
   managerId int,
   title varchar(50),
   content varchar(1000),
