@@ -20,4 +20,8 @@ public interface IConstant {
     String REGEX_PHONE = "^0[0-9]{9}$";
     char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
     String SALT = "LHNHNH";
+    String SMTP_HOST = "smtp.gmail.com";
+    int SMTP_TLS_PORT = 587;
+    String APP_EMAIL = "huynnthe176346@fpt.edu.vn";
+    String APP_PASSWORD = "ivyc frds erdq eglg";
 }

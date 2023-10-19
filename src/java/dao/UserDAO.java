@@ -501,6 +501,23 @@ public class UserDAO extends jdbc.DBConnect {
 
         return affectedRows;
     }
+    
+    public int changePassword(User user, String newPassword) {
+        int affectedRows = 0;
+        String sql = "UPDATE [dbo].[User]\n"
+                + "   SET [password] = ?\n"
+                + " WHERE id = ?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, newPassword);
+            pre.setInt(2, user.getId());
+            affectedRows = pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return affectedRows;
+    }
 
     public int delete(User user) {
         int affectedRows = 0;
