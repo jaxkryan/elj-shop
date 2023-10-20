@@ -261,7 +261,7 @@ VALUES ('Admin', 'Nguyen Ngoc Tuan', 'Huy', '2003-08-20', 'Tran Hung Dao', 'Ha N
 	('Customer', 'Nguyen Bao', 'Ngoc', '2004-1-23', 'Trang Hat', 'Ho Chi Minh', 'Quan 1', 'Viet Nam', '0863846324', 'longndhe176282@fpt.edu.vn', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
 	('Seller', 'Phan Van', 'Khai', '1999-06-17', 'Nguyen Trai','Ha Noi', 'Dong Da', 'Viet Nam', '0823745343', 'khaipvhe175487@fpt.edu.vn', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
 	('Customer', 'Nguyen Tien', 'Dat', '1995-12-11', 'Quan Trung', 'Ho Chi Minh', 'Quan 3', 'Viet Nam', '0896787365', 'datbiettuot@gmail.com', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
-	('Manager', 'Nguyen Tien', 'Hung', '1999-06-29', 'Ly Cong Uan','Ha Noi', 'Nam Tu Loem', 'Viet Nam', '0823745343', 'khaipvhe175487@fpt.edu.vn', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
+	('Manager', 'Nguyen Tien', 'Hung', '1999-06-29', 'Ly Cong Uan','Ha Noi', 'Nam Tu Loem', 'Viet Nam', '0823745343', 'hungnthe176686@fpt.edu.vn', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
 	('Customer', 'Nguyen Duc', 'Tai', '1989-2-21', 'Nguyen Hue', 'Can Tho', 'Lac Thuy', 'Viet Nam', '0853673278', 'tailoc@gmail.com', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
 	('Customer', 'Nguyen Ba', 'Khanh', '2006-4-4', 'Ton Quyen', 'Nha Trang', 'Tu Hai', 'Viet Nam', '0823846368', 'khanh456@gmail.com', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
 	('Customer', 'Pham Truong', 'Giang', '1999-8-11', 'NguyenTrai', 'Hoa Binh', 'Da Hop', 'Viet Nam', '0895736482', 'gianggiang@gmail.com', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),

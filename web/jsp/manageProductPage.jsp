@@ -411,7 +411,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">					
-                            <p>Are you sure you want to delete these Records?</p>
+                            <p>Are you sure you want to delete these Products?</p>
                             <p class="text-warning"><small>This action cannot be undone.</small></p>
                         </div>
                         <div class="modal-footer">
