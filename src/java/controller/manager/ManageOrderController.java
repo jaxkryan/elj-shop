@@ -41,7 +41,7 @@ public class ManageOrderController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ManageOrderController</title>");            
+            out.println("<title>Servlet ManageOrderController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ManageOrderController at " + request.getContextPath() + "</h1>");
@@ -71,7 +71,7 @@ public class ManageOrderController extends HttpServlet {
             Vector<Order> orders = orderDAO.GetManagerManageOrder();
             request.setAttribute("orders", orders);
             String[] arr = {"Processed", "Accepted", "Shipped", "Received", "Canceled"};
-            List<String> status = Arrays.asList(arr);            
+            List<String> status = Arrays.asList(arr);
             request.setAttribute("status", status);
             request.getRequestDispatcher("/jsp/ManagerManageOrderPage.jsp").forward(request, response);
         } else if (service.equals("delete")) {
@@ -94,14 +94,14 @@ public class ManageOrderController extends HttpServlet {
             request.setAttribute("status", status);
             request.setAttribute("updateOrder", updateOrder);
             request.getRequestDispatcher("/jsp/updateOrderPage.jsp").forward(request, response);
-        }else if (service.equals("changeOrderStatus")) {
+        } else if (service.equals("changeOrderStatus")) {
             int orderId = Integer.parseInt(request.getParameter("id"));
             String newStatus = request.getParameter("newStatus");
             OrderDAO orderDAO = new OrderDAO();
             Order changeStatusOrder = orderDAO.getById(orderId);
             int checkStatusChange = orderDAO.changeOrderStatus(orderId, newStatus);
             if (newStatus.equals("Cancelled")) {
-                OrderDetailDAO orderDetailDAO =new OrderDetailDAO();
+                OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
                 orderDetailDAO.increaseProductQuantity(orderId);
             }
             if (checkStatusChange != 0) {
@@ -128,10 +128,18 @@ public class ManageOrderController extends HttpServlet {
             throws ServletException, IOException {
         OrderDAO orderDAO = new OrderDAO();
         String service = request.getParameter("go");
-
-        if (request.getParameter("sellerSearchCustomerSubmit") != null) {
-            String keyword = request.getParameter("keyword");
-            Vector<Order> orders = orderDAO.getByName(keyword);
+        String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
+        String sortType = request.getParameter("sort");
+        request.setAttribute("searchName", searchName);
+        if (service.equals("search")) {
+            Vector<Order> orders = orderDAO.getShippedOrdersByName(searchName);
+            System.out.println(searchName);
+            System.out.println(orders.firstElement().getReceiver());
+            request.setAttribute("orders", orders);
+            request.getRequestDispatcher("/jsp/ManagerManageOrderPage.jsp").forward(request, response);
+        } else if (request.getParameter("sellerSearchCustomerSubmit") != null) {
+            String skeyword = request.getParameter("keyword");
+            Vector<Order> orders = orderDAO.getByName(skeyword);
             request.setAttribute("orders", orders);
             request.getRequestDispatcher("/jsp/ManagerManageOrderPage.jsp").forward(request, response);
         } else if (service.equals("update")) {

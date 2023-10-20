@@ -80,105 +80,106 @@
                         <input style="color: #000000" type="submit" name = "search" value="Search">
                     </div>
                 </form>
-            </div>        
 
-            <c:choose>
-                <c:when test="${param.go == null || param.go == 'displayAll'}">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <span class="custom-checkbox">
-                                        <input type="checkbox" id="selectAll">
-                                        <label for="selectAll"></label>
-                                    </span>
-                                </th>
-                                <th>ID</th>
-                                <th>Company</th>
-                                <th>Image</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${providers}" var="provider">
+
+                <c:choose>
+                    <c:when test="${param.go == null || param.go == 'displayAll'}">
+                        <table class="table table-striped table-hover">
+                            <thead>
                                 <tr>
-                                    <td>
+                                    <th>
                                         <span class="custom-checkbox">
-                                            <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                            <label for="checkbox1"></label>
+                                            <input type="checkbox" id="selectAll">
+                                            <label for="selectAll"></label>
                                         </span>
-                                    </td>
-                                    <td>${provider.id}</td>
-                                    <td>${provider.companyName}</td>
-                                    <td>
-                                        <img src="${provider.image}">
-                                    </td>
-                                    <td>
-                                        <a href="#editEmployeeModal${provider.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a href="#deleteEmployeeModal${provider.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                    </td>
-                                    <!-- Delete Modal HTML -->
-                            <div id="deleteEmployeeModal${provider.id}" class="modal fade">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <form action="provider">
-                                            <div class="modal-header">						
-                                                <h4 class="modal-title">Delete Provider</h4>
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            </div>
-                                            <div class="modal-body">					
-                                                <p>Are you sure you want to delete these Providers?</p>
-                                                <p class="text-warning"><small>This action cannot be undone.</small></p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                                <input id="deleteButton" type="submit" class="btn btn-danger" value="Delete">
-                                            </div>
-                                            <input type="hidden" name ="go" value="delete">
-                                            <input type="hidden" name ="pid" value="${provider.id}">
-                                        </form>
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Company</th>
+                                    <th>Image</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${providers}" var="provider">
+                                    <tr>
+                                        <td>
+                                            <span class="custom-checkbox">
+                                                <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                                <label for="checkbox1"></label>
+                                            </span>
+                                        </td>
+                                        <td>${provider.id}</td>
+                                        <td>${provider.companyName}</td>
+                                        <td>
+                                            <img src="${provider.image}">
+                                        </td>
+                                        <td>
+                                            <a href="#editEmployeeModal${provider.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                            <a href="#deleteEmployeeModal${provider.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        </td>
+                                        <!-- Delete Modal HTML -->
+                                <div id="deleteEmployeeModal${provider.id}" class="modal fade">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="provider">
+                                                <div class="modal-header">						
+                                                    <h4 class="modal-title">Delete Provider</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                </div>
+                                                <div class="modal-body">					
+                                                    <p>Are you sure you want to delete these Providers?</p>
+                                                    <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                                    <input id="deleteButton" type="submit" class="btn btn-danger" value="Delete">
+                                                </div>
+                                                <input type="hidden" name ="go" value="delete">
+                                                <input type="hidden" name ="pid" value="${provider.id}">
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Edit Modal HTML -->
-                            <div id="editEmployeeModal${provider.id}" class="modal fade">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <form action="provider" method="post">
-                                            <div class="modal-header">						
-                                                <h4 class="modal-title">Add Product</h4>
-                                                <a type="button" class="close" href="provider?"  data-dismiss="modal" aria-hidden="true">&times;</a>
+                                <!-- Edit Modal HTML -->
+                                <div id="editEmployeeModal${provider.id}" class="modal fade">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="provider" method="post">
+                                                <div class="modal-header">						
+                                                    <h4 class="modal-title">Add Product</h4>
+                                                    <a type="button" class="close" href="provider?"  data-dismiss="modal" aria-hidden="true">&times;</a>
 
-                                            </div>
-                                            <div class="modal-body">					
-                                                <div class="form-group">
-                                                    <label>ID</label>
-                                                    <input value="${provider.id}" name="id" type="text" class="form-control" readonly required>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label>Name</label>
-                                                    <input value="${provider.companyName}" name="companyName" type="text" class="form-control" maxlength="64" pattern="^[A-Za-z0-9\s]+$" title="Company name can only contain letters and numbers, with a maximum length of 64 characters" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Image</label>
-                                                    <textarea name="image" type="text" class="form-control" pattern="^(http(s?):\/\/|www.)+[a-zA-Z0-9-]+\.[a-zA-Z0-9]+\/?[a-zA-Z0-9-]*\.(png|jpg|jpeg|gif|bmp|svg)$" title="Please enter a valid image link" required>${provider.image}</textarea>
-                                                </div>
+                                                <div class="modal-body">					
+                                                    <div class="form-group">
+                                                        <label>ID</label>
+                                                        <input value="${provider.id}" name="id" type="text" class="form-control" readonly required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Name</label>
+                                                        <input value="${provider.companyName}" name="companyName" type="text" class="form-control" maxlength="64" pattern="^[A-Za-z0-9\s]+$" title="Company name can only contain letters and numbers, with a maximum length of 64 characters" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Image</label>
+                                                        <textarea name="image" type="text" class="form-control" pattern="^(http(s?):\/\/|www.)+[a-zA-Z0-9-]+\.[a-zA-Z0-9]+\/?[a-zA-Z0-9-]*\.(png|jpg|jpeg|gif|bmp|svg)$" title="Please enter a valid image link" required>${provider.image}</textarea>
+                                                    </div>
 
-                                                <input type="hidden" name="go" value="UpdateProvider">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <input type="submit" class="btn btn-success" value="Edit">
-                                            </div>
-                                        </form>
+                                                    <input type="hidden" name="go" value="UpdateProvider">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input type="submit" class="btn btn-success" value="Edit">
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </c:when>
-            </c:choose>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:when>
+                </c:choose>
+            </div>
         </div>
         <!-- Edit Modal HTML -->
         <div id="addEmployeeModal" class="modal fade">
