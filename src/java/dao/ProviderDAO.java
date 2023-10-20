@@ -38,6 +38,24 @@ public class ProviderDAO extends jdbc.DBConnect {
         return listProvider;
     }
     
+    public Vector<Provider> getAllBrand() {
+        Vector<Provider> listProvider = new Vector<>();
+        String sql = "SELECT * from [provider]";
+        try {
+            ResultSet rs = getData(sql);
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String companyName = rs.getString(2);
+                String image = rs.getString(3);
+                Boolean active = rs.getBoolean(4);
+                listProvider.add(new Provider(id, companyName, image, active));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listProvider;
+    } 
+    
     public int updateProvider(Provider provider) {
         int rowsAffected = 0;
         String sql = "UPDATE [dbo].[Provider]\n"

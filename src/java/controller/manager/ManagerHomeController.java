@@ -39,7 +39,9 @@ public class ManagerHomeController extends HttpServlet {
 
         ProviderDAO providerDAO = new ProviderDAO();
         Vector<Provider> providers = providerDAO.getAllProvider();
+        Vector<Provider> brandProviders = providerDAO.getAllBrand();
         request.setAttribute("providers", providers);
+        request.setAttribute("brand", brandProviders);
         ProductDAO productDAO = new ProductDAO();
         if (service == null || service.equals("")) {
             service = "displayAll";

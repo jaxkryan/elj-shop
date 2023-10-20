@@ -39,7 +39,7 @@ public class ProductDAO extends jdbc.DBConnect {
         }
         return listP;
     }
-
+    
     public Vector<Product> getHotProducts() {
         Vector<Product> listP = new Vector<>();
         String sql = "select top 3 * from product\n"
@@ -192,7 +192,6 @@ public class ProductDAO extends jdbc.DBConnect {
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setInt(1, productId);
-            pre.executeUpdate();
             rowsAffected = pre.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
