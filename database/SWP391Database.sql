@@ -232,7 +232,7 @@ GO
 ALTER TABLE Feedback ADD FOREIGN KEY ([productId]) REFERENCES [Product] ([id])
 GO
 
-ALTER TABLE Feedback ADD FOREIGN KEY (customerId) REFERENCES [user] ([id])
+ALTER TABLE Feedback ADD FOREIGN KEY (customerId) REFERENCES [Customer] ([id])
 GO
 
 ALTER TABLE [Report] ADD FOREIGN KEY ([storageStaffId]) REFERENCES [Employee] ([id])
