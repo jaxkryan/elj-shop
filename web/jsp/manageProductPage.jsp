@@ -64,7 +64,7 @@
                             <label class="custom-control-label" for="sort-descending">Descending</label>
                         </div>
                     </div>
-                <!-- Categories Start -->
+                    <!-- Categories Start -->
                     <h5 class="section-title position-relative text-uppercase mb-3 title-filter"><span class="bg-secondary pr-3">Categories</span></h5>
                     <div class="bg-light p-4 mb-30 custom-radio-group">
                         <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
@@ -214,12 +214,7 @@
                                 <td>${product.id}</td>
                                 <td>${product.name}</td>
                                 <td>${categories.get(product.categoryId - 1).name}</td>
-                                <c:if test="${empty providers[product.providerId - 1].companyName}">
-                                    <td>Not Available</td>
-                                </c:if>
-                                <c:if test="${not empty providers[product.providerId - 1].companyName}">
-                                    <td>${providers[product.providerId - 1].companyName}</td>
-                                </c:if>   
+                                <td>${brand[product.providerId - 1].companyName}</td>
                                 <td>${product.description}</td>
                                 <td>${product.price}$</td>
                                 <td>${product.discount}$</td>
@@ -229,9 +224,32 @@
                                 </td>
                                 <td>
                                     <a href="#editEmployeeModal${product.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                    <a href="home?go=delete&pid=${product.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <a href="#deleteEmployeeModal${product.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
-                                <!-- Edit Modal HTML -->
+                                <!-- Delete Modal HTML -->
+                        <div id="deleteEmployeeModal${product.id}" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="home">
+                                        <div class="modal-header">						
+                                            <h4 class="modal-title">Delete Product</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body">					
+                                            <p>Are you sure you want to delete these Records?</p>
+                                            <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                            <input id="deleteButton" type="submit" class="btn btn-danger" value="Delete">
+                                        </div>
+                                        <input type="hidden" name ="go" value="delete">
+                                        <input type="hidden" name ="pid" value="${product.id}">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Edit Modal HTML -->
                         <div id="editEmployeeModal${product.id}" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
