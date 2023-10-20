@@ -168,7 +168,24 @@ public class OrderDetailDAO extends jdbc.DBConnect {
         }
         return rowsAffected;
     }
-
+    
+    public int increaseProductQuantity(int orderId) {
+        int rowsAffected = 0;
+        String sql = "UPDATE P\n"
+                + "SET P.quantity = P.quantity + OD.quantity\n"
+                + "FROM OrderDetails OD\n"
+                + "INNER JOIN Product P ON OD.productId = P.id\n"
+                + "WHERE OD.orderId = ?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, orderId);
+            rowsAffected = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rowsAffected;
+    }
+    
     public Vector<OrderDetail> CheckOrdersQuantity(int orderId) {
         Vector<OrderDetail> orders = new Vector<>();
         String sql = "SELECT\n"

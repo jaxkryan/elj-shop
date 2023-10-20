@@ -5,6 +5,7 @@
 package controller.manager;
 
 import dao.OrderDAO;
+import dao.OrderDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -99,6 +100,10 @@ public class ManageOrderController extends HttpServlet {
             OrderDAO orderDAO = new OrderDAO();
             Order changeStatusOrder = orderDAO.getById(orderId);
             int checkStatusChange = orderDAO.changeOrderStatus(orderId, newStatus);
+            if (newStatus.equals("Cancelled")) {
+                OrderDetailDAO orderDetailDAO =new OrderDetailDAO();
+                orderDetailDAO.increaseProductQuantity(orderId);
+            }
             if (checkStatusChange != 0) {
                 //Update success notification
                 Helper.setNotification(request, "Order status changed to " + newStatus + " successfully for " + changeStatusOrder.getReceiver() + "'s order!", "GREEN");

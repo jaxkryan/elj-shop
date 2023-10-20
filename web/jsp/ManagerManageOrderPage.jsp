@@ -140,19 +140,19 @@
                                         <td class="align-middle">${order.totalPrice}</td>
                                         <td>
                                             <a href="order?go=changeOrderStatus&newStatus=Received&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Received">&#xE254;</i></a>
-                                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
+                                            <a href="#deleteEmployeeModal${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
                                         </td>
                                         <!-- Delete Modal HTML -->
-                                <div id="deleteEmployeeModal" class="modal fade">
+                                <div id="deleteEmployeeModal${order.id}" class="modal fade">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <form action="order">
                                                 <div class="modal-header">						
-                                                    <h4 class="modal-title">Delete Product</h4>
+                                                    <h4 class="modal-title">Cancel Order</h4>
                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                                 </div>
                                                 <div class="modal-body">					
-                                                    <p>Are you sure you want to delete these Records?</p>
+                                                    <p>Are you sure you want to cancel these orders?</p>
                                                     <p class="text-warning"><small>This action cannot be undone.</small></p>
                                                 </div>
                                                 <div class="modal-footer">
@@ -166,8 +166,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                                 </tr>
                             </c:forEach>
                             </tbody>
