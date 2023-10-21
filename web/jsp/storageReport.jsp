@@ -31,6 +31,7 @@
     <body>
         <div class="container">
             <div class="row p-3 text-right">
+<!--                <a style="margin-right:81%" href="${pageContext.request.contextPath}/storage-staff/home" class="btn btn-primary">Back</a>-->
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
@@ -53,8 +54,15 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <h2>Report</h2>
+                        <div class="col-sm-2">
+                            <a href="${pageContext.request.contextPath}/storage-staff/home"> <h2><b>Manage Product Quantity</b></h2></a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status"><h2><b>Manage Order Status</b></h2></a>
+                        </div>
+                        <div class="col-sm-2">
+                            <!--Report-->
+                            <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view"><h2><b>Report</h2></b></a>
                         </div>
                         <div class="col-sm-6">
                             <a href="#addReportModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Write report</span></a>					
@@ -92,7 +100,8 @@
                                                 <label>Manager Received</label>                                               
                                                 <c:forEach items="${managers}" var="managers">
                                                     <c:if test="${Integer.parseInt(reports.managerId) == Integer.parseInt(managers.id)}">
-                                                        <input name="name" type="text" class="form-control" value="${managers.firstName} ${managers.lastName}" readonly>
+                                                        <div>${managers.firstName} ${managers.lastName}</div>
+                                                        <input type ="hidden" name ="managersId" value="${managers.id}">
                                                     </c:if>
                                                 </c:forEach>
 
