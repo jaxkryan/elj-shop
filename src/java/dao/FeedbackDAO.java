@@ -33,7 +33,29 @@ public class FeedbackDAO extends jdbc.DBConnect {
                         rs.getInt(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getInt(6)));
+                        rs.getBoolean(6)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return feedbacks;
+    }
+
+    public Vector<Feedback> getAllFeedback() {
+        Vector<Feedback> feedbacks = new Vector<>();
+        String sql = "  SELECT *\n"
+                + "FROM FeedBack\n";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                int customerId = rs.getInt(2);
+                int productId = rs.getInt(3);
+                String content = rs.getString(4);
+                String feedbackDate = rs.getString(5);
+                boolean checked = rs.getBoolean(6);
+                feedbacks.add(new Feedback(id, customerId, productId, content, feedbackDate, checked));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -53,6 +75,29 @@ public class FeedbackDAO extends jdbc.DBConnect {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public int insertCheckedFeedback(Feedback feedback) {
+        int affectedRows = 0;
+        String sql = "INSERT INTO [dbo].[Feedback]\n"
+                + "           ([customerId]\n"
+                + "           ,[productId]\n"
+                + "           ,[content]\n"
+                + "           ,[feedbackDate]\n"
+                + "           ,[checked])\n"
+                + "     VALUES"
+                + "           (?,?,?,?,1)";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, feedback.getCustomerId());
+            pre.setInt(2, feedback.getProductId());
+            pre.setString(3, feedback.getContent());
+            pre.setString(4, feedback.getFeedbackDate());
+            affectedRows = pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return affectedRows;
     }
 
     public boolean isBought(int userId, int proId) {

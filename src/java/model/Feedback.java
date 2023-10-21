@@ -15,13 +15,21 @@ public class Feedback {
     int productId;
     String content;
     String feedbackDate;
-    int check;
+    boolean check;
 
     public Feedback() {
     }
 
-    public Feedback(int id, int customerId, int productId, String content, String feedbackDate, int check) {
+    public Feedback(int id, int customerId, int productId, String content, String feedbackDate, boolean check) {
         this.id = id;
+        this.customerId = customerId;
+        this.productId = productId;
+        this.content = content;
+        this.feedbackDate = feedbackDate;
+        this.check = check;
+    }
+
+    public Feedback(int customerId, int productId, String content, String feedbackDate, boolean check) {
         this.customerId = customerId;
         this.productId = productId;
         this.content = content;
@@ -33,6 +41,34 @@ public class Feedback {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public String getFeedbackDate() {
         return feedbackDate;
     }
@@ -41,39 +77,11 @@ public class Feedback {
         this.feedbackDate = feedbackDate;
     }
 
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public int getCheck() {
+    public boolean isCheck() {
         return check;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setCheck(int check) {
+    public void setCheck(boolean check) {
         this.check = check;
     }
 

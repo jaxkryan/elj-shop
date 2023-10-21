@@ -236,13 +236,17 @@
         <servlet-name>ManagerDeleteReportController</servlet-name>
         <servlet-class>controller.manager.ManagerDeleteReportController</servlet-class>
     </servlet>
-        <servlet>
+    <servlet>
         <servlet-name>UpdateOrderStatus</servlet-name>
         <servlet-class>controller.storagestaff.UpdateOrderStatus</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ErrorController</servlet-name>
         <servlet-class>controller.ErrorController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SellerResponseController</servlet-name>
+        <servlet-class>controller.seller.SellerResponseController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -423,6 +427,10 @@
     <servlet-mapping>
         <servlet-name>ErrorController</servlet-name>
         <url-pattern>/error</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SellerResponseController</servlet-name>
+        <url-pattern>/seller/write-feedback</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

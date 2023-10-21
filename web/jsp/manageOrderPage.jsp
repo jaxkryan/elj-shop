@@ -57,8 +57,11 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <h2>Manage <b>Order</b></h2>
+                        <div class="col-sm-2">
+                            <a href="home"> <h2>Manage <b>Order</b></h2></a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a href="write-feedback?go=viewFeedback"><h2><b>Feedback</b></h2></a>
                         </div>
                     </div>
                     <div class="row text-right"> 
@@ -79,12 +82,6 @@
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>
-                                        <span class="custom-checkbox">
-                                            <input type="checkbox" id="selectAll">
-                                            <label for="selectAll"></label>
-                                        </span>
-                                    </th>
                                     <th>ID</th>
                                     <th>CustomerID</th>
                                     <th>Receiver</th>
