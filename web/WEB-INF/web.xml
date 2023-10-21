@@ -236,6 +236,10 @@
         <servlet-name>ManagerDeleteReportController</servlet-name>
         <servlet-class>controller.manager.ManagerDeleteReportController</servlet-class>
     </servlet>
+        <servlet>
+        <servlet-name>UpdateOrderStatus</servlet-name>
+        <servlet-class>controller.storagestaff.UpdateOrderStatus</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>ErrorController</servlet-name>
         <servlet-class>controller.ErrorController</servlet-class>
@@ -407,6 +411,10 @@
     <servlet-mapping>
         <servlet-name>LoginGoogleController</servlet-name>
         <url-pattern>/login-google</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateOrderStatus</servlet-name>
+        <url-pattern>/storage-staff/update-order-status</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManagerDeleteReportController</servlet-name>
