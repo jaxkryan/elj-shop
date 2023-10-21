@@ -13,6 +13,7 @@ public class DBConnect {
 
     public DBConnect() {
         this("jdbc:sqlserver://localhost:1433;databaseName=OnlineShop", "sa", "123456");
+//        this("jdbc:sqlserver://10.211.55.2\\10.211.55.2:1433;databaseName=OnlineShop", "sa", "Admindb@123");
     }
     
     public DBConnect(String url, String username, String password) {
