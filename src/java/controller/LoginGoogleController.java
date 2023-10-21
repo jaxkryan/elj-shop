@@ -6,6 +6,7 @@ import com.oracle.wls.shaded.org.apache.xml.utils.Constants;
 import constant.IConstant;
 import dao.CartDAO;
 import dao.CartItemDAO;
+import dao.CustomerDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -50,11 +51,15 @@ public class LoginGoogleController extends HttpServlet {
             UserDAO udao = new UserDAO();
             User user = udao.getActiveUserByEmail(googlePojo.getEmail());
             if (user == null) {
-                user = new User("Customer", googlePojo.getGiven_name(), googlePojo.getFamily_name(), null, null, null, null, null, null, googlePojo.getEmail(), "");
+                user = new User("Customer", googlePojo.getGiven_name(), googlePojo.getFamily_name(), null, null, null, null, null, null, googlePojo.getEmail(), null);
                 int newUserId = udao.insert(user, true);
                 user.setId(newUserId);
+                CustomerDAO customerDAO = new CustomerDAO();
+                customerDAO.insert(user.getId());
+                CartDAO cartDAO = new CartDAO();
+                cartDAO.insert(user.getId());
             }
-            
+
             //Reset user infomation
             session.removeAttribute("userId");
             session.removeAttribute("userRole");
