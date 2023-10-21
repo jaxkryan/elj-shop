@@ -67,7 +67,7 @@
                         </div>
                         <!--Report-->
                         <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/write-report?action=reply"><h2><b>Report</b></h2></a>
+                            <a href="${pageContext.request.contextPath}/manager/write-report?action=reply"><h2><b>Report</b></h2></a>
                         </div>
 
                         <div class="col-sm-6">
@@ -78,9 +78,9 @@
                 </div> 
                 <!--Search bar-->
                 <div class="row text-right"> 
-                    <form action="order?search=All" method="post">
+                    <form action="order?go=search" method="post">
                         <div class="text-right" style="margin-top: 0.5%">
-                            <input style="color: black" name = "keyword" type="text" class="search-bar" placeholder="Search product...">
+                            <input style="color: black" name = "searchName" type="text" class="search-bar" placeholder="Search product" value="${searchName}">
                             <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
                         </div>
                     </form>
@@ -89,8 +89,8 @@
                 <form id="sortForm" action="order" method="post">
                     <select name="sort" id="sort" onchange="submitForm()">
                         <option value="All">Display All</option>
-                        <option value="Asc">Quantity Ascending</option>
-                        <option value="Desc">Quantity Descending</option>
+                        <option value="Asc">Created Time Ascending</option>
+                        <option value="Desc">Created Time Descending</option>
                         <input type="hidden" name="keySearch" value="${requestScope.keySearch}">
                     </select>
                 </form>
@@ -100,134 +100,74 @@
                         document.getElementById("sortForm").submit();
                     }
                 </script>
-                <c:choose>
-                    <c:when test="${param.go == null || param.go == 'displayAll'}">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        <span class="custom-checkbox">
-                                            <input type="checkbox" id="selectAll">
-                                            <label for="selectAll"></label>
-                                        </span>
-                                    </th>
-                                    <th>ID</th>
-                                    <th>CustomerID</th>
-                                    <th>Receiver</th>
-                                    <th>Address</th>
-                                    <th>ShipCusInfo</th>
-                                    <th>Status</th>
-                                    <th>CreatedTime</th>
-                                    <th>TotalPrice</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${orders}" var="order">
-                                    <tr>
-                                        <td>
-                                            <span class="custom-checkbox">
-                                                <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                                <label for="checkbox1"></label>
-                                            </span>
-                                        </td>
-                                        <td class="align-middle">${order.id}</td>
-                                        <td class="align-middle">${order.customerId}</td>
-                                        <td class="align-middle text-left" style="text-wrap: nowrap;">${order.receiver}</td>
-                                        <td class="align-middle text-left">${order.shipStreet}, ${order.shipCity}, ${order.shipProvince}, ${order.shipCountry}</td>
-                                        <td class="align-middle">${order.shipEmail}, ${order.shipPhone}</td>
-                                        <td class="align-middle">${order.status}</td>
-                                        <td class="align-middle">${order.createdTime}</td>
-                                        <td class="align-middle">${order.totalPrice}</td>
-                                        <td>
-                                            <a href="order?go=changeOrderStatus&newStatus=Received&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Received">&#xE254;</i></a>
-                                            <a href="order?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
-                                        </td>
-                                        <!-- Edit Modal HTML -->
-                                <div id="editEmployeeModal${order.id}" class="modal fade">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <form action="order" method="POST">
-                                                <div class="modal-header">						
-                                                    <h4 class="modal-title">Edit Order</h4>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                </div>
-                                                <div class="modal-body">					
-                                                    <div class="form-group">
-                                                        <label>ID</label>
-                                                        <input value="${order.id}" name="id" type="text" class="form-control" readonly required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>CustomerID</label>
-                                                        <input value="${order.customerId}" name="customerId" type="text" class="form-control" readonly required >
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Receiver</label>
-                                                        <input value="${order.receiver}" name="receiver" type="text" class="form-control" readonly required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>ShipStreet</label>
-                                                        <input value="${order.shipStreet}" name="shipStreet" class="form-control" readonly required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>ShipCity</label>
-                                                        <input value="${order.shipCity}" name="shipCity" class="form-control" readonly required>
-                                                    </div><!-- comment -->    
-                                                    <div class="form-group">
-                                                        <label>ShipProvince</label>
-                                                        <input value="${order.shipProvince}" name="shipProvince" class="form-control" readonly required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>ShipCountry</label>
-                                                        <input value="${order.shipCountry}" name="shipCountry" class="form-control" readonly required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>ShipEmail</label>
-                                                        <input value="${order.shipEmail}" name="shipEmail" class="form-control" readonly required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>ShipPhone</label>
-                                                        <input value="${order.shipPhone}" name="shipPhone" class="form-control" readonly required>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>Status</label>
-                                                        <select name="status" class="form-control" aria-label="Default select example">
-                                                            <c:forEach items="${status}" var="statust">
-                                                                <c:choose>
-                                                                    <c:when test="${order.status eq statust}">
-                                                                        <option value="${statust}" selected>${statust}</option>
-                                                                    </c:when>
-                                                                    <c:otherwise>
-                                                                        <option value="${statust}">${statust}</option>
-                                                                    </c:otherwise>
-                                                                </c:choose>
-                                                            </c:forEach>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label>CreatedTime</label>
-                                                        <input value="${order.createdTime}" name="createdTime" class="form-control" readonly required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>TotalPrice</label>
-                                                        <input value="${order.totalPrice}" name="totalprice" class="form-control" readonly required>
-                                                    </div>                               
-                                                    <input type="hidden" name="go" value="update">
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <input type="submit" class="btn btn-success" value="Edit">
-                                                </div>
-                                            </form>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="selectAll">
+                                    <label for="selectAll"></label>
+                                </span>
+                            </th>
+                            <th>ID</th>
+                            <th>Customer ID</th>
+                            <th>Receiver</th>
+                            <th>Address</th>
+                            <th>Ship Customer Information</th>
+                            <th>Status</th>
+                            <th>Created Time</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${orders}" var="order">
+                            <tr>
+                                <td>
+                                    <span class="custom-checkbox">
+                                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                        <label for="checkbox1"></label>
+                                    </span>
+                                </td>
+                                <td class="align-middle">${order.id}</td>
+                                <td class="align-middle">${order.customerId}</td>
+                                <td class="align-middle text-left" style="text-wrap: nowrap;">${order.receiver}</td>
+                                <td class="align-middle text-left">${order.shipStreet}, ${order.shipCity}, ${order.shipProvince}, ${order.shipCountry}</td>
+                                <td class="align-middle">${order.shipEmail}, ${order.shipPhone}</td>
+                                <td class="align-middle">${order.status}</td>
+                                <td class="align-middle">${order.createdTime}</td>
+                                <td class="align-middle">${order.totalPrice}</td>
+                                <td>
+                                    <a href="order?go=changeOrderStatus&newStatus=Received&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Received">&#xE254;</i></a>
+                                    <a href="#deleteEmployeeModal${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
+                                </td>
+                                <!-- Delete Modal HTML -->
+                        <div id="deleteEmployeeModal${order.id}" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="order">
+                                        <div class="modal-header">						
+                                            <h4 class="modal-title">Cancel Order</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                         </div>
-                                    </div>
+                                        <div class="modal-body">					
+                                            <p>Are you sure you want to cancel these orders?</p>
+                                            <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                            <input id="deleteButton" type="submit" class="btn btn-danger" value="Delete">
+                                        </div>
+                                        <input type="hidden" name ="go" value="changeOrderStatus">
+                                        <input type="hidden" name ="newStatus" value="Cancelled">
+                                        <input type="hidden" name ="id" value="${order.id}">
+                                    </form>
                                 </div>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </c:when>
-                </c:choose>
+                            </div>
+                        </div>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -316,28 +256,10 @@
             </div>
         </div>
 
-        <!-- Delete Modal HTML -->
-        <div id="deleteEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form>
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Delete Product</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <p>Are you sure you want to delete these Records?</p>
-                            <p class="text-warning"><small>This action cannot be undone.</small></p>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-danger" value="Delete">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+
     </a>
     <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
+
+
 </body>
 </html>

@@ -71,7 +71,7 @@ public class ManageReportController extends HttpServlet {
                 int staffId = Integer.parseInt(request.getParameter("staffId"));
                 String title = "Reply for " + request.getParameter("title");
                 String content = request.getParameter("reply-content");
-                Report report = new Report(staffId, managerId, title, content, formattedDate, false);
+                Report report = new Report(staffId, managerId, title, content, formattedDate, true);
                 reportDAO.insertReport(report);
                 Vector<Report> reports = reportDAO.getAllReport();
                 Vector<User> staff = userDAO.getActiveStorageStaff();
