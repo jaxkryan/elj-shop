@@ -5,6 +5,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CartDAO extends jdbc.DBConnect {
+    public int insert(int customerId) {
+        int affectedRows = 0;
+        try {
+            String sql = "INSERT INTO [dbo].[Cart]\n"
+                    + "           ([customerId])\n"
+                    + "     VALUES\n"
+                    + "           (?)";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, customerId);
+            affectedRows = pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return affectedRows;
+    }
+
     public int deleteByCustomerId(int customerId) {
         int affectedRows = 0;
         try {
