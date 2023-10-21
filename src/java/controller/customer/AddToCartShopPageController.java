@@ -76,45 +76,12 @@ public class AddToCartShopPageController extends HttpServlet {
                         FeedbackDAO fdao = new FeedbackDAO();
                         Vector<Feedback> feedbacks = fdao.getFeedbackByProductId(proId);
                         request.setAttribute("feedbacks", feedbacks);
-                        String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
-                        String categoryIdParam = request.getParameter("categoryId");
-                        int categoryId;
-                        if (categoryIdParam != null && !"".equals(categoryIdParam)) {
-                            categoryId = Integer.parseInt(categoryIdParam);
-                        } else {
-                            categoryId = -1; // Giá trị mặc định khi categoryId là null hoặc rỗng
-                        }
-                        String providerIdParam = request.getParameter("providerId");
-                        int providerId;
-
-                        if (providerIdParam != null && !"".equals(providerIdParam)) {
-                            providerId = Integer.parseInt(providerIdParam);
-                        } else {
-                            providerId = -1; // Giá trị mặc định khi categoryId là null hoặc rỗng
-                        }
-                        String price = request.getParameter("price");
-                        double minPrice = 0.0;
-                        double maxPrice = 10000000000000.0;
-                        String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
-
-                        if (price != null && !price.equals("")) {
-                            StringTokenizer tokenizer = new StringTokenizer(request.getParameter("price"), "-");
-                            minPrice = Double.parseDouble(tokenizer.nextToken());
-                            maxPrice = Double.parseDouble(tokenizer.nextToken());
-                        }
-                        ProductDAO productDAO = new ProductDAO();
-                        CategoryDAO categoryDAO = new CategoryDAO();
-                        Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName);
-                        Vector<Category> categories = categoryDAO.getAllCategory();
-                        Vector<Provider> providers = providerDAO.getAllProvider();
-                        request.setAttribute("sort", sort);
-                        request.setAttribute("searchName", searchName);
-                        request.setAttribute("products", products);
-                        request.setAttribute("categoryId", categoryId);
-                        request.setAttribute("providerId", providerId);
-                        request.setAttribute("price", price);
-                        request.setAttribute("categories", categories);
-                        request.setAttribute("providers", providers);
+                        request.setAttribute("page", request.getParameter("page"));
+                        request.setAttribute("sort", request.getParameter("sort"));
+                        request.setAttribute("searchName", request.getParameter("searchName"));
+                        request.setAttribute("categoryId", request.getParameter("categoryId"));
+                        request.setAttribute("providerId", request.getParameter("providerId"));
+                        request.setAttribute("price", request.getParameter("price"));
                         Helper.setNotification(request, "Please enter a valid quantity!", "RED");
                         request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
                         return;
@@ -132,45 +99,12 @@ public class AddToCartShopPageController extends HttpServlet {
                         FeedbackDAO fdao = new FeedbackDAO();
                         Vector<Feedback> feedbacks = fdao.getFeedbackByProductId(proId);
                         request.setAttribute("feedbacks", feedbacks);
-                        String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
-                        String categoryIdParam = request.getParameter("categoryId");
-                        int categoryId;
-                        if (categoryIdParam != null && !"".equals(categoryIdParam)) {
-                            categoryId = Integer.parseInt(categoryIdParam);
-                        } else {
-                            categoryId = -1; // Giá trị mặc định khi categoryId là null hoặc rỗng
-                        }
-                        String providerIdParam = request.getParameter("providerId");
-                        int providerId;
-
-                        if (providerIdParam != null && !"".equals(providerIdParam)) {
-                            providerId = Integer.parseInt(providerIdParam);
-                        } else {
-                            providerId = -1; // Giá trị mặc định khi categoryId là null hoặc rỗng
-                        }
-                        String price = request.getParameter("price");
-                        double minPrice = 0.0;
-                        double maxPrice = 10000000000000.0;
-                        String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
-
-                        if (price != null && !price.equals("")) {
-                            StringTokenizer tokenizer = new StringTokenizer(request.getParameter("price"), "-");
-                            minPrice = Double.parseDouble(tokenizer.nextToken());
-                            maxPrice = Double.parseDouble(tokenizer.nextToken());
-                        }
-                        ProductDAO productDAO = new ProductDAO();
-                        CategoryDAO categoryDAO = new CategoryDAO();
-                        Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName);
-                        Vector<Category> categories = categoryDAO.getAllCategory();
-                        Vector<Provider> providers = providerDAO.getAllProvider();
-                        request.setAttribute("sort", sort);
-                        request.setAttribute("searchName", searchName);
-                        request.setAttribute("products", products);
-                        request.setAttribute("categoryId", categoryId);
-                        request.setAttribute("providerId", providerId);
-                        request.setAttribute("price", price);
-                        request.setAttribute("categories", categories);
-                        request.setAttribute("providers", providers);
+                        request.setAttribute("page", request.getParameter("page"));
+                        request.setAttribute("sort", request.getParameter("sort"));
+                        request.setAttribute("searchName", request.getParameter("searchName"));
+                        request.setAttribute("categoryId", request.getParameter("categoryId"));
+                        request.setAttribute("providerId", request.getParameter("providerId"));
+                        request.setAttribute("price", request.getParameter("price"));
                         Helper.setNotification(request, "Please enter a valid quantity!", "RED");
                         request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
                         return;
@@ -187,7 +121,13 @@ public class AddToCartShopPageController extends HttpServlet {
                         }
                     }
                     if (quantity + quantityInCart > product.getQuantity()) {
-                        Helper.setNotification(request, "Not enough " + product.getName() + " in stock!", "RED");
+                        String pageIdParam = request.getParameter("page");
+                        int page;
+                        if (pageIdParam != null && !"".equals(pageIdParam)) {
+                            page = Integer.parseInt(pageIdParam);
+                        } else {
+                            page = -1;
+                        }
                         String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
                         String categoryIdParam = request.getParameter("categoryId");
                         int categoryId;
@@ -217,9 +157,12 @@ public class AddToCartShopPageController extends HttpServlet {
                         ProductDAO productDAO = new ProductDAO();
                         CategoryDAO categoryDAO = new CategoryDAO();
                         ProviderDAO providerDAO = new ProviderDAO();
-                        Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName);
+                        Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName, page);
+                        int numberOfProduct = productDAO.getNumberOfProduct(sort, categoryId, providerId, minPrice, maxPrice, searchName);
                         Vector<Category> categories = categoryDAO.getAllCategory();
                         Vector<Provider> providers = providerDAO.getAllProvider();
+                        request.setAttribute("page", page);
+                        request.setAttribute("numberOfProduct", numberOfProduct);
                         request.setAttribute("sort", sort);
                         request.setAttribute("searchName", searchName);
                         request.setAttribute("products", products);
@@ -228,6 +171,7 @@ public class AddToCartShopPageController extends HttpServlet {
                         request.setAttribute("price", price);
                         request.setAttribute("categories", categories);
                         request.setAttribute("providers", providers);
+                        Helper.setNotification(request, "Not enough " + product.getName() + " in stock!", "RED");
                         request.getRequestDispatcher("/jsp/shopPage.jsp").forward(request, response);
                         return;
                     }
@@ -236,9 +180,15 @@ public class AddToCartShopPageController extends HttpServlet {
                     session.setAttribute("cartItem", cartItem);
                     Helper.setNotification(request, "Added " + quantity + " " + product.getName() + " to Cart", "GREEN");
                     String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
+                    String pageIdParam = request.getParameter("page");
+                    int page;
+                    if (pageIdParam != null && !"".equals(pageIdParam)) {
+                        page = Integer.parseInt(pageIdParam);
+                    } else {
+                        page = 1;
+                    }
                     String categoryIdParam = request.getParameter("categoryId");
                     int categoryId;
-
                     if (categoryIdParam != null && !"".equals(categoryIdParam)) {
                         categoryId = Integer.parseInt(categoryIdParam);
                     } else {
@@ -265,9 +215,12 @@ public class AddToCartShopPageController extends HttpServlet {
                     ProductDAO productDAO = new ProductDAO();
                     CategoryDAO categoryDAO = new CategoryDAO();
                     ProviderDAO providerDAO = new ProviderDAO();
-                    Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName);
+                    Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName, page);
+                    int numberOfProduct = productDAO.getNumberOfProduct(sort, categoryId, providerId, minPrice, maxPrice, searchName);
                     Vector<Category> categories = categoryDAO.getAllCategory();
                     Vector<Provider> providers = providerDAO.getAllProvider();
+                    request.setAttribute("page", page);
+                    request.setAttribute("numberOfProduct", numberOfProduct);
                     request.setAttribute("sort", sort);
                     request.setAttribute("searchName", searchName);
                     request.setAttribute("products", products);

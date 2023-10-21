@@ -38,8 +38,28 @@ public class ProductFilterController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
-        int categoryId = Integer.parseInt(request.getParameter("categoryId") != null ? request.getParameter("categoryId") : "-1");
-        int providerId = Integer.parseInt(request.getParameter("providerId") != null ? request.getParameter("providerId") : "-1");
+        String pageIdParam = request.getParameter("page");
+        int page;
+        if (pageIdParam != null && !"".equals(pageIdParam)) {
+            page = Integer.parseInt(pageIdParam);
+        } else {
+            page = 1;
+        }
+        String categoryIdParam = request.getParameter("categoryId");
+        int categoryId;
+        if (categoryIdParam != null && !"".equals(categoryIdParam)) {
+            categoryId = Integer.parseInt(categoryIdParam);
+        } else {
+            categoryId = -1;
+        }
+        String providerIdParam = request.getParameter("providerId");
+        int providerId;
+
+        if (providerIdParam != null && !"".equals(providerIdParam)) {
+            providerId = Integer.parseInt(providerIdParam);
+        } else {
+            providerId = -1;
+        }
         String price = request.getParameter("price");
         double minPrice = 0.0;
         double maxPrice = 10000000000000.0;
@@ -53,9 +73,12 @@ public class ProductFilterController extends HttpServlet {
         ProductDAO productDAO = new ProductDAO();
         CategoryDAO categoryDAO = new CategoryDAO();
         ProviderDAO providerDAO = new ProviderDAO();
-        Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName);
+        Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName, page);
         Vector<Category> categories = categoryDAO.getAllCategory();
         Vector<Provider> providers = providerDAO.getAllProvider();
+        int numberOfProduct = productDAO.getNumberOfProduct(sort, categoryId, providerId, minPrice, maxPrice, searchName);
+        request.setAttribute("page", page);
+        request.setAttribute("numberOfProduct", numberOfProduct);
         request.setAttribute("sort", sort);
         request.setAttribute("searchName", searchName);
         request.setAttribute("products", products);

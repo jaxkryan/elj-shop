@@ -37,7 +37,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6 col-12 text-left">
-                    <form action="searchproduct" method="post">
+                    <form action="productfilter" method="post">
                         <div class="input-group">
                             <input value="${searchName}" name="searchName" type="text" class="form-control" placeholder="Search for products">
                             <div class="input-group-append">
@@ -92,7 +92,7 @@
                         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                             <div class="navbar-nav mr-auto py-0">
                                 <a href="${pageContext.request.contextPath}/home" class="nav-item nav-link active">Home</a>
-                                <a href="${pageContext.request.contextPath}/shop" class="nav-item nav-link">Shop</a>
+                                <a href="${pageContext.request.contextPath}/productfilter?" class="nav-item nav-link">Shop</a>
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Brands <i class="fa fa-angle-down mt-1"></i></a>
                                     <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">

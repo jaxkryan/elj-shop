@@ -57,6 +57,16 @@ public class CreateOrderController extends HttpServlet {
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         Float subtotal = Float.parseFloat(request.getParameter("subtotal"));
+        float checktotal = 0;
+        Vector<CartItem> cartItem = (Vector<CartItem>) session.getAttribute("cartItem");
+        for (CartItem item : cartItem) {
+            checktotal += item.getPrice() * item.getQuantity();
+        }
+        if (subtotal != checktotal) {
+            Helper.setNotification(request, "Some error occurred", "RED");
+            response.sendRedirect("home");
+            return;
+        }
         Float orderPrice = subtotal * (float) 1.1;
         String voucherCode = request.getParameter("voucherCode") != null ? request.getParameter("voucherCode") : "";
         Calendar calendar = Calendar.getInstance();
@@ -137,7 +147,6 @@ public class CreateOrderController extends HttpServlet {
         }
         if (voucherCode.equals("")) {
             OrderDAO odao = new OrderDAO();
-            Vector<CartItem> cartItem = (Vector<CartItem>) session.getAttribute("cartItem");
             odao.createOrderWithoutVoucher(userId, receiver, street, city, province, country, email, phone, orderDate, orderPrice, cartItem);
             cartItem = new Vector<>();
             session.setAttribute("cartItem", cartItem);
@@ -160,7 +169,6 @@ public class CreateOrderController extends HttpServlet {
                     Date date3 = dateFormat.parse(voucher.getEndDate());
                     if (date1.before(date2) && date2.before(date3)) {
                         OrderDAO odao = new OrderDAO();
-                        Vector<CartItem> cartItem = (Vector<CartItem>) session.getAttribute("cartItem");
                         odao.createOrderWithVoucher(userId, voucher, receiver, street, city, province, country, email, phone, orderDate, orderPrice, cartItem);
                         cartItem = new Vector<>();
                         session.setAttribute("cartItem", cartItem);

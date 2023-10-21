@@ -2,28 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.customer;
+package controller;
 
-import dao.OrderDAO;
-import dao.OrderDetailDAO;
-import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.Vector;
-import model.Order;
-import model.OrderDetail;
 import util.Helper;
 
 /**
  *
  * @author Admin
  */
-public class ViewHistoryDetailsController extends HttpServlet {
+public class ErrorController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,23 +29,10 @@ public class ViewHistoryDetailsController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int orderId = Integer.parseInt(request.getParameter("orderId"));
-        HttpSession session = request.getSession();
-        if (session.getAttribute("userId") == null) {
-            Helper.setNotification(request, "Please login!", "RED");
-            response.sendRedirect("home");
-        } else {
-            int userId = (int) session.getAttribute("userId");
-            String status = request.getParameter("status");
-            OrderDetailDAO oddao = new OrderDetailDAO();
-            Vector<OrderDetail> details = oddao.getOrderDetailsById(userId, orderId);
-            request.setAttribute("details", details);
-            request.setAttribute("status", status);
-            request.getRequestDispatcher("/jsp/HistoryDetails.jsp").forward(request, response);
-        }
+        Helper.setNotification(request, "Some error occurred!", "RED");
+        response.sendRedirect("home");
     }
-
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
