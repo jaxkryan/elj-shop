@@ -54,7 +54,7 @@ public class AdminAuthenticationFilter implements Filter {
         if (isAdminLoggedIn) {
             chain.doFilter(request, response);
         } else {
-            Helper.setNotification(httpRequest, "You must to login first!", "RED");
+            Helper.setNotification(httpRequest, "You have to login first!", "RED");
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
         }
     }

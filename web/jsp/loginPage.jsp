@@ -49,6 +49,7 @@
                 <div class="row text-center">
                     <input name="loginSubmit" class="registerSubmit" type="submit" value="Login">
                 </div>
+                <a href="https://accounts.google.com/o/oauth2/auth?scope=profile%20email&redirect_uri=http://localhost:8080/Online_Shopping_System/login-google&response_type=code&client_id=114010930889-heqf5hnbf5eo1vfb4p5j02pcr8vl3bfu.apps.googleusercontent.com&approval_prompt=force">Login With Google</a>
             </form>
         </div>
     </body>
