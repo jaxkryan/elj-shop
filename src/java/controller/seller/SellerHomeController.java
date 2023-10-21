@@ -2,6 +2,7 @@ package controller.seller;
 
 import dao.OrderDAO;
 import dao.OrderDetailDAO;
+import dao.ProviderDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Vector;
 import model.Order;
 import model.OrderDetail;
+import model.Provider;
 import util.Helper;
 
 /**
@@ -33,6 +35,7 @@ public class SellerHomeController extends HttpServlet {
             throws ServletException, IOException {
         String service = request.getParameter("go");
         OrderDAO orderDAO = new OrderDAO();
+        ProviderDAO providerDAO = new ProviderDAO();
         if (service == null || service.equals("")) {
             service = "displayAll";
         }
@@ -74,7 +77,9 @@ public class SellerHomeController extends HttpServlet {
             Vector<OrderDetail> orders = orderDetailsDAO.CheckOrdersQuantity(orderId);
             if (orders.isEmpty()) {
                 String newStatus = request.getParameter("newStatus");
+                
                 orderDetailsDAO.updateProductQuantity(orderId);
+
                 Order getOrder = orderDAO.getById(orderId);
                 int checkStatus = orderDAO.changeOrderStatus(orderId, newStatus);
                 if (checkStatus != 0) {
@@ -82,6 +87,7 @@ public class SellerHomeController extends HttpServlet {
                 }
                 response.sendRedirect("home");
             } else {
+                
                 Helper.setNotification(request, "Out of stock , can not accept", "RED");
                 response.sendRedirect("home");
             }
