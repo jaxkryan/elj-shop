@@ -229,12 +229,16 @@
         <servlet-class>controller.ForgotPasswordController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>LoginGoogleController</servlet-name>
+        <servlet-class>controller.LoginGoogleController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ManagerDeleteReportController</servlet-name>
         <servlet-class>controller.manager.ManagerDeleteReportController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UpdateOrderStatus</servlet-name>
-        <servlet-class>controller.storagestaff.UpdateOrderStatus</servlet-class>
+        <servlet-name>ErrorController</servlet-name>
+        <servlet-class>controller.ErrorController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -401,12 +405,16 @@
         <url-pattern>/forgot-password</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>LoginGoogleController</servlet-name>
+        <url-pattern>/login-google</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ManagerDeleteReportController</servlet-name>
         <url-pattern>/manager/delete-report</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UpdateOrderStatus</servlet-name>
-        <url-pattern>/storage-staff/update-order-status</url-pattern>
+        <servlet-name>ErrorController</servlet-name>
+        <url-pattern>/error</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

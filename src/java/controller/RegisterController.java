@@ -1,6 +1,8 @@
 package controller;
 
 import constant.IConstant;
+import dao.CartDAO;
+import dao.CustomerDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -94,7 +96,12 @@ public class RegisterController extends HttpServlet {
             request.getRequestDispatcher("/jsp/registerPage.jsp").forward(request, response);
         } else {
             UserDAO udao = new UserDAO();
-            udao.insert(new User("Customer", firstName, lastName, dateOfBirth, street, city, province, country, phone, email, Helper.hashPassword(password)));
+            User user = new User("Customer", firstName, lastName, dateOfBirth, street, city, province, country, phone, email, Helper.hashPassword(password));
+            user.setId(udao.insert(user, true));
+            CustomerDAO customerDAO = new CustomerDAO();
+            customerDAO.insert(user.getId());
+            CartDAO cartDAO = new CartDAO();
+            cartDAO.insert(user.getId());
             Helper.setNotification(request, "Register successfully! Please login to access your account", "GREEN");
             response.sendRedirect("login");
         }

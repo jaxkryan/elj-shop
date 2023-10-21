@@ -76,7 +76,7 @@ public class CustomerAuthenticationFilter implements Filter {
         if (isCustomerLoggedIn && (isLoginRequest)) {
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/home");
         } else if (!isCustomerLoggedIn && isCustomerLoginRequired()) {
-            Helper.setNotification(httpRequest, "You must to login first!", "RED");
+            Helper.setNotification(httpRequest, "You have to login first!", "RED");
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
         } else {
             chain.doFilter(request, response);

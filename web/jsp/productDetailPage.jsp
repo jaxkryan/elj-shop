@@ -71,6 +71,8 @@
                                     form.action = "add-to-cart-shop-page";
                                 } else if (fromParam == "cart") {
                                     form.action = "add-to-cart-cart-page";
+                                } else {
+                                    form.action = "error";
                                 }
                             });
                         </script>
@@ -78,12 +80,10 @@
                             <input type="hidden" name="proId" value="${product.id}">
                             <input name="sort" type="hidden" id="sort" value="${sort}">
                             <input name="searchName" type="hidden" id="searchName" value="${searchName}">
-                            <input name="products" type="hidden" id="products" value="${products}">
                             <input name="categoryId" type="hidden" id="categoryId" value="${categoryId}">
                             <input name="providerId" type="hidden" id="providerId" value="${providerId}">
                             <input name="price" type="hidden" id="price" value="${price}">
-                            <input name="categories" type="hidden" id="categories" value="${categories}">
-                            <input name="providers" type="hidden" id="providers" value="${providers}">
+                            <input name="page" type="hidden" id="page" value="${page}">
                             <div class="input-group quantity mr-3" style="width: 130px;">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-primary btn-minus">
@@ -135,7 +135,23 @@
                                     <div class="col-md-6">
                                         <h4 class="mb-4">Leave a review</h4>
                                         <small>(Your email address will not be published)</small>
-                                        <form action="add-feedback">
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                                var form = document.getElementById("add-feedback");
+                                                var fromParam = "${from}";
+
+                                                if (fromParam === "home") {
+                                                    form.action = "add-feedback";
+                                                } else if (fromParam === "shop") {
+                                                    form.action = "add-feedback";
+                                                } else if (fromParam == "cart") {
+                                                    form.action = "add-feedback";
+                                                } else {
+                                                    form.action = "error";
+                                                }
+                                            });
+                                        </script>
+                                        <form id="add-feedback">
                                             <div class="form-group">
                                                 <label for="message"></label>
                                                 <textarea name="content" id="message" cols="30" rows="5" class="form-control" required></textarea>
@@ -144,12 +160,11 @@
                                             <input type="hidden" name="proId" value="${product.id}">
                                             <input name="sort" type="hidden" id="sort" value="${sort}">
                                             <input name="searchName" type="hidden" id="searchName" value="${searchName}">
-                                            <input name="products" type="hidden" id="products" value="${products}">
                                             <input name="categoryId" type="hidden" id="categoryId" value="${categoryId}">
                                             <input name="providerId" type="hidden" id="providerId" value="${providerId}">
                                             <input name="price" type="hidden" id="price" value="${price}">
-                                            <input name="categories" type="hidden" id="categories" value="${categories}">
-                                            <input name="providers" type="hidden" id="providers" value="${providers}">
+                                            <input name="page" type="hidden" id="page" value="${page}">
+                                            <input name="numberOfProduct" type="hidden" id="numberOfProduct" value="${numberOfProduct}">
                                             <div class="form-group mb-0">
                                                 <input type="submit" value="Leave Review" class="btn btn-primary px-3">
                                             </div>
