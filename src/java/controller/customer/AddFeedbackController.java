@@ -64,45 +64,12 @@ public class AddFeedbackController extends HttpServlet {
                 request.setAttribute("brandName", provider.getCompanyName());
                 Vector<Feedback> feedbacks = fdao.getFeedbackByProductId(proId);
                 request.setAttribute("feedbacks", feedbacks);
-                String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
-                String categoryIdParam = request.getParameter("categoryId");
-                int categoryId;
-                if (categoryIdParam != null && !"".equals(categoryIdParam)) {
-                    categoryId = Integer.parseInt(categoryIdParam);
-                } else {
-                    categoryId = -1; // Giá trị mặc định khi categoryId là null hoặc rỗng
-                }
-                String providerIdParam = request.getParameter("providerId");
-                int providerId;
-
-                if (providerIdParam != null && !"".equals(providerIdParam)) {
-                    providerId = Integer.parseInt(providerIdParam);
-                } else {
-                    providerId = -1; // Giá trị mặc định khi categoryId là null hoặc rỗng
-                }
-                String price = request.getParameter("price");
-                double minPrice = 0.0;
-                double maxPrice = 10000000000000.0;
-                String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
-
-                if (price != null && !price.equals("")) {
-                    StringTokenizer tokenizer = new StringTokenizer(request.getParameter("price"), "-");
-                    minPrice = Double.parseDouble(tokenizer.nextToken());
-                    maxPrice = Double.parseDouble(tokenizer.nextToken());
-                }
-                ProductDAO productDAO = new ProductDAO();
-                CategoryDAO categoryDAO = new CategoryDAO();
-                Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName);
-                Vector<Category> categories = categoryDAO.getAllCategory();
-                Vector<Provider> providers = providerDAO.getAllProvider();
-                request.setAttribute("sort", sort);
-                request.setAttribute("searchName", searchName);
-                request.setAttribute("products", products);
-                request.setAttribute("categoryId", categoryId);
-                request.setAttribute("providerId", providerId);
-                request.setAttribute("price", price);
-                request.setAttribute("categories", categories);
-                request.setAttribute("providers", providers);
+                request.setAttribute("page", request.getParameter("page"));
+                request.setAttribute("sort", request.getParameter("sort"));
+                request.setAttribute("searchName", request.getParameter("searchName"));
+                request.setAttribute("categoryId", request.getParameter("categoryId"));
+                request.setAttribute("providerId", request.getParameter("providerId"));
+                request.setAttribute("price", request.getParameter("price"));
                 Helper.setNotification(request, "Please experience before review!", "RED");
                 request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
                 return;
@@ -125,45 +92,12 @@ public class AddFeedbackController extends HttpServlet {
             request.setAttribute("brandName", provider.getCompanyName());
             Vector<Feedback> feedbacks = fdao.getFeedbackByProductId(proId);
             request.setAttribute("feedbacks", feedbacks);
-            String sort = request.getParameter("sort") != null ? request.getParameter("sort") : "";
-            String categoryIdParam = request.getParameter("categoryId");
-            int categoryId;
-            if (categoryIdParam != null && !"".equals(categoryIdParam)) {
-                categoryId = Integer.parseInt(categoryIdParam);
-            } else {
-                categoryId = -1; // Giá trị mặc định khi categoryId là null hoặc rỗng
-            }
-            String providerIdParam = request.getParameter("providerId");
-            int providerId;
-
-            if (providerIdParam != null && !"".equals(providerIdParam)) {
-                providerId = Integer.parseInt(providerIdParam);
-            } else {
-                providerId = -1; // Giá trị mặc định khi categoryId là null hoặc rỗng
-            }
-            String price = request.getParameter("price");
-            double minPrice = 0.0;
-            double maxPrice = 10000000000000.0;
-            String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
-
-            if (price != null && !price.equals("")) {
-                StringTokenizer tokenizer = new StringTokenizer(request.getParameter("price"), "-");
-                minPrice = Double.parseDouble(tokenizer.nextToken());
-                maxPrice = Double.parseDouble(tokenizer.nextToken());
-            }
-            ProductDAO productDAO = new ProductDAO();
-            CategoryDAO categoryDAO = new CategoryDAO();
-            Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName);
-            Vector<Category> categories = categoryDAO.getAllCategory();
-            Vector<Provider> providers = providerDAO.getAllProvider();
-            request.setAttribute("sort", sort);
-            request.setAttribute("searchName", searchName);
-            request.setAttribute("products", products);
-            request.setAttribute("categoryId", categoryId);
-            request.setAttribute("providerId", providerId);
-            request.setAttribute("price", price);
-            request.setAttribute("categories", categories);
-            request.setAttribute("providers", providers);
+            request.setAttribute("page", request.getParameter("page"));
+            request.setAttribute("sort", request.getParameter("sort"));
+            request.setAttribute("searchName", request.getParameter("searchName"));
+            request.setAttribute("categoryId", request.getParameter("categoryId"));
+            request.setAttribute("providerId", request.getParameter("providerId"));
+            request.setAttribute("price", request.getParameter("price"));
             Helper.setNotification(request, "Added your Review!", "GREEN");
             request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
         }

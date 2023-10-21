@@ -11,8 +11,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.Vector;
 import model.OrderDetail;
+import util.Helper;
 
 /**
  *
@@ -33,13 +35,20 @@ public class DeleteHistoryDetailController extends HttpServlet {
             throws ServletException, IOException {
         int proId = Integer.parseInt(request.getParameter("proId"));
         int orderId = Integer.parseInt(request.getParameter("orderId"));
-        String status = request.getParameter("status");
-        OrderDetailDAO oddao = new OrderDetailDAO();
-        oddao.deleteOrderDetail(proId, orderId);
-        Vector<OrderDetail> details = oddao.getOrderDetailsById(orderId);
-        request.setAttribute("details", details);
-        request.setAttribute("status", status);
-        request.getRequestDispatcher("/jsp/HistoryDetails.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("userId") == null) {
+            Helper.setNotification(request, "Please login!", "RED");
+            response.sendRedirect("home");
+        } else {
+            int userId = (int) session.getAttribute("userId");
+            String status = request.getParameter("status");
+            OrderDetailDAO oddao = new OrderDetailDAO();
+            oddao.deleteOrderDetail(proId, orderId);
+            Vector<OrderDetail> details = oddao.getOrderDetailsById(userId, orderId);
+            request.setAttribute("details", details);
+            request.setAttribute("status", status);
+            request.getRequestDispatcher("/jsp/HistoryDetails.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
