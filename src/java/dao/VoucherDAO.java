@@ -137,12 +137,12 @@ public class VoucherDAO extends DBConnect {
 
     public Voucher getById(int id) {
         String sql = "SELECT [id]\n"
-                    + "      ,[code]\n"
-                    + "      ,[startDate]\n"
-                    + "      ,[endDate]\n"
-                    + "      ,[value]\n"
-                    + "      ,[active]\n"
-                    + " FROM [OnlineShop].[dbo].[Voucher] where id = ?";
+                + "      ,[code]\n"
+                + "      ,[startDate]\n"
+                + "      ,[endDate]\n"
+                + "      ,[value]\n"
+                + "      ,[active]\n"
+                + " FROM [OnlineShop].[dbo].[Voucher] where id = ?";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, id);
@@ -155,10 +155,31 @@ public class VoucherDAO extends DBConnect {
         }
         return null;
     }
-    
+
     public static void main(String[] args) {
         VoucherDAO dao = new VoucherDAO();
         Vector<Voucher> v = dao.getAll();
         System.out.println(v);
+    }
+
+    public Voucher getVoucherByVoucherCode(String voucherCode) {
+        String sql = "SELECT [id]\n"
+                + "      ,[code]\n"
+                + "      ,[startDate]\n"
+                + "      ,[endDate]\n"
+                + "      ,[value]\n"
+                + "      ,[active]\n"
+                + " FROM [OnlineShop].[dbo].[Voucher] where code = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, voucherCode);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return new Voucher(rs.getInt(1), rs.getString(2), rs.getDate(3), rs.getDate(4), rs.getDouble(5), rs.getBoolean(6));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

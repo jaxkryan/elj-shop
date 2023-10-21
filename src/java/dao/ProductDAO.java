@@ -237,14 +237,12 @@ public class ProductDAO extends jdbc.DBConnect {
         return n;
     }
 
-    public Vector<Product> getProductByName(String searchName, int page) {
+    public Vector<Product> getProductByName(String searchName) {
         Vector<Product> listP = new Vector<>();
-        String sql = "select * from (select * , ROW_NUMBER() over (order by id) as r from product ) as x where name like ? and r between 16*?-15 and 16*? and active = 1";
+        String sql = "select * from product where name like ? and active = 1";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, "%" + searchName + "%");
-            statement.setInt(2, page);
-            statement.setInt(3, page);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt(1);
@@ -265,7 +263,7 @@ public class ProductDAO extends jdbc.DBConnect {
         return listP;
     }
 
-    public Vector<Product> getProductByFilter(String sort, int searchCategoryId, int searchProviderId, double minPrice, double maxPrice, String searchName, int page) {
+    public Vector<Product> getProductByFilterWithPage(String sort, int searchCategoryId, int searchProviderId, double minPrice, double maxPrice, String searchName, int page) {
         if (sort.equals("")) {
             Vector<Product> listP = new Vector<>();
             String sql = "select * from (select * , ROW_NUMBER() over (order by id) as r\n"
@@ -321,18 +319,19 @@ public class ProductDAO extends jdbc.DBConnect {
             return listP;
         } else if (sort.equals("ascending")) {
             Vector<Product> listP = new Vector<>();
-            String sql = "SELECT * "
-                    + "  FROM product\n"
-                    + "  where categoryId in (" + (searchCategoryId == -1 ? "select id from Category" : "?") + ")\n"
-                    + "	and providerId in (" + (searchProviderId == -1 ? "select id from Provider" : "?") + ")\n"
-                    + "	and price between ? and ? "
-                    + " and [product].[name] like ? order by price-discount ";
+            String sql = "select * from (select * , ROW_NUMBER() over (order by id) as r\n"
+                    + "FROM product where categoryId in (" + (searchCategoryId == -1 ? "select id from Category" : "?") + ")\n"
+                    + "and providerId in (" + (searchProviderId == -1 ? "select id from Provider" : "?") + ")\n"
+                    + "and price between ? and ?\n"
+                    + "and [product].[name] like ? and active = 1  ) as x where  r between 16*?-15 and 16*? order by price";
             try {
                 PreparedStatement statement = conn.prepareStatement(sql);
                 if (searchCategoryId == -1 && searchProviderId == -1) { //No filter by both category and brand
                     statement.setDouble(1, minPrice);
                     statement.setDouble(2, maxPrice);
                     statement.setString(3, "%" + searchName + "%");
+                    statement.setInt(4, page);
+                    statement.setInt(5, page);
                 } else if (searchCategoryId == -1 || searchProviderId == -1) {//Filter either category or brand
                     if (searchCategoryId != -1) {
                         statement.setInt(1, searchCategoryId);
@@ -342,12 +341,16 @@ public class ProductDAO extends jdbc.DBConnect {
                     statement.setDouble(2, minPrice);
                     statement.setDouble(3, maxPrice);
                     statement.setString(4, "%" + searchName + "%");
+                    statement.setInt(5, page);
+                    statement.setInt(6, page);
                 } else {//Filter by both category and brand
                     statement.setInt(1, searchCategoryId);
                     statement.setInt(2, searchProviderId);
                     statement.setDouble(3, minPrice);
                     statement.setDouble(4, maxPrice);
                     statement.setString(5, "%" + searchName + "%");
+                    statement.setInt(6, page);
+                    statement.setInt(7, page);
                 }
                 ResultSet rs = statement.executeQuery();
                 while (rs.next()) {
@@ -369,18 +372,19 @@ public class ProductDAO extends jdbc.DBConnect {
             return listP;
         } else {
             Vector<Product> listP = new Vector<>();
-            String sql = "SELECT * "
-                    + "  FROM product\n"
-                    + "  where categoryId in (" + (searchCategoryId == -1 ? "select id from Category" : "?") + ")\n"
-                    + "	and providerId in (" + (searchProviderId == -1 ? "select id from Provider" : "?") + ")\n"
-                    + "	and price between ? and ? "
-                    + " and [product].[name] like ? order by price-discount desc ";
+            String sql = "select * from (select * , ROW_NUMBER() over (order by id) as r\n"
+                    + "FROM product where categoryId in (" + (searchCategoryId == -1 ? "select id from Category" : "?") + ")\n"
+                    + "and providerId in (" + (searchProviderId == -1 ? "select id from Provider" : "?") + ")\n"
+                    + "and price between ? and ?\n"
+                    + "and [product].[name] like ? and active = 1  ) as x where  r between 16*?-15 and 16*? order by price desc";
             try {
                 PreparedStatement statement = conn.prepareStatement(sql);
                 if (searchCategoryId == -1 && searchProviderId == -1) { //No filter by both category and brand
                     statement.setDouble(1, minPrice);
                     statement.setDouble(2, maxPrice);
                     statement.setString(3, "%" + searchName + "%");
+                    statement.setInt(4, page);
+                    statement.setInt(5, page);
                 } else if (searchCategoryId == -1 || searchProviderId == -1) {//Filter either category or brand
                     if (searchCategoryId != -1) {
                         statement.setInt(1, searchCategoryId);
@@ -390,12 +394,16 @@ public class ProductDAO extends jdbc.DBConnect {
                     statement.setDouble(2, minPrice);
                     statement.setDouble(3, maxPrice);
                     statement.setString(4, "%" + searchName + "%");
+                    statement.setInt(5, page);
+                    statement.setInt(6, page);
                 } else {//Filter by both category and brand
                     statement.setInt(1, searchCategoryId);
                     statement.setInt(2, searchProviderId);
                     statement.setDouble(3, minPrice);
                     statement.setDouble(4, maxPrice);
                     statement.setString(5, "%" + searchName + "%");
+                    statement.setInt(6, page);
+                    statement.setInt(7, page);
                 }
                 ResultSet rs = statement.executeQuery();
                 while (rs.next()) {
@@ -415,7 +423,6 @@ public class ProductDAO extends jdbc.DBConnect {
                 Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
             return listP;
-
         }
     }
 

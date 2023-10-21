@@ -164,9 +164,9 @@ public class CreateOrderController extends HttpServlet {
                 request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
             } else {
                 try {
-                    Date date1 = dateFormat.parse(voucher.getStartDate());
+                    Date date1 = voucher.getStartDate();
                     Date date2 = dateFormat.parse(orderDate);
-                    Date date3 = dateFormat.parse(voucher.getEndDate());
+                    Date date3 = voucher.getEndDate();
                     if (date1.before(date2) && date2.before(date3)) {
                         OrderDAO odao = new OrderDAO();
                         odao.createOrderWithVoucher(userId, voucher, receiver, street, city, province, country, email, phone, orderDate, orderPrice, cartItem);

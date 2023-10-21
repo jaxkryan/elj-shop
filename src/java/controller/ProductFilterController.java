@@ -73,7 +73,7 @@ public class ProductFilterController extends HttpServlet {
         ProductDAO productDAO = new ProductDAO();
         CategoryDAO categoryDAO = new CategoryDAO();
         ProviderDAO providerDAO = new ProviderDAO();
-        Vector<Product> products = productDAO.getProductByFilter(sort, categoryId, providerId, minPrice, maxPrice, searchName, page);
+        Vector<Product> products = productDAO.getProductByFilterWithPage(sort, categoryId, providerId, minPrice, maxPrice, searchName, page);
         Vector<Category> categories = categoryDAO.getAllCategory();
         Vector<Provider> providers = providerDAO.getAllProvider();
         int numberOfProduct = productDAO.getNumberOfProduct(sort, categoryId, providerId, minPrice, maxPrice, searchName);
