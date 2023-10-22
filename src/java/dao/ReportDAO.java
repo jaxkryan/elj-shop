@@ -68,6 +68,18 @@ public class ReportDAO extends jdbc.DBConnect {
         return rowsAffected;
     }
 
+    public void changeReportStatus(int reportId) {
+        String sql = "UPDATE Report SET readStatus = 1 WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, reportId);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReportDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void deleteReport(int id) {
         String sql = "DELETE FROM [dbo].[Report]\n"
                 + "      WHERE id=?\n";

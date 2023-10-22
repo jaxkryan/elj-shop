@@ -56,9 +56,9 @@
                         <div class="col-sm-6">
                             <h2>Report list</h2>
                         </div>
-                        <div class="col-sm-6">
-                            <a href="#addReportModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Write report</span></a>					
-                        </div>
+                        <!--                        <div class="col-sm-6">
+                                                    <a href="#addReportModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Write report</span></a>					
+                                                </div>-->
                     </div>
                 </div>
                 <table class="table table-striped table-hover">
@@ -106,27 +106,22 @@
                                                 <label>Content</label>
                                                 <input type="content" class="form-control" value ="${reports.content}" readonly>
                                             </div>	
-                                            <div class="form-group">
-                                                <label>Reply</label>
-                                                <c:choose>
-                                                    <c:when test="${reports.readStatus == true}">
-                                                        <textarea type="text" name="reply-content" class="form-control" value="Your reply..." required rows="5" cols="33" maxlength="10000" readonly></textarea>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <textarea type="text" name="reply-content" class="form-control" value="Your reply..." required rows="5" cols="33" maxlength="10000"></textarea>
-                                                        <div class="modal-footer">
-                                                            <input type="submit" class="btn btn-success" value="Send reply">
-                                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
-                                                        </div>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </div>	
+                                            <input type ="hidden" name="reportId" value ="${reports.id}">
+                                            <c:if test="${reports.readStatus != true}">
+                                                <div class="form-group">
+                                                    <label>Reply</label>
+                                                    <textarea type="text" name="reply-content" class="form-control" value="Your reply..." required rows="5" cols="33" maxlength="10000"></textarea>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="btn btn-success" value="Send reply">
+                                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
+                                                    </div>
+                                                </div>
+                                            </c:if>	
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-
                     </c:forEach>
                     </tbody>
                 </table>
