@@ -37,6 +37,20 @@ public class UpdateOrderStatus extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
+            OrderDAO orderDAO = new OrderDAO();
+            String service = request.getParameter("go");
+            String searchName = request.getParameter("keyword") != null ? request.getParameter("keyword") : "";
+            //String sortType = request.getParameter("sort");
+            request.setAttribute("searchName", searchName);
+            if (service.equals("search")) {
+                Vector<Order> orders = orderDAO.getAcceptedOrdersByName(searchName);
+                
+                for (Order order : orders) {
+                    System.out.println(order.toString());
+                }
+                request.setAttribute("orders", orders);
+                request.getRequestDispatcher("/jsp/storageManageOrderStatus.jsp").forward(request, response);
+            }
         }
     }
 
