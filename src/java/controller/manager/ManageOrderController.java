@@ -124,6 +124,7 @@ public class ManageOrderController extends HttpServlet {
                 System.out.println(orders.firstElement().getReceiver());
             }
             request.setAttribute("searchName", searchName);
+            request.setAttribute("chosedSortType", sortType);
             request.setAttribute("orders", orders);
             request.getRequestDispatcher("/jsp/ManagerManageOrderPage.jsp").forward(request, response);
         }
