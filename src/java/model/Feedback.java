@@ -14,29 +14,32 @@ public class Feedback {
     int customerId;
     int productId;
     String content;
+    String reply;
     String feedbackDate;
     boolean check;
 
     public Feedback() {
     }
 
-    public Feedback(int id, int customerId, int productId, String content, String feedbackDate, boolean check) {
+    public Feedback(int id, int customerId, int productId, String content, String reply, String feedbackDate, boolean check) {
         this.id = id;
         this.customerId = customerId;
         this.productId = productId;
         this.content = content;
+        this.reply = reply;
         this.feedbackDate = feedbackDate;
         this.check = check;
     }
 
-    public Feedback(int customerId, int productId, String content, String feedbackDate, boolean check) {
+        public Feedback(int customerId, int productId, String content, String reply, String feedbackDate, boolean check) {
         this.customerId = customerId;
         this.productId = productId;
         this.content = content;
+        this.reply = reply;
         this.feedbackDate = feedbackDate;
         this.check = check;
     }
-
+        
     public int getId() {
         return id;
     }
@@ -69,6 +72,14 @@ public class Feedback {
         this.content = content;
     }
 
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
+
     public String getFeedbackDate() {
         return feedbackDate;
     }
@@ -84,5 +95,5 @@ public class Feedback {
     public void setCheck(boolean check) {
         this.check = check;
     }
-
+    
 }

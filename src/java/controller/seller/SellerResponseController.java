@@ -90,13 +90,12 @@ public class SellerResponseController extends HttpServlet {
             int customerId = Integer.parseInt(request.getParameter("customerId"));
             int productId = Integer.parseInt(request.getParameter("productId"));
             String content = request.getParameter("response-content");
-
-            Feedback feedback = new Feedback(customerId, productId, content, formattedDate, true);
+            String reply = request.getParameter("reply");
+            System.out.println(reply);
+            Feedback feedback = new Feedback(customerId, productId, content, reply, formattedDate, true);
 
             feedBackDAO.insertCheckedFeedback(feedback);
-
             Vector<Feedback> feedbacks = feedBackDAO.getAllFeedback();
-
             Vector<User> customers = userDAO.getActiveCustomer();
             request.setAttribute("customers", customers);
             request.setAttribute("feedbacks", feedbacks);
