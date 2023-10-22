@@ -78,7 +78,8 @@
                                     <a href="#viewReport${reports.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Report">&#xe8f4;</i></a>
                                     <a href="${pageContext.request.contextPath}/manager/delete-report?reportId=${reports.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
-                                <!--View and reply report-->
+                            </tr>
+                            <!--View and reply report-->
                         <div id="viewReport${reports.id}" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -110,22 +111,22 @@
                                                 <c:choose>
                                                     <c:when test="${reports.readStatus == true}">
                                                         <textarea type="text" name="reply-content" class="form-control" value="Your reply..." required rows="5" cols="33" maxlength="10000" readonly></textarea>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <textarea type="text" name="reply-content" class="form-control" value="Your reply..." required rows="5" cols="33" maxlength="10000"></textarea>
-                                                    <div class="modal-footer">
-                                                        <input type="submit" class="btn btn-success" value="Send reply">
-                                                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
-                                                    </div>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </div>	
-
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <textarea type="text" name="reply-content" class="form-control" value="Your reply..." required rows="5" cols="33" maxlength="10000"></textarea>
+                                                        <div class="modal-footer">
+                                                            <input type="submit" class="btn btn-success" value="Send reply">
+                                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
+                                                        </div>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>	
+                                        </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                        </tr>
+
                     </c:forEach>
                     </tbody>
                 </table>
