@@ -67,6 +67,8 @@ public class ManageReportController extends HttpServlet {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String formattedDate = formatter.format(date);
                 HttpSession session = request.getSession();
+                int reportId = Integer.parseInt(request.getParameter("reportId"));
+                reportDAO.changeReportStatus(reportId);
                 int managerId = (int) session.getAttribute("userId");
                 int staffId = Integer.parseInt(request.getParameter("staffId"));
                 String title = "Reply for " + request.getParameter("title");
