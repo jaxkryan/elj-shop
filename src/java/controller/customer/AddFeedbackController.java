@@ -78,7 +78,7 @@ public class AddFeedbackController extends HttpServlet {
             Calendar calendar = Calendar.getInstance();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String feedbackDate = dateFormat.format(calendar.getTime());
-            fdao.addFeedback(userId, proId, content, feedbackDate);
+            fdao.addFeedback(userId, proId, content, null, feedbackDate);
             String from = request.getParameter("from");
             CategoryDAO cdao = new CategoryDAO();
             ProviderDAO providerDAO = new ProviderDAO();

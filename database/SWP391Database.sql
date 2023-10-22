@@ -150,6 +150,7 @@ CREATE TABLE [Feedback] (
   customerId int,
   productId int,
   content nvarchar(1000),
+  reply nvarchar(1000),
   feedbackDate date,
   checked bit 
 )
@@ -399,10 +400,10 @@ VALUES ('Voucher for Christmas', '2022-12-20 00:00:00', '2022-12-28 00:00:00', 3
 INSERT [Report] ([storageStaffId], [managerId], [title], [content], [writeDate],[readStatus])
 VALUES (10, 12, 'Report title', 'asdfawfsf', '2023-01-03 00:00:00', 1)
 
-Insert [Feedback] (customerId, productId, content, feedbackDate, [checked])values (2 , 10,'Nice product','2023-01-09 00:00:00', 0)
-Insert [Feedback] (customerId, productId, content, feedbackDate, [checked])values (2 , 10,'Nice shoes','2023-01-03 00:00:00', 0)
+Insert [Feedback] (customerId, productId, content, reply, feedbackDate, [checked])values (2 , 10,'Nice product',null, '2023-01-09 00:00:00', 0)
+Insert [Feedback] (customerId, productId, content, reply, feedbackDate, [checked])values (2 , 10,'Nice shoes',null, '2023-01-03 00:00:00', 0)
 
-Insert [Feedback] (customerId, productId, content, feedbackDate, [checked])values (4 , 10,'Nice ones','2023-04-03 00:00:00', 0)
+Insert [Feedback] (customerId, productId, content, reply, feedbackDate, [checked])values (4 , 10,'Nice ones',null, '2023-04-03 00:00:00', 0)
 
 
 USE master;

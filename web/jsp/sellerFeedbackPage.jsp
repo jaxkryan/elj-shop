@@ -68,6 +68,8 @@
                             <th>ProductID</th>
                             <th>Content</th>
                             <th>FeedbackDate</th>
+                            <th>Reply</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,6 +81,14 @@
                                 <td>${feedback.feedbackDate}</td>
                                 <td>                 
                                     <a href="#viewReport${feedback.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Report">&#xe8f4;</i></a>
+                                </td>
+                                <td>
+                                    <c:if test="${feedback.check == true}">
+                                        Replied
+                                    </c:if>
+                                    <c:if test="${feedback.check != true}">
+                                        Not Replied Yet
+                                    </c:if>
                                 </td>
                                 <!--View and reply report-->
                         <div id="viewReport${feedback.id}" class="modal fade">
@@ -102,16 +112,16 @@
                                             <input type="hidden" name ="productId" class="form-control" value ="${feedback.productId}" readonly>
                                             <div class="form-group">
                                                 <label>Content</label>
-                                                <input type="content" class="form-control" value ="${feedback.content}" readonly>
+                                                <input type="content" class="form-control" name="response-content" value ="${feedback.content}" readonly>
                                             </div>	                                         
                                             <div class="form-group">
                                                 <label>Reply</label>
                                                 <c:choose>
                                                     <c:when test="${feedback.check == true}">
-                                                        <textarea type="text" name="response-content" class="form-control" value="Your reply..." required rows="5" cols="33" maxlength="10000" readonly></textarea>
+                                                        <textarea type="content" name="reply" class="form-control" required rows="5" cols="33" maxlength="1000" readonly>${feedback.reply}</textarea>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <textarea type="text" name="response-content" class="form-control" value="Your reply..." required rows="5" cols="33" maxlength="10000"></textarea>
+                                                        <textarea type="text" name="reply" class="form-control" value="Your reply..." required rows="5" cols="33" maxlength="1000"></textarea>
                                                         <div class="modal-footer">
                                                             <input type="submit" class="btn btn-success" value="Send reply" >
                                                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
