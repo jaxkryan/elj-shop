@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,32 +69,56 @@
                         </div>
                     </div>
                 </div> 
-                <!--                Search bar
-                                <div class="row text-right"> 
-                                    <form action="order?search=All" method="post">
-                                        <div class="text-right" style="margin-top: 0.5%">
-                                            <input style="color: black" name = "keyword" type="text" class="search-bar" placeholder="Search product...">
-                                            <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
-                                        </div>
-                                    </form>
-                                </div>
-                                sorting
-                                <form id="sortForm" action="order" method="post">
-                                    <select name="sort" id="sort" onchange="submitForm()">
-                                        <option value="All">Display All</option>
-                                        <option value="Asc">Quantity Ascending</option>
-                                        <option value="Desc">Quantity Descending</option>
-                                        <input type="hidden" name="keySearch" value="${requestScope.keySearch}">
-                                    </select>
-                                </form>
-                                <script>
-                                    function submitForm() {
-                                        document.getElementById("sortForm").action = "storage-manage-product?sort=" + document.getElementById("sort").value;
-                                        document.getElementById("sortForm").submit();
-                                    }
-                                </script>-->
+
+                <div class="row"> 
+                    <!--Search bar-->
+                    <form action="${pageContext.request.contextPath}/storage-staff/update-order-status?go=search" method="post">
+                        <div class="text-right" style="margin-top: 0.5%">
+                            <input style="color: black" name = "keyword" type="text" class="search-bar" placeholder="Search customer" value="${searchName}">
+                            <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
+                        </div>
+                    </form>
+                    <!-- sort asc desc -->
+                    <input type="checkbox" name="sortCheckbox" value="ascending" id="ascendingCheckbox" onclick="document.getElementById('descendingCheckbox').checked = false;">
+                    <label for="ascendingCheckbox">Ascending</label>
+
+                    <input type="checkbox" name="sortCheckbox" value="descending" id="descendingCheckbox" onclick="document.getElementById('ascendingCheckbox').checked = false;">
+                    <label for="descendingCheckbox">Descending</label>
+                </div>
+
+
+                <script>
+                    function sortTable() {
+                        var ascendingCheckbox = document.getElementById("ascendingCheckbox");
+                        var descendingCheckbox = document.getElementById("descendingCheckbox");
+                        var tableBody = document.querySelector("table tbody");
+                        var rows = Array.from(tableBody.getElementsByTagName("tr"));
+
+                        if (ascendingCheckbox.checked) {
+                            rows.sort(function (a, b) {
+                                var aValue = a.cells[6].innerText;
+                                var bValue = b.cells[6].innerText;
+                                return aValue.localeCompare(bValue);
+                            });
+                        } else if (descendingCheckbox.checked) {
+                            rows.sort(function (a, b) {
+                                var aValue = a.cells[6].innerText;
+                                var bValue = b.cells[6].innerText;
+                                return bValue.localeCompare(aValue);
+                            });
+                        }
+
+                        rows.forEach(function (row) {
+                            tableBody.appendChild(row);
+                        });
+                    }
+                    window.addEventListener("load", sortTable);
+                    ascendingCheckbox.addEventListener("change", sortTable);
+                    descendingCheckbox.addEventListener("change", sortTable);
+                </script>
+
                 <c:choose>
-                    <c:when test="${param.go == null || param.go == 'displayAll'}">
+                    <c:when test="${param.go == null || param.go == 'displayAll'||param.go=='search'}">
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
@@ -121,7 +146,7 @@
                                         <td class="align-middle">${order.totalPrice}</td>
                                         <td>
                                             <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Shipped&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Shipped">&#xe558;</i></a>
-                                           <a href="#deleteEmployeeModal${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xe5c9;</i></a>
+                                            <a href="#deleteEmployeeModal${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xe5c9;</i></a>
                                         </td>
                                         <!-- Delete Modal HTML -->
                                 <div id="deleteEmployeeModal${order.id}" class="modal fade">
