@@ -72,17 +72,17 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Date</th>
-                            <th>Action</th>
+                            <th class="col-xs-7 text-left">Title</th>
+                            <th class="col-xs-3 text-left">Date</th>
+                            <th class="col-xs-2 text-left">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach items="${reports}" var="reports">
                             <tr>
-                                <td>${reports.title}</td>
-                                <td>${reports.writeDate}</td>
-                                <td>                 
+                                <td class="text-left">${reports.title}</td>
+                                <td class="text-left">${reports.writeDate}</td>
+                                <td class="text-left">                 
                                     <a href="#viewReport${reports.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Report">&#xe8f4;</i></a>
                                     <a href="${pageContext.request.contextPath}/storage-staff/delete-report?reportId=${reports.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
@@ -149,11 +149,11 @@
 
                             <div class="form-group">
                                 <label>Title</label>
-                                <input name="title" type="text" class="form-control" required>
+                                <input name="title" type="text" class="form-control" maxlength="100" required>
                             </div>
                             <div class="form-group">
                                 <label>Content</label>
-                                <textarea name="content" type="text" class="form-control" required rows="5" cols="33" maxlength="10000"></textarea>
+                                <textarea name="content" type="text" class="form-control" required rows="5" cols="33" maxlength="1000"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">

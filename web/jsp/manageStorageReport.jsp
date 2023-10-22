@@ -53,12 +53,19 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <h2>Report list</h2>
+                        <div class="col-sm-2">
+                            <a href="home" ><h2><b>Manage Product</b></h2></a>
                         </div>
-                        <!--                        <div class="col-sm-6">
-                                                    <a href="#addReportModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Write report</span></a>					
-                                                </div>-->
+                        <div class="col-sm-2">
+                            <a href="provider"><h2><b>Manage Provider</b></h2></a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a href="order"><h2> <b>Manage Order</b></h2></a>
+                        </div>
+                        <!--Report-->
+                        <div class="col-sm-2">
+                            <a href="${pageContext.request.contextPath}/manager/write-report?action=reply" style="color: white"><h2><h2>Manage <b>Report</b></h2></h2></a>
+                        </div>
                     </div>
                 </div>
                 <table class="table table-striped table-hover">
