@@ -186,7 +186,7 @@ public class OrderDAO extends jdbc.DBConnect {
         return orders;
     }
 
-        public Vector<Order> GetStorageManageOrder() {
+    public Vector<Order> GetStorageManageOrder() {
         Vector<Order> orders = new Vector<>();
         String sql = "SELECT [id]\n"
                 + "      ,[customerId]\n"
@@ -228,7 +228,7 @@ public class OrderDAO extends jdbc.DBConnect {
         }
         return orders;
     }
-        
+
     public int changeOrderStatus(int orderId, String newStatus) {
         int rowsAffected = 0;
         String sql = "UPDATE [dbo].[Order]\n"
@@ -307,6 +307,58 @@ public class OrderDAO extends jdbc.DBConnect {
                 + "      ,[active]\n"
                 + "  FROM [dbo].[Order]"
                 + " where receiver like ? and status like 'Shipped'";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, "%" + name + "%");
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                int customerId = rs.getInt(2);
+                String receiver = rs.getString(3);
+                String shipStreet = rs.getString(4);
+                String shipCity = rs.getString(5);
+                String shipProvince = rs.getString(6);
+                String shipCountry = rs.getString(7);
+                String shipEmail = rs.getString(8);
+                String shipPhone = rs.getString(9);
+                String status = rs.getString(10);
+                String createdTime = rs.getString(11);
+                float totalPrice = rs.getFloat(12);
+                Boolean active = rs.getBoolean(13);
+                orders.add(new Order(id, customerId, receiver, shipStreet,
+                        shipCity, shipProvince, shipCountry, shipEmail,
+                        shipPhone, status, createdTime, totalPrice, active));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return orders;
+    }
+
+    public Vector<Order> getSortedShippedOrdersByName(String sort, String name) {
+        Vector<Order> orders = new Vector<>();
+        String sql = "SELECT [id],"
+                + " [customerId],"
+                + " [receiver],"
+                + " [shipStreet],"
+                + " [shipCity],"
+                + " [shipProvince],"
+                + " [shipCountry],"
+                + " [shipEmail],"
+                + " [shipPhone],"
+                + " [status],"
+                + " [createdTime],"
+                + " [totalPrice],"
+                + " [active]"
+                + " FROM [dbo].[Order]"
+                + " WHERE receiver LIKE ? AND status = 'Shipped'";
+
+        if ("ASC".equals(sort)) {
+            sql += " ORDER BY createdTime ASC";
+        } else if ("DESC".equals(sort)) {
+            sql += " ORDER BY createdTime DESC";
+        }
 
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -613,4 +665,16 @@ public class OrderDAO extends jdbc.DBConnect {
         }
         return orders;
     }
+    
+    public static void main(String[] args) {
+    OrderDAO orderDAO = new OrderDAO();
+    Vector<Order> orders = orderDAO.getSortedShippedOrdersByName("DESC", "a");
+    
+    if (!orders.isEmpty()) {
+        System.out.println(orders.firstElement().getReceiver());
+    } else {
+        System.out.println("No orders found.");
+    }
+}
+
 }

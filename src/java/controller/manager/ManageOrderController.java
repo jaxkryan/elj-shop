@@ -112,6 +112,20 @@ public class ManageOrderController extends HttpServlet {
                 Helper.setNotification(request, "Failed to change order status to " + newStatus + " for " + changeStatusOrder.getReceiver() + "'s order. Please try again.", "RED");
             }
             response.sendRedirect("order");
+        } else if (service.equals("sort")) {
+            String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
+            OrderDAO orderDAO = new OrderDAO();
+
+            String sortType = request.getParameter("sortType");
+            Vector<Order> orders = orderDAO.getSortedShippedOrdersByName(sortType, searchName);
+            System.out.println(searchName);
+            System.out.println(sortType);
+            if (!orders.isEmpty()) {
+                System.out.println(orders.firstElement().getReceiver());
+            }
+            request.setAttribute("searchName", searchName);
+            request.setAttribute("orders", orders);
+            request.getRequestDispatcher("/jsp/ManagerManageOrderPage.jsp").forward(request, response);
         }
     }
 
@@ -129,39 +143,15 @@ public class ManageOrderController extends HttpServlet {
         OrderDAO orderDAO = new OrderDAO();
         String service = request.getParameter("go");
         String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
-        String sortType = request.getParameter("sort");
         request.setAttribute("searchName", searchName);
         if (service.equals("search")) {
             Vector<Order> orders = orderDAO.getShippedOrdersByName(searchName);
             System.out.println(searchName);
-            System.out.println(orders.firstElement().getReceiver());
+//            System.out.println(orders.firstElement().getReceiver());
             request.setAttribute("orders", orders);
             request.getRequestDispatcher("/jsp/ManagerManageOrderPage.jsp").forward(request, response);
-        } else if (request.getParameter("sellerSearchCustomerSubmit") != null) {
-            String skeyword = request.getParameter("keyword");
-            Vector<Order> orders = orderDAO.getByName(skeyword);
-            request.setAttribute("orders", orders);
-            request.getRequestDispatcher("/jsp/ManagerManageOrderPage.jsp").forward(request, response);
-        } else if (service.equals("update")) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            int customerId = Integer.parseInt(request.getParameter("customerId"));
-            String receiver = request.getParameter("receiver");
-            String shipStreet = request.getParameter("shipStreet");
-            String shipCity = request.getParameter("shipCity");
-            String shipProvince = request.getParameter("shipProvince");
-            String shipCountry = request.getParameter("shipCountry");
-            String shipEmail = request.getParameter("shipEmail");
-            String shipPhone = request.getParameter("shipPhone");
-            String status = request.getParameter("status");
-            String createdTime = request.getParameter("createdTime");
-            float totalPrice = Float.parseFloat(request.getParameter("totalprice"));
-            Order updateOrder = new Order(id, customerId, receiver, shipStreet,
-                    shipCity, shipProvince, shipCountry, shipEmail, shipPhone,
-                    status, createdTime, totalPrice, true);
-            orderDAO.updateOrderInfo(updateOrder);
-
-            response.sendRedirect("order");
         }
+
     }
 
     /**

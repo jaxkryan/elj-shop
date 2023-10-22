@@ -489,7 +489,8 @@ public class ProductDAO extends jdbc.DBConnect {
         }
         return num;
     }
-        public Vector<Product> getProductByFilter(String sort, int searchCategoryId, int searchProviderId, double minPrice, double maxPrice, String searchName) {
+        
+    public Vector<Product> getProductByFilter(String sort, int searchCategoryId, int searchProviderId, double minPrice, double maxPrice, String searchName) {
         if (sort.equals("")) {
             Vector<Product> listP = new Vector<>();
             String sql = "select * \n"

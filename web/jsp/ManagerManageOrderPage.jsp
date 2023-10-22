@@ -86,20 +86,22 @@
                     </form>
                 </div>
                 <!--sorting-->
-                <form id="sortForm" action="order" method="post">
-                    <select name="sort" id="sort" onchange="submitForm()">
+                <form id="sortForm" action="order" method="get">
+                    <select name="sortType" id="sort" onchange="submitForm()">
                         <option value="All">Display All</option>
-                        <option value="Asc">Created Time Ascending</option>
-                        <option value="Desc">Created Time Descending</option>
-                        <input type="hidden" name="keySearch" value="${requestScope.keySearch}">
+                        <option value="ASC">Created Time Ascending</option>
+                        <option value="DESC">Created Time Descending</option>
                     </select>
+                    <input type="hidden" name="go" value="sort">
+                    <input type="hidden" name="searchName" value="${searchName}">
                 </form>
+
                 <script>
                     function submitForm() {
-                        document.getElementById("sortForm").action = "storage-manage-product?sort=" + document.getElementById("sort").value;
                         document.getElementById("sortForm").submit();
                     }
                 </script>
+
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
