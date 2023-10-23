@@ -33,6 +33,7 @@
 
 
             <div class="row p-3 text-right">
+                <a href="write-feedback?go=viewFeedback" class="btn btn-primary">Feedback</a>
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
@@ -57,25 +58,19 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-2">
-                            <a href="home"> <h2>Manage <b>Order</b></h2></a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a href="write-feedback?go=viewFeedback"><h2><b>Feedback</b></h2></a>
+                        <div class="col-sm-3">
+                            <a href="home" style="color: white"> <h2>Manage <b>Order</b></h2></a>
                         </div>
                     </div>
-                    <div class="row text-right"> 
-                        <form action="${pageContext.request.contextPath}/seller/home" method="POST">
-                            <div class="text-right" style="margin-top: 0.5%">
-                                <input style="color: black" name = "keyword" type="text" class="search-bar" placeholder="Search by name">
-                                <div class="input-group-append">
-                                    <button type="submit" class="text-primary" title="Search" name="sellerSearchCustomerSubmit">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                </div>
+                     
+                <div class="row text-right"> 
+                    <form action="${pageContext.request.contextPath}/seller/home" method="POST">
+                        <div class="text-right" style="margin-top: 0.5%">
+                            <input style="color: black" name = "keyword"  type="text" class="search-bar" placeholder="Search by name">
+                            <input style="color: #000000" type="submit" name = "sellerSearchCustomerSubmit" value="Search">
+                        </div>
+                    </form>
                 </div>
                 <c:choose>
                     <c:when test="${param.go == null || param.go == 'displayAll'}">
@@ -90,17 +85,12 @@
                                     <th>Status</th>
                                     <th>CreatedTime</th>
                                     <th>TotalPrice</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <c:forEach items="${orders}" var="order">
                                     <tr>
-                                        <td>
-                                            <span class="custom-checkbox">
-                                                <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                                <label for="checkbox1"></label>
-                                            </span>
-                                        </td>
                                         <td class="align-middle">${order.id}</td>
                                         <td class="align-middle">${order.customerId}</td>
                                         <td class="align-middle text-left" style="text-wrap: nowrap;">${order.receiver}</td>

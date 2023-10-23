@@ -4,7 +4,9 @@
  */
 package controller.seller;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import dao.FeedbackDAO;
+import dao.ProductDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 import model.Feedback;
+import model.Product;
 import model.Report;
 import model.User;
 
@@ -57,11 +60,15 @@ public class SellerResponseController extends HttpServlet {
         String service = request.getParameter("go");
         FeedbackDAO feedBackDAO = new FeedbackDAO();
         UserDAO userDAO = new UserDAO();
+        ProductDAO productDAO = new ProductDAO();
         if (service.equals("viewFeedback")) {
             Vector<Feedback> feedbacks = feedBackDAO.getAllFeedback();
-            Vector<User> customers = userDAO.getActiveCustomer();
+//            Vector<User> customers = userDAO.getActiveCustomer();
+            Vector<User> customers = userDAO.getAllCustomer();
+            Vector<Product> products = productDAO.getAllProduct();
             request.setAttribute("customers", customers);
             request.setAttribute("feedbacks", feedbacks);
+            request.setAttribute("products", products);
             request.getRequestDispatcher("/jsp/sellerFeedbackPage.jsp").forward(request, response);
         }
 
@@ -82,28 +89,36 @@ public class SellerResponseController extends HttpServlet {
         String service = request.getParameter("go");
         FeedbackDAO feedBackDAO = new FeedbackDAO();
         UserDAO userDAO = new UserDAO();
+        ProductDAO productDAO = new ProductDAO();
+
         if (service.equals("response-customer")) {
             Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             String formattedDate = formatter.format(date);
-                HttpSession session = request.getSession();
-                
+            HttpSession session = request.getSession();
+
             int customerId = Integer.parseInt(request.getParameter("customerId"));
             int productId = Integer.parseInt(request.getParameter("productId"));
             int sellerId = (int) session.getAttribute("userId");
             String content = request.getParameter("response-content");
-            String reply = request.getParameter("reply");
+            String reply = request.getParameter("reply");            
             String feedbackDate = request.getParameter("feedbackDate");
             int feedbackId = Integer.parseInt(request.getParameter("feedbackId"));
+            
             feedBackDAO.changeFeedbackStatus(feedbackId);
-            Feedback feedback = new Feedback(customerId, productId, sellerId, 
+            
+            Feedback feedback = new Feedback(feedbackId, customerId, productId, sellerId,
                     content, reply, feedbackDate, formattedDate, true);
 
-            feedBackDAO.insertCheckedFeedback(feedback);
+            feedBackDAO.updateFeedback(feedback);
+            
             Vector<Feedback> feedbacks = feedBackDAO.getAllFeedback();
-            Vector<User> customers = userDAO.getActiveCustomer();
+//            Vector<User> customers = userDAO.getActiveCustomer();
+            Vector<User> customers = userDAO.getAllCustomer();
+            Vector<Product> products = productDAO.getAllProduct();
             request.setAttribute("customers", customers);
             request.setAttribute("feedbacks", feedbacks);
+            request.setAttribute("products", products);
 //            response.sendRedirect("write-feedback");
             request.getRequestDispatcher("/jsp/sellerFeedbackPage.jsp").forward(request, response);
         }
