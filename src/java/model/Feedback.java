@@ -13,33 +13,39 @@ public class Feedback {
     int id;
     int customerId;
     int productId;
+    int sellerId;
     String content;
     String reply;
     String feedbackDate;
+    String replyDate;
     boolean check;
 
     public Feedback() {
     }
 
-    public Feedback(int id, int customerId, int productId, String content, String reply, String feedbackDate, boolean check) {
+    public Feedback(int id, int customerId, int productId, int sellerId, String content, String reply, String feedbackDate, String replyDate, boolean check) {
         this.id = id;
         this.customerId = customerId;
         this.productId = productId;
+        this.sellerId = sellerId;
         this.content = content;
         this.reply = reply;
         this.feedbackDate = feedbackDate;
+        this.replyDate = replyDate;
         this.check = check;
     }
 
-        public Feedback(int customerId, int productId, String content, String reply, String feedbackDate, boolean check) {
+    public Feedback(int customerId, int productId, int sellerId, String content, String reply, String feedbackDate, String replyDate, boolean check) {
         this.customerId = customerId;
         this.productId = productId;
+        this.sellerId = sellerId;
         this.content = content;
         this.reply = reply;
         this.feedbackDate = feedbackDate;
+        this.replyDate = replyDate;
         this.check = check;
     }
-        
+
     public int getId() {
         return id;
     }
@@ -62,6 +68,14 @@ public class Feedback {
 
     public void setProductId(int productId) {
         this.productId = productId;
+    }
+
+    public int getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(int sellerId) {
+        this.sellerId = sellerId;
     }
 
     public String getContent() {
@@ -88,6 +102,14 @@ public class Feedback {
         this.feedbackDate = feedbackDate;
     }
 
+    public String getReplyDate() {
+        return replyDate;
+    }
+
+    public void setReplyDate(String replyDate) {
+        this.replyDate = replyDate;
+    }
+
     public boolean isCheck() {
         return check;
     }
@@ -95,5 +117,4 @@ public class Feedback {
     public void setCheck(boolean check) {
         this.check = check;
     }
-    
 }

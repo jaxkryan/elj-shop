@@ -110,6 +110,8 @@
                                                 </c:forEach>
                                             </div>
                                             <input type="hidden" name ="productId" class="form-control" value ="${feedback.productId}" readonly>
+                                            <input type="hidden" name ="feedbackDate" class="form-control" value ="${feedback.feedbackDate}" readonly>
+                                            <input type="hidden" name ="feedbackId" class="form-control" value ="${feedback.id}" readonly>
                                             <div class="form-group">
                                                 <label>Content</label>
                                                 <input type="content" class="form-control" name="response-content" value ="${feedback.content}" readonly>
