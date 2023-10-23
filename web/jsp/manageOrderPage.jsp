@@ -63,52 +63,75 @@
                         </div>
                     </div>
                 </div>
-                     
+
+                <!--                <div class="row text-right"> 
+                                    <form action="${pageContext.request.contextPath}/seller/home" method="POST">
+                                        <div class="text-right" style="margin-top: 0.5%">
+                                            <input style="color: black" name = "keyword"  type="text" class="search-bar" placeholder="Search by name">
+                                            <input style="color: #000000" type="submit" name = "sellerSearchCustomerSubmit" value="Search">
+                                        </div>
+                                    </form>
+                                </div>-->
+
+                <!--Search bar-->
                 <div class="row text-right"> 
-                    <form action="${pageContext.request.contextPath}/seller/home" method="POST">
+                    <form action="home?go=search" method="post">
                         <div class="text-right" style="margin-top: 0.5%">
-                            <input style="color: black" name = "keyword"  type="text" class="search-bar" placeholder="Search by name">
-                            <input style="color: #000000" type="submit" name = "sellerSearchCustomerSubmit" value="Search">
+                            <input style="color: black" name = "searchName" type="text" class="search-bar" placeholder="Search name" value="${searchName}">
+                            <input style="color: #000000" type="submit" name = "search" value="Search">
                         </div>
                     </form>
                 </div>
-                <c:choose>
-                    <c:when test="${param.go == null || param.go == 'displayAll'}">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>CustomerID</th>
-                                    <th>Receiver</th>
-                                    <th>Address</th>
-                                    <th>ShipCusInfo</th>
-                                    <th>Status</th>
-                                    <th>CreatedTime</th>
-                                    <th>TotalPrice</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${orders}" var="order">
-                                    <tr>
-                                        <td class="align-middle">${order.id}</td>
-                                        <td class="align-middle">${order.customerId}</td>
-                                        <td class="align-middle text-left" style="text-wrap: nowrap;">${order.receiver}</td>
-                                        <td class="align-middle text-left">${order.shipStreet}, ${order.shipCity}, ${order.shipProvince}, ${order.shipCountry}</td>
-                                        <td class="align-middle">${order.shipEmail}, ${order.shipPhone}</td>
-                                        <td class="align-middle">${order.status}</td>
-                                        <td class="align-middle">${order.createdTime}</td>
-                                        <td class="align-middle">${order.totalPrice}</td>
-                                        <td>
-                                            <a href="home?go=updateStatus&newStatus=Accepted&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Accepted">&#xE254;</i></a>
-                                            <a href="home?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </c:when>
-                </c:choose>
+                <!--sorting-->               
+                <form id="sortForm" action="home" method="get">
+                    <select name="sortType" id="sort" onchange="submitForm()">
+                        <option value="All" ${chosedSortType == 'All' ? 'selected' : ''}>Display All</option>
+                        <option value="ASC" ${chosedSortType == 'ASC' ? 'selected' : ''}>Created Time Ascending</option>
+                        <option value="DESC" ${chosedSortType == 'DESC' ? 'selected' : ''}>Created Time Descending</option>
+                    </select>
+                    <input type="hidden" name="go" value="sort">
+                    <input type="hidden" name="searchName" value="${searchName}">
+                </form>
+
+                <script>
+                    function submitForm() {
+                        document.getElementById("sortForm").submit();
+                    }
+                </script>
+
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>CustomerID</th>
+                            <th>Receiver</th>
+                            <th>Address</th>
+                            <th>ShipCusInfo</th>
+                            <th>Status</th>
+                            <th>CreatedTime</th>
+                            <th>TotalPrice</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${orders}" var="order">
+                            <tr>
+                                <td class="align-middle">${order.id}</td>
+                                <td class="align-middle">${order.customerId}</td>
+                                <td class="align-middle text-left" style="text-wrap: nowrap;">${order.receiver}</td>
+                                <td class="align-middle text-left">${order.shipStreet}, ${order.shipCity}, ${order.shipProvince}, ${order.shipCountry}</td>
+                                <td class="align-middle">${order.shipEmail}, ${order.shipPhone}</td>
+                                <td class="align-middle">${order.status}</td>
+                                <td class="align-middle">${order.createdTime}</td>
+                                <td class="align-middle">${order.totalPrice}</td>
+                                <td>
+                                    <a href="home?go=updateStatus&newStatus=Accepted&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Accepted">&#xE254;</i></a>
+                                    <a href="home?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
 

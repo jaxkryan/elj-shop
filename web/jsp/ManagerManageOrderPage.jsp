@@ -70,9 +70,6 @@
                             <a href="${pageContext.request.contextPath}/manager/write-report?action=reply"><h2><b> Manage Report</b></h2></a>
                         </div>
 
-                        <div class="col-sm-4">
-                            <a href="${pageContext.request.contextPath}/manager/write-report?action=reply"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Report</span></a>
-                        </div>
                     </div>
                 </div> 
                 <!--Search bar-->
