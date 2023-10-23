@@ -31,17 +31,29 @@ public class FeedbackDAO extends jdbc.DBConnect {
                 feedbacks.add(new Feedback(rs.getInt(1),
                         rs.getInt(2),
                         rs.getInt(3),
-                        rs.getString(4),
+                        rs.getInt(4),
                         rs.getString(5),
                         rs.getString(6),
-                        rs.getBoolean(7)));
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getBoolean(9)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return feedbacks;
     }
-
+    public void changeFeedbackStatus(int feedbackId) {
+        String sql = "UPDATE Feedback SET checked = 1 WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, feedbackId);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReportDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public Vector<Feedback> getAllFeedback() {
         Vector<Feedback> feedbacks = new Vector<>();
         String sql = "  SELECT *\n"
@@ -53,11 +65,14 @@ public class FeedbackDAO extends jdbc.DBConnect {
                 int id = rs.getInt(1);
                 int customerId = rs.getInt(2);
                 int productId = rs.getInt(3);
-                String content = rs.getString(4);
-                String reply = rs.getString(5);
-                String feedbackDate = rs.getString(6);
-                boolean checked = rs.getBoolean(7);
-                feedbacks.add(new Feedback(id, customerId, productId, content, reply, feedbackDate, checked));
+                int sellerId = rs.getInt(4);
+                String content = rs.getString(5);
+                String reply = rs.getString(6);
+                String feedbackDate = rs.getString(7);
+                String replyDate = rs.getString(8);
+                boolean checked = rs.getBoolean(9);
+                feedbacks.add(new Feedback(id, customerId, productId, sellerId,
+                        content, reply, feedbackDate, replyDate, checked));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -85,19 +100,23 @@ public class FeedbackDAO extends jdbc.DBConnect {
         String sql = "INSERT INTO [dbo].[Feedback]\n"
                 + "           ([customerId]\n"
                 + "           ,[productId]\n"
+                + "           ,[sellerId]\n"
                 + "           ,[content]\n"
                 + "           ,[reply]\n"
                 + "           ,[feedbackDate]\n"
+                + "           ,[replyDate]\n"
                 + "           ,[checked])\n"
                 + "     VALUES"
-                + "           (?,?,?,?,?,1)";
+                + "           (?,?,?,?,?,?,?,1)";
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setInt(1, feedback.getCustomerId());
             pre.setInt(2, feedback.getProductId());
-            pre.setString(3, feedback.getContent());
-            pre.setString(4, feedback.getReply());
-            pre.setString(5, feedback.getFeedbackDate());
+            pre.setInt(3, feedback.getSellerId());
+            pre.setString(4, feedback.getContent());
+            pre.setString(5, feedback.getReply());
+            pre.setString(6, feedback.getFeedbackDate());
+            pre.setString(7, feedback.getReplyDate());
             affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();

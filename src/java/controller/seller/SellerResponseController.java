@@ -86,13 +86,18 @@ public class SellerResponseController extends HttpServlet {
             Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             String formattedDate = formatter.format(date);
-
+                HttpSession session = request.getSession();
+                
             int customerId = Integer.parseInt(request.getParameter("customerId"));
             int productId = Integer.parseInt(request.getParameter("productId"));
+            int sellerId = (int) session.getAttribute("userId");
             String content = request.getParameter("response-content");
             String reply = request.getParameter("reply");
-            System.out.println(reply);
-            Feedback feedback = new Feedback(customerId, productId, content, reply, formattedDate, true);
+            String feedbackDate = request.getParameter("feedbackDate");
+            int feedbackId = Integer.parseInt(request.getParameter("feedbackId"));
+            feedBackDAO.changeFeedbackStatus(feedbackId);
+            Feedback feedback = new Feedback(customerId, productId, sellerId, 
+                    content, reply, feedbackDate, formattedDate, true);
 
             feedBackDAO.insertCheckedFeedback(feedback);
             Vector<Feedback> feedbacks = feedBackDAO.getAllFeedback();

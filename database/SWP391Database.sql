@@ -149,9 +149,11 @@ CREATE TABLE [Feedback] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   customerId int,
   productId int,
+  sellerId int,
   content nvarchar(1000),
   reply nvarchar(1000),
   feedbackDate date,
+  replyDate date,
   checked bit 
 )
 GO
@@ -398,7 +400,7 @@ VALUES ('Voucher for Christmas', '2022-12-20 00:00:00', '2022-12-28 00:00:00', 3
 	('Voucher for New Year holiday', '2022-12-28 00:00:00', '2023-01-03 00:00:00', 25, 1)
 
 INSERT [Report] ([storageStaffId], [managerId], [title], [content], [writeDate],[readStatus])
-VALUES (10, 12, 'Report title', 'asdfawfsf', '2023-01-03 00:00:00', 1)
+VALUES (10, 5, 'Report title', 'asdfawfsf', '2023-01-03 00:00:00', 1)
 
 Insert [Feedback] (customerId, productId, content, reply, feedbackDate, [checked])values (2 , 10,'Nice product',null, '2023-01-09 00:00:00', 0)
 Insert [Feedback] (customerId, productId, content, reply, feedbackDate, [checked])values (2 , 10,'Nice shoes',null, '2023-01-03 00:00:00', 0)
