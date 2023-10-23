@@ -43,6 +43,7 @@ public class FeedbackDAO extends jdbc.DBConnect {
         }
         return feedbacks;
     }
+
     public void changeFeedbackStatus(int feedbackId) {
         String sql = "UPDATE Feedback SET checked = 1 WHERE id = ?";
         try {
@@ -54,6 +55,7 @@ public class FeedbackDAO extends jdbc.DBConnect {
             Logger.getLogger(ReportDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public Vector<Feedback> getAllFeedback() {
         Vector<Feedback> feedbacks = new Vector<>();
         String sql = "  SELECT *\n"
@@ -140,5 +142,51 @@ public class FeedbackDAO extends jdbc.DBConnect {
             ex.printStackTrace();
         }
         return false;
+    }
+
+      public int  updateFeedback(Feedback feedback) {
+          int row =0;
+        String sql = "UPDATE [dbo].[Feedback]\n"
+                + "   SET [customerId] = ?\n"
+                + "      ,[productId] = ?\n"
+                + "      ,[sellerId] = ?\n"
+                + "      ,[content] = ?\n"
+                + "      ,[reply] = ?\n"
+                + "      ,[feedbackDate] =?\n"
+                + "      ,[replyDate] = ?\n"
+                + "      ,[checked] = ?\n"
+                + " WHERE id=?";
+        PreparedStatement pre;
+        try {
+            pre = conn.prepareStatement(sql);
+            pre.setInt(1, feedback.getCustomerId());
+            pre.setInt(2, feedback.getProductId());
+            pre.setInt(3, feedback.getSellerId());
+            pre.setString(4, feedback.getContent());
+            pre.setString(5, feedback.getReply());
+            pre.setString(6, feedback.getFeedbackDate());
+            pre.setString(7, feedback.getReplyDate());
+            pre.setBoolean(8, true);
+            pre.setInt(9, feedback.getId());
+//            System.out.println(feedback.getCustomerId());
+//            System.out.println(feedback.getProductId());
+//            System.out.println(feedback.getSellerId());
+//            System.out.println(feedback.getContent());
+//            System.out.println(feedback.getReply());
+//            System.out.println(feedback.getReplyDate());
+//            System.out.println(feedback.getFeedbackDate());
+//            System.out.println(feedback.getId());
+            row = pre.executeUpdate();
+            System.out.println(row);
+        } catch (SQLException ex) {
+            Logger.getLogger(ReportDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return row;
+    }
+      
+      public static void main(String[] args) {
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
+        Feedback test = new Feedback(3, 4, 1, "abcd", "god product", "2023-01-09", "2023-01-09", true);
+        feedbackDAO.updateFeedback(test);
     }
 }

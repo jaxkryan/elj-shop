@@ -31,6 +31,7 @@
     <body>
         <div class="container">
             <div class="row p-3 text-right">
+                <a href="home" class="btn btn-primary text-left">Back to Manage Page</a>
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
@@ -54,9 +55,6 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-2">
-                            <a href="home"> <h2>Manage <b>Order</b></h2></a>
-                        </div>
-                        <div class="col-sm-2">
                             <h2>Feedback</h2>
                         </div>
                     </div>
@@ -75,8 +73,19 @@
                     <tbody>
                         <c:forEach items="${feedbacks}" var="feedback">
                             <tr>
-                                <td>${feedback.customerId}</td>
-                                <td>${feedback.productId}</td>
+                                <td>
+                                    <c:forEach items="${customers}" var="customer">
+                                        <c:if test="${Integer.parseInt(feedback.customerId) == Integer.parseInt(customer.id)}">
+                                            <div>${customer.firstName} ${customer.lastName}</div>
+                                            <input type ="hidden" name ="customerId" value="${customer.id}">
+                                        </c:if>
+                                    </c:forEach></td>
+                                <td> <c:forEach items="${products}" var="product">
+                                        <c:if test="${Integer.parseInt(feedback.productId) == Integer.parseInt(product.id)}">
+                                            <div>${product.name}</div>
+                                            <input type ="hidden" name ="customerId" value="">
+                                        </c:if>
+                                    </c:forEach></td>
                                 <td>${feedback.content}</td>
                                 <td>${feedback.feedbackDate}</td>
                                 <td>                 
