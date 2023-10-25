@@ -2,6 +2,7 @@ package controller.seller;
 
 import dao.OrderDAO;
 import dao.OrderDetailDAO;
+import dao.ProviderDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Vector;
 import model.Order;
 import model.OrderDetail;
+import model.Provider;
 import util.Helper;
 
 /**
@@ -33,6 +35,7 @@ public class SellerHomeController extends HttpServlet {
             throws ServletException, IOException {
         String service = request.getParameter("go");
         OrderDAO orderDAO = new OrderDAO();
+        ProviderDAO providerDAO = new ProviderDAO();
         if (service == null || service.equals("")) {
             service = "displayAll";
         }
@@ -74,7 +77,9 @@ public class SellerHomeController extends HttpServlet {
             Vector<OrderDetail> orders = orderDetailsDAO.CheckOrdersQuantity(orderId);
             if (orders.isEmpty()) {
                 String newStatus = request.getParameter("newStatus");
+
                 orderDetailsDAO.updateProductQuantity(orderId);
+
                 Order getOrder = orderDAO.getById(orderId);
                 int checkStatus = orderDAO.changeOrderStatus(orderId, newStatus);
                 if (checkStatus != 0) {
@@ -82,9 +87,23 @@ public class SellerHomeController extends HttpServlet {
                 }
                 response.sendRedirect("home");
             } else {
+
                 Helper.setNotification(request, "Out of stock , can not accept", "RED");
                 response.sendRedirect("home");
             }
+        } else if (service.equals("sort")) {
+            String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
+
+            String sortType = request.getParameter("sortType");
+            Vector<Order> orders = orderDAO.getSortedProcessedOrdersByName(sortType, searchName);
+
+            if (!orders.isEmpty()) {
+                System.out.println(orders.firstElement().getReceiver());
+            }
+            request.setAttribute("searchName", searchName);
+            request.setAttribute("chosedSortType", sortType);
+            request.setAttribute("orders", orders);
+            request.getRequestDispatcher("/jsp/manageOrderPage.jsp").forward(request, response);
         }
     }
 
@@ -100,10 +119,12 @@ public class SellerHomeController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         OrderDAO orderDAO = new OrderDAO();
-        if (request.getParameter("sellerSearchCustomerSubmit") != null) {
-            String keyword = request.getParameter("keyword");
-            Vector<Order> orders = orderDAO.getByName(keyword);
+        String service = request.getParameter("go");
+        if (service.equals("search")) {
+            String searchName = request.getParameter("searchName");
+            Vector<Order> orders = orderDAO.getProcessedOrderByName(searchName);
             request.setAttribute("orders", orders);
+            request.setAttribute("searchName", searchName);
             request.getRequestDispatcher("/jsp/manageOrderPage.jsp").forward(request, response);
 //        } else if (service.equals("update")) {
 //            int id = Integer.parseInt(request.getParameter("id"));

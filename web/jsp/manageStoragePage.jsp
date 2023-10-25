@@ -37,7 +37,10 @@
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
             <!--Alert-->
-            <div style="  background-color: pink; color: red; padding: 2px">
+            <div style="background-color: pink;
+                 color: red;
+                 padding: 6px;
+                 border-radius: 5px;">
                 <c:forEach items="${products}" var="pro">
                     <c:if test="${pro.quantity < 50}">
                         <c:set var="productNames" value="${productNames}, ${pro.name}"/>
@@ -51,8 +54,15 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <h2>Manage <b>Product</b></h2>
+                        <div class="col-sm-2">
+                            <a href="${pageContext.request.contextPath}/storage-staff/home"> <h2><b>Manage Product Quantity</b></h2></a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status"><h2><b>Manage Order Status</b></h2></a>
+                        </div>
+                        <div class="col-sm-2">
+                            <!--Report-->
+                            <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view"><h2><b>Report</h2></b></a>
                         </div>
                         <!--Search bar-->
                         <form action="storage-manage-product?search=All" method="post">
@@ -63,8 +73,6 @@
                         </form>
                     </div>
                 </div>
-                <!--Report-->
-                <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view">Report</a>
                 <!--sorting-->
                 <form id="sortForm" action="storage-manage-product" method="post">
                     <select name="sort" id="sort" onchange="submitForm()">

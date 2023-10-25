@@ -4,25 +4,19 @@
  */
 package controller;
 
-import dao.CategoryDAO;
-import dao.ProductDAO;
-import dao.ProviderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Vector;
-import model.Category;
-import model.Product;
-import model.Provider;
+import util.Helper;
 
 /**
  *
  * @author Admin
  */
-public class SearchProductController extends HttpServlet {
+public class ErrorController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,24 +29,9 @@ public class SearchProductController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String searchName = request.getParameter("searchName");
-        ProductDAO productDAO = new ProductDAO();
-        CategoryDAO categoryDAO = new CategoryDAO();
-        ProviderDAO providerDAO = new ProviderDAO();
-        Vector<Product> products = new Vector<>();
-        Vector<Category> categories = categoryDAO.getAllCategory();
-        Vector<Provider> providers = providerDAO.getAllProvider();
-        request.setAttribute("categories", categories);
-        request.setAttribute("providers", providers);
-        if (searchName != null) {
-            products = productDAO.getProductByName(searchName);
-            request.setAttribute("searchName", searchName);
-            request.setAttribute("products", products);
-        }
-        request.getRequestDispatcher("/jsp/shopPage.jsp").forward(request, response);
+        Helper.setNotification(request, "Some error occurred!", "RED");
+        response.sendRedirect("home");
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -90,7 +69,6 @@ public class SearchProductController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
-    // </editor-fold>
+    }// </editor-fold>
 
 }

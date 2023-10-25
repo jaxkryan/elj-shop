@@ -47,7 +47,7 @@ public class ManageReportController extends HttpServlet {
                 Vector<User> managers = userDAO.getActiveManager();
                 request.setAttribute("managers", managers);
                 request.setAttribute("reports", reports);
-                request.getRequestDispatcher("/jsp/storageReport.jsp").forward(request, response);
+                request.getRequestDispatcher("/jsp/manageStorageReport.jsp").forward(request, response);
             }
             if (action.equals("delete")) {
                 ReportDAO rpdao = new ReportDAO();
@@ -67,6 +67,8 @@ public class ManageReportController extends HttpServlet {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String formattedDate = formatter.format(date);
                 HttpSession session = request.getSession();
+                int reportId = Integer.parseInt(request.getParameter("reportId"));
+                reportDAO.changeReportStatus(reportId);
                 int managerId = (int) session.getAttribute("userId");
                 int staffId = Integer.parseInt(request.getParameter("staffId"));
                 String title = "Reply for " + request.getParameter("title");

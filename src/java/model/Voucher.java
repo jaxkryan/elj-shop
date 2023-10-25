@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.sql.Date;
+
 /**
  *
  * @author maclife
@@ -11,60 +13,70 @@ package model;
 public class Voucher {
 
     private int id;
-    private String voucherCode;
-    private String startDate;
-    private String endDate;
+    private String code;
+    private Date startDate;
+    private Date endDate;
     private double value;
+    private boolean active;
 
     public Voucher() {
     }
 
-    public Voucher(int id, String voucherCode, String startDate, String endDate, double value) {
+    public Voucher(int id, String code, Date startDate, Date endDate, double value, boolean active) {
         this.id = id;
-        this.voucherCode = voucherCode;
+        this.code = code;
         this.startDate = startDate;
         this.endDate = endDate;
         this.value = value;
+        this.active = active;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getVoucherCode() {
-        return voucherCode;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getStartDate() {
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Date getStartDate() {
         return startDate;
     }
 
-    public String getEndDate() {
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
         return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public double getValue() {
         return value;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setVoucherCode(String voucherCode) {
-        this.voucherCode = voucherCode;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
     public void setValue(double value) {
         this.value = value;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

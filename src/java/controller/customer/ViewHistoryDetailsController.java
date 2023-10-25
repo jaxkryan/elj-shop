@@ -37,12 +37,19 @@ public class ViewHistoryDetailsController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("orderId"));
-        String status = request.getParameter("status");
-        OrderDetailDAO oddao = new OrderDetailDAO();
-        Vector<OrderDetail> details = oddao.getOrderDetailsById(orderId);
-        request.setAttribute("details", details);
-        request.setAttribute("status", status);
-        request.getRequestDispatcher("/jsp/HistoryDetails.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("userId") == null) {
+            Helper.setNotification(request, "Please login!", "RED");
+            response.sendRedirect("home");
+        } else {
+            int userId = (int) session.getAttribute("userId");
+            String status = request.getParameter("status");
+            OrderDetailDAO oddao = new OrderDetailDAO();
+            Vector<OrderDetail> details = oddao.getOrderDetailsById(userId, orderId);
+            request.setAttribute("details", details);
+            request.setAttribute("status", status);
+            request.getRequestDispatcher("/jsp/HistoryDetails.jsp").forward(request, response);
+        }
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

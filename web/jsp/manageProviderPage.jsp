@@ -51,32 +51,31 @@
             </c:if>
             <!-- Notification End -->
             <div class="table-wrapper">
-                <div class="table-title">
+                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-2">
-                            <a href="home"><h2> <b>Manage Product</b></h2></a>
+                            <a href="home"><h2> <b> Manage Product</b></h2></a>
                         </div>
                         <div class="col-sm-2">
-                            <a href="provider"><h2> <b>Manage provider</b></h2></a>
+                            <a href="provider" style="color: white"><h2> <h2>Manage <b> Provider </b></h2></h2></a>
                         </div>
                         <div class="col-sm-2">
-                            <a href="order"><h2> <b>Manage order</b></h2></a>
+                            <a href="order"><h2> <b>Manage Order</b></h2></a>
                         </div>
                         <!--Report-->
                         <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/manager/write-report?action=reply"><h2><b>Report</b></h2></a>
+                            <a href="${pageContext.request.contextPath}/manager/write-report?action=reply"><h2><b> Manage Report</b></h2></a>
                         </div>
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
-                            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
                         </div>
                     </div>
                 </div> 
                 <!--Search bar-->
                 <form action="provider?search=All" method="post">
                     <div class="text-right" style="margin-top: 0.5%">
-                        <input style="color: black" name = "keyword" type="text" class="search-bar" placeholder="Search product...">
+                        <input style="color: black" name = "keyword" type="text" class="search-bar" placeholder="Search provider...">
                         <input style="color: #000000" type="submit" name = "search" value="Search">
                     </div>
                 </form>
@@ -87,12 +86,6 @@
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>
-                                        <span class="custom-checkbox">
-                                            <input type="checkbox" id="selectAll">
-                                            <label for="selectAll"></label>
-                                        </span>
-                                    </th>
                                     <th>ID</th>
                                     <th>Company</th>
                                     <th>Image</th>
@@ -102,12 +95,6 @@
                             <tbody>
                                 <c:forEach items="${providers}" var="provider">
                                     <tr>
-                                        <td>
-                                            <span class="custom-checkbox">
-                                                <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                                <label for="checkbox1"></label>
-                                            </span>
-                                        </td>
                                         <td>${provider.id}</td>
                                         <td>${provider.companyName}</td>
                                         <td>

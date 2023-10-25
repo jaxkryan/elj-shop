@@ -46,12 +46,13 @@ public class OrderDetailDAO extends jdbc.DBConnect {
         return null;
     }
 
-    public Vector<OrderDetail> getOrderDetailsById(int orderId) {
+    public Vector<OrderDetail> getOrderDetailsById(int userId, int orderId) {
         Vector<OrderDetail> details = new Vector<>();
-        String sql = "select * from orderdetails where orderId = ? ";
+        String sql = "select * from orderdetails inner join [order] on orderdetails.orderId = [order].[id] where orderId = ? and customerId=? ";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, orderId);
+            statement.setInt(2, userId);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 int productID = rs.getInt(1);
@@ -100,7 +101,7 @@ public class OrderDetailDAO extends jdbc.DBConnect {
     }
 
     private float priceOfOrder(int orderId) {
-        int price = 0;
+        float price = 0;
         String sql = "select totalPrice from [order] where id=?";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -135,7 +136,7 @@ public class OrderDetailDAO extends jdbc.DBConnect {
     }
 
     private float priceToDelete(int proId, int orderId) {
-        int price = 0;
+        float price = 0;
         String sql = "select price from [orderdetails] where productid=? and orderid=?";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -215,5 +216,5 @@ public class OrderDetailDAO extends jdbc.DBConnect {
         }
         return orders;
     }
-    
+
 }

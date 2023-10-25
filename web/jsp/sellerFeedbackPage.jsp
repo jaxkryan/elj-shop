@@ -1,7 +1,7 @@
 <%-- 
-    Document   : ManagerProduct
-    Created on : Dec 28, 2020, 5:19:02 PM
-    Author     : trinh
+    Document   : sellerFeedbackPage
+    Created on : Oct 19, 2023, 4:35:06 PM
+    Author     : LENOVO
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -31,7 +31,7 @@
     <body>
         <div class="container">
             <div class="row p-3 text-right">
-<!--                <a style="margin-right:81%" href="${pageContext.request.contextPath}/storage-staff/home" class="btn btn-primary">Back</a>-->
+                <a href="home" class="btn btn-primary text-left">Back to Manage Page</a>
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
@@ -55,68 +55,91 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/storage-staff/home"> <h2><b>Manage Product Quantity</b></h2></a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status"><h2><b>Manage Order Status</b></h2></a>
-                        </div>
-                        <div class="col-sm-2">
-                            <!--Report-->
-                            <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view"><h2><b>Report</h2></b></a>
-                        </div>
-                        <div class="col-sm-6">
-                            <a href="#addReportModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Write report</span></a>					
+                            <h2>Feedback</h2>
                         </div>
                     </div>
                 </div>
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th class="col-xs-7 text-left">Title</th>
-                            <th class="col-xs-3 text-left">Date</th>
-                            <th class="col-xs-2 text-left">Action</th>
+                            <th>CustomerID</th>
+                            <th>ProductID</th>
+                            <th>Content</th>
+                            <th>FeedbackDate</th>
+                            <th>Reply</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${reports}" var="reports">
+                        <c:forEach items="${feedbacks}" var="feedback">
                             <tr>
-                                <td class="text-left">${reports.title}</td>
-                                <td class="text-left">${reports.writeDate}</td>
-                                <td class="text-left">                 
-                                    <a href="#viewReport${reports.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Report">&#xe8f4;</i></a>
-                                    <a href="${pageContext.request.contextPath}/storage-staff/delete-report?reportId=${reports.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                <td>
+                                    <c:forEach items="${customers}" var="customer">
+                                        <c:if test="${Integer.parseInt(feedback.customerId) == Integer.parseInt(customer.id)}">
+                                            <div>${customer.firstName} ${customer.lastName}</div>
+                                            <input type ="hidden" name ="customerId" value="${customer.id}">
+                                        </c:if>
+                                    </c:forEach></td>
+                                <td> <c:forEach items="${products}" var="product">
+                                        <c:if test="${Integer.parseInt(feedback.productId) == Integer.parseInt(product.id)}">
+                                            <div>${product.name}</div>
+                                            <input type ="hidden" name ="customerId" value="">
+                                        </c:if>
+                                    </c:forEach></td>
+                                <td>${feedback.content}</td>
+                                <td>${feedback.feedbackDate}</td>
+                                <td>                 
+                                    <a href="#viewReport${feedback.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Report">&#xe8f4;</i></a>
                                 </td>
-                                <!--View report-->
-                        <div id="viewReport${reports.id}" class="modal fade">
+                                <td>
+                                    <c:if test="${feedback.check == true}">
+                                        Replied
+                                    </c:if>
+                                    <c:if test="${feedback.check != true}">
+                                        Not Replied Yet
+                                    </c:if>
+                                </td>
+                                <!--View and reply report-->
+                        <div id="viewReport${feedback.id}" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form action="${pageContext.request.contextPath}/storage-staff/write-report?action=view" method="POST">
+                                    <form action="write-feedback?go=response-customer" method="POST">
                                         <div class="modal-header">						
-                                            <h4 class="modal-title">View Report</h4>
+                                            <h4 class="modal-title">View Feedback</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                         </div>
                                         <div class="modal-body">					
                                             <div class="form-group">
-                                                <label>Manager Received</label>                                               
-                                                <c:forEach items="${managers}" var="managers">
-                                                    <c:if test="${Integer.parseInt(reports.managerId) == Integer.parseInt(managers.id)}">
-                                                        <div>${managers.firstName} ${managers.lastName}</div>
-                                                        <input type ="hidden" name ="managersId" value="${managers.id}">
+                                                <label>Customer Sent</label>                                               
+                                                <c:forEach items="${customers}" var="customer">
+                                                    <c:if test="${Integer.parseInt(feedback.customerId) == Integer.parseInt(customer.id)}">
+                                                        <div>${customer.firstName} ${customer.lastName}</div>
+                                                        <input type ="hidden" name ="customerId" value="${customer.id}">
                                                     </c:if>
                                                 </c:forEach>
-
                                             </div>
-                                            <div class="form-group">
-                                                <label>Title</label>
-                                                <input type="email" class="form-control" value ="${reports.title}" readonly>
-                                            </div>
+                                            <input type="hidden" name ="productId" class="form-control" value ="${feedback.productId}" readonly>
+                                            <input type="hidden" name ="feedbackDate" class="form-control" value ="${feedback.feedbackDate}" readonly>
+                                            <input type="hidden" name ="feedbackId" class="form-control" value ="${feedback.id}" readonly>
                                             <div class="form-group">
                                                 <label>Content</label>
-                                                <input type="email" class="form-control" value ="${reports.content}" readonly>
-                                            </div>					
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
+                                                <input type="content" class="form-control" name="response-content" value ="${feedback.content}" readonly>
+                                            </div>	                                         
+                                            <div class="form-group">
+                                                <label>Reply</label>
+                                                <c:choose>
+                                                    <c:when test="${feedback.check == true}">
+                                                        <textarea type="content" name="reply" class="form-control" required rows="5" cols="33" maxlength="1000" readonly>${feedback.reply}</textarea>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <textarea type="text" name="reply" class="form-control" value="Your reply..." required rows="5" cols="33" maxlength="1000"></textarea>
+                                                        <div class="modal-footer">
+                                                            <input type="submit" class="btn btn-success" value="Send reply" >
+                                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
+                                                        </div>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
@@ -149,11 +172,11 @@
 
                             <div class="form-group">
                                 <label>Title</label>
-                                <input name="title" type="text" class="form-control" maxlength="100" required>
+                                <input name="title" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>Content</label>
-                                <textarea name="content" type="text" class="form-control" required rows="5" cols="33" maxlength="1000"></textarea>
+                                <textarea name="content" type="text" class="form-control" required rows="5" cols="33" maxlength="10000"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">

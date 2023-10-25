@@ -74,7 +74,7 @@
                         <div class="offer-text">
                             <h3 class="text-white mb-3">Style</h3>
                             <h6 class="text-white text-uppercase">Style up yourself</h6>
-                            <a href="${pageContext.request.contextPath}/shop" class="btn btn-primary">Shop Now</a>
+                            <a href="${pageContext.request.contextPath}/productfilter" class="btn btn-primary">Shop Now</a>
                         </div>
                     </div>
                     <div class="product-offer mb-30" style="height: 200px;">
@@ -82,7 +82,7 @@
                         <div class="offer-text">
                             <h3 class="text-white mb-3">fashioned</h3>
                             <h6 class="text-white text-uppercase">Become a gentlemen</h6>
-                            <a href="${pageContext.request.contextPath}/shop" class="btn btn-primary">Shop Now</a>
+                            <a href="${pageContext.request.contextPath}/productfilter" class="btn btn-primary">Shop Now</a>
                         </div>
                     </div>
                 </div>

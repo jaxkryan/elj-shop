@@ -129,7 +129,7 @@ GO
 CREATE TABLE [ImportOrderDetails] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [importOrderId] int NOT NULL,
-  [productInfomration] varchar(200),
+  [productInformation] varchar(200),
   [price] float NOT NULL,
   [quantity] int NOT NULL DEFAULT (1)
 )
@@ -149,8 +149,11 @@ CREATE TABLE [Feedback] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   customerId int,
   productId int,
+  sellerId int,
   content nvarchar(1000),
+  reply nvarchar(1000),
   feedbackDate date,
+  replyDate date,
   checked bit 
 )
 GO
@@ -159,28 +162,10 @@ CREATE TABLE [Report] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   storageStaffId int,
   managerId int,
-  title varchar(50),
+  title varchar(100),
   content varchar(1000),
   writeDate datetime,
   readStatus bit
-)
-GO
-
-CREATE TABLE [ResponseFeedback](
-  feedbackId int PRIMARY KEY,
-  sellerId int,
-  content varchar(1000),
-  responseDate datetime
-)
-GO
-
-CREATE TABLE [ResponseReport] (
-  reportId int PRIMARY KEY NOT NULL,
-  employeeId int,
-  managerId int,
-  title varchar(50),
-  content varchar(1000),
-  writeDate datetime
 )
 GO
 
@@ -241,21 +226,6 @@ GO
 ALTER TABLE [Report] ADD FOREIGN KEY ([managerId]) REFERENCES [Employee] ([id])
 GO
 
-ALTER TABLE [ResponseFeedback] ADD FOREIGN KEY ([feedbackId]) REFERENCES [Feedback] ([id])
-GO
-
-ALTER TABLE [ResponseFeedback] ADD FOREIGN KEY ([sellerId]) REFERENCES [Employee] ([id])
-GO
-
-ALTER TABLE [ResponseReport] ADD FOREIGN KEY ([reportId]) REFERENCES [Report] ([id])
-GO
-
-ALTER TABLE [ResponseReport] ADD FOREIGN KEY ([employeeId]) REFERENCES [employee] ([id])
-GO
-
-ALTER TABLE [ResponseReport] ADD FOREIGN KEY ([managerId]) REFERENCES [employee] ([id])
-GO
-
 INSERT [User] ([role],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active])
 VALUES ('Admin', 'Nguyen Ngoc Tuan', 'Huy', '2003-08-20', 'Tran Hung Dao', 'Ha Noi', 'Ha Dong', 'Viet Nam', '0808123546', 'huynnthe176346@fpt.edu.vn', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
 	('Customer', 'Nguyen Bao', 'Ngoc', '2004-1-23', 'Trang Hat', 'Ho Chi Minh', 'Quan 1', 'Viet Nam', '0863846324', 'longndhe176282@fpt.edu.vn', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
@@ -308,20 +278,20 @@ INSERT [Product] ([categoryId], [providerId], [name], [description], [price], [q
 INSERT [Product] ([categoryId], [providerId], [name], [description], [price], [quantity], [image],[active]) VALUES (2, 3, 'PUMA Future Rider', 'The shoes of future', 420, 70,'https://cdn.runrepeat.com/i/puma/35115/puma-men-s-future-rider-sneaker-white-black-11-puma-white-puma-black-8f1f-900.jpg', 1)
 INSERT [Product] ([categoryId], [providerId], [name], [description], [price], [quantity], [image],[active]) VALUES (3, 3, 'PUMA Clasico Trainers', 'Puma shoes for your tranning', 240, 55,'https://cdn.runrepeat.com/i/puma/37788/puma-men-s-clasico-sneaker-white-white-gray-violet-7-5-puma-white-puma-white-gray-violet-f923-900.jpg', 1)
 
-INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (2, 'Nguyen Van Thai', 'Tran Hung Dao', 'Hoa Binh', 'Hoa Binh', 'Viet Nam', 'thaihb@gmail.com', '0847293709', 'Canceled', '2022-12-23 10:34:23', 252, 1)
-INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (4, 'Nguyen Thi Huong', 'Le Thai To', 'Thai Nguyen', 'Thai Nguyen', 'Viet Nam', 'huonghuong@gmail.com', '0823654893', 'Accepted', '2023-05-12 14:45:42', 660, 1)
-INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (4, 'Pham Hoang Dang', 'Le Thai Tong', 'Can Tho', 'Can Tho', 'Viet Nam', 'dangph@gmail.com', '0823123167', 'Processed', '2023-06-14 18:20:20', 720, 1)
-INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (6, 'Nguyen Dang Hoang', 'Tran Nhan Tong', 'Hai Ba Trung', 'Ha Noi', 'Viet Nam', 'hoangnd@gmail.com', '0856345982', 'Shipped', '2023-01-30 15:05:01', 1284, 1)
-INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (6, 'Dang Thai Duong', 'Le Quy Don', 'Yen Bai', 'Yen Bai', 'Viet Nam', 'duongdt@gmail.com', '0823900074', 'Received', '2023-01-23 09:09:09', 672, 1)
-INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (6, 'Tran Van Kien', 'Ton Quyen', 'Nghe An', 'Nghe An', 'Viet Nam', 'kientv@gmail.com', '0899932477', 'Accepted', '2023-08-08 12:12:12', 400, 1)
+INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (2, 'Nguyen Van Thai', 'Tran Hung Dao', 'Hoa Binh', 'Hoa Binh', 'Viet Nam', 'thaihb@gmail.com', '0847293709', 'Shipping', '2022-12-23 10:34:23', 252, 1)
+INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (4, 'Nguyen Thi Huong', 'Le Thai To', 'Thai Nguyen', 'Thai Nguyen', 'Viet Nam', 'huonghuong@gmail.com', '0823654893', 'Shipping', '2023-05-12 14:45:42', 660, 1)
+INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (4, 'Pham Hoang Dang', 'Le Thai Tong', 'Can Tho', 'Can Tho', 'Viet Nam', 'dangph@gmail.com', '0823123167', 'Shipping', '2023-06-14 18:20:20', 720, 1)
+INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (6, 'Nguyen Dang Hoang', 'Tran Nhan Tong', 'Hai Ba Trung', 'Ha Noi', 'Viet Nam', 'hoangnd@gmail.com', '0856345982', 'Shipping', '2023-01-30 15:05:01', 1284, 1)
+INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (6, 'Dang Thai Duong', 'Le Quy Don', 'Yen Bai', 'Yen Bai', 'Viet Nam', 'duongdt@gmail.com', '0823900074','Processed', '2023-01-23 09:09:09', 672, 1)
+INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (6, 'Tran Van Kien', 'Ton Quyen', 'Nghe An', 'Nghe An', 'Viet Nam', 'kientv@gmail.com', '0899932477', 'Processed', '2023-08-08 12:12:12', 400, 1)
 INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (7, 'Nguyen Huu Kien', 'Ho Quy Ly', 'Ha Tinh', 'Ha Tinh', 'Viet Nam', 'kiennh@gmail.com', '0845683321', 'Processed', '2023-2-5 10:34:23', 1959, 1)
-INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (7, 'Nguyen Thai Truong', 'Le Nhan Tong', 'Hai Duong', 'Hai Duong', 'Viet Nam', 'truongnt@gmail.com', '0823941123', 'Canceled', '2021-11-19 11:23:53', 360, 1)
-INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (7, 'Nguyen Thi Le', 'Hung Dao Vuong', 'Ca Mau', 'Ca Mau', 'Viet Nam', 'lent@gmail.com', '0823112996', 'Canceled', '2023-09-01 17:12:17', 1365, 1)
-INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (7, 'James Thomas', 'Connecticut Avenue NW', 'Washington', 'Washington', 'USA', 'thomasj@gmail.com', '05234268319', 'Received', '2023-09-02 23:15:47', 1636.7, 1)
-INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (9, 'Hanashi Aoi', 'Kabukicho', 'Tokyo', 'Tokyo', 'Japan', 'Aoihana@gmail.com', '0723539877', 'Received', '2023-08-29 02:10:55', 320, 1)
+INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (7, 'Nguyen Thai Truong', 'Le Nhan Tong', 'Hai Duong', 'Hai Duong', 'Viet Nam', 'truongnt@gmail.com', '0823941123', 'Processed', '2021-11-19 11:23:53', 360, 1)
+INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (7, 'Nguyen Thi Le', 'Hung Dao Vuong', 'Ca Mau', 'Ca Mau', 'Viet Nam', 'lent@gmail.com', '0823112996', 'Processed', '2023-09-01 17:12:17', 1365, 1)
+INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (7, 'James Thomas', 'Connecticut Avenue NW', 'Washington', 'Washington', 'USA', 'thomasj@gmail.com', '05234268319', 'Processed', '2023-09-02 23:15:47', 1636.7, 1)
+INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) VALUES (9, 'Hanashi Aoi', 'Kabukicho', 'Tokyo', 'Tokyo', 'Japan', 'Aoihana@gmail.com', '0723539877', 'Processed', '2023-08-29 02:10:55', 320, 1)
 
 INSERT [OrderDetails] ([productId], [orderId], [price], [quantity]) 
-VALUES (1, 1, 180, 2),
+VALUES (1, 1, 180, 40),
 	(9, 9, 520, 1),
 	(2, 2, 220, 3),
 	(3, 7, 280, 4),
@@ -335,7 +305,7 @@ VALUES (1, 1, 180, 2),
 	(3, 10, 280, 2),
 	(12, 3, 240, 3),
 	(9, 4, 520, 2),
-	(1, 8, 180, 2),
+	(1, 8, 180, 40),
 	(8, 7, 333, 5),
 	(2, 4, 220, 5),
 	(7, 11, 320, 1)
@@ -368,7 +338,7 @@ VALUES (1, 12, 'Received', '2022-12-11 8:25:31', 1),
 	(2, 12, 'Accepted', '2023-8-22 8:59:25', 1),
 	(3, 12, 'Received', '2023-03-29 9:12:53', 1)
 
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity]) 
+INSERT [ImportOrderDetails] ([importOrderId], [productInformation], [price], [quantity]) 
 VALUES (1, 'Adidas Gazelle Shoes', 120, 50),
 	(1, 'Adidas Ultraboost Light Running Shoes', 150, 80),
 	(1, 'Adidas x Gucci ZX8000 Sneakers', 180, 70),
@@ -397,12 +367,12 @@ VALUES ('Voucher for Christmas', '2022-12-20 00:00:00', '2022-12-28 00:00:00', 3
 	('Voucher for New Year holiday', '2022-12-28 00:00:00', '2023-01-03 00:00:00', 25, 1)
 
 INSERT [Report] ([storageStaffId], [managerId], [title], [content], [writeDate],[readStatus])
-VALUES (10, 12, 'Report title', 'asdfawfsf', '2023-01-03 00:00:00', 1)
+VALUES (10, 5, 'Report title', 'asdfawfsf', '2023-01-03 00:00:00', 1)
 
-Insert [Feedback] (customerId, productId, content, feedbackDate, [checked])values (2 , 10,'Nice product','2023-01-09 00:00:00', 0)
-Insert [Feedback] (customerId, productId, content, feedbackDate, [checked])values (2 , 10,'Nice shoes','2023-01-03 00:00:00', 0)
+Insert [Feedback] (customerId, productId, content, reply, feedbackDate, [checked])values (2 , 10,'Nice product',null, '2023-01-09 00:00:00', 0)
+Insert [Feedback] (customerId, productId, content, reply, feedbackDate, [checked])values (2 , 10,'Nice shoes',null, '2023-01-03 00:00:00', 0)
 
-Insert [Feedback] (customerId, productId, content, feedbackDate, [checked])values (4 , 10,'Nice ones','2023-04-03 00:00:00', 0)
+Insert [Feedback] (customerId, productId, content, reply, feedbackDate, [checked])values (4 , 10,'Nice ones',null, '2023-04-03 00:00:00', 0)
 
 
 USE master;
