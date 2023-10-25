@@ -193,7 +193,7 @@
                                     <input name="password" class="form-control" type="password" value="${password}" minlength="8" required>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>Confirm your password</label>
+                                    <label>Confirm password</label>
                                     <input name="confirmedPassword" class="form-control" type="password" value="${confirmedPassword}" minlength="8" required>
                                 </div>
                             </div>
