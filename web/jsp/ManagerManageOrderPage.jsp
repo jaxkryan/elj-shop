@@ -56,27 +56,26 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-2">
-                            <a href="home"><h2> <b>Manage Product</b></h2></a>
+                        <div>
+                            <a href="home" class="table-title-link"><h2>Manage <b>Product</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="provider"><h2> <b>Manage Provider</b></h2></a>
+                        <div>
+                            <a href="provider" class="table-title-link"><h2>Manage <b>Provider</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="order" style="color: white"><h2> <h2>Manage <b>Order</b></h2></h2></a>
+                        <div>
+                            <a href="order" class="table-title-link curent-page"><h2>Manage <b>Order</b></h2></a>
                         </div>
                         <!--Report-->
-                        <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/manager/write-report?action=reply"><h2><b> Manage Report</b></h2></a>
+                        <div>
+                            <a href="${pageContext.request.contextPath}/manager/write-report?action=reply" class="table-title-link"><h2>Manage <b>Report</b></h2></a>
                         </div>
-
                     </div>
                 </div> 
                 <!--Search bar-->
                 <div class="row text-right"> 
                     <form action="order?go=search" method="post">
                         <div class="text-right" style="margin-top: 0.5%">
-                            <input style="color: black" name = "searchName" type="text" class="search-bar" placeholder="Search name" value="${searchName}">
+                            <input style="color: black" name = "searchName" type="text" class="search-bar" placeholder="Search name..." value="${searchName}">
                             <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
                         </div>
                     </form>
@@ -124,7 +123,7 @@
                                 <td class="align-middle">${order.createdTime}</td>
                                 <td class="align-middle">${order.totalPrice}</td>
                                 <td>
-                                    <a href="#deleteEmployeeModal${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
+                                    <a href="#deleteEmployeeModal${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancel">&#xE872;</i></a>
                                 </td>
                                 <!-- Delete Modal HTML -->
                         <div id="deleteEmployeeModal${order.id}" class="modal fade">
@@ -141,7 +140,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input id="deleteButton" type="submit" class="btn btn-danger" value="Delete">
+                                            <input id="deleteButton" type="submit" class="btn btn-danger" value="Cancel Order">
                                         </div>
                                         <input type="hidden" name ="go" value="changeOrderStatus">
                                         <input type="hidden" name ="newStatus" value="Cancelled">

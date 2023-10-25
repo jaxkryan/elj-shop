@@ -53,22 +53,22 @@
             <div class="table-wrapper">
                  <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-2">
-                            <a href="home"><h2> <b> Manage Product</b></h2></a>
+                        <div>
+                            <a href="home" class="table-title-link"><h2>Manage <b>Product</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="provider" style="color: white"><h2> <h2>Manage <b> Provider </b></h2></h2></a>
+                        <div>
+                            <a href="provider" class="table-title-link curent-page"><h2>Manage <b>Provider</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="order"><h2> <b>Manage Order</b></h2></a>
+                        <div>
+                            <a href="order" class="table-title-link"><h2>Manage <b>Order</b></h2></a>
                         </div>
                         <!--Report-->
-                        <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/manager/write-report?action=reply"><h2><b> Manage Report</b></h2></a>
+                        <div>
+                            <a href="${pageContext.request.contextPath}/manager/write-report?action=reply" class="table-title-link"><h2>Manage <b>Report</b></h2></a>
                         </div>
 
-                        <div class="col-sm-4">
-                            <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
+                        <div style="width: 16%">
+                            <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add Provider</span></a>
                         </div>
                     </div>
                 </div> 
@@ -114,7 +114,7 @@
                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                                 </div>
                                                 <div class="modal-body">					
-                                                    <p>Are you sure you want to delete these Providers?</p>
+                                                    <p>Are you sure you want to delete this provider ${provider.companyName}?</p>
                                                     <p class="text-warning"><small>This action cannot be undone.</small></p>
                                                 </div>
                                                 <div class="modal-footer">
@@ -133,7 +133,7 @@
                                         <div class="modal-content">
                                             <form action="provider" method="post">
                                                 <div class="modal-header">						
-                                                    <h4 class="modal-title">Add Product</h4>
+                                                    <h4 class="modal-title">Edit Provider Information</h4>
                                                     <a type="button" class="close" href="provider?"  data-dismiss="modal" aria-hidden="true">&times;</a>
 
                                                 </div>

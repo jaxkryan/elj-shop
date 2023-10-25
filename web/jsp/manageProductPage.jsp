@@ -150,22 +150,22 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-2">
-                            <a href="home" style="color: white"><h2> <h2> Manage <b>Product</b></h2></h2></a>
+                        <div>
+                            <a href="home" class="table-title-link curent-page"><h2>Manage <b>Product</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="provider"><h2> <b>Manage Provider</b></h2></a>
+                        <div>
+                            <a href="provider" class="table-title-link"><h2>Manage <b>Provider</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="order"><h2> <b>Manage Order</b></h2></a>
+                        <div>
+                            <a href="order" class="table-title-link"><h2>Manage <b>Order</b></h2></a>
                         </div>
                         <!--Report-->
-                        <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/manager/write-report?action=reply"><h2><b>Manage Report</b></h2></a>
+                        <div>
+                            <a href="${pageContext.request.contextPath}/manager/write-report?action=reply" class="table-title-link"><h2>Manage <b>Report</b></h2></a>
                         </div>
 
-                        <div class="col-sm-4">
-                            <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
+                        <div style="width: 16%">
+                            <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add Product</span></a>					
                         </div>
                     </div>
                 </div> 
@@ -223,7 +223,7 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                         </div>
                                         <div class="modal-body">					
-                                            <p>Are you sure you want to delete these Records?</p>
+                                            <p>Are you sure you want to delete this product ${product.name}?</p>
                                             <p class="text-warning"><small>This action cannot be undone.</small></p>
                                         </div>
                                         <div class="modal-footer">
@@ -243,7 +243,7 @@
                                     <!-- Edit Form -->
                                     <form action="home" method="post">
                                         <div class="modal-header">						
-                                            <h4 class="modal-title">Add Product</h4>
+                                            <h4 class="modal-title">Edit Product Information</h4>
                                             <a type="button" class="close" href="home?"  data-dismiss="modal" aria-hidden="true">&times;</a>
                                         </div>
                                         <div class="modal-body">					
@@ -388,27 +388,6 @@
             </div>
         </div>
 
-        <!-- Delete Modal HTML -->
-        <div id="deleteEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form>
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Delete Product</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <p>Are you sure you want to delete these Products?</p>
-                            <p class="text-warning"><small>This action cannot be undone.</small></p>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-danger" value="Delete">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
     </a>
     <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
     <script>
