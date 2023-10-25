@@ -68,7 +68,7 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
+                            <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add Provider</span></a>
                         </div>
                     </div>
                 </div> 
@@ -114,7 +114,7 @@
                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                                 </div>
                                                 <div class="modal-body">					
-                                                    <p>Are you sure you want to delete these Providers?</p>
+                                                    <p>Are you sure you want to delete provider ${provider.companyName}?</p>
                                                     <p class="text-warning"><small>This action cannot be undone.</small></p>
                                                 </div>
                                                 <div class="modal-footer">
@@ -133,7 +133,7 @@
                                         <div class="modal-content">
                                             <form action="provider" method="post">
                                                 <div class="modal-header">						
-                                                    <h4 class="modal-title">Add Product</h4>
+                                                    <h4 class="modal-title">Edit Provider Information</h4>
                                                     <a type="button" class="close" href="provider?"  data-dismiss="modal" aria-hidden="true">&times;</a>
 
                                                 </div>
