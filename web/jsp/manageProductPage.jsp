@@ -165,7 +165,7 @@
                         </div>
 
                         <div class="col-sm-4">
-                            <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add</span></a>
+                            <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add Product</span></a>
                         </div>
                     </div>
                 </div> 
@@ -223,7 +223,7 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                         </div>
                                         <div class="modal-body">					
-                                            <p>Are you sure you want to delete these Records?</p>
+                                            <p>Are you sure you want to delete product ${product.name}?</p>
                                             <p class="text-warning"><small>This action cannot be undone.</small></p>
                                         </div>
                                         <div class="modal-footer">
@@ -243,7 +243,7 @@
                                     <!-- Edit Form -->
                                     <form action="home" method="post">
                                         <div class="modal-header">						
-                                            <h4 class="modal-title">Add Product</h4>
+                                            <h4 class="modal-title">Edit Product Information</h4>
                                             <a type="button" class="close" href="home?"  data-dismiss="modal" aria-hidden="true">&times;</a>
                                         </div>
                                         <div class="modal-body">					

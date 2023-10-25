@@ -76,7 +76,7 @@
                 <div class="row text-right"> 
                     <form action="order?go=search" method="post">
                         <div class="text-right" style="margin-top: 0.5%">
-                            <input style="color: black" name = "searchName" type="text" class="search-bar" placeholder="Search name" value="${searchName}">
+                            <input style="color: black" name = "searchName" type="text" class="search-bar" placeholder="Search name..." value="${searchName}">
                             <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
                         </div>
                     </form>
@@ -141,7 +141,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input id="deleteButton" type="submit" class="btn btn-danger" value="Delete">
+                                            <input id="deleteButton" type="submit" class="btn btn-danger" value="Cancel Order">
                                         </div>
                                         <input type="hidden" name ="go" value="changeOrderStatus">
                                         <input type="hidden" name ="newStatus" value="Cancelled">
