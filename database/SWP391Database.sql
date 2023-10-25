@@ -129,7 +129,7 @@ GO
 CREATE TABLE [ImportOrderDetails] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   [importOrderId] int NOT NULL,
-  [productInfomration] varchar(200),
+  [productInformation] varchar(200),
   [price] float NOT NULL,
   [quantity] int NOT NULL DEFAULT (1)
 )
@@ -338,7 +338,7 @@ VALUES (1, 12, 'Received', '2022-12-11 8:25:31', 1),
 	(2, 12, 'Accepted', '2023-8-22 8:59:25', 1),
 	(3, 12, 'Received', '2023-03-29 9:12:53', 1)
 
-INSERT [ImportOrderDetails] ([importOrderId], [productInfomration], [price], [quantity]) 
+INSERT [ImportOrderDetails] ([importOrderId], [productInformation], [price], [quantity]) 
 VALUES (1, 'Adidas Gazelle Shoes', 120, 50),
 	(1, 'Adidas Ultraboost Light Running Shoes', 150, 80),
 	(1, 'Adidas x Gucci ZX8000 Sneakers', 180, 70),
