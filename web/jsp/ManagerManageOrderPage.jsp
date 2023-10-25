@@ -56,20 +56,19 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-2">
-                            <a href="home"><h2> <b>Manage Product</b></h2></a>
+                        <div>
+                            <a href="home" class="table-title-link"><h2>Manage <b>Product</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="provider"><h2> <b>Manage Provider</b></h2></a>
+                        <div>
+                            <a href="provider" class="table-title-link"><h2>Manage <b>Provider</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="order" style="color: white"><h2> <h2>Manage <b>Order</b></h2></h2></a>
+                        <div>
+                            <a href="order" class="table-title-link curent-page"><h2>Manage <b>Order</b></h2></a>
                         </div>
                         <!--Report-->
-                        <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/manager/write-report?action=reply"><h2><b> Manage Report</b></h2></a>
+                        <div>
+                            <a href="${pageContext.request.contextPath}/manager/write-report?action=reply" class="table-title-link"><h2>Manage <b>Report</b></h2></a>
                         </div>
-
                     </div>
                 </div> 
                 <!--Search bar-->
@@ -124,7 +123,7 @@
                                 <td class="align-middle">${order.createdTime}</td>
                                 <td class="align-middle">${order.totalPrice}</td>
                                 <td>
-                                    <a href="#deleteEmployeeModal${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
+                                    <a href="#deleteEmployeeModal${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancel">&#xE872;</i></a>
                                 </td>
                                 <!-- Delete Modal HTML -->
                         <div id="deleteEmployeeModal${order.id}" class="modal fade">
