@@ -82,7 +82,7 @@
     </servlet>
     <servlet>
         <servlet-name>CustomerManageProfileController</servlet-name>
-        <servlet-class>controller.CustomerManageProfileController</servlet-class>
+        <servlet-class>controller.customer.CustomerManageProfileController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AdminManageProfileController</servlet-name>
@@ -106,7 +106,7 @@
     </servlet>
     <servlet>
         <servlet-name>StorageController</servlet-name>
-        <servlet-class>controller.StorageController</servlet-class>
+        <servlet-class>controller.storagestaff.StorageController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SortControlelr</servlet-name>
@@ -118,7 +118,7 @@
     </servlet>
     <servlet>
         <servlet-name>StorageSortController</servlet-name>
-        <servlet-class>controller.StorageController</servlet-class>
+        <servlet-class>controller.storagestaff.StorageController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>StorageUpdateQty</servlet-name>
@@ -146,7 +146,7 @@
     </servlet>
     <servlet>
         <servlet-name>ReportController</servlet-name>
-        <servlet-class>controller.ReportController</servlet-class>
+        <servlet-class>controller.storagestaff.ReportController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteReportController</servlet-name>

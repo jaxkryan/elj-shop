@@ -46,6 +46,30 @@ public class User {
         this.email = email;
         this.password = password;
     }
+    
+    public User(int id, String role, String firstName, String lastName, String dateOfBirth, String street, String city, String province, String country, String phone) {
+        this.id = id;
+        this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.street = street;
+        this.city = city;
+        this.province = province;
+        this.country = country;
+        this.phone = phone;
+    }
+    
+    public User(int id, String email) {
+        this.id = id;
+        this.email = email;
+    }
+    
+    public User(int id, String email, String password) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+    }
 
     public int getId() {
         return id;

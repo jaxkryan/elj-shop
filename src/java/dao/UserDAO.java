@@ -427,7 +427,7 @@ public class UserDAO extends jdbc.DBConnect {
     }
 
     /**
-     * Update user's information except role and password
+     * Update user's information except password
      *
      * @param user user to update
      * @return number of affected rows in database
@@ -457,6 +457,23 @@ public class UserDAO extends jdbc.DBConnect {
             pre.setString(8, user.getPhone());
             pre.setString(9, user.getEmail());
             pre.setInt(10, user.getId());
+            affectedRows = pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return affectedRows;
+    }
+    
+    public int updateEmail(User user, String newEmail) {
+        int affectedRows = 0;
+        String sql = "UPDATE [dbo].[User]\n"
+                + "   SET [email] = ?\n"
+                + " WHERE id = ?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setString(1, newEmail);
+            pre.setInt(2, user.getId());
             affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();

@@ -29,13 +29,41 @@
             }
         </style>
     <body>
-        <div class="container">
-            <div class="row p-3 text-right">
-                <a href="home" class="btn btn-primary text-left">Back to Manage Page</a>
-                <a href="profile" class="btn btn-primary">Profile</a>
-                <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
+        <div class="container" style="width: 65%;">
+            <div class="row p-3">
+                <div class="col-sm-6 text-left">
+                    <a href="home" class="btn btn-primary">Back</a>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <a href="profile" class="btn btn-primary">Profile</a>
+                    <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
+                </div>
             </div>
+
+            <!-- Notification Start -->
+            <c:if test="${notification != null}">
+                <div class="row p-3">
+                    <div class="col-lg-12">
+                        <div class="alert <c:choose><c:when test="${notiType == 'RED'}">alert-danger</c:when><c:otherwise>alert-success</c:otherwise></c:choose>">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <strong><%= session.getAttribute("notification")%></strong>
+                            <%session.removeAttribute("notification");%>
+                            <%session.removeAttribute("notiType");%>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+            <!-- Notification End -->
+
+            <!-- Personal Info -->
             <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Personal <b>Infomation</b></h2>
+                        </div>
+                    </div>
+                </div>
                 <form class="row" action="profile" method="POST">
                     <input name="id" type="hidden" value="${user.getId()}">
                     <div class="col-md-6 form-group">
@@ -71,26 +99,86 @@
                         <input name="phone" class="form-control" type="tel" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" title="Ten digits code" value="${user.getPhone()}" required>
                     </div>
                     <div class="col-md-6 form-group">
-                        <label>E-mail</label>
-                        <input name="email" class="form-control" type="email" value="${user.getEmail()}" required>
                     </div>
                     <div class="col-md-6 form-group">
                     </div>
-                    <!--                                <div class="col-md-6 form-group">
-                                                        <label>Password</label>
-                                                        <input name="password" class="form-control" type="password" minlength="8" required>
-                                                    </div>-->
                     <div class="col-md-12 form-group">
                         <div class="row">
-                            <div class="col-md-3 form-group">
+                            <div class="col-md-4 form-group">
                             </div>
-                            <div class="col-md-3 form-group">
-                                <input name="reset" class="form-control btn btn-primary" type="reset" value="Reset">
+                            <div class="col-md-2 form-group">
+                                <input name="SellerEditPersonalInfoSubmit" class="form-control btn btn-primary" type="submit" value="Update">
                             </div>
-                            <div class="col-md-3 form-group">
-                                <input name="sellerEditProfileSubmit" class="form-control btn btn-primary" type="submit" value="Update">
+                            <div class="col-md-2 form-group">
+                                <a class="form-control btn btn-primary" href="${pageContext.request.contextPath}/home">Cancel</a>
                             </div>
-                            <div class="col-md-3 form-group">
+                            <div class="col-md-4 form-group">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Update Email -->
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Update <b>Email</b></h2>
+                        </div>
+                    </div>
+                </div>
+                <form class="row" action="profile" method="POST" style="width: 100%">
+                    <input name="id" type="hidden" value="${user.getId()}">
+                    <div class="col-md-6 form-group">
+                        <label>E-mail</label>
+                        <input name="email" class="form-control" type="email" value="${user.getEmail()}" required>
+                    </div>
+
+                    <div class="col-md-2 form-group" style="margin-top: 23px "> 
+                        <input name="SellerUpdateEmailSubmit" class="form-control btn btn-primary" type="submit" value="Update email">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Change Password -->
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Change <b>Password</b></h2>
+                        </div>
+                    </div>
+                </div>
+                <form class="row" action="profile" method="POST">
+                    <input name="id" type="hidden" value="${user.getId()}">
+                    <div class="col-md-6 form-group">
+                        <label>Old Password</label>
+                        <input name="oldPassword" class="form-control" type="password" minlength="8" required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>New Password</label>
+                        <input name="newPassword" class="form-control" type="password" minlength="8" required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Confirm New Password</label>
+                        <input name="confirmedPassword" class="form-control" type="password" minlength="8" required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                    </div>
+                    <div class="col-md-12 form-group">
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <input name="SellerChangePasswordSubmit" class="form-control btn btn-primary" type="submit" value="Update">
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <a class="form-control btn btn-primary" href="${pageContext.request.contextPath}/home">Cancel</a>
+                            </div>
+                            <div class="col-md-4 form-group">
                             </div>
                         </div>
                     </div>
