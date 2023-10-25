@@ -1,5 +1,6 @@
 package controller.storagestaff;
 
+import constant.IConstant;
 import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -8,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.User;
+import util.Helper;
 
 /**
  *
@@ -42,8 +44,7 @@ public class StorageStaffManageProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        if (request.getParameter("storageStaffEditProfileSubmit") != null) {
-            UserDAO udao = new UserDAO();
+        if (request.getParameter("StorageStaffEditPersonalInfoSubmit") != null) {
             int id = Integer.parseInt(request.getParameter("id"));
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
@@ -53,11 +54,85 @@ public class StorageStaffManageProfileController extends HttpServlet {
             String province = request.getParameter("province");
             String country = request.getParameter("country");
             String phone = request.getParameter("phone");
+
+            HttpSession session = request.getSession();
+            UserDAO udao = new UserDAO();
+            User user = udao.getById((Integer) session.getAttribute("userId"));
+            User userToUpdate = new User(id, "StorageStaff", firstName, lastName, dateOfBirth, street, city, province, country, phone);
+            userToUpdate.setEmail(user.getEmail());
+            request.setAttribute("user", userToUpdate);
+
+            if (!firstName.matches(IConstant.REGEX_FIRSTNAME)) {
+                Helper.setNotification(request, "First name is invalid!", "RED");
+                request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
+            } else if (!lastName.matches(IConstant.REGEX_LASTNAME)) {
+                Helper.setNotification(request, "Last name is invalid!", "RED");
+                request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
+            } else if (!street.matches(IConstant.REGEX_STREET)) {
+                Helper.setNotification(request, "Street name is invalid!", "RED");
+                request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
+            } else if (!city.matches(IConstant.REGEX_CITY)) {
+                Helper.setNotification(request, "City name is invalid!", "RED");
+                request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
+            } else if (!province.matches(IConstant.REGEX_PROVINCE)) {
+                Helper.setNotification(request, "Please enter valid First Name!", "RED");
+                request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
+            } else if (!country.matches(IConstant.REGEX_COUNTRY)) {
+                Helper.setNotification(request, "Country name is invalid!", "RED");
+                request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
+            } else if (!phone.matches(IConstant.REGEX_PHONE)) {
+                Helper.setNotification(request, "Please enter valid phone number!", "RED");
+                request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
+            } else {
+                udao.updateProfile(userToUpdate);
+                Helper.setNotification(request, "Change information successfully!", "GREEN");
+                response.sendRedirect("profile");
+            }
+        } else if (request.getParameter("StorageStaffUpdateEmailSubmit") != null) {
             String email = request.getParameter("email");
-            User userToUpdate = new User(id, "Storage Staff", firstName, lastName, dateOfBirth, street, city, province, country, phone, email, "");
-            udao.updateProfile(userToUpdate);
+
+            HttpSession session = request.getSession();
+            UserDAO udao = new UserDAO();
+            User user = udao.getById((Integer) session.getAttribute("userId"));
+            user.setEmail(email);
+            request.setAttribute("user", user);
+
+            if (!email.matches(IConstant.REGEX_EMAIL)) {
+                Helper.setNotification(request, "Please enter valid email address!", "RED");
+                request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
+            } else {
+                udao.updateEmail(user, email);
+                request.getSession().invalidate();
+                Helper.setNotification(request, "Update email successfully! Please login again!", "GREEN");
+                response.sendRedirect(request.getContextPath() + "/login");
+            }
+        } else if (request.getParameter("StorageStaffChangePasswordSubmit") != null) {
+            String oldPassword = request.getParameter("oldPassword");
+            String newPassword = request.getParameter("newPassword");
+            String confirmedPassword = request.getParameter("confirmedPassword");
+
+            HttpSession session = request.getSession();
+            UserDAO udao = new UserDAO();
+            User user = udao.getById((Integer) session.getAttribute("userId"));
+            request.setAttribute("user", user);
+            
+            if (!user.getPassword().equals(Helper.hashPassword(oldPassword))) {
+                Helper.setNotification(request, "Wrong password", "RED");
+                request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
+            } else if (!newPassword.matches(IConstant.REGEX_PASSWORD)) {
+                Helper.setNotification(request, "Password must be Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character!", "RED");
+                request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
+            } else if (!confirmedPassword.equals(newPassword)) {
+                Helper.setNotification(request, "Confirmed password does not match with password!", "RED");
+                request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
+            } else {
+                User userToUpdate = new User((Integer) session.getAttribute("userId"), user.getEmail(), Helper.hashPassword(newPassword));
+                udao.changePassword(userToUpdate, Helper.hashPassword(newPassword));
+                request.getSession().invalidate();
+                Helper.setNotification(request, "Change password successfully! Please login again!", "GREEN");
+                response.sendRedirect(request.getContextPath() + "/login");
+            }
         }
-        response.sendRedirect("profile");
     }
 
     /** 
