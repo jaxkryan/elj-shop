@@ -48,7 +48,6 @@ public class LoginGoogleController extends HttpServlet {
                     + request.getServerName() + ":"
                     + request.getServerPort()
                     + request.getRequestURI();
-            System.out.println(redirectURI);
             String accessToken = getToken(code, redirectURI);
             GooglePojo googlePojo = getUserInfo(accessToken);
             HttpSession session = request.getSession();
