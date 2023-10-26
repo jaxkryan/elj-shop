@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import model.User;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import util.Helper;
 
 /**
  *
@@ -74,7 +75,15 @@ public class ManageReportController extends HttpServlet {
                 String title = "Reply for " + request.getParameter("title");
                 String content = request.getParameter("reply-content");
                 Report report = new Report(staffId, managerId, title, content, formattedDate, true);
-                reportDAO.insertReport(report);
+                int writeReport = reportDAO.insertReport(report);
+                String staffName = userDAO.getById(staffId).getFirstName() +" "+ userDAO.getById(staffId).getLastName();
+                if (writeReport != 0) {
+                //Update success notification
+                Helper.setNotification(request, "Send reply to " + staffName + " successfully!", "GREEN");
+            } else {
+                //Update fail notification
+                Helper.setNotification(request, "Send reply to " + staffName + " fail!", "RED");
+            }
                 Vector<Report> reports = reportDAO.getAllReport();
                 Vector<User> staff = userDAO.getActiveStorageStaff();
                 request.setAttribute("staff", staff);
