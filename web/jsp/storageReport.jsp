@@ -102,6 +102,7 @@
                                                     <c:if test="${Integer.parseInt(reports.managerId) == Integer.parseInt(managers.id)}">
                                                         <div>${managers.firstName} ${managers.lastName}</div>
                                                         <input type ="hidden" name ="managersId" value="${managers.id}">
+<!--                                                        <input type ="hidden" name ="managerName" value ="${managers.firstName} ${managers.lastName}">-->
                                                     </c:if>
                                                 </c:forEach>
 
