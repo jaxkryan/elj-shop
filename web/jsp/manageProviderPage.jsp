@@ -53,21 +53,21 @@
             <div class="table-wrapper">
                  <div class="table-title">
                     <div class="row">
-                        <div>
+                        <div class="manager-nav-item">
                             <a href="home" class="table-title-link"><h2>Manage <b>Product</b></h2></a>
                         </div>
-                        <div>
+                        <div class="manager-nav-item">
                             <a href="provider" class="table-title-link curent-page"><h2>Manage <b>Provider</b></h2></a>
                         </div>
-                        <div>
+                        <div class="manager-nav-item">
                             <a href="order" class="table-title-link"><h2>Manage <b>Order</b></h2></a>
                         </div>
                         <!--Report-->
-                        <div>
+                        <div class="manager-nav-item">
                             <a href="${pageContext.request.contextPath}/manager/write-report?action=reply" class="table-title-link"><h2>Manage <b>Report</b></h2></a>
                         </div>
 
-                        <div style="width: 16%">
+                        <div class="manager-nav-item" style="width: 16%">
                             <a href="#addEmployeeModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add Provider</span></a>
                         </div>
                     </div>

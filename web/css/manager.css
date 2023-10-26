@@ -277,7 +277,7 @@ table.table .avatar {
                         -0.2px -0.2px 0 #fff; 
 }
 
-.table-title div div {
+.manager-nav-item {
     text-align: center;
     width: 21%;
     position: relative;

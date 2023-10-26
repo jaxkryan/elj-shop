@@ -1,11 +1,14 @@
 package controller.admin;
 
+import constant.IConstant;
+import dao.CustomerDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.User;
 import util.Helper;
 
@@ -31,8 +34,8 @@ public class UpdateUserController extends HttpServlet {
             response.sendRedirect("home");
         } else {
             UserDAO udao = new UserDAO();
-            User userToUpdate = udao.getById(Integer.parseInt(request.getParameter("userId")));
-            request.setAttribute("userToUpdate", userToUpdate);
+            User user = udao.getById(Integer.parseInt(request.getParameter("userId")));
+            request.setAttribute("user", user);
             request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
         }
     }
@@ -48,7 +51,7 @@ public class UpdateUserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("updateUserSubmit") != null) {
+        if (request.getParameter("UpdateUserEditPersonalInfoSubmit") != null) {
             int id = Integer.parseInt(request.getParameter("id"));
             String role = request.getParameter("role");
             String firstName = request.getParameter("firstName");
@@ -59,13 +62,76 @@ public class UpdateUserController extends HttpServlet {
             String province = request.getParameter("province");
             String country = request.getParameter("country");
             String phone = request.getParameter("phone");
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
+
+            HttpSession session = request.getSession();
             UserDAO udao = new UserDAO();
-            udao.update(new User(id, role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, password));
-            Helper.setNotification(request, "Update user information successfully!", "GREEN");
+            User user = udao.getById((Integer) session.getAttribute("userId"));
+            User userToUpdate = new User(id, role, firstName, lastName, dateOfBirth, street, city, province, country, phone);
+            userToUpdate.setEmail(user.getEmail());
+            request.setAttribute("user", userToUpdate);
+
+            if (!firstName.matches(IConstant.REGEX_FIRSTNAME)) {
+                Helper.setNotification(request, "First name is invalid!", "RED");
+                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+            } else if (!lastName.matches(IConstant.REGEX_LASTNAME)) {
+                Helper.setNotification(request, "Last name is invalid!", "RED");
+                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+            } else if (!street.matches(IConstant.REGEX_STREET)) {
+                Helper.setNotification(request, "Street name is invalid!", "RED");
+                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+            } else if (!city.matches(IConstant.REGEX_CITY)) {
+                Helper.setNotification(request, "City name is invalid!", "RED");
+                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+            } else if (!province.matches(IConstant.REGEX_PROVINCE)) {
+                Helper.setNotification(request, "Please enter valid First Name!", "RED");
+                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+            } else if (!country.matches(IConstant.REGEX_COUNTRY)) {
+                Helper.setNotification(request, "Country name is invalid!", "RED");
+                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+            } else if (!phone.matches(IConstant.REGEX_PHONE)) {
+                Helper.setNotification(request, "Please enter valid phone number!", "RED");
+                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+            } else {
+                udao.updateProfile(userToUpdate);
+                udao.changeRole(id, role);
+                Helper.setNotification(request, "Change information successfully!", "GREEN");
+                response.sendRedirect("home");
+            }
+        } else if (request.getParameter("UpdateUserUpdateEmailSubmit") != null) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String email = request.getParameter("email");
+
+            UserDAO udao = new UserDAO();
+            User user = udao.getById(id);
+            user.setEmail(email);
+            request.setAttribute("user", user);
+
+            if (!email.matches(IConstant.REGEX_EMAIL)) {
+                Helper.setNotification(request, "Please enter valid email address!", "RED");
+                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+            } else {
+                udao.updateEmail(user, email);
+                Helper.setNotification(request, "Update user " + user.getFirstName() + " email successfully! Please login again!", "GREEN");
+                response.sendRedirect("home");
+            }
+        } else if (request.getParameter("UpdateUserChangePasswordSubmit") != null) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String password = request.getParameter("password");
+
+            UserDAO udao = new UserDAO();
+            User user = udao.getById(id);
+            request.setAttribute("user", user);
+            
+            if (!password.matches(IConstant.REGEX_PASSWORD)) {
+                Helper.setNotification(request, "Password must be Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character!", "RED");
+                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+            } else {
+                User userToUpdate = new User(id, user.getEmail(), Helper.hashPassword(password));
+                udao.changePassword(userToUpdate, Helper.hashPassword(password));
+                Helper.setNotification(request, "Change " + user.getFirstName() + " password successfully!", "GREEN");
+                response.sendRedirect("home");
+            }
         }
-        response.sendRedirect("home");
     }
 
     /**

@@ -86,12 +86,6 @@
                             <th>Role</th>
                             <th>First Name</th>
                             <th>Last Name</th>
-                            <th>Date Of Birth</th>
-                            <th>Street</th>
-                            <th>City</th>
-                            <th>Province</th>
-                            <th>Country</th>
-                            <th>Phone</th>
                             <th>Email</th>
                             <th>Update/Delete</th>
                         </tr>
@@ -103,12 +97,6 @@
                                 <td>${user.getRole()}</td>
                                 <td>${user.firstName}</td>
                                 <td>${user.lastName}</td>
-                                <td>${user.dateOfBirth}</td>
-                                <td>${user.street}</td>
-                                <td>${user.city}</td>
-                                <td>${user.province}</td>
-                                <td>${user.country}</td>
-                                <td>${user.phone}</td>
                                 <td>${user.email}</td>
                                 <td>
                                     <a href="update-user?userId=${user.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Update">&#xE254;</i></a>
