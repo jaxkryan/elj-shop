@@ -116,7 +116,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 + "      ,[totalPrice]\n"
                 + "      ,[active]\n"
                 + "  FROM [dbo].[Order]\n"
-                + "  where [status] like 'Shipped' and active = 1";
+                + "  where [status] like 'Shipping' and active = 1";
         try {
             ResultSet rs = getData(sql);
             while (rs.next()) {
@@ -306,7 +306,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 + "      ,[totalPrice]\n"
                 + "      ,[active]\n"
                 + "  FROM [dbo].[Order]"
-                + " where receiver like ? and status like 'Shipped'";
+                + " where receiver like ? and status like 'Shipping'";
 
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -352,7 +352,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 + " [totalPrice],"
                 + " [active]"
                 + " FROM [dbo].[Order]"
-                + " WHERE receiver LIKE ? AND status = 'Shipped'";
+                + " WHERE receiver LIKE ? AND status = 'Shipping'";
 
         if ("ASC".equals(sort)) {
             sql += " ORDER BY createdTime ASC";
