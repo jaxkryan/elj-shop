@@ -88,7 +88,7 @@
                 <div class="col-lg-2">
                 </div>
                 <div class="col-lg-8">
-                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Change Password</span></h5>
+                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Update Email</span></h5>
                     <div class="bg-light p-30 mb-5">
                         <div class="row">
                             <form class="row" action="profile" method="POST" style="width: 100%">
