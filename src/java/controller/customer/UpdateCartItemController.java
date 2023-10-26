@@ -6,7 +6,9 @@ package controller.customer;
 
 import dao.CartDAO;
 import dao.CartItemDAO;
+import dao.CategoryDAO;
 import dao.ProductDAO;
+import dao.ProviderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import model.CartItem;
+import model.Category;
 import model.Product;
+import model.Provider;
 import util.Helper;
 
 /**
@@ -53,16 +57,34 @@ public class UpdateCartItemController extends HttpServlet {
             try {
                 quantity = Integer.parseInt(request.getParameter("quantity-" + i));
             } catch (Exception e) {
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 Helper.setNotification(request, "Please enter valid quantity!", "RED");
                 response.sendRedirect("jsp/cartPage.jsp");
                 return;
             }
             if (quantity < 1) {
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 Helper.setNotification(request, "Please enter valid quantity!", "RED");
                 response.sendRedirect("jsp/cartPage.jsp");
                 return;
             }
             if (quantity > product.getQuantity()) {
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 Helper.setNotification(request, "Not Enough " + product.getName() + " in stock!", "RED");
                 response.sendRedirect("jsp/cartPage.jsp");
                 return;
@@ -73,6 +95,12 @@ public class UpdateCartItemController extends HttpServlet {
         int cartId = cdao.getCartIdByCustomerId(userId);
         cartItem = cidao.getCartItemByCartId(cartId);
         session.setAttribute("cartItem", cartItem);
+        CategoryDAO categoryDAO = new CategoryDAO();
+        ProviderDAO providerDAO = new ProviderDAO();
+        Vector<Category> categories = categoryDAO.getAllCategory();
+        Vector<Provider> providers = providerDAO.getAllProvider();
+        request.setAttribute("categories", categories);
+        request.setAttribute("providers", providers);
         Helper.setNotification(request, "Save changed!", "GREEN");
         response.sendRedirect("jsp/cartPage.jsp");
     }

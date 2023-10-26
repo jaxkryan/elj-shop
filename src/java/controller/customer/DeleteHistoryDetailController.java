@@ -4,7 +4,9 @@
  */
 package controller.customer;
 
+import dao.CategoryDAO;
 import dao.OrderDetailDAO;
+import dao.ProviderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,7 +15,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.Vector;
+import model.Category;
 import model.OrderDetail;
+import model.Provider;
 import util.Helper;
 
 /**
@@ -47,6 +51,12 @@ public class DeleteHistoryDetailController extends HttpServlet {
             Vector<OrderDetail> details = oddao.getOrderDetailsById(userId, orderId);
             request.setAttribute("details", details);
             request.setAttribute("status", status);
+            CategoryDAO categoryDAO = new CategoryDAO();
+            ProviderDAO providerDAO = new ProviderDAO();
+            Vector<Category> categories = categoryDAO.getAllCategory();
+            Vector<Provider> providers = providerDAO.getAllProvider();
+            request.setAttribute("categories", categories);
+            request.setAttribute("providers", providers);
             request.getRequestDispatcher("/jsp/HistoryDetails.jsp").forward(request, response);
         }
     }

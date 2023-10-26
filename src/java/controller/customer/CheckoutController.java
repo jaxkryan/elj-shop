@@ -4,6 +4,8 @@
  */
 package controller.customer;
 
+import dao.CategoryDAO;
+import dao.ProviderDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.Vector;
 import model.CartItem;
+import model.Category;
+import model.Provider;
 import model.User;
 
 /**
@@ -42,6 +46,12 @@ public class CheckoutController extends HttpServlet {
         request.setAttribute("user", user);
         request.setAttribute("cartItem", cartItem);
         request.setAttribute("subtotal", subtotal);
+        CategoryDAO categoryDAO = new CategoryDAO();
+        ProviderDAO providerDAO = new ProviderDAO();
+        Vector<Category> categories = categoryDAO.getAllCategory();
+        Vector<Provider> providers = providerDAO.getAllProvider();
+        request.setAttribute("categories", categories);
+        request.setAttribute("providers", providers);
         request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
     }
 
