@@ -129,10 +129,14 @@ public class ManagerHomeController extends HttpServlet {
         if (service.equals("search")) {
             String searchName = request.getParameter("searchName");
             Vector<Product> products = new Vector<>();
-            if (searchName != null) {
-                products = productDAO.getProductByName(searchName);
+            products = productDAO.getProductByName(searchName);
+            if (searchName != null) {                
                 request.setAttribute("searchName", searchName);
                 request.setAttribute("products", products);
+            }
+            if(products.isEmpty()){
+                //no product found notification
+                Helper.setNotification(request, "No product found!", "RED");
             }
             request.getRequestDispatcher("/jsp/manageProductPage.jsp").forward(request, response);
         } else if (service.equals("AddProduct")) {

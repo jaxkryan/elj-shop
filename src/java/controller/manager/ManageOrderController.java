@@ -150,6 +150,10 @@ public class ManageOrderController extends HttpServlet {
             System.out.println(searchName);
 //            System.out.println(orders.firstElement().getReceiver());
             request.setAttribute("orders", orders);
+            if(orders.isEmpty()){
+                //no product found notification
+                Helper.setNotification(request, "No orders found!", "RED");
+            }
             request.getRequestDispatcher("/jsp/ManagerManageOrderPage.jsp").forward(request, response);
         }
 
