@@ -145,7 +145,7 @@
                                         <td class="align-middle">${order.createdTime}</td>
                                         <td class="align-middle">${order.totalPrice}</td>
                                         <td>
-                                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Shipped&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Shipped">&#xe558;</i></a>
+                                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Shipping&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Shipping">&#xe558;</i></a>
                                             <a href="#deleteEmployeeModal${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xe5c9;</i></a>
                                         </td>
                                         <!-- Delete Modal HTML -->
