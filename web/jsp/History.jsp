@@ -66,9 +66,12 @@
                                             </td>
                                             <td class="text-center">
                                                 <a href="${pageContext.request.contextPath}/customer-view-history-details?orderId=${order.id}&status=${order.status}" title="View Order Detail" ><i style="color: green; font-size: 22px" class="fa fa-eye"></i></a>
-                                                    <c:if test="${order.status == 'Processed'}">
+                                                <c:if test="${order.status == 'Processed'}">
                                                     <a href="${pageContext.request.contextPath}/customer-delete-history?orderId=${order.id}" title="Delete Order"><i style="color: red; font-size: 22px; margin-left: 10px" class="fa fa-times"></i></a>
-                                                    </c:if>
+                                                </c:if>
+                                                <c:if test="${order.status == 'Shipped'}">
+                                                    <a href="${pageContext.request.contextPath}/customer-changeToFeedback?orderId=${order.id}" title="Confirm received"><i style="color: green; font-size: 22px; margin-left: 10px" class="fa fa-times"></i></a>
+                                                </c:if>
                                             </td>
                                         </tr>
                                     </c:forEach>
