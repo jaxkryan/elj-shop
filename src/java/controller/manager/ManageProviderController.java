@@ -111,6 +111,10 @@ public class ManageProviderController extends HttpServlet {
             String keyword = request.getParameter("keyword");
             Vector<Provider> searchProviders = providerDAO.getProviderByName(keyword);
             request.setAttribute("providers", searchProviders);
+            if(searchProviders.isEmpty()){
+                //no product found notification
+                Helper.setNotification(request, "No product found!", "RED");
+            }
             request.getRequestDispatcher("/jsp/manageProviderPage.jsp").forward(request, response);
         }
         if (service.equals("AddProvider")) {

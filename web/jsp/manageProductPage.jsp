@@ -43,6 +43,7 @@
                 font-size: 17px;
             }
         </style>
+    </head>
     <body>
         <!-- Shop Sidebar Start -->
         <div class="col-lg-2 col-md-4 " style="margin-top: 15%;
