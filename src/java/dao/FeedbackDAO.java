@@ -44,6 +44,29 @@ public class FeedbackDAO extends jdbc.DBConnect {
         return feedbacks;
     }
 
+    public int getProductHaveFeedbackInOrder(int orderId) {
+        int count = 0;
+        try {
+            String sql = "SELECT DISTINCT OD.productId\n"
+                    + "FROM [OrderDetails] OD\n"
+                    + "INNER JOIN [Feedback] F ON OD.productId = F.productId\n"
+                    + "WHERE F.content IS NOT NULL\n"
+                    + "AND OD.orderId = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, orderId);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                int productId = rs.getInt(1);
+                count++;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
+
+
     public void changeFeedbackStatus(int feedbackId) {
         String sql = "UPDATE Feedback SET checked = 1 WHERE id = ?";
         try {
@@ -109,7 +132,7 @@ public class FeedbackDAO extends jdbc.DBConnect {
                 + "           ,[replyDate]\n"
                 + "           ,[checked])\n"
                 + "     VALUES"
-                + "           (?,?,?,?,?,?,?,1)";
+                + "           (?,?,?,?,?,?,?,0)";
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setInt(1, feedback.getCustomerId());
@@ -144,8 +167,8 @@ public class FeedbackDAO extends jdbc.DBConnect {
         return false;
     }
 
-      public int  updateFeedback(Feedback feedback) {
-          int row =0;
+    public int updateFeedback(Feedback feedback) {
+        int row = 0;
         String sql = "UPDATE [dbo].[Feedback]\n"
                 + "   SET [customerId] = ?\n"
                 + "      ,[productId] = ?\n"
@@ -183,10 +206,32 @@ public class FeedbackDAO extends jdbc.DBConnect {
         }
         return row;
     }
-      
-      public static void main(String[] args) {
-        FeedbackDAO feedbackDAO = new FeedbackDAO();
-        Feedback test = new Feedback(3, 4, 1, "abcd", "god product", "2023-01-09", "2023-01-09", true);
-        feedbackDAO.updateFeedback(test);
+
+//      public static void main(String[] args) {
+//        FeedbackDAO feedbackDAO = new FeedbackDAO();
+//        Feedback test = new Feedback(3, 4, 1, "abcd", "god product", "2023-01-09", "2023-01-09", true);
+//        feedbackDAO.updateFeedback(test);
+//    }
+    public String getOrderFeedBack(int proId, int orderId) {
+        String sql = "  select content from [Feedback] as f inner join [OrderDetails] as od on f.productId = od.productId\n"
+                + "  inner join [Order] as o on od.orderId = o.id where f.productId = ? and od.orderId = ? ";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, proId);
+            pre.setInt(2, orderId);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public static void main(String[] args) {
+        FeedbackDAO dao = new FeedbackDAO();
+        String content = dao.getOrderFeedBack(4, 10);
+        System.out.println(content);
     }
 }

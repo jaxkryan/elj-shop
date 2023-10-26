@@ -46,6 +46,14 @@ public class Feedback {
         this.check = check;
     }
 
+    public Feedback(int customerId, int productId, String content, String feedbackDate, boolean check) {
+        this.customerId = customerId;
+        this.productId = productId;
+        this.content = content;
+        this.feedbackDate = feedbackDate;
+        this.check = check;
+    }
+
     public int getId() {
         return id;
     }

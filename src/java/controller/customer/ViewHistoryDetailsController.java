@@ -4,19 +4,20 @@
  */
 package controller.customer;
 
-import dao.OrderDAO;
+import dao.FeedbackDAO;
 import dao.OrderDetailDAO;
 import dao.ProductDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.util.Vector;
-import model.Order;
+import model.Feedback;
 import model.OrderDetail;
+import model.Product;
 import util.Helper;
 
 /**
@@ -36,19 +37,28 @@ public class ViewHistoryDetailsController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int orderId = Integer.parseInt(request.getParameter("orderId"));
-        HttpSession session = request.getSession();
-        if (session.getAttribute("userId") == null) {
-            Helper.setNotification(request, "Please login!", "RED");
-            response.sendRedirect("home");
-        } else {
-            int userId = (int) session.getAttribute("userId");
-            String status = request.getParameter("status");
-            OrderDetailDAO oddao = new OrderDetailDAO();
-            Vector<OrderDetail> details = oddao.getOrderDetailsById(userId, orderId);
-            request.setAttribute("details", details);
-            request.setAttribute("status", status);
-            request.getRequestDispatcher("/jsp/HistoryDetails.jsp").forward(request, response);
+        try ( PrintWriter out = response.getWriter()) {
+
+            int orderId = Integer.parseInt(request.getParameter("orderId"));
+            HttpSession session = request.getSession();
+            if (session.getAttribute("userId") == null) {
+                Helper.setNotification(request, "Please login!", "RED");
+                response.sendRedirect("home");
+            } else {
+                int userId = (int) session.getAttribute("userId");
+                String status = request.getParameter("status");
+                OrderDetailDAO oddao = new OrderDetailDAO();
+                //
+                FeedbackDAO feedbackDAO = new FeedbackDAO();
+                Vector<OrderDetail> details = oddao.getOrderDetailsById(userId, orderId);
+                int check = feedbackDAO.getProductHaveFeedbackInOrder(orderId);
+                //String content = feedbackDAO.getOrderFeedBack(userId, orderId);
+//                
+                request.setAttribute("check", check);
+                request.setAttribute("details", details);
+                request.setAttribute("status", status);
+                request.getRequestDispatcher("/jsp/HistoryDetails.jsp").forward(request, response);
+            }
         }
     }
 
