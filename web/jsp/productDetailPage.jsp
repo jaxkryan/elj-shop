@@ -122,6 +122,7 @@
                                         <% UserDAO udao = new UserDAO(); %>
                                         <% for(int i =0 ;i< feedbacks.size() ;i++ ) {%>
                                         <% User user = udao.getById(feedbacks.get(i).getCustomerId()); %>
+                                        <% User seller = udao.getById(feedbacks.get(i).getSellerId()); %>
                                         <div class="media mb-4">
                                             <img src="https://tse1.mm.bing.net/th?id=OIP.4j4jNaPU3bIzDJHBj6HDSwHaHa&pid=Api&rs=1&c=1&qlt=95&w=114&h=114" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                             <div class="media-body">
@@ -130,45 +131,17 @@
                                                 <p><%= feedbacks.get(i).getContent()%></p>
                                             </div>
                                         </div>
-                                        <%}%>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h4 class="mb-4">Leave a review</h4>
-                                        <small>(Your email address will not be published)</small>
-                                        <script>
-                                            document.addEventListener("DOMContentLoaded", function () {
-                                                var form = document.getElementById("add-feedback");
-                                                var fromParam = "${from}";
-
-                                                if (fromParam === "home") {
-                                                    form.action = "add-feedback";
-                                                } else if (fromParam === "shop") {
-                                                    form.action = "add-feedback";
-                                                } else if (fromParam == "cart") {
-                                                    form.action = "add-feedback";
-                                                } else {
-                                                    form.action = "error";
-                                                }
-                                            });
-                                        </script>
-                                        <form id="add-feedback">
-                                            <div class="form-group">
-                                                <label for="message"></label>
-                                                <textarea name="content" id="message" cols="30" rows="5" class="form-control" required></textarea>
-                                            </div>  
-                                            <input type="hidden" name="from" value="${from}">
-                                            <input type="hidden" name="proId" value="${product.id}">
-                                            <input name="sort" type="hidden" id="sort" value="${sort}">
-                                            <input name="searchName" type="hidden" id="searchName" value="${searchName}">
-                                            <input name="categoryId" type="hidden" id="categoryId" value="${categoryId}">
-                                            <input name="providerId" type="hidden" id="providerId" value="${providerId}">
-                                            <input name="price" type="hidden" id="price" value="${price}">
-                                            <input name="page" type="hidden" id="page" value="${page}">
-                                            <input name="numberOfProduct" type="hidden" id="numberOfProduct" value="${numberOfProduct}">
-                                            <div class="form-group mb-0">
-                                                <input type="submit" value="Leave Review" class="btn btn-primary px-3">
+                                        <%if(feedbacks.get(i).getReply() != null){%>
+                                        <div style="margin-left: 60px" class="media mb-4">
+                                            <img style="border-radius: 50%; width: 45px; height: 45px;" src="img/Logo.jpg" alt="Image" class="img-fluid mr-3 mt-1">
+                                            <div class="media-body">
+                                                <%String sellerName = seller.getLastName() +" "+ seller.getFirstName(); %>
+                                                <h6><%= sellerName%><small> - <i><%= feedbacks.get(i).getReplyDate() %></i></small></h6>
+                                                <p><%= feedbacks.get(i).getReply()%></p>
                                             </div>
-                                        </form>
+                                        </div>
+                                        <%}%>
+                                        <%}%>
                                     </div>
                                 </div>
                             </div>

@@ -4,9 +4,11 @@
  */
 package controller.customer;
 
+import dao.CategoryDAO;
 import dao.FeedbackDAO;
 import dao.OrderDetailDAO;
 import dao.ProductDAO;
+import dao.ProviderDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -15,9 +17,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.util.Vector;
+import model.Category;
 import model.Feedback;
 import model.OrderDetail;
 import model.Product;
+import model.Provider;
 import util.Helper;
 
 /**
@@ -57,6 +61,12 @@ public class ViewHistoryDetailsController extends HttpServlet {
                 request.setAttribute("check", check);
                 request.setAttribute("details", details);
                 request.setAttribute("status", status);
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 request.getRequestDispatcher("/jsp/HistoryDetails.jsp").forward(request, response);
             }
         }
