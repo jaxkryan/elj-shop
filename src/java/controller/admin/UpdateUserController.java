@@ -111,7 +111,7 @@ public class UpdateUserController extends HttpServlet {
                 request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
             } else {
                 udao.updateEmail(user, email);
-                Helper.setNotification(request, "Update user " + user.getFirstName() + " email successfully! Please login again!", "GREEN");
+                Helper.setNotification(request, "Update user " + user.getFirstName() + " email successfully!", "GREEN");
                 response.sendRedirect("home");
             }
         } else if (request.getParameter("UpdateUserChangePasswordSubmit") != null) {
