@@ -13,6 +13,7 @@
     <head>
         <meta charset="utf-8">
         <title>Elj Shop - Online Art Supplies Shop</title>
+        <link rel="icon" href="${pageContext.request.contextPath}/img/logo.ico" type="image/icon type">
     </head>
 
     <body>
