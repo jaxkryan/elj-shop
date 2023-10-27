@@ -38,9 +38,7 @@
                 <div class="col-lg-7 h-auto mb-30">
                     <div class="h-100 bg-light p-30">
                         <h3>${product.name}</h3>
-                        <div class="d-flex" style="
-                             align-items: center;
-                             ">
+                        <div class="d-flex" style="align-items: center;">
                             <c:set var="currentPrice" value="${product.price - product.discount}"/>
                             <fmt:setLocale value="en_US"/>
                             <h3 class="font-weight-semi-bold mb-4"><fmt:formatNumber type="currency" pattern="###,###¤">${currentPrice}</fmt:formatNumber></h3>
@@ -57,48 +55,55 @@
                         <div class="d-flex mb-4">
                             <strong class="text-dark mr-1">Brand: </strong>${brandName}
                         </div>
-                        <div class="d-flex mb-4">
-                            <strong class="text-dark mr-1">In Stock: </strong>${product.quantity}
-                        </div>
-                        <script>
-                            document.addEventListener("DOMContentLoaded", function () {
-                                var form = document.getElementById("addToCartForm");
-                                var fromParam = "${from}";
-
-                                if (fromParam === "home") {
-                                    form.action = "add-to-cart";
-                                } else if (fromParam === "shop") {
-                                    form.action = "add-to-cart-shop-page";
-                                } else if (fromParam == "cart") {
-                                    form.action = "add-to-cart-cart-page";
-                                } else {
-                                    form.action = "error";
-                                }
-                            });
-                        </script>
-                        <form id="addToCartForm" class="d-flex align-items-center mb-4 pt-2">
-                            <input type="hidden" name="proId" value="${product.id}">
-                            <input name="sort" type="hidden" id="sort" value="${sort}">
-                            <input name="searchName" type="hidden" id="searchName" value="${searchName}">
-                            <input name="categoryId" type="hidden" id="categoryId" value="${categoryId}">
-                            <input name="providerId" type="hidden" id="providerId" value="${providerId}">
-                            <input name="price" type="hidden" id="price" value="${price}">
-                            <input name="page" type="hidden" id="page" value="${page}">
-                            <div class="input-group quantity mr-3" style="width: 130px;">
-                                <div class="input-group-btn">
-                                    <button type="button" class="btn btn-primary btn-minus">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                                <input name="quantityToBuy" id="quantityToBuy" class="form-control bg-secondary border-0 text-center" value="1" required>
-                                <div class="input-group-btn">
-                                    <button type="button" class="btn btn-primary btn-plus">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
+                        <c:if test="${active != 'non'}">
+                            <div class="d-flex mb-4">
+                                <strong class="text-dark mr-1">In Stock: </strong>${product.quantity}
                             </div>
-                            <button type="submit" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i>Add To Cart</button>
-                        </form>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    var form = document.getElementById("addToCartForm");
+                                    var fromParam = "${from}";
+
+                                    if (fromParam === "home") {
+                                        form.action = "add-to-cart";
+                                    } else if (fromParam === "shop") {
+                                        form.action = "add-to-cart-shop-page";
+                                    } else if (fromParam == "cart") {
+                                        form.action = "add-to-cart-cart-page";
+                                    } else {
+                                        form.action = "error";
+                                    }
+                                });
+                            </script>
+                            <form id="addToCartForm" class="d-flex align-items-center mb-4 pt-2">
+                                <input type="hidden" name="proId" value="${product.id}">
+                                <input name="sort" type="hidden" id="sort" value="${sort}">
+                                <input name="searchName" type="hidden" id="searchName" value="${searchName}">
+                                <input name="categoryId" type="hidden" id="categoryId" value="${categoryId}">
+                                <input name="providerId" type="hidden" id="providerId" value="${providerId}">
+                                <input name="price" type="hidden" id="price" value="${price}">
+                                <input name="page" type="hidden" id="page" value="${page}">
+                                <div class="input-group quantity mr-3" style="width: 130px;">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-minus">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <input name="quantityToBuy" id="quantityToBuy" class="form-control bg-secondary border-0 text-center" value="1" required>
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-plus">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i>Add To Cart</button>
+                            </form>
+                        </c:if>
+                        <c:if test="${active == 'non'}">
+                            <div>
+                                <i style="margin: 20px; font-size: 200%; color: red" class="fa fa-exclamation-circle"><span style="margin: 5px; color: red; font-family: sans-serif">Currently unavailable</span> </i>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>

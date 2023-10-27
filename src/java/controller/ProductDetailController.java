@@ -44,36 +44,65 @@ public class ProductDetailController extends HttpServlet {
         ProductDAO pdao = new ProductDAO();
         CategoryDAO cdao = new CategoryDAO();
         ProviderDAO providerDAO = new ProviderDAO();
+        Product productNon = pdao.getProductNonActiveById(proId);
         Product product = pdao.getProductById(proId);
-        if (product == null) {
+        if (productNon == null && product == null) {
             Helper.setNotification(request, "Product not exist", "RED");
             response.sendRedirect("home");
             return;
         }
-        Category category = cdao.getCategoryById(product.getCategoryId());
-        Provider provider = providerDAO.getProviderById(product.getProviderId());
-        request.setAttribute("from", from);
-        request.setAttribute("product", product);
-        request.setAttribute("categoryName", category.getName());
-        request.setAttribute("brandName", provider.getCompanyName());
+        if (product != null) {
+            Category category = cdao.getCategoryById(product.getCategoryId());
+            Provider provider = providerDAO.getProviderById(product.getProviderId());
+            request.setAttribute("from", from);
+            request.setAttribute("product", product);
+            request.setAttribute("categoryName", category.getName());
+            request.setAttribute("brandName", provider.getCompanyName());
 
-        request.setAttribute("page", request.getParameter("page"));
-        request.setAttribute("sort", request.getParameter("sort"));
-        request.setAttribute("searchName", request.getParameter("searchName"));
-        request.setAttribute("categoryId", request.getParameter("categoryId"));
-        request.setAttribute("providerId", request.getParameter("providerId"));
-        request.setAttribute("price", request.getParameter("price"));
-        request.setAttribute("price", request.getParameter("price"));
+            request.setAttribute("page", request.getParameter("page"));
+            request.setAttribute("sort", request.getParameter("sort"));
+            request.setAttribute("searchName", request.getParameter("searchName"));
+            request.setAttribute("categoryId", request.getParameter("categoryId"));
+            request.setAttribute("providerId", request.getParameter("providerId"));
+            request.setAttribute("price", request.getParameter("price"));
+            request.setAttribute("price", request.getParameter("price"));
 
-        FeedbackDAO fdao = new FeedbackDAO();
-        Vector<Feedback> feedbacks = fdao.getFeedbackByProductId(proId);
-        request.setAttribute("feedbacks", feedbacks);
-        CategoryDAO categoryDAO = new CategoryDAO();
-        Vector<Category> categories = categoryDAO.getAllCategory();
-        Vector<Provider> providers = providerDAO.getAllProvider();
-        request.setAttribute("categories", categories);
-        request.setAttribute("providers", providers);
-        request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
+            FeedbackDAO fdao = new FeedbackDAO();
+            Vector<Feedback> feedbacks = fdao.getFeedbackByProductId(proId);
+            request.setAttribute("feedbacks", feedbacks);
+            CategoryDAO categoryDAO = new CategoryDAO();
+            Vector<Category> categories = categoryDAO.getAllCategory();
+            Vector<Provider> providers = providerDAO.getAllProvider();
+            request.setAttribute("categories", categories);
+            request.setAttribute("providers", providers);
+            request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
+        } else {
+            Category category = cdao.getCategoryById(productNon.getCategoryId());
+            Provider provider = providerDAO.getProviderById(productNon.getProviderId());
+            request.setAttribute("from", from);
+            request.setAttribute("product", productNon);
+            request.setAttribute("categoryName", category.getName());
+            request.setAttribute("brandName", provider.getCompanyName());
+
+            request.setAttribute("page", request.getParameter("page"));
+            request.setAttribute("sort", request.getParameter("sort"));
+            request.setAttribute("searchName", request.getParameter("searchName"));
+            request.setAttribute("categoryId", request.getParameter("categoryId"));
+            request.setAttribute("providerId", request.getParameter("providerId"));
+            request.setAttribute("price", request.getParameter("price"));
+            request.setAttribute("price", request.getParameter("price"));
+
+            FeedbackDAO fdao = new FeedbackDAO();
+            Vector<Feedback> feedbacks = fdao.getFeedbackByProductId(proId);
+            request.setAttribute("feedbacks", feedbacks);
+            CategoryDAO categoryDAO = new CategoryDAO();
+            Vector<Category> categories = categoryDAO.getAllCategory();
+            Vector<Provider> providers = providerDAO.getAllProvider();
+            request.setAttribute("categories", categories);
+            request.setAttribute("providers", providers);
+            request.setAttribute("active", "non");
+            request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
