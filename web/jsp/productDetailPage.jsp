@@ -133,7 +133,7 @@
                                         </div>
                                         <%if(feedbacks.get(i).getReply() != null){%>
                                         <div style="margin-left: 60px" class="media mb-4">
-                                            <img style="border-radius: 50%; width: 45px; height: 45px;" src="img/Logo.jpg" alt="Image" class="img-fluid mr-3 mt-1">
+                                            <img style="border-radius: 50%; width: 45px; height: 45px;" src="img/logo.ico" alt="Image" class="img-fluid mr-3 mt-1">
                                             <div class="media-body">
                                                 <%String sellerName = seller.getLastName() +" "+ seller.getFirstName(); %>
                                                 <h6><%= sellerName%><small> - <i><%= feedbacks.get(i).getReplyDate() %></i></small></h6>
