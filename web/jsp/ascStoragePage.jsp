@@ -141,16 +141,16 @@
                                         <div class="modal-body">					
                                             <div class="form-group">
                                                 <label>Name</label>
-                                                <input name="name" type="text" class="form-control" value ="${pro.name}" readonly>
+                                                <input name="name" type="text" class="form-control" value="${pro.name}" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label>Old quantity</label>
-                                                <input type="email" class="form-control" value ="${pro.quantity}" readonly>
+                                                <input type="email" class="form-control" value="${pro.quantity}" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label>New quantity</label>
-                                                <input name="qty" type="text" class="form-control" required>
-                                            </div>					
+                                                <input name="qty" type="number" class="form-control" min="1" required>
+                                            </div>		
                                         </div>
                                         <div class="modal-footer">
                                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
