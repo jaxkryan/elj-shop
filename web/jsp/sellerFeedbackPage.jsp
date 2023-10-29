@@ -54,8 +54,11 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-2">
-                            <h2>Feedback</h2>
+                         <div class="col-sm-3">
+                             <h2>Manage <b>Order</b></h2>
+                        </div>
+                        <div class="col-sm-3">
+                          <h2>Manage <b>FeedBack</b></h2>
                         </div>
                     </div>
                 </div>
