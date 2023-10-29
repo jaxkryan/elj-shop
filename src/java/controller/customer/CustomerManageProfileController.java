@@ -60,7 +60,7 @@ public class CustomerManageProfileController extends HttpServlet {
             HttpSession session = request.getSession();
             UserDAO udao = new UserDAO();
             User user = udao.getById((Integer) session.getAttribute("userId"));
-            User userToUpdate = new User(id, "Customer", firstName, lastName, dateOfBirth, street, city, province, country, phone);
+            User userToUpdate = new User(id, "Customer", firstName, lastName, dateOfBirth.isEmpty() ? null : dateOfBirth, street, city, province, country, phone);
             userToUpdate.setEmail(user.getEmail());
             request.setAttribute("user", userToUpdate);
 
@@ -70,19 +70,19 @@ public class CustomerManageProfileController extends HttpServlet {
             } else if (!lastName.matches(IConstant.REGEX_LASTNAME)) {
                 Helper.setNotification(request, "Last name is invalid!", "RED");
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
-            } else if (!street.matches(IConstant.REGEX_STREET)) {
+            } else if (!street.isEmpty() && !street.matches(IConstant.REGEX_STREET)) {
                 Helper.setNotification(request, "Street name is invalid!", "RED");
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
-            } else if (!city.matches(IConstant.REGEX_CITY)) {
+            } else if (!city.isEmpty() && !city.matches(IConstant.REGEX_CITY)) {
                 Helper.setNotification(request, "City name is invalid!", "RED");
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
-            } else if (!province.matches(IConstant.REGEX_PROVINCE)) {
+            } else if (!province.isEmpty() && !province.matches(IConstant.REGEX_PROVINCE)) {
                 Helper.setNotification(request, "Please enter valid First Name!", "RED");
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
-            } else if (!country.matches(IConstant.REGEX_COUNTRY)) {
+            } else if (!country.isEmpty() && !country.matches(IConstant.REGEX_COUNTRY)) {
                 Helper.setNotification(request, "Country name is invalid!", "RED");
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
-            } else if (!phone.matches(IConstant.REGEX_PHONE)) {
+            } else if (!phone.isEmpty() && !phone.matches(IConstant.REGEX_PHONE)) {
                 Helper.setNotification(request, "Please enter valid phone number!", "RED");
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
             } else {

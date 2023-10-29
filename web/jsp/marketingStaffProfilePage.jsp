@@ -77,12 +77,12 @@
                             <input name="lastName" class="form-control" type="text" value="${user.getLastName()}" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Street</label>
-                            <input name="street" class="form-control" type="text" value="${user.getStreet()}" required>
-                        </div>
-                        <div class="col-md-6 form-group">
                             <label>Date Of Birth</label>
                             <input name="dateOfBirth" class="form-control" type="date" value="${user.getDateOfBirth()}" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Street</label>
+                            <input name="street" class="form-control" type="text" value="${user.getStreet()}" required>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>City</label>
