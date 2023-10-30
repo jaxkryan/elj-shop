@@ -54,7 +54,7 @@ public class CartControl extends HttpServlet {
             Vector<Provider> providers = providerDAO.getAllProvider();
             request.setAttribute("categories", categories);
             request.setAttribute("providers", providers);
-            response.sendRedirect("jsp/cartPage.jsp");
+            request.getRequestDispatcher("jsp/cartPage.jsp").forward(request, response);
         }
     }
 

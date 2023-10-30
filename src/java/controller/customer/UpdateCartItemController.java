@@ -64,7 +64,7 @@ public class UpdateCartItemController extends HttpServlet {
                 request.setAttribute("categories", categories);
                 request.setAttribute("providers", providers);
                 Helper.setNotification(request, "Please enter valid quantity!", "RED");
-                response.sendRedirect("jsp/cartPage.jsp");
+                response.sendRedirect("cart");
                 return;
             }
             if (quantity < 1) {
@@ -75,7 +75,7 @@ public class UpdateCartItemController extends HttpServlet {
                 request.setAttribute("categories", categories);
                 request.setAttribute("providers", providers);
                 Helper.setNotification(request, "Please enter valid quantity!", "RED");
-                response.sendRedirect("jsp/cartPage.jsp");
+                response.sendRedirect("cart");
                 return;
             }
             if (quantity > product.getQuantity()) {
@@ -86,7 +86,7 @@ public class UpdateCartItemController extends HttpServlet {
                 request.setAttribute("categories", categories);
                 request.setAttribute("providers", providers);
                 Helper.setNotification(request, "Not Enough " + product.getName() + " in stock!", "RED");
-                response.sendRedirect("jsp/cartPage.jsp");
+                response.sendRedirect("cart");
                 return;
             }
             cidao.updateQuantity(productId, cartIdOfItem, quantity);
@@ -102,7 +102,7 @@ public class UpdateCartItemController extends HttpServlet {
         request.setAttribute("categories", categories);
         request.setAttribute("providers", providers);
         Helper.setNotification(request, "Save changed!", "GREEN");
-        response.sendRedirect("jsp/cartPage.jsp");
+        response.sendRedirect("cart");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
