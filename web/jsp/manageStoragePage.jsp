@@ -54,15 +54,17 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/storage-staff/home"> <h2><b>Manage Product Quantity</b></h2></a>
+                        <div class="manager-nav-item">
+                            <a href="${pageContext.request.contextPath}/storage-staff/home" class="table-title-link curent-page"> <h2>Manage <b>Product</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status"><h2><b>Manage Order Status</b></h2></a>
+
+                        <div class="manager-nav-item">
+                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status" class="table-title-link"><h2>Manage <b>Order</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
+
+                        <div class="manager-nav-item">
                             <!--Report-->
-                            <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view"><h2><b>Report</h2></b></a>
+                            <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view" class="table-title-link"><h2><b>Report</h2></b></a>
                         </div>
                         <!--Search bar-->
                         <form action="storage-manage-product?search=All" method="post">
@@ -92,12 +94,6 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>
-                                <span class="custom-checkbox">
-                                    <input type="checkbox" id="selectAll">
-                                    <label for="selectAll"></label>
-                                </span>
-                            </th>
                             <th>ID</th>
                             <th>Name</th>
                             <th>Image</th>
@@ -108,12 +104,7 @@
                     <tbody>
                         <c:forEach items="${products}" var="pro">
                             <tr>
-                                <td>
-                                    <span class="custom-checkbox">
-                                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                        <label for="checkbox1"></label>
-                                    </span>
-                                </td>
+
                                 <td>${pro.id}</td>
                                 <td>${pro.name}</td>
                                 <td>
@@ -127,7 +118,7 @@
                         <div id="editProductQuantModal${pro.id}" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                          <form action="storage-manage-product?sort=All" method="post">
+                                    <form action="storage-manage-product?sort=All" method="post">
                                         <input type="hidden" name="go" value="update">
                                         <input type="hidden" name ="prodId" class="form-control" value ="${pro.id}">
                                         <div class="modal-header">						
