@@ -52,23 +52,22 @@
             <!-- Notification End -->
 
             <div class="table-wrapper">
-                <div class="table-title">
+                               <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/storage-staff/home"> <h2><b>Manage Product Quantity</b></h2></a>
+                       <div class="manager-nav-item">
+                            <a href="${pageContext.request.contextPath}/storage-staff/home" class="table-title-link "> <h2>Manage <b>Product</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status"><h2><b>Manage Order Status</b></h2></a>
+
+                        <div class="manager-nav-item">
+                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status" class="table-title-link"><h2>Manage <b>Order</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
+
+                        <div class="manager-nav-item">
                             <!--Report-->
-                            <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view"><h2><b>Report</h2></b></a>
-                        </div>
-                        <div class="col-sm-6">
-                            <a href="#addReportModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Write report</span></a>					
+                            <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view" class="table-title-link curent-page"><h2><b>Report</h2></b></a>
                         </div>
                     </div>
-                </div>
+                </div> 
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
