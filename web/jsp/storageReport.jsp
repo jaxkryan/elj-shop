@@ -54,25 +54,28 @@
             <div class="table-wrapper">
                                <div class="table-title">
                     <div class="row">
-                       <div class="manager-nav-item">
+                       <div class="manager-nav-item" style="width: 21%">
                             <a href="${pageContext.request.contextPath}/storage-staff/home" class="table-title-link "> <h2>Manage <b>Product</b></h2></a>
                         </div>
 
-                        <div class="manager-nav-item">
+                        <div class="manager-nav-item" style="width: 21%">
                             <a href="${pageContext.request.contextPath}/storage-staff/update-order-status" class="table-title-link"><h2>Manage <b>Order</b></h2></a>
                         </div>
 
-                        <div class="manager-nav-item">
+                        <div class="manager-nav-item" style="width: 16%">
                             <!--Report-->
                             <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view" class="table-title-link curent-page"><h2><b>Report</h2></b></a>
+                        </div>
+                        <div class="manager-nav-item" style="width: 42%">
+                            <a href="#addReportModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Write report</span></a>					
                         </div>
                     </div>
                 </div> 
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th class="col-xs-7 text-left">Title</th>
-                            <th class="col-xs-3 text-left">Date</th>
+                            <th class="col-xs-7 text-left" style="padding-right: 200px">Title</th>
+                            <th class="col-xs-3 text-left" style="padding-right: 500px">Date</th>
                             <th class="col-xs-2 text-left">Action</th>
                         </tr>
                     </thead>
