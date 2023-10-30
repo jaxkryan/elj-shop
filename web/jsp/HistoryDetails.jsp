@@ -142,13 +142,13 @@
                                             <%if(check == 0){%>
                                             <td class="text-center">
                                                 <a href="#addReportModal<%=details.get(i).getProductID()%>" class="add" data-toggle="modal" title="Add Feedback">
-                                                    <i style="color: red; font-size: 22px;" class="fa fa-times" data-toggle="tooltip"></i>
+                                                    <i style="color: yellow; font-size: 22px;" title="Write feedback" class="fa fa-pencil-alt" data-toggle="tooltip"></i>
                                                 </a>
                                             </td>
                                             <%}else{%>
                                             <td class="text-center">
                                                 <a href="#viewReportModal<%=details.get(i).getProductID()%>" class="view" data-toggle="modal" title="View Feedback">
-                                                    <i style="color: red; font-size: 22px;" class="fa fa-times" data-toggle="tooltip"></i>
+                                                    <i style="color: yellow; font-size: 22px;" title="View feedback" class="fa fa-eye" data-toggle="tooltip"></i>
                                                 </a>
                                             </td>
                                             <%}%>
