@@ -34,7 +34,7 @@
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
-            
+
             <!-- Notification -->
             <c:if test="${notification != null}">
                 <div class="container-fluid mb-3">
@@ -50,23 +50,8 @@
                     </div>
                 </div>
             </c:if>
-            
-            <!--Search Form-->
-            <div class="">
-                <div>                   
-                    <form action="${pageContext.request.contextPath}/marketing-staff/home" method="POST">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="code" placeholder="Search by code">
-                            <div class="input-group-append">
-                                <button type="submit" class="text-primary" title="Search" name="search">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
 
+            <!--Search Form-->
 
             <div class="table-wrapper">
                 <div class="table-title">
@@ -79,7 +64,14 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="">
+                    <form action="${pageContext.request.contextPath}/marketing-staff/home" method="POST">
+                        <div class="text-right" style="margin-top: 0.5%">
+                            <input style="color: black" name = "code" type="text" placeholder="Search by code" >
+                            <input style="color: #000000" type="submit" name = "search" value="Search">
+                        </div>
+                    </form>
+                </div>
                 <!--Data table-->
                 <c:choose>
                     <c:when test="${param.go == null || param.go == 'displayAll'}">
