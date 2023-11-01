@@ -372,11 +372,13 @@ VALUES (10, 5, 'Report title', 'asdfawfsf', '2023-01-03 00:00:00', 1)
 
 Insert [Feedback] (customerId, productId, content, reply, feedbackDate, [checked])values (2 , 10,'Nice product',null, '2023-01-09 00:00:00', 0)
 Insert [Feedback] (customerId, productId, content, reply, feedbackDate, [checked])values (2 , 10,'Nice shoes',null, '2023-01-03 00:00:00', 0)
-
 Insert [Feedback] (customerId, productId, content, reply, feedbackDate, [checked])values (4 , 10,'Nice ones',null, '2023-04-03 00:00:00', 0)
 
 
 USE master;
 GO
 ALTER DATABASE OnlineShop SET MULTI_USER;
+GO
+
+ALTER DATABASE SCOPED CONFIGURATION SET IDENTITY_CACHE = OFF
 GO
