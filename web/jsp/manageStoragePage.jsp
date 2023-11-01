@@ -66,24 +66,26 @@
                             <!--Report-->
                             <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view" class="table-title-link"><h2><b>Report</h2></b></a>
                         </div>
-                        <!--Search bar-->
-                        <form action="storage-manage-product?search=All" method="post">
-                            <div class="text-right" style="margin-top: 0.5%">
-                                <input style="color: black" name = "keyword" type="text" class="search-bar" value="${requestScope.keySearch}">
-                                <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
-                            </div>
-                        </form>
                     </div>
                 </div>
                 <!--sorting-->
-                <form id="sortForm" action="storage-manage-product" method="post">
-                    <select name="sort" id="sort" onchange="submitForm()">
-                        <option value="All">Display All</option>
-                        <option value="Asc">Quantity Ascending</option>
-                        <option value="Desc">Quantity Descending</option>
-                        <input type="hidden" name="keySearch" value="${requestScope.keySearch}">
-                    </select>
-                </form>
+                <div style="display: flex">
+                    <form id="sortForm" action="storage-manage-product" method="post">
+                        <select name="sort" id="sort" onchange="submitForm()">
+                            <option value="All">Display All</option>
+                            <option value="Asc">Quantity Ascending</option>
+                            <option value="Desc">Quantity Descending</option>
+                            <input type="hidden" name="keySearch" value="${requestScope.keySearch}">
+                        </select>
+                    </form>
+                    <!--Search bar-->
+                    <form action="storage-manage-product?search=All" method="post" style="margin-left: 65%">
+                        <div class="text-right" style="margin-top: 0.5%">
+                            <input style="color: black" name = "keyword" type="text" class="search-bar" value="${requestScope.keySearch}">
+                            <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
+                        </div>
+                    </form>
+                </div>
                 <script>
                     function submitForm() {
                         document.getElementById("sortForm").action = "storage-manage-product?sort=" + document.getElementById("sort").value;

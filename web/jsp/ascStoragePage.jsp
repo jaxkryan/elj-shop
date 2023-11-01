@@ -52,7 +52,7 @@
                 </c:if>
             </div>
             <div class="table-wrapper">
-                                <div class="table-title">
+                <div class="table-title">
                     <div class="row">
                         <div class="manager-nav-item">
                             <a href="${pageContext.request.contextPath}/storage-staff/home" class="table-title-link curent-page"> <h2>Manage <b>Product</b></h2></a>
@@ -66,27 +66,28 @@
                             <!--Report-->
                             <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view" class="table-title-link"><h2><b>Report</h2></b></a>
                         </div>
-                        <!--Search bar-->
-                        <form action="storage-manage-product?search=Asc" method="post">
-                            <div class="text-right" style="margin-top: 0.5%">
-                                <input style="color: black" name = "keyword" type="text" class="search-bar" value="${requestScope.keySearch}">
-                                <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
-                            </div>
-                        </form>
                     </div>
                 </div>
                 <!--                Report
                                 <a href="${pageContext.request.contextPath}/write-report?action=view">Report</a>-->
-                <!--sorting-->
-                <form id="sortForm" action="storage-manage-product" method="post">
-                    <select name="sort" id="sort" onchange="submitForm()">
-                        <option value="Asc">Quantity Ascending</option>
-                        <option value="All">Display All</option>
-                        <option value="Desc">Quantity Descending</option>
-                        <input type="hidden" name="keySearch" value="${requestScope.keySearch}">
-                    </select>
-                </form>
-
+                <div style="display: flex">
+                    <!--sorting-->
+                    <form id="sortForm" action="storage-manage-product" method="post">
+                        <select name="sort" id="sort" onchange="submitForm()">
+                            <option value="Asc">Quantity Ascending</option>
+                            <option value="All">Display All</option>
+                            <option value="Desc">Quantity Descending</option>
+                            <input type="hidden" name="keySearch" value="${requestScope.keySearch}">
+                        </select>
+                    </form>
+                    <!--Search bar-->
+                    <form action="storage-manage-product?search=Asc" method="post" style="margin-left: 65%">
+                        <div class="text-right" style="margin-top: 0.5%">
+                            <input style="color: black" name = "keyword" type="text" class="search-bar" value="${requestScope.keySearch}">
+                            <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
+                        </div>
+                    </form>
+                </div>
                 <script>
                     function submitForm() {
                         document.getElementById("sortForm").action = "storage-manage-product?sort=" + document.getElementById("sort").value;
@@ -97,12 +98,6 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>
-                                <span class="custom-checkbox">
-                                    <input type="checkbox" id="selectAll">
-                                    <label for="selectAll"></label>
-                                </span>
-                            </th>
                             <th>ID</th>
                             <th>Name</th>
                             <th>Image</th>
@@ -113,12 +108,6 @@
                     <tbody>
                         <c:forEach items="${products}" var="pro">
                             <tr>
-                                <td>
-                                    <span class="custom-checkbox">
-                                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                        <label for="checkbox1"></label>
-                                    </span>
-                                </td>
                                 <td>${pro.id}</td>
                                 <td>${pro.name}</td>
                                 <td>

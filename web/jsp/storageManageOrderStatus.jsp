@@ -57,7 +57,7 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                       <div class="manager-nav-item">
+                        <div class="manager-nav-item">
                             <a href="${pageContext.request.contextPath}/storage-staff/home" class="table-title-link "> <h2>Manage <b>Product</b></h2></a>
                         </div>
 
@@ -73,22 +73,23 @@
                 </div> 
 
                 <div class="row"> 
-                    <!--Search bar-->
-                    <form action="${pageContext.request.contextPath}/storage-staff/update-order-status?go=search" method="post">
-                        <div class="text-right" style="margin-top: 0.5%">
-                            <input style="color: black" name = "keyword" type="text" class="search-bar" placeholder="Search customer" value="${searchName}">
-                            <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
-                        </div>
-                    </form>
                     <!-- sort asc desc -->
-                    <input type="checkbox" name="sortCheckbox" value="ascending" id="ascendingCheckbox" onclick="document.getElementById('descendingCheckbox').checked = false;">
-                    <label for="ascendingCheckbox">Ascending</label>
-
-                    <input type="checkbox" name="sortCheckbox" value="descending" id="descendingCheckbox" onclick="document.getElementById('ascendingCheckbox').checked = false;">
-                    <label for="descendingCheckbox">Descending</label>
+                    <div class="col-md-6">
+                        <input type="checkbox" name="sortCheckbox" value="ascending" id="ascendingCheckbox" onclick="document.getElementById('descendingCheckbox').checked = false;">
+                        <label for="ascendingCheckbox">Created Date Ascending</label>
+                        <input type="checkbox" name="sortCheckbox" value="descending" id="descendingCheckbox" onclick="document.getElementById('ascendingCheckbox').checked = false;">
+                        <label for="descendingCheckbox">Created Date Descending</label>
+                    </div>
+                    <!--Search bar-->
+                    <div class="col-md-6">
+                        <form action="${pageContext.request.contextPath}/storage-staff/update-order-status?go=search" method="post">
+                            <div class="text-right" style="margin-top: 0.5%">
+                                <input style="color: black" name="keyword" type="text" class="search-bar" placeholder="Search customer" value="${searchName}">
+                                <input style="color: #000000" type="submit" name="searchSubmit" value="Search">
+                            </div>
+                        </form>
+                    </div>
                 </div>
-
-
                 <script>
                     function sortTable() {
                         var ascendingCheckbox = document.getElementById("ascendingCheckbox");
@@ -156,11 +157,11 @@
                                         <div class="modal-content">
                                             <form action="${pageContext.request.contextPath}/storage-staff/update-order-status?go">
                                                 <div class="modal-header">						
-                                                    <h4 class="modal-title">Delete Product</h4>
+                                                    <h4 class="modal-title">Cancel order</h4>
                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                                 </div>
                                                 <div class="modal-body">					
-                                                    <p>Are you sure you want to delete these Records?</p>
+                                                    <p>Are you sure you want to cancel this order?</p>
                                                     <p class="text-warning"><small>This action cannot be undone.</small></p>
                                                 </div>
                                                 <div class="modal-footer">
