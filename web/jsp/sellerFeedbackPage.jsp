@@ -31,7 +31,6 @@
     <body>
         <div class="container">
             <div class="row p-3 text-right">
-                <a href="home" class="btn btn-primary text-left">Back to Manage Page</a>
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
@@ -54,19 +53,19 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                         <div class="col-sm-3">
-                             <h2>Manage <b>Order</b></h2>
+                        <div class="col-sm-3">
+                            <a href="home"> <h2>Manage <b>Order</b></h2></a>
                         </div>
                         <div class="col-sm-3">
-                          <h2>Manage <b>FeedBack</b></h2>
+                            <h2>Manage <b>FeedBack</b></h2>
                         </div>
                     </div>
                 </div>
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>CustomerID</th>
-                            <th>ProductID</th>
+                            <th>Customer Name</th>
+                            <th>Product Name</th>
                             <th>Content</th>
                             <th>FeedbackDate</th>
                             <th>Reply</th>
