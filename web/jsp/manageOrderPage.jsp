@@ -121,7 +121,7 @@
                                 <td class="align-middle">${order.createdTime}</td>
                                 <td class="align-middle">${order.totalPrice}</td>
                                 <td>
-                                    <a href="home?go=updateStatus&newStatus=Accepted&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Accepted">&#xE254;</i></a>
+                                    <a href="home?go=updateStatus&newStatus=Accepted&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Accepted">&#x2713;</i></a>
                                     <a href="home?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
                                 </td>
                             </tr>

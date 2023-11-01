@@ -202,7 +202,7 @@ public class CreateOrderController extends HttpServlet {
             odao.createOrderWithoutVoucher(userId, receiver, street, city, province, country, email, phone, orderDate, orderPrice, cartItem);
             cartItem = new Vector<>();
             session.setAttribute("cartItem", cartItem);
-            Helper.setNotification(request, "Create order succesfully!", "GREEN");
+            Helper.setNotification(request, "Place order succesfully!", "GREEN");
             response.sendRedirect("home");
         } else {
             VoucherDAO vdao = new VoucherDAO();
@@ -230,7 +230,7 @@ public class CreateOrderController extends HttpServlet {
                         odao.createOrderWithVoucher(userId, voucher, receiver, street, city, province, country, email, phone, orderDate, orderPrice, cartItem);
                         cartItem = new Vector<>();
                         session.setAttribute("cartItem", cartItem);
-                        Helper.setNotification(request, "Using voucher succesfully, you get " + voucher.getValue() + "% discount!", "GREEN");
+                        Helper.setNotification(request, "Place order succesfully, you get " + voucher.getValue() + "% discount!", "GREEN");
                         response.sendRedirect("home");
                     } else {
                         Helper.setNotification(request, "Voucher has expired", "RED");

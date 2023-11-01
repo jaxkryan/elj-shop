@@ -23,10 +23,11 @@
         <%@include file="header.jsp" %>
 
         <!-- Checkout Start -->
-        <form action="create-order" method="POST">
-            <div class="container-fluid">
-                <div class="row px-xl-5">
-                    <div class="col-lg-8">
+
+        <div class="container-fluid">
+            <div class="row px-xl-5">
+                <div class="col-lg-8">
+                    <form action="create-order" method="POST">
                         <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Billing Address</span></h5>
                         <div class="bg-light p-30 mb-5">
                             <div class="row">
@@ -62,81 +63,110 @@
                                         <label>Mobile No</label>
                                         <input name="phone" class="form-control" type="tel" placeholder="123 456 7890" <c:if test="${user.id != null}">value="${user.phone}"</c:if> required>
                                     </div>
-                                    <div class="col-md-6 form-group">
-                                        <label>Voucher code</label>
-                                        <input name="voucherCode" class="form-control" type="text" <c:if test="${user.id != null}">value=""</c:if>>
-                                    </div>
                                     <input type="hidden" name="subtotal" class="form-control" value="${subtotal}">
+                                <input type="hidden" name="voucherCode" class="form-control" value="${voucherCode}">
+                            </div>
+                        </div>
+                    </form> 
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Order Total</span></h5>
+                    <div class="bg-light p-30 mb-5">
+                        <div class="border-bottom">
+                            <h6 class="mb-3">Products</h6>
+                            <% ProductDAO pdao = new ProductDAO(); %>
+                            <% Vector<CartItem> cartItem = (Vector<CartItem>) session.getAttribute("cartItem");%>
+                            <% double voucherValue = 0;%>
+                            <% if(request.getAttribute("voucherValue") != null){ %>
+                            <% voucherValue = (double) request.getAttribute("voucherValue"); %>
+                            <% } %>
+                            <% for(int i = 0; i < cartItem.size(); i++) { %>
+                            <% Product product = pdao.getProductById(cartItem.get(i).getProductId()); %>
+                            <div class="d-flex justify-content-between">
+                                <p><%= product.getName() %></p>
+                                <% double currentPrice = ((product.getPrice()-product.getDiscount()) * cartItem.get(i).getQuantity()) * (1-voucherValue/100);%>
+                                <%if(currentPrice < (product.getPrice()-product.getDiscount()) * cartItem.get(i).getQuantity()) {%>
+                                <fmt:setLocale value="en_US"/>
+                                <p><fmt:formatNumber type="currency" pattern="###,###¤"><%= currentPrice %></fmt:formatNumber>
+                                <del><fmt:formatNumber type="currency" pattern="###,###¤"><%= (product.getPrice()-product.getDiscount()) * cartItem.get(i).getQuantity() %></fmt:formatNumber></del></p>
+                                <% } else { %>
+                                <fmt:setLocale value="en_US"/>
+                                <p><fmt:formatNumber type="currency" pattern="###,###¤"><%= currentPrice %></fmt:formatNumber></p>
+                                <% } %>
+                            </div>
+                            <% } %>
+                        </div>
+                        <div class="border-bottom pt-3 pb-2">
+                            <div class="d-flex justify-content-between mb-3">
+                                <h6>Subtotal</h6>
+                                <h6>
+                                    <fmt:formatNumber type="currency" pattern="###,###¤">
+                                        <c:choose>
+                                            <c:when test="${subtotal == null || subtotal == 0}">0</c:when>
+                                            <c:otherwise>${subtotal * (1-voucherValue/100)}</c:otherwise>
+                                        </c:choose>
+                                    </fmt:formatNumber>
+                                </h6>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <h6 class="font-weight-medium">Shipping</h6>
+                                <h6 class="font-weight-medium">
+                                    <fmt:formatNumber type="currency" pattern="###,###¤">
+                                        <c:choose>
+                                            <c:when test="${subtotal == null || subtotal == 0}">0</c:when>
+                                            <c:otherwise>${subtotal * (1-voucherValue/100) * 0.1}</c:otherwise>
+                                        </c:choose>
+                                    </fmt:formatNumber>
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="border-bottom pt-3 pb-2">
+                            <h6>Voucher code</h6>
+                            <div class="">
+                                <form action="customer-add-voucher" style="" class="row pr-3 pl-3">
+                                    <input name="voucherCode" class="col-md-8 form-control" type="text" <c:if test="${user.id != null}">value="${voucherCode}"</c:if>>
+                                        <input type="submit" class="col-md-4 btn btn-block btn-primary font-weight-bold" value="Add Voucher">
+                                        <input type="hidden" name="subtotal" value="${subtotal}">
+                                </form>
+                            </div>
+                        </div>
+                        <div class="pt-2">
+                            <div class="d-flex justify-content-between mt-2">
+                                <h4>Total</h4>
+                                <h4>
+                                    <fmt:formatNumber type="currency" pattern="###,###¤">
+                                        ${subtotal * (1-voucherValue/100) * 0.1 + subtotal * (1-voucherValue/100)}
+                                    </fmt:formatNumber>
+                                </h4>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Order Total</span></h5>
-                        <div class="bg-light p-30 mb-5">
-                            <div class="border-bottom">
-                                <h6 class="mb-3">Products</h6>
-                                <% ProductDAO pdao = new ProductDAO(); %>
-                                <% Vector<CartItem> cartItem = (Vector<CartItem>) session.getAttribute("cartItem"); %>
-                                <% for(int i = 0; i < cartItem.size(); i++) { %>
-                                <% Product product = pdao.getProductById(cartItem.get(i).getProductId()); %>
-                                <div class="d-flex justify-content-between">
-                                    <p><%= product.getName() %></p>
-                                    <fmt:setLocale value="en_US"/>
-                                    <p><fmt:formatNumber type="currency" pattern="###,###¤"><%= product.getPrice() * cartItem.get(i).getQuantity() %></fmt:formatNumber></p>
-                                    </div>
-                                <% } %>
-                            </div>
-                            <div class="border-bottom pt-3 pb-2">
-                                <div class="d-flex justify-content-between mb-3">
-                                    <h6>Subtotal</h6>
-                                    <h6>
-                                        <fmt:formatNumber type="currency" pattern="###,###¤">
-                                            <c:choose>
-                                                <c:when test="${subtotal == null || subtotal == 0}">0</c:when>
-                                                <c:otherwise>${subtotal}</c:otherwise>
-                                            </c:choose>
-                                        </fmt:formatNumber>
-                                    </h6>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="font-weight-medium">Shipping</h6>
-                                    <h6 class="font-weight-medium">
-                                        <fmt:formatNumber type="currency" pattern="###,###¤">
-                                            <c:choose>
-                                                <c:when test="${subtotal == null || subtotal == 0}">0</c:when>
-                                                <c:otherwise>${subtotal*0.1}</c:otherwise>
-                                            </c:choose>
-                                        </fmt:formatNumber>
-                                    </h6>
+                    <div class="mb-5">
+                        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
+                        <div class="bg-light p-30">
+                            <div class="form-group">
+                                <div class="custom-control custom-radio" data-toggle="collapse" data-target="#creditCard-info.show">
+                                    <input type="radio" class="custom-control-input" name="payment" id="cod" checked>
+                                    <label class="custom-control-label" for="cod">Cash On Delivery</label>
                                 </div>
                             </div>
-                            <div class="pt-2">
-                                <div class="d-flex justify-content-between mt-2">
-                                    <h5>Total</h5>
-                                    <h5>
-                                        <fmt:formatNumber type="currency" pattern="###,###¤">
-                                            ${subtotal*1.1}
-                                        </fmt:formatNumber>
-                                    </h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-5">
-                            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
-                            <div class="bg-light p-30">
-                                <div class="form-group">
-                                    <div class="custom-control custom-radio" data-toggle="collapse" data-target="#creditCard-info.show">
-                                        <input type="radio" class="custom-control-input" name="payment" id="cod" checked>
-                                        <label class="custom-control-label" for="cod">Cash On Delivery</label>
-                                    </div>
-                                </div>
-                                <input type="submit" class="btn btn-block btn-primary font-weight-bold py-3" value="Place Order">
-                            </div>
+                            <button id="place-order-btn" class="btn btn-block btn-primary font-weight-bold py-3"> Place Order </button>
+                            <script>
+                                document.getElementById("place-order-btn").addEventListener("click", function (event) {
+                                    event.preventDefault();  // Ngăn chặn hành vi mặc định của nút submit
+
+                                    // Lấy đối tượng form theo id
+                                    var form = document.querySelector("form[action='create-order']");
+
+                                    // Submit form
+                                    form.submit();
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
         <!-- Checkout End -->
 
         <%@include file="footer.jsp" %>

@@ -205,6 +205,15 @@ public class ProductDAO extends jdbc.DBConnect {
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        String sqls = "update cartitem set price = ? where productid = ?";
+        try {
+            pre = conn.prepareStatement(sqls);
+            pre.setFloat(1, product.getPrice() - product.getDiscount());
+            pre.setInt(2, product.getId());
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return rowsAffected;
     }
 

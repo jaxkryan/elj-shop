@@ -43,6 +43,7 @@
                                             <th>Unit Price</th>
                                             <th>Quantity</th>
                                             <th>Subtotal Price</th>
+                                            <th>Shipping</th>
                                         </tr>
                                     </thead>
                                     <tbody class="align-middle">
@@ -62,6 +63,9 @@
                                             <td class="text-center">
                                                 <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice()*details.get(i).getQuantity() %></fmt:formatNumber>
                                                 </td>
+                                                <td class="text-center">
+                                                <fmt:formatNumber type="currency" pattern="###,###¤"><%= (details.get(i).getPrice()*details.get(i).getQuantity())*0.1 %></fmt:formatNumber>
+                                                </td>
                                             </tr>
                                         <%}%>
                                     </tbody>
@@ -79,6 +83,7 @@
                                             <th>Unit Price</th>
                                             <th>Quantity</th>
                                             <th>Subtotal Price</th>
+                                            <th>Shipping</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -97,6 +102,9 @@
                                             </td>
                                             <td class="text-center">
                                                 <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice()*details.get(i).getQuantity() %></fmt:formatNumber>
+                                                </td>
+                                                <td class="text-center">
+                                                <fmt:formatNumber type="currency" pattern="###,###¤"><%= (details.get(i).getPrice()*details.get(i).getQuantity())*0.1 %></fmt:formatNumber>
                                                 </td>
                                                 <td class="text-center">
                                                     <a href="${pageContext.request.contextPath}/customer-delete-history-detail?status=${status}&orderId=<%= details.get(i).getOrderID() %>&proId=<%= details.get(i).getProductID()%>" title="Delete Order Detail"><i style="color: red; font-size: 22px;" class="fa fa-times"></i></a>
@@ -119,6 +127,7 @@
                                             <th>Unit Price</th>
                                             <th>Quantity</th>
                                             <th>Subtotal Price</th>
+                                            <th>Shipping</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -138,6 +147,9 @@
                                             </td>
                                             <td class="text-center">
                                                 <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice()*details.get(i).getQuantity() %></fmt:formatNumber>
+                                                </td>
+                                                <td class="text-center">
+                                                <fmt:formatNumber type="currency" pattern="###,###¤"><%= (details.get(i).getPrice()*details.get(i).getQuantity())*0.1 %></fmt:formatNumber>
                                                 </td>
                                             <%if(check == 0){%>
                                             <td class="text-center">

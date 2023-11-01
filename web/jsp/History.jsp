@@ -70,7 +70,7 @@
                                                     <a href="${pageContext.request.contextPath}/customer-delete-history?orderId=${order.id}" title="Delete Order"><i style="color: red; font-size: 22px; margin-left: 10px" class="fa fa-times"></i></a>
                                                 </c:if>
                                                 <c:if test="${order.status == 'Shipping'}">
-                                                    <a href="${pageContext.request.contextPath}/customer-changeToFeedback?orderId=${order.id}" title="Confirm received"><i style="color: green; font-size: 22px; margin-left: 10px" class="fa fa-times"></i></a>
+                                                    <a href="${pageContext.request.contextPath}/customer-changeToFeedback?orderId=${order.id}" title="Confirm received"><i style="color: green; font-size: 22px; margin-left: 10px" class="fa fa-check"></i></a>
                                                 </c:if>
                                             </td>
                                         </tr>
