@@ -112,7 +112,7 @@
                                     <input name="MarketingStaffEditPersonalInfoSubmit" class="form-control btn btn-primary" type="submit" value="Update">
                                 </div>
                                 <div class="col-md-2 form-group">
-                                    <a class="form-control btn btn-primary" href="${pageContext.request.contextPath}/home">Cancel</a>
+                                    <a class="form-control btn btn-primary" href="home">Cancel</a>
                                 </div>
                                 <div class="col-md-4 form-group">
                                 </div>
@@ -178,7 +178,7 @@
                                     <input name="MarketingStaffChangePasswordSubmit" class="form-control btn btn-primary" type="submit" value="Update">
                                 </div>
                                 <div class="col-md-2 form-group">
-                                    <a class="form-control btn btn-primary" href="${pageContext.request.contextPath}/home">Cancel</a>
+                                    <a class="form-control btn btn-primary" href="home">Cancel</a>
                                 </div>
                                 <div class="col-md-4 form-group">
                                 </div>
