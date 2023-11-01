@@ -33,7 +33,6 @@
 
 
             <div class="row p-3 text-right">
-                <a href="write-feedback?go=viewFeedback" class="btn btn-primary">Feedback</a>
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
@@ -59,7 +58,10 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-3">
-                            <a href="home" style="color: white"> <h2>Manage <b>Order</b></h2></a>
+                            <h2>Manage <b>Order</b></h2>
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="write-feedback?go=viewFeedback" style="color: white"> <h2>Manage <b>FeedBack</b></h2></a>
                         </div>
                     </div>
                 </div>
