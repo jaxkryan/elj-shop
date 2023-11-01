@@ -142,12 +142,12 @@ public class ManagerHomeController extends HttpServlet {
         } else if (service.equals("AddProduct")) {
             String pName = request.getParameter("name");
             String pImage = request.getParameter("image");
-            float pPrice = Float.parseFloat(request.getParameter("price"));
+            float pPrice = Float.parseFloat(request.getParameter("addPrice"));
             String pDescription = request.getParameter("description");
             int pCategory = Integer.parseInt(request.getParameter("category"));
             int pProvider = Integer.parseInt(request.getParameter("provider"));
             int pQuantity = Integer.parseInt(request.getParameter("quantity"));
-            float pDiscount = Float.parseFloat(request.getParameter("discount"));
+            float pDiscount = Float.parseFloat(request.getParameter("addDiscount"));
             int checkInsert = productDAO.insertProduct(pCategory, pProvider, pName, pDescription, pPrice, pDiscount, pQuantity, pImage);
             if (checkInsert != 0) {
                 //Insert success notification
@@ -161,14 +161,20 @@ public class ManagerHomeController extends HttpServlet {
             int pId = Integer.parseInt(request.getParameter("id"));
             String pName = request.getParameter("name");
             String pImage = request.getParameter("image");
-            float pPrice = Float.parseFloat(request.getParameter("price"));
+            float pPrice = Float.parseFloat(request.getParameter("updatePrice"));
             String pDescription = request.getParameter("description");
             int pCategory = Integer.parseInt(request.getParameter("category"));
             int pProvider = Integer.parseInt(request.getParameter("provider"));
             int pQuantity = Integer.parseInt(request.getParameter("quantity"));
-            float pDiscount = Float.parseFloat(request.getParameter("discount"));
+            float pDiscount = Float.parseFloat(request.getParameter("updateDiscount"));
+            if (pDiscount > pPrice) {
+                Helper.setNotification(request, "Prioe must greater than discount", "RED");
+                response.sendRedirect("home");
+                return;
+            }
             Product UpdateProduct = new Product(pId, pCategory, pProvider, pName, pDescription, pPrice, pDiscount, pQuantity, pImage, true);
             int checkUpdate = productDAO.updateProduct(UpdateProduct);
+            
             if (checkUpdate != 0) {
                 //Insert success notification
                 Helper.setNotification(request, "Update product " + pName + " successfully!", "GREEN");
