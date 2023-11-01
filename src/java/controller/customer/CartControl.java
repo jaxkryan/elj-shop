@@ -48,6 +48,12 @@ public class CartControl extends HttpServlet {
             response.sendRedirect("home");
             return;
         } else {
+            int userId = (int) session.getAttribute("userId");
+            CartDAO cdao = new CartDAO();
+            int cartId = cdao.getCartIdByCustomerId(userId);
+            CartItemDAO cidao = new CartItemDAO();
+            Vector<CartItem> cartItem = cidao.getCartItemByCartId(cartId);
+            session.setAttribute("cartItem", cartItem);
             CategoryDAO categoryDAO = new CategoryDAO();
             ProviderDAO providerDAO = new ProviderDAO();
             Vector<Category> categories = categoryDAO.getAllCategory();
