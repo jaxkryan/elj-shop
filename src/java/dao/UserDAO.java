@@ -482,6 +482,23 @@ public class UserDAO extends jdbc.DBConnect {
         return affectedRows;
     }
 
+    public boolean isEmailExisted(String email) {
+        String sql = "SELECT [id]\n"
+                + "  FROM [dbo].[User]"
+                + " where email = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
+            if(rs.isBeforeFirst()) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
     public int update(User user) {
         int affectedRows = 0;
         String sql = "UPDATE [dbo].[User]\n"
@@ -639,6 +656,7 @@ public class UserDAO extends jdbc.DBConnect {
         }
         return users;
     }
+    
     public Vector<User> getActiveCustomer() {
         Vector<User> users = new Vector<>();
         String sql = "SELECT * FROM [dbo].[User]\n"

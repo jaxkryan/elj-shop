@@ -108,6 +108,9 @@ public class UpdateUserController extends HttpServlet {
             if (!email.matches(IConstant.REGEX_EMAIL)) {
                 Helper.setNotification(request, "Please enter valid email address!", "RED");
                 request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+            } else if(udao.isEmailExisted(email)) {
+                Helper.setNotification(request, "Email address has been used!", "RED");
+                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
             } else {
                 udao.updateEmail(user, email);
                 Helper.setNotification(request, "Update user " + user.getFirstName() + " email successfully!", "GREEN");
