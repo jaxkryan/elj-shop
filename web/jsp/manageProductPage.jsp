@@ -188,11 +188,11 @@
                             <th>Name</th>
                             <th>Category</th>
                             <th>Provider</th>
-                            <th>description</th>
-                            <th>price</th>
-                            <th>discount</th>
-                            <th>quantity</th>
-                            <th>image</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Discount</th>
+                            <th>Quantity</th>
+                            <th>Image</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
