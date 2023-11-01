@@ -9,7 +9,26 @@ import java.util.Vector;
 import model.Employee;
 
 public class EmployeeDAO extends jdbc.DBConnect {
-
+    public int insert(int userId) {
+        int affectedRows = 0;
+        try {
+            String sql = "INSERT INTO [dbo].[Employee]\n"
+                    + "           ([id]\n"
+                    + "           ,[hireDate]\n"
+                    + "           ,[salary])\n"
+                    + "     VALUES\n"
+                    + "           (?, ? ,1000)";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, userId);
+            String hireDate = java.time.LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
+            pre.setString(2, hireDate);
+            affectedRows = pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return affectedRows;
+    }
+    
     public int store(User user) {
         int affectedRows = 0;
         if (user.getRole().equals("Manager")) {

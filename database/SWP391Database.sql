@@ -246,13 +246,13 @@ VALUES ('Adidas', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Adi
 	('Nike', 'https://static.nike.com/a/images/f_jpg,q_auto:eco/61b4738b-e1e1-4786-8f6c-26aa0008e80b/swoosh-logo-black.png', 1),
 	('Puma', 'https://1000logos.net/wp-content/uploads/2017/05/PUMA-logo.jpg', 1)
 
-INSERT [Employee] ([id],[salary]) 
-VALUES (1, 8000),
-	(3, 2000),
-	(5, 1800),
-	(10, 2200),
-	(11, 2100),
-	(12, 1900)
+INSERT [Employee] ([id],[salary],[hireDate]) 
+VALUES (1, 8000, '2023-01-01'),
+   (3, 2000, '2023-01-01'),
+   (5, 1800, '2023-01-01'),
+   (10, 2200, '2023-01-01'),
+   (11, 2100, '2023-01-01'),
+   (12, 1900, '2023-01-01')
 
 INSERT [Customer] ([id],[balance]) 
 VALUES (2, 17500),

@@ -1,6 +1,9 @@
 package controller.admin;
 
 import constant.IConstant;
+import dao.CartDAO;
+import dao.CustomerDAO;
+import dao.EmployeeDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -17,8 +20,9 @@ import util.Helper;
  */
 public class AddUserController extends HttpServlet {
 
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -26,11 +30,12 @@ public class AddUserController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-    } 
+            throws ServletException, IOException {
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -38,7 +43,7 @@ public class AddUserController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String role = request.getParameter("role");
@@ -63,11 +68,11 @@ public class AddUserController extends HttpServlet {
         request.setAttribute("email", email);
         request.setAttribute("password", password);
         request.setAttribute("confirmedPassword", confirmedPassword);
-        
+
         UserDAO udao = new UserDAO();
         Vector<User> users = udao.getActiveUsers();
         request.setAttribute("users", users);
-        
+
         if (!firstName.matches(IConstant.REGEX_FIRSTNAME)) {
             Helper.setNotification(request, "First name is invalid!", "RED");
             request.getRequestDispatcher("/jsp/manageUserPage.jsp").forward(request, response);
@@ -99,11 +104,13 @@ public class AddUserController extends HttpServlet {
             Helper.setNotification(request, "Confirmed password does not match with password!", "RED");
             request.getRequestDispatcher("/jsp/manageUserPage.jsp").forward(request, response);
         } else {
-            if(udao.isEmailExisted(email)) {
+            if (udao.isEmailExisted(email)) {
                 Helper.setNotification(request, "Email address has been used!", "RED");
                 request.getRequestDispatcher("/jsp/manageUserPage.jsp").forward(request, response);
             } else {
-                udao.insert(new User(role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, Helper.hashPassword(password)));
+                int userId = udao.insert(new User(role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, Helper.hashPassword(password)), true);
+                EmployeeDAO edao = new EmployeeDAO();
+                edao.insert(userId);
                 users = udao.getActiveUsers();
                 request.setAttribute("users", users);
                 Helper.setNotification(request, "Add new user successfully!", "GREEN");
@@ -112,8 +119,9 @@ public class AddUserController extends HttpServlet {
         }
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override
