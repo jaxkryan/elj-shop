@@ -229,6 +229,20 @@ public class FeedbackDAO extends jdbc.DBConnect {
         return null;
     }
     
+    public int deleteByCustomerId(int customerId) {
+        int affectedRows = 0;
+        try {
+            String sql = "DELETE FROM [dbo].[Feedback]\n"
+                    + " WHERE customerId = ?";
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, customerId);
+            affectedRows = pre.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return affectedRows;
+    }
+    
     public static void main(String[] args) {
         FeedbackDAO dao = new FeedbackDAO();
         String content = dao.getOrderFeedBack(4, 10);

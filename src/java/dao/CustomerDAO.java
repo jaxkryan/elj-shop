@@ -34,6 +34,8 @@ public class CustomerDAO extends jdbc.DBConnect {
         int affectedRows = 0;
         CartDAO cartDAO = new CartDAO();
         cartDAO.deleteByCustomerId(customerId);
+        FeedbackDAO fdao = new FeedbackDAO();
+        fdao.deleteByCustomerId(customerId);
         OrderDAO orderDAO = new OrderDAO();
         orderDAO.storeByCustomerId(customerId);
         String sql = "DELETE FROM [dbo].[Customer]\n"
