@@ -47,25 +47,24 @@ public class FeedbackDAO extends jdbc.DBConnect {
     public int getProductHaveFeedbackInOrder(int orderId) {
         int count = 0;
         try {
-            String sql = "SELECT DISTINCT OD.productId\n"
-                    + "FROM [OrderDetails] OD\n"
-                    + "INNER JOIN [Feedback] F ON OD.productId = F.productId\n"
-                    + "WHERE F.content IS NOT NULL\n"
-                    + "AND OD.orderId = ?";
+            String sql = " SELECT content\n"
+                    + "  FROM Feedback\n"
+                    + "  WHERE orderId = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, orderId);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                int productId = rs.getInt(1);
-                count++;
+                String content = rs.getString(1);
+                if (content != null) {
+                    count++;
+                }
             }
+
         } catch (SQLException ex) {
             Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return count;
     }
-
-
 
     public void changeFeedbackStatus(int feedbackId) {
         String sql = "UPDATE Feedback SET checked = 1 WHERE id = ?";
@@ -88,16 +87,16 @@ public class FeedbackDAO extends jdbc.DBConnect {
             ResultSet rs = pre.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt(1);
-                int customerId = rs.getInt(2);
-                int productId = rs.getInt(3);
-                int sellerId = rs.getInt(4);
-                String content = rs.getString(5);
-                String reply = rs.getString(6);
-                String feedbackDate = rs.getString(7);
-                String replyDate = rs.getString(8);
-                boolean checked = rs.getBoolean(9);
-                feedbacks.add(new Feedback(id, customerId, productId, sellerId,
-                        content, reply, feedbackDate, replyDate, checked));
+                int orderId = rs.getInt(2);
+                int customerId = rs.getInt(3);
+                int productId = rs.getInt(4);
+                int sellerId = rs.getInt(5);
+                String content = rs.getString(6);
+                String reply = rs.getString(7);
+                String feedbackDate = rs.getString(8);
+                String replyDate = rs.getString(9);
+                boolean checked = rs.getBoolean(10);
+                feedbacks.add(new Feedback(id, orderId, customerId, productId, sellerId, content, reply, feedbackDate, replyDate, checked));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -123,7 +122,8 @@ public class FeedbackDAO extends jdbc.DBConnect {
     public int insertCheckedFeedback(Feedback feedback) {
         int affectedRows = 0;
         String sql = "INSERT INTO [dbo].[Feedback]\n"
-                + "           ([customerId]\n"
+                + "           ([orderId]\n"
+                + "           ,[customerId]\n"
                 + "           ,[productId]\n"
                 + "           ,[sellerId]\n"
                 + "           ,[content]\n"
@@ -132,16 +132,17 @@ public class FeedbackDAO extends jdbc.DBConnect {
                 + "           ,[replyDate]\n"
                 + "           ,[checked])\n"
                 + "     VALUES"
-                + "           (?,?,?,?,?,?,?,0)";
+                + "           (?,?,?,?,?,?,?,?,0)";
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
-            pre.setInt(1, feedback.getCustomerId());
-            pre.setInt(2, feedback.getProductId());
-            pre.setInt(3, feedback.getSellerId());
-            pre.setString(4, feedback.getContent());
-            pre.setString(5, feedback.getReply());
-            pre.setString(6, feedback.getFeedbackDate());
-            pre.setString(7, feedback.getReplyDate());
+            pre.setInt(1, feedback.getOrderId());
+            pre.setInt(2, feedback.getCustomerId());
+            pre.setInt(3, feedback.getProductId());
+            pre.setInt(4, feedback.getSellerId());
+            pre.setString(5, feedback.getContent());
+            pre.setString(6, feedback.getReply());
+            pre.setString(7, feedback.getFeedbackDate());
+            pre.setString(8, feedback.getReplyDate());
             affectedRows = pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -170,7 +171,8 @@ public class FeedbackDAO extends jdbc.DBConnect {
     public int updateFeedback(Feedback feedback) {
         int row = 0;
         String sql = "UPDATE [dbo].[Feedback]\n"
-                + "   SET [customerId] = ?\n"
+                + "   SET [orderId ] = ?\n"
+                + "      ,[customerId] = ?\n"
                 + "      ,[productId] = ?\n"
                 + "      ,[sellerId] = ?\n"
                 + "      ,[content] = ?\n"
@@ -182,15 +184,16 @@ public class FeedbackDAO extends jdbc.DBConnect {
         PreparedStatement pre;
         try {
             pre = conn.prepareStatement(sql);
-            pre.setInt(1, feedback.getCustomerId());
-            pre.setInt(2, feedback.getProductId());
-            pre.setInt(3, feedback.getSellerId());
-            pre.setString(4, feedback.getContent());
-            pre.setString(5, feedback.getReply());
-            pre.setString(6, feedback.getFeedbackDate());
-            pre.setString(7, feedback.getReplyDate());
-            pre.setBoolean(8, true);
-            pre.setInt(9, feedback.getId());
+            pre.setInt(1, feedback.getOrderId());
+            pre.setInt(2, feedback.getCustomerId());
+            pre.setInt(3, feedback.getProductId());
+            pre.setInt(4, feedback.getSellerId());
+            pre.setString(5, feedback.getContent());
+            pre.setString(6, feedback.getReply());
+            pre.setString(7, feedback.getFeedbackDate());
+            pre.setString(8, feedback.getReplyDate());
+            pre.setBoolean(9, true);
+            pre.setInt(10, feedback.getId());
 //            System.out.println(feedback.getCustomerId());
 //            System.out.println(feedback.getProductId());
 //            System.out.println(feedback.getSellerId());
@@ -207,14 +210,14 @@ public class FeedbackDAO extends jdbc.DBConnect {
         return row;
     }
 
-//      public static void main(String[] args) {
-//        FeedbackDAO feedbackDAO = new FeedbackDAO();
-//        Feedback test = new Feedback(3, 4, 1, "abcd", "god product", "2023-01-09", "2023-01-09", true);
-//        feedbackDAO.updateFeedback(test);
-//    }
+    public static void main(String[] args) {
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
+        Feedback test = new Feedback(12, 2, 1, 1, "abcd", "Dm code", "2023-01-09", "2023-01-09", false, 4);
+        feedbackDAO.updateFeedback(test);
+    }
+
     public String getOrderFeedBack(int proId, int orderId) {
-        String sql = "  select content from [Feedback] as f inner join [OrderDetails] as od on f.productId = od.productId\n"
-                + "  inner join [Order] as o on od.orderId = o.id where f.productId = ? and od.orderId = ? ";
+        String sql = "  select content from [Feedback] where productId = ? and orderId = ? ";
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setInt(1, proId);
@@ -228,7 +231,7 @@ public class FeedbackDAO extends jdbc.DBConnect {
         }
         return null;
     }
-    
+
     public int deleteByCustomerId(int customerId) {
         int affectedRows = 0;
         try {
@@ -242,10 +245,10 @@ public class FeedbackDAO extends jdbc.DBConnect {
         }
         return affectedRows;
     }
-    
-    public static void main(String[] args) {
-        FeedbackDAO dao = new FeedbackDAO();
-        String content = dao.getOrderFeedBack(4, 10);
-        System.out.println(content);
-    }
+
+//    public static void main(String[] args) {
+//        FeedbackDAO dao = new FeedbackDAO();
+//        String content = dao.getOrderFeedBack(4, 10);
+//        System.out.println(content);
+//    }
 }

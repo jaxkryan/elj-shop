@@ -576,7 +576,7 @@ public class OrderDAO extends jdbc.DBConnect {
     public void createOrderWithoutVoucher(int userId, String receiver, String street, String city, String province, String country, String email, String phone, String orderDate, Float orderPrice, Vector<CartItem> cartItem) {
         String sql = "INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) "
                 + "VALUES "
-                + "( ? , ? , ? , ? , ? , ? , ? , ? , 'Processed', ? , ? , 1 ) ";
+                + "( ? , ? , ? , ? , ? , ? , ? , ? , 'Processing', ? , ? , 1 ) ";
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setInt(1, userId);
@@ -634,7 +634,7 @@ public class OrderDAO extends jdbc.DBConnect {
     public void createOrderWithVoucher(int userId, Voucher voucher, String receiver, String street, String city, String province, String country, String email, String phone, String orderDate, Float orderPrice, Vector<CartItem> cartItem) {
         String sql = "INSERT [Order] ([customerId], [voucherId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) "
                 + "VALUES "
-                + "( ? , ? , ? , ? , ? , ? , ? , ? , ? , 'Processed', ? , ? , 1 ) ";
+                + "( ? , ? , ? , ? , ? , ? , ? , ? , ? , 'Processing', ? , ? , 1 ) ";
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setInt(1, userId);

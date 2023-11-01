@@ -33,7 +33,7 @@
                 <c:otherwise>
                     <% ProductDAO pdao = new ProductDAO(); %>
                     <% Vector<OrderDetail> details = (Vector<OrderDetail>) request.getAttribute("details"); %>
-                    <c:if test="${status != 'Processed' && status != 'Received'}">
+                    <c:if test="${status != 'Processing' && status != 'Received'}">
                         <div class="row px-xl-5">    
                             <div class="col-lg-12 table-responsive mb-5">
                                 <table class="table table-light table-borderless table-hover mb-0">
@@ -73,7 +73,7 @@
                             </div>
                         </div>
                     </c:if>
-                    <c:if test="${status == 'Processed'}">
+                    <c:if test="${status == 'Processing'}">
                         <div class="row px-xl-5">    
                             <div class="col-lg-12 table-responsive mb-5">
                                 <table class="table table-light table-borderless table-hover mb-0">

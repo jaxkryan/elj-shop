@@ -13,6 +13,7 @@ public class Feedback {
     int id;
     int customerId;
     int productId;
+    int orderId;
     int sellerId;
     String content;
     String reply;
@@ -23,10 +24,11 @@ public class Feedback {
     public Feedback() {
     }
 
-    public Feedback(int id, int customerId, int productId, int sellerId, String content, String reply, String feedbackDate, String replyDate, boolean check) {
+    public Feedback(int id, int orderId, int customerId, int productId, int sellerId, String content, String reply, String feedbackDate, String replyDate, boolean check) {
         this.id = id;
         this.customerId = customerId;
         this.productId = productId;
+        this.orderId = orderId;
         this.sellerId = sellerId;
         this.content = content;
         this.reply = reply;
@@ -35,20 +37,36 @@ public class Feedback {
         this.check = check;
     }
 
-    public Feedback(int customerId, int productId, int sellerId, String content, String reply, String feedbackDate, String replyDate, boolean check) {
+    public Feedback(int orderId, int customerId, int productId, int sellerId, String content, String reply, String feedbackDate, String replyDate, boolean check) {
         this.customerId = customerId;
         this.productId = productId;
+        this.orderId = orderId;
         this.sellerId = sellerId;
         this.content = content;
         this.reply = reply;
         this.feedbackDate = feedbackDate;
         this.replyDate = replyDate;
         this.check = check;
+
     }
 
-    public Feedback(int customerId, int productId, String content, String feedbackDate, boolean check) {
+    public Feedback(int orderId, int customerId, int productId, int sellerId, String content, String reply, String feedbackDate, String replyDate, boolean check, int id) {
         this.customerId = customerId;
         this.productId = productId;
+        this.orderId = orderId;
+        this.sellerId = sellerId;
+        this.content = content;
+        this.reply = reply;
+        this.feedbackDate = feedbackDate;
+        this.replyDate = replyDate;
+        this.check = check;
+        this.id = id;
+    }
+
+    public Feedback(int customerId, int productId, int orderId, String content, String feedbackDate, boolean check) {
+        this.customerId = customerId;
+        this.productId = productId;
+        this.orderId = orderId;
         this.content = content;
         this.feedbackDate = feedbackDate;
         this.check = check;
@@ -72,6 +90,14 @@ public class Feedback {
 
     public int getProductId() {
         return productId;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public void setProductId(int productId) {
