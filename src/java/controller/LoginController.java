@@ -60,7 +60,10 @@ public class LoginController extends HttpServlet {
         UserDAO udao = new UserDAO();
         User user = udao.getActiveUserByEmail(username);
         if (user != null) {
-            if (user.getPassword().equals(Helper.hashPassword(password))) {
+            if (user.getPassword() == null) {
+                Helper.setNotification(request, "This email address is already associated with an account signed in with Google. Please login with Google to access your account!", "RED");
+                request.getRequestDispatcher("/jsp/loginPage.jsp").forward(request, response);
+            } else if (user.getPassword().equals(Helper.hashPassword(password))) {
                 //Reset user infomation
                 session.removeAttribute("userId");
                 session.removeAttribute("userRole");

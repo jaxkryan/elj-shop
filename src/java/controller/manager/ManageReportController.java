@@ -68,22 +68,23 @@ public class ManageReportController extends HttpServlet {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 String formattedDate = formatter.format(date);
                 HttpSession session = request.getSession();
-                int reportId = Integer.parseInt(request.getParameter("reportId"));
-                reportDAO.changeReportStatus(reportId);
                 int managerId = (int) session.getAttribute("userId");
                 int staffId = Integer.parseInt(request.getParameter("staffId"));
                 String title = "Reply for " + request.getParameter("title");
                 String content = request.getParameter("reply-content");
                 Report report = new Report(staffId, managerId, title, content, formattedDate, true);
                 int writeReport = reportDAO.insertReport(report);
-                String staffName = userDAO.getById(staffId).getFirstName() +" "+ userDAO.getById(staffId).getLastName();
+                String staffName = userDAO.getById(staffId).getFirstName() + " " + userDAO.getById(staffId).getLastName();
                 if (writeReport != 0) {
-                //Update success notification
-                Helper.setNotification(request, "Send reply to " + staffName + " successfully!", "GREEN");
-            } else {
-                //Update fail notification
-                Helper.setNotification(request, "Send reply to " + staffName + " fail!", "RED");
-            }
+                    //Update success notification
+                    Helper.setNotification(request, "Send reply to " + staffName + " successfully!", "GREEN");
+                    int reportId = Integer.parseInt(request.getParameter("reportId"));
+                    reportDAO.changeReportStatus(reportId);
+                } else {
+                    //Update fail notification
+                    Helper.setNotification(request, "Send reply to " + staffName + " fail!", "RED");
+
+                }
                 Vector<Report> reports = reportDAO.getAllReport();
                 Vector<User> staff = userDAO.getActiveStorageStaff();
                 request.setAttribute("staff", staff);

@@ -54,38 +54,42 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/storage-staff/home"> <h2><b>Manage Product Quantity</b></h2></a>
+                        <div class="manager-nav-item" style="width: 21%">
+                            <a href="${pageContext.request.contextPath}/storage-staff/home" class="table-title-link "> <h2>Manage <b>Product</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status"><h2><b>Manage Order Status</b></h2></a>
+
+                        <div class="manager-nav-item" style="width: 21%">
+                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status" class="table-title-link"><h2>Manage <b>Order</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
+
+                        <div class="manager-nav-item" style="width: 16%">
                             <!--Report-->
-                            <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view"><h2><b>Report</h2></b></a>
+                            <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view" class="table-title-link curent-page"><h2><b>Report</h2></b></a>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="manager-nav-item" style="width: 42%">
                             <a href="#addReportModal"  class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Write report</span></a>					
                         </div>
                     </div>
-                </div>
+                </div> 
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th class="col-xs-7 text-left">Title</th>
-                            <th class="col-xs-3 text-left">Date</th>
+                            <th class="col-xs-7 text-left" style="padding-right: 200px">Title</th>
+                            <th class="col-xs-3 text-left" style="padding-right: 500px">Date</th>
                             <th class="col-xs-2 text-left">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach items="${reports}" var="reports">
                             <tr>
-                                <td class="text-left">${reports.title}</td>
-                                <td class="text-left">${reports.writeDate}</td>
-                                <td class="text-left">                 
-                                    <a href="#viewReport${reports.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Report">&#xe8f4;</i></a>
-                                    <a href="${pageContext.request.contextPath}/storage-staff/delete-report?reportId=${reports.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                </td>
+                                <c:if test="${storageStaffId == reports.storageStaffId}">
+                                    <td class="text-left">${reports.title}</td>
+                                    <td class="text-left">${reports.writeDate}</td>
+                                    <td class="text-left">                 
+                                        <a href="#viewReport${reports.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Report">&#xe8f4;</i></a>
+                                        <a href="${pageContext.request.contextPath}/storage-staff/delete-report?reportId=${reports.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    </td>
+                                </c:if>
                                 <!--View report-->
                         <div id="viewReport${reports.id}" class="modal fade">
                             <div class="modal-dialog">

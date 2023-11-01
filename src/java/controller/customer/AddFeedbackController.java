@@ -86,6 +86,11 @@ public class AddFeedbackController extends HttpServlet {
             Product product = pdao.getProductById(proId);
             Category category = cdao.getCategoryById(product.getCategoryId());
             Provider provider = providerDAO.getProviderById(product.getProviderId());
+            CategoryDAO categoryDAO = new CategoryDAO();
+            Vector<Category> categories = categoryDAO.getAllCategory();
+            Vector<Provider> providers = providerDAO.getAllProvider();
+            request.setAttribute("categories", categories);
+            request.setAttribute("providers", providers);
             request.setAttribute("from", from);
             request.setAttribute("product", product);
             request.setAttribute("categoryName", category.getName());

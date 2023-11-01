@@ -65,6 +65,11 @@ public class AddToCartController extends HttpServlet {
                 FeedbackDAO fdao = new FeedbackDAO();
                 Vector<Feedback> feedbacks = fdao.getFeedbackByProductId(proId);
                 request.setAttribute("feedbacks", feedbacks);
+                CategoryDAO categoryDAO = new CategoryDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 Helper.setNotification(request, "Please enter a valid quantity!", "RED");
                 request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
                 return;
@@ -84,6 +89,11 @@ public class AddToCartController extends HttpServlet {
                 FeedbackDAO fdao = new FeedbackDAO();
                 Vector<Feedback> feedbacks = fdao.getFeedbackByProductId(proId);
                 request.setAttribute("feedbacks", feedbacks);
+                CategoryDAO categoryDAO = new CategoryDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 Helper.setNotification(request, "Please enter a valid quantity!", "RED");
                 request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
                 return;

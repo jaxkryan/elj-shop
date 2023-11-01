@@ -13,6 +13,7 @@
     <head>
         <meta charset="utf-8">
         <title>Elj Shop - Online Art Supplies Shop</title>
+        <link rel="icon" href="${pageContext.request.contextPath}/img/logo.ico" type="image/icon type">
     </head>
 
     <body>
@@ -124,7 +125,7 @@
                                         <div class="text-center py-4">
                                             <a title="${pro.name}" class="h6 text-decoration-none text-truncate" href="${pageContext.request.contextPath}/details?proId=${pro.id}&from=shop&sort=${sort}&categoryId=${categoryId}&price=${price}&providerId=${providerId}&searchName=${searchName}&page=${page}">${pro.name}</a>
                                             <div class="d-flex align-items-center justify-content-center mt-2">
-                                                <c:set var="currentPrice" value="${pro.price * (1-pro.discount)}"/>
+                                                <c:set var="currentPrice" value="${pro.price - pro.discount}"/>
                                                 <fmt:setLocale value="en_US"/>
                                                 <h5 class="text-primary"><fmt:formatNumber type="currency" pattern="###,###¤">${currentPrice}</fmt:formatNumber></h5>
                                                 <c:if test="${currentPrice < pro.price}">

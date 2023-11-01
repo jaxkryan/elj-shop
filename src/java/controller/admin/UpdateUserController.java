@@ -63,10 +63,9 @@ public class UpdateUserController extends HttpServlet {
             String country = request.getParameter("country");
             String phone = request.getParameter("phone");
 
-            HttpSession session = request.getSession();
             UserDAO udao = new UserDAO();
-            User user = udao.getById((Integer) session.getAttribute("userId"));
-            User userToUpdate = new User(id, role, firstName, lastName, dateOfBirth, street, city, province, country, phone);
+            User user = udao.getById(id);
+            User userToUpdate = new User(id, role, firstName, lastName, dateOfBirth.isEmpty() ? null : dateOfBirth, street, city, province, country, phone);
             userToUpdate.setEmail(user.getEmail());
             request.setAttribute("user", userToUpdate);
 
@@ -76,19 +75,19 @@ public class UpdateUserController extends HttpServlet {
             } else if (!lastName.matches(IConstant.REGEX_LASTNAME)) {
                 Helper.setNotification(request, "Last name is invalid!", "RED");
                 request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
-            } else if (!street.matches(IConstant.REGEX_STREET)) {
+            } else if ((!role.equals("Customer") || !street.isEmpty()) && !street.matches(IConstant.REGEX_STREET)) {
                 Helper.setNotification(request, "Street name is invalid!", "RED");
                 request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
-            } else if (!city.matches(IConstant.REGEX_CITY)) {
+            } else if ((!role.equals("Customer") || !city.isEmpty()) && !city.matches(IConstant.REGEX_CITY)) {
                 Helper.setNotification(request, "City name is invalid!", "RED");
                 request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
-            } else if (!province.matches(IConstant.REGEX_PROVINCE)) {
+            } else if ((!role.equals("Customer") || !province.isEmpty()) && !province.matches(IConstant.REGEX_PROVINCE)) {
                 Helper.setNotification(request, "Please enter valid First Name!", "RED");
                 request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
-            } else if (!country.matches(IConstant.REGEX_COUNTRY)) {
+            } else if ((!role.equals("Customer") || !country.isEmpty()) && !country.matches(IConstant.REGEX_COUNTRY)) {
                 Helper.setNotification(request, "Country name is invalid!", "RED");
                 request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
-            } else if (!phone.matches(IConstant.REGEX_PHONE)) {
+            } else if ((!role.equals("Customer") || !phone.isEmpty()) && !phone.matches(IConstant.REGEX_PHONE)) {
                 Helper.setNotification(request, "Please enter valid phone number!", "RED");
                 request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
             } else {
@@ -108,6 +107,9 @@ public class UpdateUserController extends HttpServlet {
 
             if (!email.matches(IConstant.REGEX_EMAIL)) {
                 Helper.setNotification(request, "Please enter valid email address!", "RED");
+                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+            } else if(udao.isEmailExisted(email)) {
+                Helper.setNotification(request, "Email address has been used!", "RED");
                 request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
             } else {
                 udao.updateEmail(user, email);

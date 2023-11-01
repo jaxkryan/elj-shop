@@ -33,7 +33,6 @@
 
 
             <div class="row p-3 text-right">
-                <a href="write-feedback?go=viewFeedback" class="btn btn-primary">Feedback</a>
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
@@ -59,40 +58,39 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-3">
-                            <a href="home" style="color: white"> <h2>Manage <b>Order</b></h2></a>
+                            <h2>Manage <b>Order</b></h2>
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="write-feedback?go=viewFeedback" style="color: white"> <h2>Manage <b>FeedBack</b></h2></a>
                         </div>
                     </div>
                 </div>
 
-                <!--                <div class="row text-right"> 
-                                    <form action="${pageContext.request.contextPath}/seller/home" method="POST">
-                                        <div class="text-right" style="margin-top: 0.5%">
-                                            <input style="color: black" name = "keyword"  type="text" class="search-bar" placeholder="Search by name">
-                                            <input style="color: #000000" type="submit" name = "sellerSearchCustomerSubmit" value="Search">
-                                        </div>
-                                    </form>
-                                </div>-->
-
                 <!--Search bar-->
-                <div class="row text-right"> 
-                    <form action="home?go=search" method="post">
-                        <div class="text-right" style="margin-top: 0.5%">
-                            <input style="color: black" name = "searchName" type="text" class="search-bar" placeholder="Search name" value="${searchName}">
-                            <input style="color: #000000" type="submit" name = "search" value="Search">
-                        </div>
-                    </form>
+                <div class="row text-right">
+                    <div class="col-sm-9">
+                        <form id="sortForm" action="home" method="get">
+                            <div class="text-right" style="margin-top: -0.5px">
+                                <select name="sortType" id="sort" onchange="submitForm()">
+                                    <option value="All" ${chosedSortType == 'All' ? 'selected' : ''}>Display All</option>
+                                    <option value="ASC" ${chosedSortType == 'ASC' ? 'selected' : ''}>Created Time Ascending</option>
+                                    <option value="DESC" ${chosedSortType == 'DESC' ? 'selected' : ''}>Created Time Descending</option>
+                                </select>
+                                <input type="hidden" name="go" value="sort">
+                                <input type="hidden" name="searchName" value="${searchName}">
+                            </div>
+                        </form>
+                    </div>
+                    <!--sorting-->
+                    <div class="col-sm-3">
+                        <form action="home?go=search" method="post">
+                            <div class="text-right" style="margin-top: -2px">
+                                <input style="color: black" name="searchName" type="text" class="search-bar" placeholder="Search name" value="${searchName}">
+                                <input style="color: #000000" type="submit" name="search" value="Search">
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <!--sorting-->               
-                <form id="sortForm" action="home" method="get">
-                    <select name="sortType" id="sort" onchange="submitForm()">
-                        <option value="All" ${chosedSortType == 'All' ? 'selected' : ''}>Display All</option>
-                        <option value="ASC" ${chosedSortType == 'ASC' ? 'selected' : ''}>Created Time Ascending</option>
-                        <option value="DESC" ${chosedSortType == 'DESC' ? 'selected' : ''}>Created Time Descending</option>
-                    </select>
-                    <input type="hidden" name="go" value="sort">
-                    <input type="hidden" name="searchName" value="${searchName}">
-                </form>
-
                 <script>
                     function submitForm() {
                         document.getElementById("sortForm").submit();
@@ -125,7 +123,7 @@
                                 <td class="align-middle">${order.createdTime}</td>
                                 <td class="align-middle">${order.totalPrice}</td>
                                 <td>
-                                    <a href="home?go=updateStatus&newStatus=Accepted&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Accepted">&#xE254;</i></a>
+                                    <a href="home?go=updateStatus&newStatus=Accepted&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Accepted">&#x2713;</i></a>
                                     <a href="home?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
                                 </td>
                             </tr>
@@ -241,7 +239,6 @@
                 </div>
             </div>
         </div>
-    </a>
-    <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
-</body>
+        <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
+    </body>
 </html>

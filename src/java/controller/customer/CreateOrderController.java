@@ -5,7 +5,9 @@
 package controller.customer;
 
 import constant.IConstant;
+import dao.CategoryDAO;
 import dao.OrderDAO;
+import dao.ProviderDAO;
 import dao.UserDAO;
 import dao.VoucherDAO;
 import java.io.IOException;
@@ -27,6 +29,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import model.Category;
+import model.Provider;
 
 /**
  *
@@ -79,6 +83,12 @@ public class CreateOrderController extends HttpServlet {
             User user = udao.getById(userId);
             request.setAttribute("user", user);
             request.setAttribute("subtotal", subtotal);
+            CategoryDAO categoryDAO = new CategoryDAO();
+            ProviderDAO providerDAO = new ProviderDAO();
+            Vector<Category> categories = categoryDAO.getAllCategory();
+            Vector<Provider> providers = providerDAO.getAllProvider();
+            request.setAttribute("categories", categories);
+            request.setAttribute("providers", providers);
             request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
             return;
         }
@@ -88,6 +98,12 @@ public class CreateOrderController extends HttpServlet {
             User user = udao.getById(userId);
             request.setAttribute("user", user);
             request.setAttribute("subtotal", subtotal);
+            CategoryDAO categoryDAO = new CategoryDAO();
+            ProviderDAO providerDAO = new ProviderDAO();
+            Vector<Category> categories = categoryDAO.getAllCategory();
+            Vector<Provider> providers = providerDAO.getAllProvider();
+            request.setAttribute("categories", categories);
+            request.setAttribute("providers", providers);
             request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
             return;
         }
@@ -97,6 +113,12 @@ public class CreateOrderController extends HttpServlet {
             User user = udao.getById(userId);
             request.setAttribute("user", user);
             request.setAttribute("subtotal", subtotal);
+            CategoryDAO categoryDAO = new CategoryDAO();
+            ProviderDAO providerDAO = new ProviderDAO();
+            Vector<Category> categories = categoryDAO.getAllCategory();
+            Vector<Provider> providers = providerDAO.getAllProvider();
+            request.setAttribute("categories", categories);
+            request.setAttribute("providers", providers);
             request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
             return;
         }
@@ -106,6 +128,12 @@ public class CreateOrderController extends HttpServlet {
             User user = udao.getById(userId);
             request.setAttribute("user", user);
             request.setAttribute("subtotal", subtotal);
+            CategoryDAO categoryDAO = new CategoryDAO();
+            ProviderDAO providerDAO = new ProviderDAO();
+            Vector<Category> categories = categoryDAO.getAllCategory();
+            Vector<Provider> providers = providerDAO.getAllProvider();
+            request.setAttribute("categories", categories);
+            request.setAttribute("providers", providers);
             request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
             return;
         }
@@ -115,6 +143,12 @@ public class CreateOrderController extends HttpServlet {
             User user = udao.getById(userId);
             request.setAttribute("user", user);
             request.setAttribute("subtotal", subtotal);
+            CategoryDAO categoryDAO = new CategoryDAO();
+            ProviderDAO providerDAO = new ProviderDAO();
+            Vector<Category> categories = categoryDAO.getAllCategory();
+            Vector<Provider> providers = providerDAO.getAllProvider();
+            request.setAttribute("categories", categories);
+            request.setAttribute("providers", providers);
             request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
             return;
         }
@@ -124,6 +158,12 @@ public class CreateOrderController extends HttpServlet {
             User user = udao.getById(userId);
             request.setAttribute("user", user);
             request.setAttribute("subtotal", subtotal);
+            CategoryDAO categoryDAO = new CategoryDAO();
+            ProviderDAO providerDAO = new ProviderDAO();
+            Vector<Category> categories = categoryDAO.getAllCategory();
+            Vector<Provider> providers = providerDAO.getAllProvider();
+            request.setAttribute("categories", categories);
+            request.setAttribute("providers", providers);
             request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
             return;
         }
@@ -133,6 +173,12 @@ public class CreateOrderController extends HttpServlet {
             User user = udao.getById(userId);
             request.setAttribute("user", user);
             request.setAttribute("subtotal", subtotal);
+            CategoryDAO categoryDAO = new CategoryDAO();
+            ProviderDAO providerDAO = new ProviderDAO();
+            Vector<Category> categories = categoryDAO.getAllCategory();
+            Vector<Provider> providers = providerDAO.getAllProvider();
+            request.setAttribute("categories", categories);
+            request.setAttribute("providers", providers);
             request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
             return;
         }
@@ -142,6 +188,12 @@ public class CreateOrderController extends HttpServlet {
             User user = udao.getById(userId);
             request.setAttribute("user", user);
             request.setAttribute("subtotal", subtotal);
+            CategoryDAO categoryDAO = new CategoryDAO();
+            ProviderDAO providerDAO = new ProviderDAO();
+            Vector<Category> categories = categoryDAO.getAllCategory();
+            Vector<Provider> providers = providerDAO.getAllProvider();
+            request.setAttribute("categories", categories);
+            request.setAttribute("providers", providers);
             request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
             return;
         }
@@ -150,7 +202,7 @@ public class CreateOrderController extends HttpServlet {
             odao.createOrderWithoutVoucher(userId, receiver, street, city, province, country, email, phone, orderDate, orderPrice, cartItem);
             cartItem = new Vector<>();
             session.setAttribute("cartItem", cartItem);
-            Helper.setNotification(request, "Create order succesfully!", "GREEN");
+            Helper.setNotification(request, "Place order succesfully!", "GREEN");
             response.sendRedirect("home");
         } else {
             VoucherDAO vdao = new VoucherDAO();
@@ -161,6 +213,12 @@ public class CreateOrderController extends HttpServlet {
                 User user = udao.getById(userId);
                 request.setAttribute("user", user);
                 request.setAttribute("subtotal", subtotal);
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
             } else {
                 try {
@@ -172,7 +230,7 @@ public class CreateOrderController extends HttpServlet {
                         odao.createOrderWithVoucher(userId, voucher, receiver, street, city, province, country, email, phone, orderDate, orderPrice, cartItem);
                         cartItem = new Vector<>();
                         session.setAttribute("cartItem", cartItem);
-                        Helper.setNotification(request, "Using voucher succesfully, you get " + voucher.getValue() + "% discount!", "GREEN");
+                        Helper.setNotification(request, "Place order succesfully, you get " + voucher.getValue() + "% discount!", "GREEN");
                         response.sendRedirect("home");
                     } else {
                         Helper.setNotification(request, "Voucher has expired", "RED");
@@ -180,6 +238,12 @@ public class CreateOrderController extends HttpServlet {
                         User user = udao.getById(userId);
                         request.setAttribute("user", user);
                         request.setAttribute("subtotal", subtotal);
+                        CategoryDAO categoryDAO = new CategoryDAO();
+                        ProviderDAO providerDAO = new ProviderDAO();
+                        Vector<Category> categories = categoryDAO.getAllCategory();
+                        Vector<Provider> providers = providerDAO.getAllProvider();
+                        request.setAttribute("categories", categories);
+                        request.setAttribute("providers", providers);
                         request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
                     }
                 } catch (ParseException e) {
@@ -188,6 +252,12 @@ public class CreateOrderController extends HttpServlet {
                     User user = udao.getById(userId);
                     request.setAttribute("user", user);
                     request.setAttribute("subtotal", subtotal);
+                    CategoryDAO categoryDAO = new CategoryDAO();
+                    ProviderDAO providerDAO = new ProviderDAO();
+                    Vector<Category> categories = categoryDAO.getAllCategory();
+                    Vector<Provider> providers = providerDAO.getAllProvider();
+                    request.setAttribute("categories", categories);
+                    request.setAttribute("providers", providers);
                     request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
                 }
             }

@@ -1,6 +1,8 @@
 package controller.customer;
 
 import constant.IConstant;
+import dao.CategoryDAO;
+import dao.ProviderDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -8,6 +10,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.Vector;
+import model.Category;
+import model.Provider;
 import model.User;
 import util.Helper;
 
@@ -32,6 +37,12 @@ public class CustomerManageProfileController extends HttpServlet {
         UserDAO udao = new UserDAO();
         User user = udao.getById((Integer) session.getAttribute("userId"));
         request.setAttribute("user", user);
+        CategoryDAO categoryDAO = new CategoryDAO();
+        ProviderDAO providerDAO = new ProviderDAO();
+        Vector<Category> categories = categoryDAO.getAllCategory();
+        Vector<Provider> providers = providerDAO.getAllProvider();
+        request.setAttribute("categories", categories);
+        request.setAttribute("providers", providers);
         request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
     }
 
@@ -60,30 +71,72 @@ public class CustomerManageProfileController extends HttpServlet {
             HttpSession session = request.getSession();
             UserDAO udao = new UserDAO();
             User user = udao.getById((Integer) session.getAttribute("userId"));
-            User userToUpdate = new User(id, "Customer", firstName, lastName, dateOfBirth, street, city, province, country, phone);
+            User userToUpdate = new User(id, "Customer", firstName, lastName, dateOfBirth.isEmpty() ? null : dateOfBirth, street, city, province, country, phone);
             userToUpdate.setEmail(user.getEmail());
             request.setAttribute("user", userToUpdate);
 
             if (!firstName.matches(IConstant.REGEX_FIRSTNAME)) {
                 Helper.setNotification(request, "First name is invalid!", "RED");
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
             } else if (!lastName.matches(IConstant.REGEX_LASTNAME)) {
                 Helper.setNotification(request, "Last name is invalid!", "RED");
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
-            } else if (!street.matches(IConstant.REGEX_STREET)) {
+            } else if (!street.isEmpty() && !street.matches(IConstant.REGEX_STREET)) {
                 Helper.setNotification(request, "Street name is invalid!", "RED");
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
-            } else if (!city.matches(IConstant.REGEX_CITY)) {
+            } else if (!city.isEmpty() && !city.matches(IConstant.REGEX_CITY)) {
                 Helper.setNotification(request, "City name is invalid!", "RED");
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
-            } else if (!province.matches(IConstant.REGEX_PROVINCE)) {
+            } else if (!province.isEmpty() && !province.matches(IConstant.REGEX_PROVINCE)) {
                 Helper.setNotification(request, "Please enter valid First Name!", "RED");
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
-            } else if (!country.matches(IConstant.REGEX_COUNTRY)) {
+            } else if (!country.isEmpty() && !country.matches(IConstant.REGEX_COUNTRY)) {
                 Helper.setNotification(request, "Country name is invalid!", "RED");
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
-            } else if (!phone.matches(IConstant.REGEX_PHONE)) {
+            } else if (!phone.isEmpty() && !phone.matches(IConstant.REGEX_PHONE)) {
                 Helper.setNotification(request, "Please enter valid phone number!", "RED");
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
             } else {
                 udao.updateProfile(userToUpdate);
@@ -101,6 +154,15 @@ public class CustomerManageProfileController extends HttpServlet {
 
             if (!email.matches(IConstant.REGEX_EMAIL)) {
                 Helper.setNotification(request, "Please enter valid email address!", "RED");
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
+                request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
+            } else if(udao.isEmailExisted(email)) {
+                Helper.setNotification(request, "Email address has been used!", "RED");
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
             } else {
                 udao.updateEmail(user, email);
@@ -117,14 +179,32 @@ public class CustomerManageProfileController extends HttpServlet {
             UserDAO udao = new UserDAO();
             User user = udao.getById((Integer) session.getAttribute("userId"));
             request.setAttribute("user", user);
-            
+
             if (!user.getPassword().equals(Helper.hashPassword(oldPassword))) {
                 Helper.setNotification(request, "Wrong password", "RED");
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
             } else if (!newPassword.matches(IConstant.REGEX_PASSWORD)) {
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 Helper.setNotification(request, "Password must be Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character!", "RED");
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
             } else if (!confirmedPassword.equals(newPassword)) {
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ProviderDAO providerDAO = new ProviderDAO();
+                Vector<Category> categories = categoryDAO.getAllCategory();
+                Vector<Provider> providers = providerDAO.getAllProvider();
+                request.setAttribute("categories", categories);
+                request.setAttribute("providers", providers);
                 Helper.setNotification(request, "Confirmed password does not match with password!", "RED");
                 request.getRequestDispatcher("/jsp/customerProfilePage.jsp").forward(request, response);
             } else {

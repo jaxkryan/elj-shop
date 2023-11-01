@@ -100,6 +100,9 @@ public class StorageStaffManageProfileController extends HttpServlet {
             if (!email.matches(IConstant.REGEX_EMAIL)) {
                 Helper.setNotification(request, "Please enter valid email address!", "RED");
                 request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
+            } else if(udao.isEmailExisted(email)) {
+                Helper.setNotification(request, "Email address has been used!", "RED");
+                request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
             } else {
                 udao.updateEmail(user, email);
                 request.getSession().invalidate();

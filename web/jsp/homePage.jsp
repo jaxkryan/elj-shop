@@ -7,6 +7,7 @@
     <head>
         <meta charset="utf-8">
         <title>Elj Shop - Online Art Supplies Shop</title>
+         <link rel="icon" href="${pageContext.request.contextPath}/img/logo.ico" type="image/icon type">
     </head>
 
     <body>
@@ -80,7 +81,7 @@
                     <div class="product-offer mb-30" style="height: 200px;">
                         <img class="img-fluid" src="https://www.barkershoes.com/cdn/shop/files/SS20_HOMEPAGE_MCCLEANPAIR_880x550_crop_center.jpg?v=1614334815" alt="">
                         <div class="offer-text">
-                            <h3 class="text-white mb-3">fashioned</h3>
+                            <h3 class="text-white mb-3">Fashion</h3>
                             <h6 class="text-white text-uppercase">Become a gentlemen</h6>
                             <a href="${pageContext.request.contextPath}/productfilter" class="btn btn-primary">Shop Now</a>
                         </div>

@@ -82,6 +82,11 @@ public class AddToCartShopPageController extends HttpServlet {
                         request.setAttribute("categoryId", request.getParameter("categoryId"));
                         request.setAttribute("providerId", request.getParameter("providerId"));
                         request.setAttribute("price", request.getParameter("price"));
+                        CategoryDAO categoryDAO = new CategoryDAO();
+                        Vector<Category> categories = categoryDAO.getAllCategory();
+                        Vector<Provider> providers = providerDAO.getAllProvider();
+                        request.setAttribute("categories", categories);
+                        request.setAttribute("providers", providers);
                         Helper.setNotification(request, "Please enter a valid quantity!", "RED");
                         request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
                         return;
@@ -105,6 +110,11 @@ public class AddToCartShopPageController extends HttpServlet {
                         request.setAttribute("categoryId", request.getParameter("categoryId"));
                         request.setAttribute("providerId", request.getParameter("providerId"));
                         request.setAttribute("price", request.getParameter("price"));
+                        CategoryDAO categoryDAO = new CategoryDAO();
+                        Vector<Category> categories = categoryDAO.getAllCategory();
+                        Vector<Provider> providers = providerDAO.getAllProvider();
+                        request.setAttribute("categories", categories);
+                        request.setAttribute("providers", providers);
                         Helper.setNotification(request, "Please enter a valid quantity!", "RED");
                         request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
                         return;

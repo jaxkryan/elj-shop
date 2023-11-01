@@ -113,6 +113,30 @@ public class ProductDAO extends jdbc.DBConnect {
         return sortlistProduct;
     }
 
+    public Product getProductNonActiveById(int proId) {
+        String sql = "select * from [product] where [product].[id] = ? and active=0";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, proId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return (new Product(rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getFloat(6),
+                        rs.getFloat(7),
+                        rs.getInt(8),
+                        rs.getString(9),
+                        rs.getBoolean(10)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public int insertProduct(int categoryId, int providerId, String name, String description, float price, float discount, int quantity, String image) {
         int rowsAffected = 0;
         String sql = "INSERT INTO [dbo].[Product]\n"
@@ -178,6 +202,15 @@ public class ProductDAO extends jdbc.DBConnect {
             pre.setString(8, product.getImage());
             pre.setInt(9, product.getId());
             rowsAffected = pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String sqls = "update cartitem set price = ? where productid = ?";
+        try {
+            pre = conn.prepareStatement(sqls);
+            pre.setFloat(1, product.getPrice() - product.getDiscount());
+            pre.setInt(2, product.getId());
+            pre.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -489,7 +522,7 @@ public class ProductDAO extends jdbc.DBConnect {
         }
         return num;
     }
-        
+
     public Vector<Product> getProductByFilter(String sort, int searchCategoryId, int searchProviderId, double minPrice, double maxPrice, String searchName) {
         if (sort.equals("")) {
             Vector<Product> listP = new Vector<>();

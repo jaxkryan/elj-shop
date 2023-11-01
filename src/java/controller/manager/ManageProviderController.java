@@ -113,7 +113,7 @@ public class ManageProviderController extends HttpServlet {
             request.setAttribute("providers", searchProviders);
             if(searchProviders.isEmpty()){
                 //no product found notification
-                Helper.setNotification(request, "No providers found!", "RED");
+                Helper.setNotification(request, "No provider found!", "RED");
             }
             request.getRequestDispatcher("/jsp/manageProviderPage.jsp").forward(request, response);
         }

@@ -38,9 +38,7 @@
                 <div class="col-lg-7 h-auto mb-30">
                     <div class="h-100 bg-light p-30">
                         <h3>${product.name}</h3>
-                        <div class="d-flex" style="
-                             align-items: center;
-                             ">
+                        <div class="d-flex" style="align-items: center;">
                             <c:set var="currentPrice" value="${product.price - product.discount}"/>
                             <fmt:setLocale value="en_US"/>
                             <h3 class="font-weight-semi-bold mb-4"><fmt:formatNumber type="currency" pattern="###,###¤">${currentPrice}</fmt:formatNumber></h3>
@@ -57,48 +55,55 @@
                         <div class="d-flex mb-4">
                             <strong class="text-dark mr-1">Brand: </strong>${brandName}
                         </div>
-                        <div class="d-flex mb-4">
-                            <strong class="text-dark mr-1">In Stock: </strong>${product.quantity}
-                        </div>
-                        <script>
-                            document.addEventListener("DOMContentLoaded", function () {
-                                var form = document.getElementById("addToCartForm");
-                                var fromParam = "${from}";
-
-                                if (fromParam === "home") {
-                                    form.action = "add-to-cart";
-                                } else if (fromParam === "shop") {
-                                    form.action = "add-to-cart-shop-page";
-                                } else if (fromParam == "cart") {
-                                    form.action = "add-to-cart-cart-page";
-                                } else {
-                                    form.action = "error";
-                                }
-                            });
-                        </script>
-                        <form id="addToCartForm" class="d-flex align-items-center mb-4 pt-2">
-                            <input type="hidden" name="proId" value="${product.id}">
-                            <input name="sort" type="hidden" id="sort" value="${sort}">
-                            <input name="searchName" type="hidden" id="searchName" value="${searchName}">
-                            <input name="categoryId" type="hidden" id="categoryId" value="${categoryId}">
-                            <input name="providerId" type="hidden" id="providerId" value="${providerId}">
-                            <input name="price" type="hidden" id="price" value="${price}">
-                            <input name="page" type="hidden" id="page" value="${page}">
-                            <div class="input-group quantity mr-3" style="width: 130px;">
-                                <div class="input-group-btn">
-                                    <button type="button" class="btn btn-primary btn-minus">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                                <input name="quantityToBuy" id="quantityToBuy" class="form-control bg-secondary border-0 text-center" value="1" required>
-                                <div class="input-group-btn">
-                                    <button type="button" class="btn btn-primary btn-plus">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
+                        <c:if test="${active != 'non'}">
+                            <div class="d-flex mb-4">
+                                <strong class="text-dark mr-1">In Stock: </strong>${product.quantity}
                             </div>
-                            <button type="submit" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i>Add To Cart</button>
-                        </form>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    var form = document.getElementById("addToCartForm");
+                                    var fromParam = "${from}";
+
+                                    if (fromParam === "home") {
+                                        form.action = "add-to-cart";
+                                    } else if (fromParam === "shop") {
+                                        form.action = "add-to-cart-shop-page";
+                                    } else if (fromParam == "cart") {
+                                        form.action = "add-to-cart-cart-page";
+                                    } else {
+                                        form.action = "error";
+                                    }
+                                });
+                            </script>
+                            <form id="addToCartForm" class="d-flex align-items-center mb-4 pt-2">
+                                <input type="hidden" name="proId" value="${product.id}">
+                                <input name="sort" type="hidden" id="sort" value="${sort}">
+                                <input name="searchName" type="hidden" id="searchName" value="${searchName}">
+                                <input name="categoryId" type="hidden" id="categoryId" value="${categoryId}">
+                                <input name="providerId" type="hidden" id="providerId" value="${providerId}">
+                                <input name="price" type="hidden" id="price" value="${price}">
+                                <input name="page" type="hidden" id="page" value="${page}">
+                                <div class="input-group quantity mr-3" style="width: 130px;">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-minus">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <input name="quantityToBuy" id="quantityToBuy" class="form-control bg-secondary border-0 text-center" value="1" required>
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-plus">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i>Add To Cart</button>
+                            </form>
+                        </c:if>
+                        <c:if test="${active == 'non'}">
+                            <div>
+                                <i style="margin: 20px; font-size: 200%; color: red" class="fa fa-exclamation-circle"><span style="margin: 5px; color: red; font-family: sans-serif">Currently unavailable</span> </i>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>
@@ -122,6 +127,7 @@
                                         <% UserDAO udao = new UserDAO(); %>
                                         <% for(int i =0 ;i< feedbacks.size() ;i++ ) {%>
                                         <% User user = udao.getById(feedbacks.get(i).getCustomerId()); %>
+                                        <% User seller = udao.getById(feedbacks.get(i).getSellerId()); %>
                                         <div class="media mb-4">
                                             <img src="https://tse1.mm.bing.net/th?id=OIP.4j4jNaPU3bIzDJHBj6HDSwHaHa&pid=Api&rs=1&c=1&qlt=95&w=114&h=114" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                             <div class="media-body">
@@ -130,45 +136,17 @@
                                                 <p><%= feedbacks.get(i).getContent()%></p>
                                             </div>
                                         </div>
-                                        <%}%>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h4 class="mb-4">Leave a review</h4>
-                                        <small>(Your email address will not be published)</small>
-                                        <script>
-                                            document.addEventListener("DOMContentLoaded", function () {
-                                                var form = document.getElementById("add-feedback");
-                                                var fromParam = "${from}";
-
-                                                if (fromParam === "home") {
-                                                    form.action = "add-feedback";
-                                                } else if (fromParam === "shop") {
-                                                    form.action = "add-feedback";
-                                                } else if (fromParam == "cart") {
-                                                    form.action = "add-feedback";
-                                                } else {
-                                                    form.action = "error";
-                                                }
-                                            });
-                                        </script>
-                                        <form id="add-feedback">
-                                            <div class="form-group">
-                                                <label for="message"></label>
-                                                <textarea name="content" id="message" cols="30" rows="5" class="form-control" required></textarea>
-                                            </div>  
-                                            <input type="hidden" name="from" value="${from}">
-                                            <input type="hidden" name="proId" value="${product.id}">
-                                            <input name="sort" type="hidden" id="sort" value="${sort}">
-                                            <input name="searchName" type="hidden" id="searchName" value="${searchName}">
-                                            <input name="categoryId" type="hidden" id="categoryId" value="${categoryId}">
-                                            <input name="providerId" type="hidden" id="providerId" value="${providerId}">
-                                            <input name="price" type="hidden" id="price" value="${price}">
-                                            <input name="page" type="hidden" id="page" value="${page}">
-                                            <input name="numberOfProduct" type="hidden" id="numberOfProduct" value="${numberOfProduct}">
-                                            <div class="form-group mb-0">
-                                                <input type="submit" value="Leave Review" class="btn btn-primary px-3">
+                                        <%if(feedbacks.get(i).getReply() != null){%>
+                                        <div style="margin-left: 60px" class="media mb-4">
+                                            <img style="border-radius: 50%; width: 45px; height: 45px;" src="img/logo.ico" alt="Image" class="img-fluid mr-3 mt-1">
+                                            <div class="media-body">
+                                                <%String sellerName = seller.getLastName() +" "+ seller.getFirstName(); %>
+                                                <h6><%= sellerName%><small> - <i><%= feedbacks.get(i).getReplyDate() %></i></small></h6>
+                                                <p><%= feedbacks.get(i).getReply()%></p>
                                             </div>
-                                        </form>
+                                        </div>
+                                        <%}%>
+                                        <%}%>
                                     </div>
                                 </div>
                             </div>

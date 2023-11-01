@@ -76,12 +76,12 @@
                             <input name="lastName" class="form-control" type="text" value="${user.getLastName()}" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Street</label>
-                            <input name="street" class="form-control" type="text" value="${user.getStreet()}" required>
-                        </div>
-                        <div class="col-md-6 form-group">
                             <label>Date Of Birth</label>
                             <input name="dateOfBirth" class="form-control" type="date" value="${user.getDateOfBirth()}" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Street</label>
+                            <input name="street" class="form-control" type="text" value="${user.getStreet()}" required>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>City</label>
@@ -111,7 +111,7 @@
                                     <input name="ManagerEditPersonalInfoSubmit" class="form-control btn btn-primary" type="submit" value="Update">
                                 </div>
                                 <div class="col-md-2 form-group">
-                                    <a class="form-control btn btn-primary" href="${pageContext.request.contextPath}/home">Cancel</a>
+                                    <a class="form-control btn btn-primary" href="home">Cancel</a>
                                 </div>
                                 <div class="col-md-4 form-group">
                                 </div>
@@ -177,7 +177,7 @@
                                     <input name="ManagerChangePasswordSubmit" class="form-control btn btn-primary" type="submit" value="Update">
                                 </div>
                                 <div class="col-md-2 form-group">
-                                    <a class="form-control btn btn-primary" href="${pageContext.request.contextPath}/home">Cancel</a>
+                                    <a class="form-control btn btn-primary" href="home">Cancel</a>
                                 </div>
                                 <div class="col-md-4 form-group">
                                 </div>

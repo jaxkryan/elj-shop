@@ -6,6 +6,8 @@ package controller.customer;
 
 import dao.CartDAO;
 import dao.CartItemDAO;
+import dao.CategoryDAO;
+import dao.ProviderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +17,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.Vector;
 import model.CartItem;
+import model.Category;
+import model.Provider;
 import util.Helper;
 
 /**
@@ -41,6 +45,12 @@ public class DeleteCartItemController extends HttpServlet {
         cidao.deleteCartItem(productId, cartId);
         Vector<CartItem> cartItem = cidao.getCartItemByCartId(cartId);
         session.setAttribute("cartItem", cartItem);
+        CategoryDAO categoryDAO = new CategoryDAO();
+        ProviderDAO providerDAO = new ProviderDAO();
+        Vector<Category> categories = categoryDAO.getAllCategory();
+        Vector<Provider> providers = providerDAO.getAllProvider();
+        request.setAttribute("categories", categories);
+        request.setAttribute("providers", providers);
         response.sendRedirect("jsp/cartPage.jsp");
     }
 

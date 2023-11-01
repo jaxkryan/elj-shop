@@ -54,34 +54,38 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/storage-staff/home"> <h2><b>Manage Product Quantity</b></h2></a>
+                        <div class="manager-nav-item">
+                            <a href="${pageContext.request.contextPath}/storage-staff/home" class="table-title-link curent-page"> <h2>Manage <b>Product</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
-                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status"><h2><b>Manage Order Status</b></h2></a>
+
+                        <div class="manager-nav-item">
+                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status" class="table-title-link"><h2>Manage <b>Order</b></h2></a>
                         </div>
-                        <div class="col-sm-2">
+
+                        <div class="manager-nav-item">
                             <!--Report-->
-                            <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view"><h2><b>Report</h2></b></a>
+                            <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view" class="table-title-link"><h2><b>Report</h2></b></a>
                         </div>
-                        <!--Search bar-->
-                        <form action="storage-manage-product?search=All" method="post">
-                            <div class="text-right" style="margin-top: 0.5%">
-                                <input style="color: black" name = "keyword" type="text" class="search-bar" value="${requestScope.keySearch}">
-                                <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
-                            </div>
-                        </form>
                     </div>
                 </div>
                 <!--sorting-->
-                <form id="sortForm" action="storage-manage-product" method="post">
-                    <select name="sort" id="sort" onchange="submitForm()">
-                        <option value="All">Display All</option>
-                        <option value="Asc">Quantity Ascending</option>
-                        <option value="Desc">Quantity Descending</option>
-                        <input type="hidden" name="keySearch" value="${requestScope.keySearch}">
-                    </select>
-                </form>
+                <div style="display: flex">
+                    <form id="sortForm" action="storage-manage-product" method="post">
+                        <select name="sort" id="sort" onchange="submitForm()">
+                            <option value="All">Display All</option>
+                            <option value="Asc">Quantity Ascending</option>
+                            <option value="Desc">Quantity Descending</option>
+                            <input type="hidden" name="keySearch" value="${requestScope.keySearch}">
+                        </select>
+                    </form>
+                    <!--Search bar-->
+                    <form action="storage-manage-product?search=All" method="post" style="margin-left: 65%">
+                        <div class="text-right" style="margin-top: 0.5%">
+                            <input style="color: black" name = "keyword" type="text" class="search-bar" value="${requestScope.keySearch}">
+                            <input style="color: #000000" type="submit" name = "searchSubmit" value="Search">
+                        </div>
+                    </form>
+                </div>
                 <script>
                     function submitForm() {
                         document.getElementById("sortForm").action = "storage-manage-product?sort=" + document.getElementById("sort").value;
@@ -92,12 +96,6 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>
-                                <span class="custom-checkbox">
-                                    <input type="checkbox" id="selectAll">
-                                    <label for="selectAll"></label>
-                                </span>
-                            </th>
                             <th>ID</th>
                             <th>Name</th>
                             <th>Image</th>
@@ -108,12 +106,7 @@
                     <tbody>
                         <c:forEach items="${products}" var="pro">
                             <tr>
-                                <td>
-                                    <span class="custom-checkbox">
-                                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                        <label for="checkbox1"></label>
-                                    </span>
-                                </td>
+
                                 <td>${pro.id}</td>
                                 <td>${pro.name}</td>
                                 <td>
@@ -137,16 +130,16 @@
                                         <div class="modal-body">					
                                             <div class="form-group">
                                                 <label>Name</label>
-                                                <input name="name" type="text" class="form-control" value ="${pro.name}" readonly>
+                                                <input name="name" type="text" class="form-control" value="${pro.name}" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label>Old quantity</label>
-                                                <input type="email" class="form-control" value ="${pro.quantity}" readonly>
+                                                <input type="email" class="form-control" value="${pro.quantity}" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label>New quantity</label>
-                                                <input name="qty" type="text" class="form-control" required>
-                                            </div>					
+                                                <input name="qty" type="number" class="form-control" min="1" required>
+                                            </div>		
                                         </div>
                                         <div class="modal-footer">
                                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
