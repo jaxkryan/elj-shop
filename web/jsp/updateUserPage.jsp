@@ -91,28 +91,28 @@
                             <input name="lastName" class="form-control" type="text" value="${user.getLastName()}" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Street</label>
-                            <input name="street" class="form-control" type="text" value="${user.getStreet()}" required>
+                            <label>Date Of Birth</label>
+                            <input name="dateOfBirth" class="form-control" type="date" value="${user.getDateOfBirth()}" <c:if test="${user.role != 'Customer'}">required</c:if>>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Date Of Birth</label>
-                            <input name="dateOfBirth" class="form-control" type="date" value="${user.getDateOfBirth()}" required>
+                            <label>Street</label>
+                            <input name="street" class="form-control" type="text" value="${user.getStreet()}" <c:if test="${user.role != 'Customer'}">required</c:if>>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>City</label>
-                            <input name="city" class="form-control" type="text" value="${user.getCity()}" required>
+                            <input name="city" class="form-control" type="text" value="${user.getCity()}" <c:if test="${user.role != 'Customer'}">required</c:if>>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Province</label>
-                            <input name="province" class="form-control" type="text" value="${user.getProvince()}" required>
+                            <input name="province" class="form-control" type="text" value="${user.getProvince()}" <c:if test="${user.role != 'Customer'}">required</c:if>>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Country</label>
-                            <input name="country" class="form-control" type="text" value="${user.getCountry()}" required>
+                            <input name="country" class="form-control" type="text" value="${user.getCountry()}" <c:if test="${user.role != 'Customer'}">required</c:if>>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Mobile No</label>
-                            <input name="phone" class="form-control" type="tel" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" title="Ten digits code" value="${user.getPhone()}" required>
+                            <input name="phone" class="form-control" type="tel" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" title="Ten digits code" value="${user.getPhone()}" <c:if test="${user.role != 'Customer'}">required</c:if>>
                         </div>
                         <div class="col-md-6 form-group">
                         </div>

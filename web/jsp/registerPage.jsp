@@ -56,36 +56,6 @@
             </div>
             <div class="row">
                 <div class="col-md-6 form-group">
-                    <label>Date Of Birth</label>
-                    <input name="dateOfBirth" class="form-control" type="date" value="${dateOfBirth}" required>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label>Street</label>
-                    <input name="street" class="form-control" type="text" value="${street}" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <label>City</label>
-                    <input name="city" class="form-control" type="text" value="${city}" required>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label>Province</label>
-                    <input name="province" class="form-control" type="text" value="${province}" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <label>Country</label>
-                    <input name="country" class="form-control" type="text" value="${country}" required>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label>Phone</label>
-                    <input name="phone" class="form-control" type="tel" value="${phone}" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" title="Ten digits" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 form-group">
                     <label>E-mail</label>
                     <input name="email" class="form-control" type="email" value="${email}" required>
                 </div>

@@ -100,9 +100,31 @@
                                 <td>${user.email}</td>
                                 <td>
                                     <a href="update-user?userId=${user.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Update">&#xE254;</i></a>
-                                    <a href="delete-user?userId=${user.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <a href="#deleteUserModal${user.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
                             </tr>
+                            <!-- Delete Modal HTML -->
+                            <div id="deleteUserModal${user.id}" class="modal fade">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="delete-user" method="POST">
+                                            <div class="modal-header">						
+                                                <h4 class="modal-title">Delete User</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            </div>
+                                            <div class="modal-body">					
+                                                <p>Are you sure you want to delete this user?</p>
+                                                <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                                <input id="deleteButton" type="submit" class="btn btn-danger" value="Delete">
+                                            </div>
+                                            <input type="hidden" name ="userId" value="${user.id}">
+                                        </form>    
+                                    </div>
+                                </div>
+                            </div>
                         </c:forEach>
                     </tbody>
                 </table>
@@ -130,16 +152,16 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6 form-group">
-                                        <label>Role</label>
-                                        <!--<input name="role" class="form-control" type="text" value="${user.role}">-->
-                                        <select name="role" class="form-control">
-                                            <option value="Admin">Admin</option>
-                                            <option value="Manager">Manager</option>
-                                            <option value="Seller">Seller</option>
-                                            <option value="Storage Staff">Storage Staff</option>
-                                            <option value="Marketing Staff">Marketing Staff</option>
-                                        </select>
-                                    </div>
+                                    <label>Role</label>
+                                    <!--<input name="role" class="form-control" type="text" value="${user.role}">-->
+                                    <select name="role" class="form-control">
+                                        <option value="Admin">Admin</option>
+                                        <option value="Manager">Manager</option>
+                                        <option value="Seller">Seller</option>
+                                        <option value="Storage Staff">Storage Staff</option>
+                                        <option value="Marketing Staff">Marketing Staff</option>
+                                    </select>
+                                </div>
                                 <div class="col-md-6 form-group">
                                     <label>Date Of Birth</label>
                                     <input name="dateOfBirth" class="form-control" type="date" value="${dateOfBirth}" required>
