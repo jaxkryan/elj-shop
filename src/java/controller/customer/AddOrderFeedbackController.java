@@ -49,7 +49,7 @@ public class AddOrderFeedbackController extends HttpServlet {
             String feedbackDate = dateFormat.format(calendar.getTime());
             //
             FeedbackDAO fdao = new FeedbackDAO();
-            Feedback feedback = new Feedback(userId, proId, content, feedbackDate, false);
+            Feedback feedback = new Feedback(userId, proId, orderId, content, feedbackDate, false);
             int n = fdao.insertCheckedFeedback(feedback);
             if (n > 0) {
                 Helper.setNotification(request, "Added your FeedBack!", "GREEN");

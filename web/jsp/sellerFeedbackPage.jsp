@@ -65,6 +65,7 @@
                     <thead>
                         <tr>
                             <th>Customer Name</th>
+                            <th>OrderID</th>
                             <th>Product Name</th>
                             <th>Content</th>
                             <th>FeedbackDate</th>
@@ -82,6 +83,7 @@
                                             <input type ="hidden" name ="customerId" value="${customer.id}">
                                         </c:if>
                                     </c:forEach></td>
+                                <td>${feedback.orderId}</td>
                                 <td> <c:forEach items="${products}" var="product">
                                         <c:if test="${Integer.parseInt(feedback.productId) == Integer.parseInt(product.id)}">
                                             <div>${product.name}</div>
@@ -120,6 +122,8 @@
                                                     </c:if>
                                                 </c:forEach>
                                             </div>
+                                            
+                                            <input type="hidden" name ="orderId" class="form-control" value ="${feedback.orderId}" readonly>
                                             <input type="hidden" name ="productId" class="form-control" value ="${feedback.productId}" readonly>
                                             <input type="hidden" name ="feedbackDate" class="form-control" value ="${feedback.feedbackDate}" readonly>
                                             <input type="hidden" name ="feedbackId" class="form-control" value ="${feedback.id}" readonly>
