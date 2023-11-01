@@ -46,8 +46,11 @@ public class ReportController extends HttpServlet {
             if (action.equals("view")) {
                 Vector<Report> reports = reportDAO.getAllReport();
                 Vector<User> managers = userDAO.getActiveManager();
+                HttpSession session = request.getSession();
+                int staffId = (int) session.getAttribute("userId");
                 request.setAttribute("managers", managers);
                 request.setAttribute("reports", reports);
+                request.setAttribute("storageStaffId", staffId);
                 request.getRequestDispatcher("/jsp/storageReport.jsp").forward(request, response);
             }
             if (action.equals("delete")) {
@@ -89,6 +92,7 @@ public class ReportController extends HttpServlet {
                 String content = request.getParameter("content");
                 HttpSession session = request.getSession();
                 int staffId = (int) session.getAttribute("userId");
+                request.setAttribute("storageStaffId", staffId);
                 Report report = new Report(staffId, managerId, title, content, formattedDate, false);
                 int writeReport = reportDAO.insertReport(report);
                 String managerName = userDAO.getById(managerId).getFirstName() +" "+ userDAO.getById(managerId).getLastName();

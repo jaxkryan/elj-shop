@@ -236,7 +236,8 @@ VALUES ('Admin', 'Nguyen Ngoc Tuan', 'Huy', '2003-08-20', 'Tran Hung Dao', 'Ha N
 	('Customer', 'Nguyen Ba', 'Khanh', '2006-4-4', 'Ton Quyen', 'Nha Trang', 'Tu Hai', 'Viet Nam', '0823846368', 'khanh456@gmail.com', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
 	('Customer', 'Pham Truong', 'Giang', '1999-8-11', 'NguyenTrai', 'Hoa Binh', 'Da Hop', 'Viet Nam', '0895736482', 'gianggiang@gmail.com', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
 	('Customer', 'Nguyen Tuan', 'Anh', '1997-5-24', 'Xom Che', 'Yen Bai', 'Xuyen Son', 'Viet Nam', '0845783629', 'anhtuan@gmail.com', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
-	('Storage Staff', 'Le Dang', 'Huy', '2003-6-4', 'Hung Dao Vuong', 'Thai Nguyen', 'Son Ky', 'Viet Nam', '0834672984', 'huyldhe1762758@fpt.edu.vn', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
+	('Storage Staff', 'Le Dang', 'Huy', '2003-6-4', 'Hung Dao Vuong', 'Thai Nguyen', 'Son Ky', 'Viet Nam', '0834672984', 'huyldhe176275@fpt.edu.vn', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
+	('Storage Staff', 'Jax', 'Kryan', '2003-6-4', 'Hung Dao Vuong', 'Thai Nguyen', 'Son Ky', 'Viet Nam', '0834672984', 'huyldhe1762758@fpt.edu.vn', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
 	('Marketing Staff', 'Dinh Thu', 'Ngan', '2003-9-12', 'Tran Quoc Tuan', 'Hung Yen', 'Dai Quan', 'Viet Nam', '0823945218', 'ngandthe176603@fpt.edu.vn', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1),
 	('Seller', 'Pham Hoang', 'Nam', '2003-1-1', 'Tran Hung Dao', 'Hai Phong', 'Ky Xa', 'Viet Nam', '0839984672', 'namphhe171209@fpt.edu.vn', '0D6EA9876438BFF527C078E2E3EA9CECBC444BF37B182656197414C5AFF1E90C', 1)
 
