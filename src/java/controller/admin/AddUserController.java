@@ -65,8 +65,7 @@ public class AddUserController extends HttpServlet {
         request.setAttribute("confirmedPassword", confirmedPassword);
         
         UserDAO udao = new UserDAO();
-        Vector<User> users = new Vector<>();
-        users = udao.getActiveUsers();
+        Vector<User> users = udao.getActiveUsers();
         request.setAttribute("users", users);
         
         if (!firstName.matches(IConstant.REGEX_FIRSTNAME)) {
@@ -100,11 +99,16 @@ public class AddUserController extends HttpServlet {
             Helper.setNotification(request, "Confirmed password does not match with password!", "RED");
             request.getRequestDispatcher("/jsp/manageUserPage.jsp").forward(request, response);
         } else {
-            udao.insert(new User(role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, Helper.hashPassword(password)));
-            users = udao.getActiveUsers();
-            request.setAttribute("users", users);
-            Helper.setNotification(request, "Register successfully! Please login to access new account", "GREEN");
-            response.sendRedirect("home");
+            if(udao.isEmailExisted(email)) {
+                Helper.setNotification(request, "Email address has been used!", "RED");
+                request.getRequestDispatcher("/jsp/manageUserPage.jsp").forward(request, response);
+            } else {
+                udao.insert(new User(role, firstName, lastName, dateOfBirth, street, city, province, country, phone, email, Helper.hashPassword(password)));
+                users = udao.getActiveUsers();
+                request.setAttribute("users", users);
+                Helper.setNotification(request, "Register successfully! Please login to access new account", "GREEN");
+                response.sendRedirect("home");
+            }
         }
     }
 

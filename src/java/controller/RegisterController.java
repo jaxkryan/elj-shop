@@ -69,14 +69,19 @@ public class RegisterController extends HttpServlet {
             request.getRequestDispatcher("/jsp/registerPage.jsp").forward(request, response);
         } else {
             UserDAO udao = new UserDAO();
-            User user = new User("Customer", firstName, lastName, null, null, null, null, null, null, email, Helper.hashPassword(password));
-            user.setId(udao.insert(user, true));
-            CustomerDAO customerDAO = new CustomerDAO();
-            customerDAO.insert(user.getId());
-            CartDAO cartDAO = new CartDAO();
-            cartDAO.insert(user.getId());
-            Helper.setNotification(request, "Register successfully! Please login to access your account", "GREEN");
-            response.sendRedirect("login");
+            if(udao.isEmailExisted(email)) {
+                Helper.setNotification(request, "Email address has been used!", "RED");
+                request.getRequestDispatcher("/jsp/registerPage.jsp").forward(request, response);
+            } else {
+                User user = new User("Customer", firstName, lastName, null, null, null, null, null, null, email, Helper.hashPassword(password));
+                user.setId(udao.insert(user, true));
+                CustomerDAO customerDAO = new CustomerDAO();
+                customerDAO.insert(user.getId());
+                CartDAO cartDAO = new CartDAO();
+                cartDAO.insert(user.getId());
+                Helper.setNotification(request, "Register successfully! Please login to access your account", "GREEN");
+                response.sendRedirect("login");
+            }
         }
     }
 

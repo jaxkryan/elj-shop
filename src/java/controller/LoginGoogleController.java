@@ -53,30 +53,36 @@ public class LoginGoogleController extends HttpServlet {
             HttpSession session = request.getSession();
             UserDAO udao = new UserDAO();
             User user = udao.getActiveUserByEmail(googlePojo.getEmail());
-            if (user == null) {
-                user = new User("Customer", googlePojo.getGiven_name(), googlePojo.getFamily_name(), null, null, null, null, null, null, googlePojo.getEmail(), null);
-                int newUserId = udao.insert(user, true);
-                user.setId(newUserId);
-                CustomerDAO customerDAO = new CustomerDAO();
-                customerDAO.insert(user.getId());
-                CartDAO cartDAO = new CartDAO();
-                cartDAO.insert(user.getId());
+            if (udao.isEmailExisted(googlePojo.getEmail()) && user.getPassword() != null) {
+                Helper.setNotification(request, "You already has account used this Google account! Please login to access system", "RED");
+                response.sendRedirect("login");
+            } else {
+                if (!udao.isEmailExisted(googlePojo.getEmail())) {
+                    user = new User("Customer", googlePojo.getGiven_name(), googlePojo.getFamily_name(), null, null, null, null, null, null, googlePojo.getEmail(), null);
+                    int newUserId = udao.insert(user, true);
+                    user.setId(newUserId);
+                    CustomerDAO customerDAO = new CustomerDAO();
+                    customerDAO.insert(user.getId());
+                    CartDAO cartDAO = new CartDAO();
+                    cartDAO.insert(user.getId());
+                }
+                
+                //Reset user infomation
+                session.removeAttribute("userId");
+                session.removeAttribute("userRole");
+                session.removeAttribute("cartItem");
+
+                //Get new infomation
+                session.setAttribute("userId", user.getId());
+                session.setAttribute("userRole", user.getRole());
+                session.setAttribute("isGoogleUser", "true");
+                CartDAO cdao = new CartDAO();
+                int cartId = cdao.getCartIdByCustomerId(user.getId());
+                CartItemDAO cidao = new CartItemDAO();
+                Vector<CartItem> cartItem = cidao.getCartItemByCartId(cartId);
+                session.setAttribute("cartItem", cartItem);
+                response.sendRedirect("home");
             }
-
-            //Reset user infomation
-            session.removeAttribute("userId");
-            session.removeAttribute("userRole");
-            session.removeAttribute("cartItem");
-
-            //Get new infomation
-            session.setAttribute("userId", user.getId());
-            session.setAttribute("userRole", user.getRole());
-            CartDAO cdao = new CartDAO();
-            int cartId = cdao.getCartIdByCustomerId(user.getId());
-            CartItemDAO cidao = new CartItemDAO();
-            Vector<CartItem> cartItem = cidao.getCartItemByCartId(cartId);
-            session.setAttribute("cartItem", cartItem);
-            response.sendRedirect("home");
         }
     }
 
