@@ -188,11 +188,11 @@
                             <th>Name</th>
                             <th>Category</th>
                             <th>Provider</th>
-                            <th>description</th>
-                            <th>price</th>
-                            <th>discount</th>
-                            <th>quantity</th>
-                            <th>image</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Discount</th>
+                            <th>Quantity</th>
+                            <th>Image</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -242,7 +242,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <!-- Edit Form -->
-                                    <form action="home" method="post">
+                                    <form action="home" method="post" id="updateForm">
                                         <div class="modal-header">						
                                             <h4 class="modal-title">Edit Product Information</h4>
                                             <a type="button" class="close" href="home?"  data-dismiss="modal" aria-hidden="true">&times;</a>
@@ -254,11 +254,11 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Name</label>
-                                                <input value="${product.name}" name="name" type="text" class="form-control" maxlength="64" pattern="[A-Za-z0-9 ]{1,64}" title="Name can only contain letters, numbers, and spaces, with a maximum length of 64 characters" required required>
+                                                <input value="${product.name}" name="name" type="text" class="form-control" maxlength="64" pattern="[A-Za-z0-9 ]{1,64}" title="Name can only contain letters, numbers, and spaces, with a maximum length of 64 characters" required >
                                             </div>
                                             <div class="form-group">
                                                 <label>Price</label>
-                                                <input value="${product.price}" name="price" type="text" class="form-control" maxlength="64" pattern="^\d{1,10}(\.\d{1,2})?$" title="Price can only contain numbers with a maximum of 10 digits and up to 2 decimal places" required>
+                                                <input value="${product.price}" name="updatePrice" type="text" class="form-control" maxlength="64" pattern="^(?!0$)\d{1,10}(\.\d{1,2})?$" title="Price can only contain numbers with a maximum of 10 digits and up to 2 decimal places (excluding 0)" required>
                                             </div>
                                             <div class="form-group">
                                                 <label>Provider</label>
@@ -275,8 +275,6 @@
                                                     </c:forEach>
                                                 </select>
                                             </div>
-
-
                                             <div class="form-group">
                                                 <label>Category</label>
                                                 <select name="category" class="form-control" aria-label="Default select example">
@@ -292,7 +290,6 @@
                                                     </c:forEach>
                                                 </select>
                                             </div>
-
                                             <div class="form-group">
                                                 <label>Quantity</label>
                                                 <input value="${product.quantity}" name="quantity" class="form-control" maxlength="64" pattern="^[1-9]\d*$" title="Positive integer greater than 0, with a maximum length of 64 characters"  required>
@@ -303,7 +300,7 @@
                                             </div><!-- comment -->
                                             <div class="form-group">
                                                 <label>Discount</label>
-                                                <input value="${product.discount}" name="discount" class="form-control" pattern="^\d{1,10}(\.\d{1,2})?$" title="Discount can only contain numbers with a maximum of 10 digits and up to 2 decimal places. Must be greater than or equal to 0 and less than Price" required>
+                                                <input value="${product.discount}" name="updateDiscount" class="form-control" pattern="^\d{1,10}(\.\d{1,2})?$" title="Discount can only contain numbers with a maximum of 10 digits and up to 2 decimal places. Must be greater than or equal to 0 and less than Price" required>
                                             </div>
                                             <div class="form-group">
                                                 <label>Description</label>
@@ -312,110 +309,140 @@
                                             </div>                               
                                             <input type="hidden" name="go" value="UpdateProduct">
                                         </div>
+
                                         <div class="modal-footer">
+                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                                             <input type="submit" class="btn btn-success" value="Edit">
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
+                        <!-- Add Modal HTML -->
+                        <div id="addEmployeeModal" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="home" method="POST">
+                                        <div class="modal-header">						
+                                            <h4 class="modal-title">Add Product</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body">					
+                                            <div class="form-group">
+                                                <label>Name</label>
+                                                <input name="name" type="text" class="form-control" maxlength="64" pattern="[A-Za-z0-9 ]{1,64}" title="Name can only contain letters, numbers, and spaces, with a maximum length of 64 characters" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Price</label>
+                                                <input name="addPrice" type="text" class="form-control" maxlength="64" pattern="^(?!0$)\d{1,10}(\.\d{1,2})?$" title="Price can only contain numbers with a maximum of 10 digits and up to 2 decimal places" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Provider</label>
+                                                <select name="provider" class="form-control" aria-label="Default select example">
+                                                    <c:forEach items="${providers}"  var="provider">
+                                                        <option value="${provider.id}">${provider.companyName}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Category</label>
+                                                <select name="category" class="form-control" aria-label="Default select example">
+                                                    <c:forEach items="${categories}"  var="category">
+                                                        <option value="${category.id}">${category.name}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Quantity</label>
+                                                <input name="quantity" type="text" class="form-control" maxlength="64" pattern="^[1-9]\d*$" title="Positive integer greater than 0, with a maximum length of 64 characters" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Image</label>
+                                                <input name="image" type="text" class="form-control" pattern="^(http(s?):\/\/|www.)+[a-zA-Z0-9-]+\.[a-zA-Z0-9]+\/?[a-zA-Z0-9-]*\.(png|jpg|jpeg|gif|bmp|svg)$" title="Please enter a valid image link" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Discount</label>
+                                                <input name="addDiscount" type="text" class="form-control" pattern="^\d{1,10}(\.\d{1,2})?$" title="Discount can only contain numbers with a maximum of 10 digits and up to 2 decimal places. Must be greater than or equal to 0 and less than Price" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Description</label>
+                                                <textarea name="description" class="form-control" required></textarea>
+                                            </div>    
+                                            <input type="hidden" name="go" value="AddProduct">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                            <input type="submit" class="btn btn-success" value="Add">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                         </tr>
+                        <script>
+//                            document.addEventListener("DOMContentLoaded", function () {
+                            var priceInput = document.getElementsByName("updatePrice")[0];
+                            var discountInput = document.getElementsByName("updateDiscount")[0];
+
+                            // Add input event listener to validate Discount
+                            discountInput.addEventListener("change", function () {
+                                var priceValue = parseFloat(priceInput.value);
+                                var discountValue = parseFloat(discountInput.value);
+
+                                if (isNaN(priceValue) || isNaN(discountValue)) {
+                                    // Invalid numeric input, reset Discount value
+                                    console.log("in if");
+                                    discountInput.setCustomValidity("");
+                                } else {
+                                    // Check Discount validity based on the conditions
+                                    if (discountValue >= 0 && discountValue <= priceValue) {
+                                        // Valid Discount
+                                        discountInput.setCustomValidity("");
+                                        console.log("in if 2");
+                                    } else {
+                                        // Invalid Discount
+                                        console.log("in else");
+                                        discountInput.setCustomValidity("Discount must be greater than or equal to 0 and less than or equal to Price");
+                                    }
+                                }
+                            });
+//                            });
+                        </script>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                var priceInput = document.getElementsByName("addPrice")[0];
+                                var discountInput = document.getElementsByName("addDiscount")[0];
+                                // Add input event listener to validate Discount
+                                discountInput.addEventListener("input", function () {
+                                    var priceValue = parseFloat(priceInput.value);
+                                    var discountValue = parseFloat(discountInput.value);
+
+                                    if (isNaN(priceValue) || isNaN(discountValue)) {
+                                        // Invalid numeric input, reset Discount value
+                                        discountInput.setCustomValidity("");
+                                    } else {
+                                        // Check Discount validity based on the conditions
+                                        if (discountValue >= 0 && discountValue <= priceValue) {
+                                            // Valid Discount
+                                            discountInput.setCustomValidity("");
+                                        } else {
+                                            // Invalid Discount
+                                            discountInput.setCustomValidity("Discount must be greater than or equal to 0 and less than or equal to Price");
+                                        }
+                                    }
+                                });
+                            });
+                        </script>
                     </c:forEach>
                     </tbody>
                 </table>
             </div>
         </div>
-        <!-- Edit Modal HTML -->
-        <div id="addEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="home" method="POST">
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Add Product</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input name="name" type="text" class="form-control" maxlength="64" pattern="[A-Za-z0-9 ]{1,64}" title="Name can only contain letters, numbers, and spaces, with a maximum length of 64 characters" required>
-                            </div>
 
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input name="price" type="text" class="form-control" maxlength="64" pattern="^\d{1,10}(\.\d{1,2})?$" title="Price can only contain numbers with a maximum of 10 digits and up to 2 decimal places" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Provider</label>
-                                <select name="provider" class="form-control" aria-label="Default select example">
-                                    <c:forEach items="${providers}"  var="provider">
-                                        <option value="${provider.id}">${provider.companyName}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Category</label>
-                                <select name="category" class="form-control" aria-label="Default select example">
-                                    <c:forEach items="${categories}"  var="category">
-                                        <option value="${category.id}">${category.name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Quantity</label>
-                                <input name="quantity" type="text" class="form-control" maxlength="64" pattern="^[1-9]\d*$" title="Positive integer greater than 0, with a maximum length of 64 characters" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Image</label>
-                                <input name="image" type="text" class="form-control" pattern="^(http(s?):\/\/|www.)+[a-zA-Z0-9-]+\.[a-zA-Z0-9]+\/?[a-zA-Z0-9-]*\.(png|jpg|jpeg|gif|bmp|svg)$" title="Please enter a valid image link" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Discount</label>
-                                <input name="discount" type="text" class="form-control" pattern="^\d{1,10}(\.\d{1,2})?$" title="Discount can only contain numbers with a maximum of 10 digits and up to 2 decimal places. Must be greater than or equal to 0 and less than Price" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea name="description" class="form-control" required></textarea>
-                            </div>    
-                            <input type="hidden" name="go" value="AddProduct">
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Add">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
 
     </a>
     <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
-    <script>
-                                document.addEventListener("DOMContentLoaded", function () {
-                                    var priceInput = document.getElementsByName("price")[0];
-                                    var discountInput = document.getElementsByName("discount")[0];
 
-                                    // Add input event listener to validate Discount
-                                    discountInput.addEventListener("input", function () {
-                                        var priceValue = parseFloat(priceInput.value);
-                                        var discountValue = parseFloat(discountInput.value);
-
-                                        if (isNaN(priceValue) || isNaN(discountValue)) {
-                                            // Invalid numeric input, reset Discount value
-                                            discountInput.setCustomValidity("");
-                                        } else {
-                                            // Check Discount validity based on the conditions
-                                            if (discountValue >= 0 && discountValue <= priceValue) {
-                                                // Valid Discount
-                                                discountInput.setCustomValidity("");
-                                            } else {
-                                                // Invalid Discount
-                                                discountInput.setCustomValidity("Discount must be greater than or equal to 0 and less than or equal to Price");
-                                            }
-                                        }
-                                    });
-                                });
-    </script>
 </body>
 </html>
