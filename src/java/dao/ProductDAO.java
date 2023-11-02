@@ -230,7 +230,20 @@ public class ProductDAO extends jdbc.DBConnect {
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        deleteProductInCart(productId);
         return rowsAffected;
+    }
+
+    public void deleteProductInCart(int productId) {
+        String sql = "DELETE FROM [dbo].[CartItem]\n"
+                + "      WHERE productId = ?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, productId);
+            pre.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void setNullOrderDetail(String id) {
