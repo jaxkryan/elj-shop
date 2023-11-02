@@ -6,6 +6,7 @@ package controller.customer;
 
 import dao.CategoryDAO;
 import dao.FeedbackDAO;
+import dao.OrderDAO;
 import dao.OrderDetailDAO;
 import dao.ProductDAO;
 import dao.ProviderDAO;
@@ -19,6 +20,7 @@ import java.io.PrintWriter;
 import java.util.Vector;
 import model.Category;
 import model.Feedback;
+import model.Order;
 import model.OrderDetail;
 import model.Product;
 import model.Provider;
@@ -52,12 +54,12 @@ public class ViewHistoryDetailsController extends HttpServlet {
                 int userId = (int) session.getAttribute("userId");
                 String status = request.getParameter("status");
                 OrderDetailDAO oddao = new OrderDetailDAO();
-                //
                 FeedbackDAO feedbackDAO = new FeedbackDAO();
                 Vector<OrderDetail> details = oddao.getOrderDetailsById(userId, orderId);
                 int check = feedbackDAO.getProductHaveFeedbackInOrder(orderId);
-                //String content = feedbackDAO.getOrderFeedBack(userId, orderId);
-//                
+                OrderDAO odao = new OrderDAO();
+                Order order = odao.getById(orderId);
+                request.setAttribute("order", order);
                 request.setAttribute("check", check);
                 request.setAttribute("details", details);
                 request.setAttribute("status", status);
