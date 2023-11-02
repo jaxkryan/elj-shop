@@ -36,6 +36,7 @@ public class SellerHomeController extends HttpServlet {
         String service = request.getParameter("go");
         OrderDAO orderDAO = new OrderDAO();
         ProviderDAO providerDAO = new ProviderDAO();
+        OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
         if (service == null || service.equals("")) {
             service = "displayAll";
         }
@@ -43,25 +44,30 @@ public class SellerHomeController extends HttpServlet {
             Vector<Order> orders = orderDAO.GetSellerManageOrder();
             request.setAttribute("orders", orders);
             request.getRequestDispatcher("/jsp/manageOrderPage.jsp").forward(request, response);
-//        } else if (service.equals("delete")) {
-//            int oid = Integer.parseInt(request.getParameter("id"));
-//            Order deleteOrder = orderDAO.getById(oid);
-//            int checkDelete = orderDAO.deleteOrder(oid);
-//            if (checkDelete != 0) {
-//                Helper.setNotification(request, "Delete Order by " + deleteOrder.getReceiver() + " successfully!", "GREEN");
-//            } else {
-//                Helper.setNotification(request, "Delete product " + deleteOrder.getReceiver() + " fail!", "RED");
-//            }
-//            response.sendRedirect("home");
-//        } else if (service.equals("getEditOrder")) {
-//            int orderId = Integer.parseInt(request.getParameter("id"));
-//            Order updateOrder = orderDAO.getById(orderId);
-//
-//            String[] arr = {"Processed", "Accepted", "Shipped", "Received", "Canceled"};
-//            List<String> status = Arrays.asList(arr);
-//            request.setAttribute("status", status);
-//            request.setAttribute("updateOrder", updateOrder);
-//            request.getRequestDispatcher("/jsp/updateOrderPage.jsp").forward(request, response);
+            //        } else if (service.equals("delete")) {
+            //            int oid = Integer.parseInt(request.getParameter("id"));
+            //            Order deleteOrder = orderDAO.getById(oid);
+            //            int checkDelete = orderDAO.deleteOrder(oid);
+            //            if (checkDelete != 0) {
+            //                Helper.setNotification(request, "Delete Order by " + deleteOrder.getReceiver() + " successfully!", "GREEN");
+            //            } else {
+            //                Helper.setNotification(request, "Delete product " + deleteOrder.getReceiver() + " fail!", "RED");
+            //            }
+            //            response.sendRedirect("home");
+            //        } else if (service.equals("getEditOrder")) {
+            //            int orderId = Integer.parseInt(request.getParameter("id"));
+            //            Order updateOrder = orderDAO.getById(orderId);
+            //
+            //            String[] arr = {"Processed", "Accepted", "Shipped", "Received", "Canceled"};
+            //            List<String> status = Arrays.asList(arr);
+            //            request.setAttribute("status", status);
+            //            request.setAttribute("updateOrder", updateOrder);
+            //            request.getRequestDispatcher("/jsp/updateOrderPage.jsp").forward(request, response);
+        } else if (service.equals("viewOrderDetails")) {
+            int orderId = Integer.parseInt(request.getParameter("id"));
+            Vector<OrderDetail> orderdetails = orderDetailDAO.getById(orderId);
+            request.setAttribute("orderdetails", orderdetails);
+            request.getRequestDispatcher("/jsp/manageOrderDetailPage.jsp").forward(request, response);
         } else if (service.equals("changeOrderStatus")) {
             int orderId = Integer.parseInt(request.getParameter("id"));
             String newStatus = request.getParameter("newStatus");

@@ -159,7 +159,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 + "      ,[totalPrice]\n"
                 + "      ,[active]\n"
                 + "  FROM [dbo].[Order]\n"
-                + "  where [status] like 'Processing' and active = 1";
+                + "  where active = 1";
         try {
             ResultSet rs = getData(sql);
             while (rs.next()) {

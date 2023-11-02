@@ -1,7 +1,7 @@
 <%-- 
-    Document   : ManagerProduct
-    Created on : Dec 28, 2020, 5:19:02 PM
-    Author     : trinh
+    Document   : manageOrderDetailPage
+    Created on : Oct 26, 2023, 1:35:26 PM
+    Author     : LENOVO
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -30,112 +30,41 @@
         </style>
     <body>
         <div class="container">
-
-
             <div class="row p-3 text-right">
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
 
-            <!-- Notification Start -->
-            <c:if test="${notification != null}">
-                <div class="container-fluid mb-3">
-                    <div class="row px-xl-5">
-                        <div class="col-lg-12">
-                            <div class="alert <c:choose><c:when test="${notiType == 'RED'}">alert-danger</c:when><c:otherwise>alert-success</c:otherwise></c:choose>">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            <strong><%= session.getAttribute("notification")%></strong>
-                                <%session.removeAttribute("notification");%>
-                                <%session.removeAttribute("notiType");%>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </c:if>
-            <!-- Notification End -->
-
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-3">
-                            <h2>Manage <b>Order</b></h2>
-                        </div>
-                        <div class="col-sm-3">
-                            <a href="write-feedback?go=viewFeedback" style="color: white"> <h2>Manage <b>FeedBack</b></h2></a>
+                            <a href="home" style="color: white"> <h2>Manage <b>Order Detail</b></h2></a>
                         </div>
                     </div>
-                </div>
-
-                <!--Search bar-->
-                <div class="row text-right">
-                    <div class="col-sm-9">
-                        <form id="sortForm" action="home" method="get">
-                            <div class="text-right" style="margin-top: -0.5px">
-                                <select name="sortType" id="sort" onchange="submitForm()">
-                                    <option value="All" ${chosedSortType == 'All' ? 'selected' : ''}>Display All</option>
-                                    <option value="ASC" ${chosedSortType == 'ASC' ? 'selected' : ''}>Created Time Ascending</option>
-                                    <option value="DESC" ${chosedSortType == 'DESC' ? 'selected' : ''}>Created Time Descending</option>
-                                </select>
-                                
-                                <input type="hidden" name="go" value="sort">
-                                <input type="hidden" name="searchName" value="${searchName}">
-                            </div>
-                        </form>
-                    </div>
-                    <!--sorting-->
-                    <div class="col-sm-3">
-                        <form action="home?go=search" method="post">
-                            <div class="text-right" style="margin-top: -2px">
-                                <input style="color: black" name="searchName" type="text" class="search-bar" placeholder="Search name" value="${searchName}">
-                                <input style="color: #000000" type="submit" name="search" value="Search">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <script>
-                    function submitForm() {
-                        document.getElementById("sortForm").submit();
-                    }
-                </script>
+                </div>              
 
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>CustomerID</th>
-                            <th>Receiver</th>
-                            <th>Address</th>
-                            <th>ShipCusInfo</th>
-                            <th>Status</th>
-                            <th>CreatedTime</th>
-                            <th>TotalPrice</th>
-                            <th>Actions</th>
+                            <th>ProductID</th>
+                            <th>OrderId</th>
+                            <th>Price</th>
+                            <th>Quantity</th
                         </tr>
                     </thead>
-                    <tbody>
-                        <c:forEach items="${orders}" var="order">
-                            <tr>
-                                <td class="align-middle">${order.id}</td>
-                                <td class="align-middle">${order.customerId}</td>
-                                <td class="align-middle text-left" style="text-wrap: nowrap;">${order.receiver}</td>
-                                <td class="align-middle text-left">${order.shipStreet}, ${order.shipCity}, ${order.shipProvince}, ${order.shipCountry}</td>
-                                <td class="align-middle">${order.shipEmail}, ${order.shipPhone}</td>
-                                <td class="align-middle">${order.status}</td>
-                                <td class="align-middle">${order.createdTime}</td>
-                                <td class="align-middle">${order.totalPrice}</td>
-                                <td>
-                                    <c:if test="${order.status eq 'Processing'}">
-                                        <a href="home?go=updateStatus&newStatus=Accepted&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Accepted">&#x2713;</i></a>
-                                        <a href="home?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
-                                    </c:if> 
-                                    <c:if test="${order.status eq 'Shipping'}">
-                                        <a href="home?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
-                                    </c:if>         
-                                    <a href="home?go=viewOrderDetails&id=${order.id}" class="" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Details">&#xf150;</i></a>
 
-                                </td>
+                    <tbody>
+
+                        <c:forEach items="${orderdetails}" var="orderdetail">
+                            <tr>
+                                <td class="align-middle">${orderdetail.productID}</td>
+                                <td class="align-middle">${orderdetail.orderID}</td>
+                                <td class="align-middle">${orderdetail.price}</td>
+                                <td class="align-middle">${orderdetail.quantity}</td>  
                             </tr>
                         </c:forEach>
+
                     </tbody>
                 </table>
             </div>
@@ -247,6 +176,7 @@
                 </div>
             </div>
         </div>
-        <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
-    </body>
+    </a>
+    <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
+</body>
 </html>
