@@ -147,6 +147,7 @@ GO
 
 CREATE TABLE [Feedback] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
+  orderId int,
   customerId int,
   productId int,
   sellerId int,
@@ -217,6 +218,9 @@ GO
 ALTER TABLE Feedback ADD FOREIGN KEY ([productId]) REFERENCES [Product] ([id])
 GO
 
+ALTER TABLE Feedback ADD FOREIGN KEY (orderId) REFERENCES [Order] ([id])
+GO
+
 ALTER TABLE Feedback ADD FOREIGN KEY (customerId) REFERENCES [Customer] ([id])
 GO
 
@@ -246,13 +250,13 @@ VALUES ('Adidas', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Adi
 	('Nike', 'https://static.nike.com/a/images/f_jpg,q_auto:eco/61b4738b-e1e1-4786-8f6c-26aa0008e80b/swoosh-logo-black.png', 1),
 	('Puma', 'https://1000logos.net/wp-content/uploads/2017/05/PUMA-logo.jpg', 1)
 
-INSERT [Employee] ([id],[salary],[hireDate]) 
-VALUES (1, 8000, '2023-01-01'),
-   (3, 2000, '2023-01-01'),
-   (5, 1800, '2023-01-01'),
-   (10, 2200, '2023-01-01'),
-   (11, 2100, '2023-01-01'),
-   (12, 1900, '2023-01-01')
+INSERT [Employee] ([id],[salary]) 
+VALUES (1, 8000),
+	(3, 2000),
+	(5, 1800),
+	(10, 2200),
+	(11, 2100),
+	(12, 1900)
 
 INSERT [Customer] ([id],[balance]) 
 VALUES (2, 17500),
@@ -371,9 +375,10 @@ VALUES ('Voucher for Christmas', '2022-12-20 00:00:00', '2022-12-28 00:00:00', 3
 INSERT [Report] ([storageStaffId], [managerId], [title], [content], [writeDate],[readStatus])
 VALUES (10, 5, 'Report title', 'asdfawfsf', '2023-01-03 00:00:00', 1)
 
-Insert [Feedback] (customerId, productId, content, reply, feedbackDate, [checked])values (2 , 10,'Nice product',null, '2023-01-09 00:00:00', 0)
-Insert [Feedback] (customerId, productId, content, reply, feedbackDate, [checked])values (2 , 10,'Nice shoes',null, '2023-01-03 00:00:00', 0)
-Insert [Feedback] (customerId, productId, content, reply, feedbackDate, [checked])values (4 , 10,'Nice ones',null, '2023-04-03 00:00:00', 0)
+Insert [Feedback] (orderId,customerId, productId, content, reply, feedbackDate, [checked])values (1, 2 , 10,'Nice product','Thank you', '2023-01-09 00:00:00', 1)
+Insert [Feedback] (orderId,customerId, productId, content, reply, feedbackDate, [checked])values ( 2,2 , 10,'Nice shoes','Thank you', '2023-01-03 00:00:00', 1)
+Insert [Feedback] (orderId,customerId, productId, content, reply, feedbackDate, [checked])values (3 ,4 , 10,'Nice ones','Thank you', '2023-04-03 00:00:00', 1)
+
 
 
 USE master;
