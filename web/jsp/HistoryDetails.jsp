@@ -27,12 +27,41 @@
                            text-align: center;
                            font-weight: 500;
                            font-size: 24px
-                           ">Your History is empty!</p>
+                           ">Your History Detail is empty!</p>
                     </div>
                 </c:when>
                 <c:otherwise>
                     <% ProductDAO pdao = new ProductDAO(); %>
                     <% Vector<OrderDetail> details = (Vector<OrderDetail>) request.getAttribute("details"); %>
+                    <style>
+                        .vertical-line {
+                            border-right: 1px solid #ccc;
+                        }
+                    </style>
+                    <div class="bg-light ml-5 mr-5 p-30 mb-5 px-xl-5">
+                        <div class="row px-xl-5">
+                            <div class="col-md-6 form-group vertical-line">
+                                <h5>Receiver Information</h5>
+                                <label>Name</label>
+                                <input name="firstName" class="form-control" type="text" placeholder="Receiver Name" value="${order.receiver}" readonly>
+                                <label>Phone</label>
+                                <input name="street" class="form-control" type="text" placeholder="Phone" value="${order.shipPhone}" readonly>
+                                <label>Address</label>
+                                <input name="province" class="form-control" type="text" placeholder="Address" value="${order.shipStreet}, ${order.shipCity}, ${order.shipProvince}, ${order.shipCountry}" readonly>
+                                <label>E-mail</label>
+                                <input name="email" class="form-control" type="email" placeholder="example@email.com" value="${order.shipEmail}" readonly>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <h5>Order Information</h5>
+                                <label>Created Date</label>
+                                <input name="lastName" class="form-control" type="text" placeholder="Created Time" value="${order.createdTime}" readonly>
+                                <label>Status</label>
+                                <input name="city" class="form-control" type="text" placeholder="Status" value="${order.status}" readonly>
+                                <label>Price</label>
+                                <input name="country" class="form-control" type="text" placeholder="Price" value="${order.totalPrice}" readonly>
+                            </div>
+                        </div>
+                    </div>
                     <c:if test="${status != 'Processing' && status != 'Received'}">
                         <div class="row px-xl-5">    
                             <div class="col-lg-12 table-responsive mb-5">
