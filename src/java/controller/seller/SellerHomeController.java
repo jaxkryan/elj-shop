@@ -47,25 +47,6 @@ public class SellerHomeController extends HttpServlet {
                 orders = orderDAO.GetSellerManageOrder();
                 request.setAttribute("orders", orders);
                 request.getRequestDispatcher("/jsp/manageOrderPage.jsp").forward(request, response);
-                //        } else if (service.equals("delete")) {
-                //            int oid = Integer.parseInt(request.getParameter("id"));
-                //            Order deleteOrder = orderDAO.getById(oid);
-                //            int checkDelete = orderDAO.deleteOrder(oid);
-                //            if (checkDelete != 0) {
-                //                Helper.setNotification(request, "Delete Order by " + deleteOrder.getReceiver() + " successfully!", "GREEN");
-                //            } else {
-                //                Helper.setNotification(request, "Delete product " + deleteOrder.getReceiver() + " fail!", "RED");
-                //            }
-                //            response.sendRedirect("home");
-                //        } else if (service.equals("getEditOrder")) {
-                //            int orderId = Integer.parseInt(request.getParameter("id"));
-                //            Order updateOrder = orderDAO.getById(orderId);
-                //
-                //            String[] arr = {"Processed", "Accepted", "Shipped", "Received", "Canceled"};
-                //            List<String> status = Arrays.asList(arr);
-                //            request.setAttribute("status", status);
-                //            request.setAttribute("updateOrder", updateOrder);
-                //            request.getRequestDispatcher("/jsp/updateOrderPage.jsp").forward(request, response);
             } else if (service.equals("viewOrderDetails")) {
                 int orderId = Integer.parseInt(request.getParameter("id"));
                 Vector<OrderDetail> orderdetails = orderDetailDAO.getById(orderId);
@@ -100,30 +81,13 @@ public class SellerHomeController extends HttpServlet {
                     Helper.setNotification(request, "Out of stock , can not accept", "RED");
                     response.sendRedirect("home");
                 }
-            } else if (service.equals("sort")) {
-                String searchName = request.getParameter("searchName") != null ? request.getParameter("searchName") : "";
-
-                String sortType = request.getParameter("sortType") != null ? request.getParameter("searchName") : "";
-                orders = orderDAO.getSortedProcessedOrdersByName(sortType, searchName);
-
-                if (!orders.isEmpty()) {
-                    System.out.println(orders.firstElement().getReceiver());
-                }
-                request.setAttribute("searchName", searchName);
-                request.setAttribute("chosedSortType", sortType);
-                request.setAttribute("orders", orders);
-                request.getRequestDispatcher("/jsp/manageOrderPage.jsp").forward(request, response);
             } else if (service.equals("filter")) {
-                String sortType = request.getParameter("sortType") != null ? request.getParameter("searchName") : "";
+                String sortType = request.getParameter("sortType") != null ? request.getParameter("sortType") : "";
                 String statusFilter = request.getParameter("statusFilter") == null ? "" : request.getParameter("statusFilter");
                 String searchName = request.getParameter("searchName") == null ? "" : request.getParameter("searchName");
                 
-                if (sortType.equals("All") && statusFilter.equals("All") && searchName.isEmpty()) {
-                    orders = orderDAO.GetSellerManageOrder();
-                } else {
-                    orders = orderDAO.filterOrders(statusFilter, searchName, sortType);
-                }
-                request.setAttribute("searchName", searchName);
+                orders = orderDAO.filterOrders(statusFilter, searchName, sortType);
+                
                 request.setAttribute("orders", orders);
                 request.getRequestDispatcher("/jsp/manageOrderPage.jsp").forward(request, response);
             }
@@ -142,36 +106,7 @@ public class SellerHomeController extends HttpServlet {
         protected void doPost
         (HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            OrderDAO orderDAO = new OrderDAO();
-            String service = request.getParameter("go");
-            if (service.equals("search")) {
-                String searchName = request.getParameter("searchName");
-                Vector<Order> orders = orderDAO.getProcessedOrderByName(searchName);
-                request.setAttribute("orders", orders);
-                request.setAttribute("searchName", searchName);
-                request.getRequestDispatcher("/jsp/manageOrderPage.jsp").forward(request, response);
-//        } else if (service.equals("update")) {
-//            int id = Integer.parseInt(request.getParameter("id"));
-//            int customerId = Integer.parseInt(request.getParameter("customerId"));
-//            String receiver = request.getParameter("receiver");
-//            String shipStreet = request.getParameter("shipStreet");
-//            String shipCity = request.getParameter("shipCity");
-//            String shipProvince = request.getParameter("shipProvince");
-//            String shipCountry = request.getParameter("shipCountry");
-//            String shipEmail = request.getParameter("shipEmail");
-//            String shipPhone = request.getParameter("shipPhone");
-//            String status = request.getParameter("status");
-//            String createdTime = request.getParameter("createdTime");
-//
-//            float totalPrice = Float.parseFloat(request.getParameter("totalprice"));
-//
-//            Order updateOrder = new Order(id, customerId, receiver, shipStreet,
-//                    shipCity, shipProvince, shipCountry, shipEmail, shipPhone,
-//                    status, createdTime, totalPrice, true);
-//            orderDAO.updateOrderInfo(updateOrder);
-//
-//            response.sendRedirect("home");
-            }
+            
         }
 
         /**

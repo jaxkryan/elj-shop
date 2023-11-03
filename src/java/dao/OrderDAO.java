@@ -485,11 +485,9 @@ public class OrderDAO extends jdbc.DBConnect {
     }
 
     public Vector<Order> filterOrders(String status, String name, String sortType) {
-        if (status.isEmpty() || status.equals("All")) {
+        if (status.equals("All") && sortType.equals("Default")) {
             return getProcessedOrderByName(name);
-        } else if (name.isEmpty()) {
-            return getOrdersByStatus(status);
-        }
+        } 
         Vector<Order> orders = new Vector<>();
         String sql = "SELECT [id]\n"
                 + "      ,[customerId]\n"
@@ -498,14 +496,16 @@ public class OrderDAO extends jdbc.DBConnect {
                 + "      ,[shipCity]\n"
                 + "      ,[shipProvince]\n"
                 + "      ,[shipCountry]\n"
-                + "      ,[shipEmail]"
+                + "      ,[shipEmail]\n"
                 + "      ,[shipPhone]\n"
                 + "      ,[createdTime]\n"
                 + "      ,[totalPrice]\n"
                 + "      ,[active]\n"
+                + "      ,[status]\n"
                 + "  FROM [dbo].[Order]"
-                + " where status = ? and receiver like ?"
-                + (sortType.isEmpty() ? "" : " order by createdTime " + (sortType.equals("ASC") ? "" : "DESC"));
+                + " where status " + (status.equals("All") ? "!=" : "=") + " ?\n"
+                + " and receiver like ?\n"
+                + (sortType.equals("Default") ? "" : " order by createdTime " + (sortType.equals("ASC") ? "ASC" : "DESC"));
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, status);
@@ -524,9 +524,10 @@ public class OrderDAO extends jdbc.DBConnect {
                 String createdTime = rs.getString(10);
                 float totalPrice = rs.getFloat(11);
                 Boolean active = rs.getBoolean(12);
+                String orderStatus = rs.getString(13);
                 orders.add(new Order(id, customerId, receiver, shipStreet,
                         shipCity, shipProvince, shipCountry, shipEmail,
-                        shipPhone, status, createdTime, totalPrice, active));
+                        shipPhone, orderStatus, createdTime, totalPrice, active));
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
