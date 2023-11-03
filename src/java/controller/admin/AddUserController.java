@@ -1,8 +1,6 @@
 package controller.admin;
 
 import constant.IConstant;
-import dao.CartDAO;
-import dao.CustomerDAO;
 import dao.EmployeeDAO;
 import dao.UserDAO;
 import java.io.IOException;
@@ -10,9 +8,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Vector;
 import model.User;
 import util.Helper;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -73,11 +77,31 @@ public class AddUserController extends HttpServlet {
         Vector<User> users = udao.getActiveUsers();
         request.setAttribute("users", users);
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date minimumDate = new Date(System.currentTimeMillis());
+        Date userDOB = new Date();
+        Date maximumDate = new Date(System.currentTimeMillis());
+        Calendar calendar = Calendar.getInstance();
+        try {
+            userDOB = dateFormat.parse(dateOfBirth);
+            calendar.setTime(minimumDate);
+            calendar.add(Calendar.YEAR, -100);
+            minimumDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
+            calendar.setTime(maximumDate);
+            calendar.add(Calendar.YEAR, -13);
+            maximumDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
+        } catch (ParseException ex) {
+            Logger.getLogger(AddUserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         if (!firstName.matches(IConstant.REGEX_FIRSTNAME)) {
             Helper.setNotification(request, "First name is invalid!", "RED");
             request.getRequestDispatcher("/jsp/manageUserPage.jsp").forward(request, response);
         } else if (!lastName.matches(IConstant.REGEX_LASTNAME)) {
             Helper.setNotification(request, "Last name is invalid!", "RED");
+            request.getRequestDispatcher("/jsp/manageUserPage.jsp").forward(request, response);
+        } else if (userDOB.before(minimumDate) || userDOB.after(maximumDate)) {
+            Helper.setNotification(request, "User age must be greater than 13!", "RED");
             request.getRequestDispatcher("/jsp/manageUserPage.jsp").forward(request, response);
         } else if (!street.matches(IConstant.REGEX_STREET)) {
             Helper.setNotification(request, "Street name is invalid!", "RED");
@@ -86,7 +110,7 @@ public class AddUserController extends HttpServlet {
             Helper.setNotification(request, "City name is invalid!", "RED");
             request.getRequestDispatcher("/jsp/manageUserPage.jsp").forward(request, response);
         } else if (!province.matches(IConstant.REGEX_PROVINCE)) {
-            Helper.setNotification(request, "Please enter valid First Name!", "RED");
+            Helper.setNotification(request, "Province name is not valid!", "RED");
             request.getRequestDispatcher("/jsp/manageUserPage.jsp").forward(request, response);
         } else if (!country.matches(IConstant.REGEX_COUNTRY)) {
             Helper.setNotification(request, "Country name is invalid!", "RED");

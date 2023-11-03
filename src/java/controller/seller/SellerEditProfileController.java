@@ -1,12 +1,15 @@
-package controller.admin;
+package controller.seller;
 
 import constant.IConstant;
+import controller.admin.AddUserController;
 import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,7 +23,8 @@ import util.Helper;
  *
  * @author Huy Nguyen
  */
-public class UpdateUserController extends HttpServlet {
+@WebServlet(name = "SellerManageProfileController", urlPatterns = {"/seller/profile"})
+public class SellerEditProfileController extends HttpServlet {
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -33,15 +37,11 @@ public class UpdateUserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (!Helper.isUserExists(request)) {
-            Helper.setNotification(request, "User doesn't exists!", "RED");
-            response.sendRedirect("home");
-        } else {
-            UserDAO udao = new UserDAO();
-            User user = udao.getById(Integer.parseInt(request.getParameter("userId")));
-            request.setAttribute("user", user);
-            request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
-        }
+        HttpSession session = request.getSession();
+        UserDAO udao = new UserDAO();
+        User user = udao.getById((Integer) session.getAttribute("userId"));
+        request.setAttribute("user", user);
+        request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
     }
 
     /**
@@ -55,9 +55,8 @@ public class UpdateUserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("UpdateUserEditPersonalInfoSubmit") != null) {
+        if (request.getParameter("SellerEditPersonalInfoSubmit") != null) {
             int id = Integer.parseInt(request.getParameter("id"));
-            String role = request.getParameter("role");
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
             String dateOfBirth = request.getParameter("dateOfBirth");
@@ -67,13 +66,11 @@ public class UpdateUserController extends HttpServlet {
             String country = request.getParameter("country");
             String phone = request.getParameter("phone");
 
+            HttpSession session = request.getSession();
             UserDAO udao = new UserDAO();
-            User user = udao.getById(id);
-            User userToUpdate = new User(id, role, firstName, lastName, dateOfBirth.isEmpty() ? null : dateOfBirth, street, city, province, country, phone);
+            User user = udao.getById((Integer) session.getAttribute("userId"));
+            User userToUpdate = new User(id, "Seller", firstName, lastName, dateOfBirth, street, city, province, country, phone);
             userToUpdate.setEmail(user.getEmail());
-            if (user.getPassword() != null) { //for distinct Google user
-                userToUpdate.setPassword("password"); 
-            }
             request.setAttribute("user", userToUpdate);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -87,7 +84,7 @@ public class UpdateUserController extends HttpServlet {
                 calendar.add(Calendar.YEAR, -100);
                 minimumDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
                 calendar.setTime(maximumDate);
-                calendar.add(Calendar.YEAR, role.equals("Customer") ? -13 : -18);
+                calendar.add(Calendar.YEAR, -18);
                 maximumDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
             } catch (ParseException ex) {
                 Logger.getLogger(AddUserController.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,70 +92,79 @@ public class UpdateUserController extends HttpServlet {
 
             if (!firstName.matches(IConstant.REGEX_FIRSTNAME)) {
                 Helper.setNotification(request, "First name is invalid!", "RED");
-                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+                request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
             } else if (!lastName.matches(IConstant.REGEX_LASTNAME)) {
                 Helper.setNotification(request, "Last name is invalid!", "RED");
-                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
-            } else if ((!role.equals("Customer") || !dateOfBirth.isEmpty()) && (userDOB.before(minimumDate) || userDOB.after(maximumDate))) {
-                Helper.setNotification(request, "User age must be greater than " + (role.equals("Customer") ? "13!" : "18!"), "RED");
-                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
-            } else if ((!role.equals("Customer") || !street.isEmpty()) && !street.matches(IConstant.REGEX_STREET)) {
+                request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
+            } else if (userDOB.before(minimumDate) || userDOB.after(maximumDate)) {
+                Helper.setNotification(request, "Age must be greater than 18!", "RED");
+                request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
+            } else if (!street.matches(IConstant.REGEX_STREET)) {
                 Helper.setNotification(request, "Street name is invalid!", "RED");
-                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
-            } else if ((!role.equals("Customer") || !city.isEmpty()) && !city.matches(IConstant.REGEX_CITY)) {
+                request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
+            } else if (!city.matches(IConstant.REGEX_CITY)) {
                 Helper.setNotification(request, "City name is invalid!", "RED");
-                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
-            } else if ((!role.equals("Customer") || !province.isEmpty()) && !province.matches(IConstant.REGEX_PROVINCE)) {
+                request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
+            } else if (!province.matches(IConstant.REGEX_PROVINCE)) {
                 Helper.setNotification(request, "Province name is not valid!", "RED");
-                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
-            } else if ((!role.equals("Customer") || !country.isEmpty()) && !country.matches(IConstant.REGEX_COUNTRY)) {
+                request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
+            } else if (!country.matches(IConstant.REGEX_COUNTRY)) {
                 Helper.setNotification(request, "Country name is invalid!", "RED");
-                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
-            } else if ((!role.equals("Customer") || !phone.isEmpty()) && !phone.matches(IConstant.REGEX_PHONE)) {
+                request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
+            } else if (!phone.matches(IConstant.REGEX_PHONE)) {
                 Helper.setNotification(request, "Please enter valid phone number!", "RED");
-                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+                request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
             } else {
                 udao.updateProfile(userToUpdate);
-                udao.changeRole(id, role);
                 Helper.setNotification(request, "Change information successfully!", "GREEN");
-                response.sendRedirect("home");
+                response.sendRedirect("profile");
             }
-        } else if (request.getParameter("UpdateUserUpdateEmailSubmit") != null) {
-            int id = Integer.parseInt(request.getParameter("id"));
+        } else if (request.getParameter("SellerUpdateEmailSubmit") != null) {
             String email = request.getParameter("email");
 
+            HttpSession session = request.getSession();
             UserDAO udao = new UserDAO();
-            User user = udao.getById(id);
+            User user = udao.getById((Integer) session.getAttribute("userId"));
             user.setEmail(email);
             request.setAttribute("user", user);
 
             if (!email.matches(IConstant.REGEX_EMAIL)) {
                 Helper.setNotification(request, "Please enter valid email address!", "RED");
-                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+                request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
             } else if (udao.isEmailExisted(email)) {
                 Helper.setNotification(request, "Email address has been used!", "RED");
-                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+                request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
             } else {
                 udao.updateEmail(user, email);
-                Helper.setNotification(request, "Update user " + user.getFirstName() + " email successfully!", "GREEN");
-                response.sendRedirect("home");
+                request.getSession().invalidate();
+                Helper.setNotification(request, "Update email successfully! Please login again!", "GREEN");
+                response.sendRedirect(request.getContextPath() + "/login");
             }
-        } else if (request.getParameter("UpdateUserChangePasswordSubmit") != null) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            String password = request.getParameter("password");
+        } else if (request.getParameter("SellerChangePasswordSubmit") != null) {
+            String oldPassword = request.getParameter("oldPassword");
+            String newPassword = request.getParameter("newPassword");
+            String confirmedPassword = request.getParameter("confirmedPassword");
 
+            HttpSession session = request.getSession();
             UserDAO udao = new UserDAO();
-            User user = udao.getById(id);
+            User user = udao.getById((Integer) session.getAttribute("userId"));
             request.setAttribute("user", user);
 
-            if (!password.matches(IConstant.REGEX_PASSWORD)) {
+            if (!user.getPassword().equals(Helper.hashPassword(oldPassword))) {
+                Helper.setNotification(request, "Wrong password", "RED");
+                request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
+            } else if (!newPassword.matches(IConstant.REGEX_PASSWORD)) {
                 Helper.setNotification(request, "Password must be Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character!", "RED");
-                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+                request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
+            } else if (!confirmedPassword.equals(newPassword)) {
+                Helper.setNotification(request, "Confirmed password does not match with password!", "RED");
+                request.getRequestDispatcher("/jsp/sellerProfilePage.jsp").forward(request, response);
             } else {
-                User userToUpdate = new User(id, user.getEmail(), Helper.hashPassword(password));
-                udao.changePassword(userToUpdate, Helper.hashPassword(password));
-                Helper.setNotification(request, "Change " + user.getFirstName() + " password successfully!", "GREEN");
-                response.sendRedirect("home");
+                User userToUpdate = new User((Integer) session.getAttribute("userId"), user.getEmail(), Helper.hashPassword(newPassword));
+                udao.changePassword(userToUpdate, Helper.hashPassword(newPassword));
+                request.getSession().invalidate();
+                Helper.setNotification(request, "Change password successfully! Please login again!", "GREEN");
+                response.sendRedirect(request.getContextPath() + "/login");
             }
         }
     }
