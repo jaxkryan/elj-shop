@@ -82,23 +82,23 @@
     </servlet>
     <servlet>
         <servlet-name>CustomerManageProfileController</servlet-name>
-        <servlet-class>controller.customer.CustomerManageProfileController</servlet-class>
+        <servlet-class>controller.customer.CustomerEditProfileController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AdminManageProfileController</servlet-name>
-        <servlet-class>controller.admin.AdminManageProfileController</servlet-class>
+        <servlet-class>controller.admin.AdminEditProfileController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ManagerManageProfileController</servlet-name>
-        <servlet-class>controller.manager.ManagerManageProfileController</servlet-class>
+        <servlet-class>controller.manager.ManagerEditProfileController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MarketingStaffManageProfileController</servlet-name>
-        <servlet-class>controller.marketingstaff.MarketingStaffManageProfileController</servlet-class>
+        <servlet-class>controller.marketingstaff.MarketingStaffEditProfileController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>StorageStaffManageProfileController</servlet-name>
-        <servlet-class>controller.storagestaff.StorageStaffManageProfileController</servlet-class>
+        <servlet-class>controller.storagestaff.StorageStaffEditProfileController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ShopController</servlet-name>
