@@ -65,13 +65,13 @@
                                                 <a >${order.status}</a>
                                             </td>
                                             <td class="text-center">
-                                                <a href="${pageContext.request.contextPath}/customer-view-history-details?orderId=${order.id}&status=${order.status}" title="View Order Detail" ><i style="color: green; font-size: 22px" class="fa fa-eye"></i></a>
-                                                <c:if test="${order.status == 'Processing'}">
+                                                <a href="${pageContext.request.contextPath}/customer-view-history-details?orderId=${order.id}" title="View Order Detail" ><i style="color: green; font-size: 22px" class="fa fa-eye"></i></a>
+                                                    <c:if test="${order.status == 'Processing'}">
                                                     <a href="${pageContext.request.contextPath}/customer-delete-history?orderId=${order.id}" title="Delete Order"><i style="color: red; font-size: 22px; margin-left: 10px" class="fa fa-times"></i></a>
-                                                </c:if>
-                                                <c:if test="${order.status == 'Shipping'}">
+                                                    </c:if>
+                                                    <c:if test="${order.status == 'Shipping'}">
                                                     <a href="${pageContext.request.contextPath}/customer-changeToFeedback?orderId=${order.id}" title="Confirm received"><i style="color: green; font-size: 22px; margin-left: 10px" class="fa fa-check"></i></a>
-                                                </c:if>
+                                                    </c:if>
                                             </td>
                                         </tr>
                                     </c:forEach>

@@ -487,7 +487,7 @@ public class OrderDAO extends jdbc.DBConnect {
     public Vector<Order> filterOrders(String status, String name, String sortType) {
         if (status.equals("All") && sortType.equals("Default")) {
             return getProcessedOrderByName(name);
-        } 
+        }
         Vector<Order> orders = new Vector<>();
         String sql = "SELECT [id]\n"
                 + "      ,[customerId]\n"
@@ -701,6 +701,16 @@ public class OrderDAO extends jdbc.DBConnect {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
+            String sqlsss = "update [product] set quantity= ? - ? where id=?";
+            try {
+                PreparedStatement pre = conn.prepareStatement(sqlsss);
+                pre.setInt(1, getQuantityByProductId(cartItem.get(i).getProductId()));
+                pre.setInt(2, cartItem.get(i).getQuantity());
+                pre.setInt(3, cartItem.get(i).getProductId());
+                pre.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         String sqlss = "delete from [cartItem] where cartid = ? ";
         try {
@@ -754,8 +764,18 @@ public class OrderDAO extends jdbc.DBConnect {
                 PreparedStatement pre = conn.prepareStatement(sqls);
                 pre.setInt(1, cartItem.get(i).getProductId());
                 pre.setInt(2, getLastOrderId());
-                pre.setFloat(3, (float) (cartItem.get(i).getPrice() * (1 - voucher.getValue() / 100)));
+                pre.setFloat(3, (float) (cartItem.get(i).getPrice()));
                 pre.setInt(4, cartItem.get(i).getQuantity());
+                pre.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            String sqlsss = "update [product] set quantity= ? - ? where id=?";
+            try {
+                PreparedStatement pre = conn.prepareStatement(sqlsss);
+                pre.setInt(1, getQuantityByProductId(cartItem.get(i).getProductId()));
+                pre.setInt(2, cartItem.get(i).getQuantity());
+                pre.setInt(3, cartItem.get(i).getProductId());
                 pre.executeUpdate();
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -769,6 +789,22 @@ public class OrderDAO extends jdbc.DBConnect {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+
+    private int getQuantityByProductId(int productId) {
+        int quantity = 0;
+        String sql = "select quantity from [product] where id=?";
+        try {
+            PreparedStatement pre = conn.prepareStatement(sql);
+            pre.setInt(1, productId);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return quantity;
     }
 
     public Vector<Order> getAllOrderById(int userId) {

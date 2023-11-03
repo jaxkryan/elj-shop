@@ -5,6 +5,7 @@
 <%@ page import="dao.FeedbackDAO" %>
 <%@ page import="model.Product" %>
 <%@ page import="model.OrderDetail" %>
+<%@ page import="model.Order" %>
 <%@ page import="java.util.Vector" %>
 
 <!DOCTYPE html>
@@ -19,6 +20,7 @@
         <%@include file="header.jsp" %>
 
         <!-- Cart Start -->
+        <fmt:setLocale value="en_US"/>
         <div class="container-fluid">
             <c:choose>
                 <c:when test="${details.size() == 0}">
@@ -33,11 +35,16 @@
                 <c:otherwise>
                     <% ProductDAO pdao = new ProductDAO(); %>
                     <% Vector<OrderDetail> details = (Vector<OrderDetail>) request.getAttribute("details"); %>
+                    <% Order od = (Order) request.getAttribute("order");%>
                     <style>
                         .vertical-line {
                             border-right: 1px solid #ccc;
                         }
                     </style>
+                    <% double oldTotal=0; %>
+                    <% for(int i = 0; i < details.size(); i++) {%>
+                    <% oldTotal += details.get(i).getPrice()*details.get(i).getQuantity(); %>
+                    <% } %>
                     <div class="bg-light ml-5 mr-5 p-30 mb-5 px-xl-5">
                         <div class="row px-xl-5">
                             <div class="col-md-6 form-group vertical-line">
@@ -57,11 +64,21 @@
                                 <input name="lastName" class="form-control" type="text" placeholder="Created Time" value="${order.createdTime}" readonly>
                                 <label>Status</label>
                                 <input name="city" class="form-control" type="text" placeholder="Status" value="${order.status}" readonly>
-                                <label>Price</label>
-                                <input name="country" class="form-control" type="text" placeholder="Price" value="${order.totalPrice}" readonly>
+                                <label>Subtotal</label>
+                                <input name="country" class="form-control" type="text" placeholder="Subtotal" value="<fmt:formatNumber type="currency" pattern="###,###¤"><%= oldTotal %></fmt:formatNumber>" readonly>
+                                    <label>Shipping</label>
+                                    <input name="country" class="form-control" type="text" placeholder="Shipping" value="<fmt:formatNumber type="currency" pattern="###,###¤"><%= oldTotal*0.1 %></fmt:formatNumber>" readonly>
+                                    <label>Discount</label>
+                                <% if((oldTotal*1.1 - od.getTotalPrice())==0) {%>
+                                <input name="country" class="form-control" type="text" placeholder="Discount" value="<fmt:formatNumber type="currency" pattern="###,###¤">0</fmt:formatNumber>" readonly>
+                                <% } else { %>
+                                <input name="country" class="form-control" type="text" placeholder="Discount" value="<fmt:formatNumber type="currency" pattern="###,###¤">-<%= (oldTotal*1.1 - od.getTotalPrice()) %></fmt:formatNumber>" readonly>
+                                <% } %>
+                                <label>Total</label>
+                                <input name="country" class="form-control" type="text" placeholder="Total" value="<fmt:formatNumber type="currency" pattern="###,###¤">${order.totalPrice}</fmt:formatNumber>" readonly>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     <c:if test="${status != 'Processing' && status != 'Received'}">
                         <div class="row px-xl-5">    
                             <div class="col-lg-12 table-responsive mb-5">
@@ -72,7 +89,6 @@
                                             <th>Unit Price</th>
                                             <th>Quantity</th>
                                             <th>Subtotal Price</th>
-                                            <th>Shipping</th>
                                         </tr>
                                     </thead>
                                     <tbody class="align-middle">
@@ -82,7 +98,7 @@
                                             <td class="text-left">
                                                 <a ><%= product.getName() %></a>
                                             </td>
-                                            <fmt:setLocale value="en_US"/>
+
                                             <td class="text-center">
                                                 <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice() %></fmt:formatNumber>
                                                 </td>
@@ -90,10 +106,8 @@
                                                     <a ><%= details.get(i).getQuantity() %></a>
                                             </td>
                                             <td class="text-center">
+                                                <fmt:setLocale value="en_US"/>
                                                 <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice()*details.get(i).getQuantity() %></fmt:formatNumber>
-                                                </td>
-                                                <td class="text-center">
-                                                <fmt:formatNumber type="currency" pattern="###,###¤"><%= (details.get(i).getPrice()*details.get(i).getQuantity())*0.1 %></fmt:formatNumber>
                                                 </td>
                                             </tr>
                                         <%}%>
@@ -112,7 +126,6 @@
                                             <th>Unit Price</th>
                                             <th>Quantity</th>
                                             <th>Subtotal Price</th>
-                                            <th>Shipping</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -131,9 +144,6 @@
                                             </td>
                                             <td class="text-center">
                                                 <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice()*details.get(i).getQuantity() %></fmt:formatNumber>
-                                                </td>
-                                                <td class="text-center">
-                                                <fmt:formatNumber type="currency" pattern="###,###¤"><%= (details.get(i).getPrice()*details.get(i).getQuantity())*0.1 %></fmt:formatNumber>
                                                 </td>
                                                 <td class="text-center">
                                                     <a href="${pageContext.request.contextPath}/customer-delete-history-detail?status=${status}&orderId=<%= details.get(i).getOrderID() %>&proId=<%= details.get(i).getProductID()%>" title="Delete Order Detail"><i style="color: red; font-size: 22px;" class="fa fa-times"></i></a>
@@ -156,7 +166,6 @@
                                             <th>Unit Price</th>
                                             <th>Quantity</th>
                                             <th>Subtotal Price</th>
-                                            <th>Shipping</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -176,9 +185,6 @@
                                             </td>
                                             <td class="text-center">
                                                 <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice()*details.get(i).getQuantity() %></fmt:formatNumber>
-                                                </td>
-                                                <td class="text-center">
-                                                <fmt:formatNumber type="currency" pattern="###,###¤"><%= (details.get(i).getPrice()*details.get(i).getQuantity())*0.1 %></fmt:formatNumber>
                                                 </td>
                                             <%if(check == 0){%>
                                             <td class="text-center">

@@ -85,15 +85,9 @@
                             <div class="d-flex justify-content-between">
                                 <p><%= product.getName() %></p>
                                 <% double currentPrice = ((product.getPrice()-product.getDiscount()) * cartItem.get(i).getQuantity()) * (1-voucherValue/100);%>
-                                <%if(currentPrice < (product.getPrice()-product.getDiscount()) * cartItem.get(i).getQuantity()) {%>
                                 <fmt:setLocale value="en_US"/>
-                                <p><fmt:formatNumber type="currency" pattern="###,###¤"><%= currentPrice %></fmt:formatNumber>
-                                <del><fmt:formatNumber type="currency" pattern="###,###¤"><%= (product.getPrice()-product.getDiscount()) * cartItem.get(i).getQuantity() %></fmt:formatNumber></del></p>
-                                <% } else { %>
-                                <fmt:setLocale value="en_US"/>
-                                <p><fmt:formatNumber type="currency" pattern="###,###¤"><%= currentPrice %></fmt:formatNumber></p>
-                                <% } %>
-                            </div>
+                                <p><fmt:formatNumber type="currency" pattern="###,###¤"><%= (product.getPrice()-product.getDiscount()) * cartItem.get(i).getQuantity() %></fmt:formatNumber></p>
+                                </div>
                             <% } %>
                         </div>
                         <div class="border-bottom pt-3 pb-2">
@@ -103,18 +97,36 @@
                                     <fmt:formatNumber type="currency" pattern="###,###¤">
                                         <c:choose>
                                             <c:when test="${subtotal == null || subtotal == 0}">0</c:when>
-                                            <c:otherwise>${subtotal * (1-voucherValue/100)}</c:otherwise>
+                                            <c:otherwise>${subtotal}</c:otherwise>
                                         </c:choose>
                                     </fmt:formatNumber>
                                 </h6>
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <h6 class="font-weight-medium">Shipping</h6>
-                                <h6 class="font-weight-medium">
+                            <div class="d-flex justify-content-between mb-3">
+                                <h6>Shipping</h6>
+                                <h6>
                                     <fmt:formatNumber type="currency" pattern="###,###¤">
                                         <c:choose>
                                             <c:when test="${subtotal == null || subtotal == 0}">0</c:when>
-                                            <c:otherwise>${subtotal * (1-voucherValue/100) * 0.1}</c:otherwise>
+                                            <c:otherwise>${subtotal * 0.1}</c:otherwise>
+                                        </c:choose>
+                                    </fmt:formatNumber>
+                                </h6>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <h6>Discount</h6>
+                                <h6>
+                                    <fmt:formatNumber type="currency" pattern="###,###¤">
+                                        <c:choose>
+                                            <c:when test="${subtotal == null || subtotal == 0}">0</c:when>
+                                            <c:otherwise>
+                                                <c:choose>
+                                                    <c:when test="${subtotal * 1.1 * voucherValue/100 == 0}">0</c:when> 
+                                                    <c:otherwise>
+                                                        -${subtotal * 1.1 * voucherValue/100}
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:otherwise>
                                         </c:choose>
                                     </fmt:formatNumber>
                                 </h6>
@@ -125,8 +137,14 @@
                             <div class="">
                                 <form action="customer-add-voucher" style="" class="row pr-3 pl-3">
                                     <input name="voucherCode" class="col-md-8 form-control" type="text" <c:if test="${user.id != null}">value="${voucherCode}"</c:if>>
+                                    <c:if test="${voucherCode == null || voucherCode == '' }">
                                         <input type="submit" class="col-md-4 btn btn-block btn-primary font-weight-bold" value="Add Voucher">
-                                        <input type="hidden" name="subtotal" value="${subtotal}">
+                                    </c:if>
+                                    <c:if test="${voucherCode != null && voucherCode != '' }">
+                                        <input name="remove" type="hidden" value="remove">
+                                        <input type="submit" class="col-md-4 btn btn-block btn-primary font-weight-bold" value="Remove">
+                                    </c:if>
+                                    <input type="hidden" name="subtotal" value="${subtotal}">
                                 </form>
                             </div>
                         </div>
