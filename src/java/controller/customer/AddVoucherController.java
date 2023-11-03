@@ -47,11 +47,27 @@ public class AddVoucherController extends HttpServlet {
         HttpSession session = request.getSession();
         int userId = (int) session.getAttribute("userId");
         String voucherCode = request.getParameter("voucherCode") != null ? request.getParameter("voucherCode") : "";
+        String remove = request.getParameter("remove") != null ? request.getParameter("remove") : "";
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String orderDate = dateFormat.format(calendar.getTime());
         Float subtotal = Float.parseFloat(request.getParameter("subtotal"));
 
+        if (remove.equals("remove")) {
+            OrderDAO odao = new OrderDAO();
+            Helper.setNotification(request, "Remove voucher succesfully!", "GREEN");
+            UserDAO udao = new UserDAO();
+            User user = udao.getById(userId);
+            request.setAttribute("user", user);
+            request.setAttribute("subtotal", subtotal);
+            CategoryDAO categoryDAO = new CategoryDAO();
+            ProviderDAO providerDAO = new ProviderDAO();
+            Vector<Category> categories = categoryDAO.getAllCategory();
+            Vector<Provider> providers = providerDAO.getAllProvider();
+            request.setAttribute("categories", categories);
+            request.setAttribute("providers", providers);
+            request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
+        }
         if (voucherCode.equals("")) {
             OrderDAO odao = new OrderDAO();
             Helper.setNotification(request, "Please enter voucher code!", "RED");
