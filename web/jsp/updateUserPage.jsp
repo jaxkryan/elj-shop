@@ -72,19 +72,25 @@
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Role</label>
-                            <!--<input name="role" class="form-control" type="text" value="${user.role}">-->
-                            <select name="role" class="form-control">
-                                <option value="Admin" <c:if test="${user.role == 'Admin'}">selected</c:if>>Admin</option>
-                                <option value="Customer" <c:if test="${user.role == 'Customer'}">selected</c:if>>Customer</option>
-                                <option value="Manager" <c:if test="${user.role == 'Manager'}">selected</c:if>>Manager</option>
-                                <option value="Seller" <c:if test="${user.role == 'Seller'}">selected</c:if>>Seller</option>
-                                <option value="Storage Staff" <c:if test="${user.role == 'Storage Staff'}">selected</c:if>>Storage Staff</option>
-                                <option value="Marketing Staff" <c:if test="${user.role == 'Marketing Staff'}">selected</c:if>>Marketing Staff</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>First Name</label>
-                                <input name="firstName" class="form-control" type="text" value="${user.getFirstName()}" required>
+                            <c:choose>
+                                <c:when test="${user.role == 'Customer'}">
+                                    <input class="form-control" type="text" value="Customer" readonly>
+                                </c:when>
+                                <c:otherwise>
+                                    <select name="role" class="form-control">
+                                        <option value="Admin" <c:if test="${user.role == 'Admin'}">selected</c:if>>Admin</option>
+                                        <option value="Manager" <c:if test="${user.role == 'Manager'}">selected</c:if>>Manager</option>
+                                        <option value="Seller" <c:if test="${user.role == 'Seller'}">selected</c:if>>Seller</option>
+                                        <option value="Storage Staff" <c:if test="${user.role == 'Storage Staff'}">selected</c:if>>Storage Staff</option>
+                                        <option value="Marketing Staff" <c:if test="${user.role == 'Marketing Staff'}">selected</c:if>>Marketing Staff
+                                            </option>
+                                        </select>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>First Name</label>
+                            <input name="firstName" class="form-control" type="text" value="${user.getFirstName()}" required>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Last Name</label>
