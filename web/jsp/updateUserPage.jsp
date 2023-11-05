@@ -140,29 +140,30 @@
                         </div>
                     </form>
                 </div>
-                <c:if test="${not empty user.password}">
-                    <!-- Update Email -->
-                    <div class="table-wrapper">
-                        <div class="table-title">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <h2>Update <b>Email</b></h2>
-                                </div>
+
+                <!-- Update Email -->
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h2>Email <b>Address</b></h2>
                             </div>
                         </div>
-                        <form class="row" action="update-user" method="POST" style="width: 100%">
-                            <input name="id" type="hidden" value="${user.getId()}">
-                            <div class="col-md-6 form-group">
-                                <label>E-mail</label>
-                                <input name="email" class="form-control" type="email" value="${user.getEmail()}" required>
+                    </div>
+                    <form class="row" action="update-user" method="POST" style="width: 100%">
+                        <input name="id" type="hidden" value="${user.getId()}">
+                        <div class="col-md-6 form-group">
+                            <label>E-mail</label>
+                            <input name="email" class="form-control" type="email" value="${user.getEmail()}" required<c:if test="${empty user.password}"> readonly</c:if>>
                             </div>
-
+                        <c:if test="${not empty user.password}">
                             <div class="col-md-2 form-group" style="margin-top: 23px "> 
                                 <input name="UpdateUserUpdateEmailSubmit" class="form-control btn btn-primary" type="submit" value="Update email">
                             </div>
-                        </form>
-                    </div>
-
+                        </c:if>
+                    </form>
+                </div>
+                <c:if test="${not empty user.password}">
                     <!-- Change Password -->
                     <div class="table-wrapper">
                         <div class="table-title">

@@ -68,15 +68,19 @@ public class LoginController extends HttpServlet {
                 session.removeAttribute("userId");
                 session.removeAttribute("userRole");
                 session.removeAttribute("cartItem");
+                session.removeAttribute("isGoogleUser");
 
                 //Get new infomation
                 session.setAttribute("userId", user.getId());
                 session.setAttribute("userRole", user.getRole());
-                CartDAO cdao = new CartDAO();
-                int cartId = cdao.getCartIdByCustomerId(user.getId());
-                CartItemDAO cidao = new CartItemDAO();
-                Vector<CartItem> cartItem = cidao.getCartItemByCartId(cartId);
-                session.setAttribute("cartItem", cartItem);
+                session.setAttribute("isGoogleUser", "false");
+                if (user.getRole().equals("Customer")) {
+                    CartDAO cdao = new CartDAO();
+                    int cartId = cdao.getCartIdByCustomerId(user.getId());
+                    CartItemDAO cidao = new CartItemDAO();
+                    Vector<CartItem> cartItem = cidao.getCartItemByCartId(cartId);
+                    session.setAttribute("cartItem", cartItem);
+                }
                 sendRedirectByRole(response, user.getRole());
             } else {
                 Helper.setNotification(request, "Wrong password!", "RED");
