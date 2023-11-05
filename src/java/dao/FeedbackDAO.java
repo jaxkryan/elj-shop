@@ -22,7 +22,7 @@ public class FeedbackDAO extends jdbc.DBConnect {
 
     public Vector<Feedback> getFeedbackByProductId(int productId) {
         Vector<Feedback> feedbacks = new Vector<>();
-        String sql = "SELECT * FROM feedback WHERE productId = ? ";
+        String sql = "select * from feedback WHERE productId = ? ";
         try {
             PreparedStatement pre = conn.prepareStatement(sql);
             pre.setInt(1, productId);
@@ -32,11 +32,12 @@ public class FeedbackDAO extends jdbc.DBConnect {
                         rs.getInt(2),
                         rs.getInt(3),
                         rs.getInt(4),
-                        rs.getString(5),
+                        rs.getInt(5),
                         rs.getString(6),
                         rs.getString(7),
                         rs.getString(8),
-                        rs.getBoolean(9)));
+                        rs.getString(9),
+                        rs.getBoolean(10)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

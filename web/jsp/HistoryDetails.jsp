@@ -69,7 +69,7 @@
                                     <label>Shipping</label>
                                     <input name="country" class="form-control" type="text" placeholder="Shipping" value="<fmt:formatNumber type="currency" pattern="###,###¤"><%= oldTotal*0.1 %></fmt:formatNumber>" readonly>
                                     <label>Discount</label>
-                                <% if((oldTotal*1.1 - od.getTotalPrice())==0) {%>
+                                <% if((oldTotal*1.1 - od.getTotalPrice())<=0.5) {%>
                                 <input name="country" class="form-control" type="text" placeholder="Discount" value="<fmt:formatNumber type="currency" pattern="###,###¤">0</fmt:formatNumber>" readonly>
                                 <% } else { %>
                                 <input name="country" class="form-control" type="text" placeholder="Discount" value="<fmt:formatNumber type="currency" pattern="###,###¤">-<%= (oldTotal*1.1 - od.getTotalPrice()) %></fmt:formatNumber>" readonly>
@@ -79,7 +79,7 @@
                                 </div>
                             </div>
                         </div>
-                    <c:if test="${status != 'Processing' && status != 'Received'}">
+                    <c:if test="${order.status != 'Processing' && order.status != 'Received'}">
                         <div class="row px-xl-5">    
                             <div class="col-lg-12 table-responsive mb-5">
                                 <table class="table table-light table-borderless table-hover mb-0">
@@ -116,7 +116,7 @@
                             </div>
                         </div>
                     </c:if>
-                    <c:if test="${status == 'Processing'}">
+                    <c:if test="${order.status == 'Processing'}">
                         <div class="row px-xl-5">    
                             <div class="col-lg-12 table-responsive mb-5">
                                 <table class="table table-light table-borderless table-hover mb-0">
@@ -126,7 +126,6 @@
                                             <th>Unit Price</th>
                                             <th>Quantity</th>
                                             <th>Subtotal Price</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="align-middle">
@@ -145,17 +144,15 @@
                                             <td class="text-center">
                                                 <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice()*details.get(i).getQuantity() %></fmt:formatNumber>
                                                 </td>
-                                                <td class="text-center">
-                                                    <a href="${pageContext.request.contextPath}/customer-delete-history-detail?status=${status}&orderId=<%= details.get(i).getOrderID() %>&proId=<%= details.get(i).getProductID()%>" title="Delete Order Detail"><i style="color: red; font-size: 22px;" class="fa fa-times"></i></a>
-                                            </td>
-                                        </tr>
+
+                                            </tr>
                                         <%}%>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </c:if>
-                    <c:if test="${status == 'Received'}">
+                    <c:if test="${order.status == 'Received'}">
                         <% ProductDAO dao = new ProductDAO(); %>
                         <div class="row px-xl-5">    
                             <div class="col-lg-12 table-responsive mb-5">
