@@ -1,11 +1,17 @@
 <%-- 
-    Document   : ManagerProduct
-    Created on : Dec 28, 2020, 5:19:02 PM
-    Author     : trinh
+    Document   : manageOrderDetailPage
+    Created on : Oct 26, 2023, 1:35:26 PM
+    Author     : LENOVO
 --%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="dao.ProductDAO" %>
+<%@ page import="dao.FeedbackDAO" %>
+<%@ page import="model.Product" %>
+<%@ page import="model.OrderDetail" %>
+<%@ page import="model.Order" %>
+<%@ page import="java.util.Vector" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -31,12 +37,11 @@
     <body>
         <div class="container">
 
-
             <div class="row p-3 text-right">
+                <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=displayAll" style="margin-right:81%" class="btn btn-primary">Back</a>
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
-
             <!-- Notification Start -->
             <c:if test="${notification != null}">
                 <div class="container-fluid mb-3">
@@ -53,85 +58,104 @@
                 </div>
             </c:if>
             <!-- Notification End -->
-
+            <% ProductDAO pdao = new ProductDAO(); %>
+            <% Vector<OrderDetail> details = (Vector<OrderDetail>) request.getAttribute("orderdetails"); %>
+            <% Order od = (Order) request.getAttribute("order");%>
+            <style>
+                .vertical-line {
+                    border-right: 1px solid #ccc;
+                }
+            </style>
+            <% double oldTotal=0; %>
+            <% for(int i = 0; i < details.size(); i++) {%>
+            <% oldTotal += details.get(i).getPrice()*details.get(i).getQuantity(); %>
+            <% } %>
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-3">
-                            <h2>Manage <b>Order</b></h2>
-                        </div>
-                        <div class="col-sm-3">
-                            <a href="write-feedback?go=viewFeedback" style="color: white"> <h2>Manage <b>FeedBack</b></h2></a>
+                           <h2><b>Order Detail</b></h2>
                         </div>
                     </div>
-                </div>
+                </div>              
+                <div class="details">
+                    <div class="row px-xl-5">
+                        <div class="col-md-6 ">
+                            <h4>Customer's Order Information</h4>
+                            <label>Name</label>
+                            <input class="form-control" type="text" placeholder="Receiver Name" value="${order.receiver}" readonly>
+                            <label>Phone</label> 
+                            <input class="form-control" type="text" placeholder="Phone" value="${order.shipPhone}" readonly>
+                            <label>Address</label>
+                            <input class="form-control" type="text" placeholder="Address" value="${order.shipStreet}, ${order.shipCity}, ${order.shipProvince}, ${order.shipCountry}" readonly>
+                            <label>E-mail</label>
+                            <input class="form-control" type="email" placeholder="example@email.com" value="${order.shipEmail}" readonly>
+                            <div style="padding-top: 2%">
+<!--                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Packing&id=${order.id}"  class="btn btn-primary">Packing</a>
+                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}"  class="btn btn-primary">Cancelled</a>-->
+                                <c:choose>
+                                    <c:when test="${order.status == 'Packing'}">
+                                        <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Shipping&id=${order.id}" class="btn btn-primary">Shipping</a>
+                                        <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="btn btn-primary">Cancel</a>
 
-                <!--Filter bar-->
-                <form id="sortForm" action="home" method="get">
-                    <input type="hidden" name="go" value="filter">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Packing&id=${order.id}" class="btn btn-primary">Packing</a>
+                                        <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="btn btn-primary">Cancel</a>
 
-                    <div class="row">
-                        <div class="col-md-6 text-left">
-                            <label>Created time: </label>
-                            <select name="sortType" id="sort" onchange="this.form.submit()">
-                                <option value="Default" <c:if test="${param.sortType == 'Default'}">selected</c:if>>Default</option>
-                                <option value="ASC" <c:if test="${param.sortType == 'ASC'}">selected</c:if>>Ascending</option>
-                                <option value="DESC" <c:if test="${param.sortType == 'DESC'}">selected</c:if>>Descending</option>
-                            </select>
-                            
-                            <label class="ml-3">Status: </label>
-                            <select name="statusFilter" id="filter" onchange="this.form.submit()">
-                                <option value="All" <c:if test="${param.statusFilter == 'All'}">selected</c:if>>All</option>
-                                <option value="Processing" <c:if test="${param.statusFilter == 'Processing'}">selected</c:if>>Processing</option>
-                                <option value="Shipping" <c:if test="${param.statusFilter == 'Shipping'}">selected</c:if>>Shipping</option>
-                                <option value="Cancelled" <c:if test="${param.statusFilter == 'Cancelled'}">selected</c:if>>Cancelled</option>
-                                <option value="Received" <c:if test="${param.statusFilter == 'Received'}">selected</c:if>>Received</option>
-                            </select>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
                         </div>
-                        <div class="col-md-6 text-right">
-                            <input style="color: black" name = "searchName" type="text" class="search-bar ml-3" placeholder="Enter customer's name" value="${param.searchName}">
-                        <input style="color: #000000" type="submit" name = "searchOrderSubmit" value="Search">
+
+                        <div class="col-md-6 form-group">
+                            <h4>Order Information</h4>
+                            <label>Created Date</label>
+                            <input class="form-control" type="text" placeholder="Created Time" value="${order.createdTime}" readonly>
+                            <label>Status</label>
+                            <input class="form-control" type="text" placeholder="Status" value="${order.status}" readonly>
+                            <label>Subtotal</label>
+                            <input class="form-control" type="text" placeholder="Subtotal" value="<fmt:formatNumber type="currency" pattern="###,###¤"><%= oldTotal %></fmt:formatNumber>" readonly>
+                                <label>Shipping</label>
+                                <input class="form-control" type="text" placeholder="Shipping" value="<fmt:formatNumber type="currency" pattern="###,###¤"><%= oldTotal*0.1 %></fmt:formatNumber>" readonly>
+                                <label>Discount</label>
+                            <% if((oldTotal*1.1 - od.getTotalPrice())==0) {%>
+                            <input class="form-control" type="text" placeholder="Discount" value="<fmt:formatNumber type="currency" pattern="###,###¤">0</fmt:formatNumber>" readonly>
+                            <% } else { %>
+                            <input class="form-control" type="text" placeholder="Discount" value="<fmt:formatNumber type="currency" pattern="###,###¤">-<%= (oldTotal*1.1 - od.getTotalPrice()) %></fmt:formatNumber>" readonly>
+                            <% } %>
+                            <label>Total</label>
+                            <input class="form-control" type="text" placeholder="Total" value="<fmt:formatNumber type="currency" pattern="###,###¤">${order.totalPrice}</fmt:formatNumber>" readonly>
+                            </div>
                         </div>
                     </div>
-                </form> 
 
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>CustomerID</th>
-                            <th>Receiver</th>
-                            <th>Address</th>
-                            <th>ShipCusInfo</th>
-                            <th>Status</th>
-                            <th>CreatedTime</th>
-                            <th>TotalPrice</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${orders}" var="order">
+                    <table class="table table-striped table-hover">
+                        <thead>
                             <tr>
-                                <td class="align-middle">${order.id}</td>
-                                <td class="align-middle">${order.customerId}</td>
-                                <td class="align-middle text-left" style="text-wrap: nowrap;">${order.receiver}</td>
-                                <td class="align-middle text-left">${order.shipStreet}, ${order.shipCity}, ${order.shipProvince}, ${order.shipCountry}</td>
-                                <td class="align-middle">${order.shipEmail}, ${order.shipPhone}</td>
-                                <td class="align-middle">${order.status}</td>
-                                <td class="align-middle">${order.createdTime}</td>
-                                <td class="align-middle">${order.totalPrice}</td>
-                                <td>
-                                    <c:if test="${order.status eq 'Processing'}">
-                                        <a href="home?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
-                                    </c:if> 
-                                    <c:if test="${order.status eq 'Shipping'}">
-                                        <a href="home?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
-                                    </c:if>         
-                                    <a href="home?go=viewOrderDetails&id=${order.id}" class="" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Details">&#xe8f4;</i></a>
-
-                                </td>
+                                <th>ProductID</th>
+                                <th>Product Name</th>
+                                <th>OrderId</th>
+                                <th>Price</th>
+                                <th>Quantity</th
                             </tr>
+                        </thead>
+
+                        <tbody>
+
+                        <c:forEach items="${orderdetails}" var="orderdetail">         
+                        <td class="align-middle">${orderdetail.productID}</td>
+                        <c:forEach items="${product}" var="product">
+                            <c:if test="${Integer.parseInt(orderdetail.productID) == Integer.parseInt(product.id)}">
+                                <td class="align-middle">${product.name}</td>
+                            </c:if>
                         </c:forEach>
+                        <td class="align-middle">${orderdetail.orderID}</td>
+                        <td class="align-middle">${orderdetail.price}</td>
+                        <td class="align-middle">${orderdetail.quantity}</td>  
+                        </tr>
+                    </c:forEach>
+
                     </tbody>
                 </table>
             </div>
@@ -243,6 +267,7 @@
                 </div>
             </div>
         </div>
-        <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
-    </body>
+    </a>
+    <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
+</body>
 </html>

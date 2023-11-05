@@ -53,15 +53,15 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                         <div class="manager-nav-item">
+                        <div class="manager-nav-item">
                             <a href="home" class="table-title-link"><h2>Manage <b>Product</b></h2></a>
                         </div>
                         <div class="manager-nav-item">
                             <a href="provider" class="table-title-link"><h2>Manage <b>Provider</b></h2></a>
                         </div>
-<!--                        <div class="manager-nav-item">
-                            <a href="order" class="table-title-link"><h2>Manage <b>Order</b></h2></a>
-                        </div>-->
+                        <!--                        <div class="manager-nav-item">
+                                                    <a href="order" class="table-title-link"><h2>Manage <b>Order</b></h2></a>
+                                                </div>-->
                         <!--Report-->
                         <div class="manager-nav-item">
                             <a href="${pageContext.request.contextPath}/manager/write-report?action=reply" class="table-title-link curent-page"><h2>Manage <b>Report</b></h2></a>
@@ -76,10 +76,24 @@
                             <th>Action</th>
                         </tr>
                     </thead>
+                    <style>.new-report {
+                            background-color: #f00;
+                            color: #fff;
+                            padding: 2px 5px;
+                            border-radius: 5px;
+                            font-weight: bold;
+                            font-size: 12px;
+                            margin-left: 5px;
+                        }</style>
                     <tbody>
                         <c:forEach items="${reports}" var="reports">
                             <tr>
-                                <td>${reports.title}</td>
+                                <td>${reports.title}
+                                    <c:if test="${reports.readStatus != true}">
+                                        <span class="new-report">New</span>
+                                    </c:if>
+                                </td>
+
                                 <td>${reports.writeDate}</td>
                                 <td>                 
                                     <a href="#viewReport${reports.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Report">&#xe8f4;</i></a>

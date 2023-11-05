@@ -6,6 +6,7 @@ package controller.storagestaff;
 
 import dao.OrderDAO;
 import dao.OrderDetailDAO;
+import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,6 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 import model.Order;
+import model.Product;
+import model.OrderDetail;
 import util.Helper;
 
 /**
@@ -44,7 +47,7 @@ public class UpdateOrderStatus extends HttpServlet {
             request.setAttribute("searchName", searchName);
             if (service.equals("search")) {
                 Vector<Order> orders = orderDAO.getAcceptedOrdersByName(searchName);
-                
+
                 for (Order order : orders) {
                     System.out.println(order.toString());
                 }
@@ -67,36 +70,72 @@ public class UpdateOrderStatus extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String service = request.getParameter("go");
-
+        OrderDAO orderDAO = new OrderDAO();
         if (service == null || service.equals("")) {
             service = "displayAll";
         }
         if (service.equals("displayAll")) {
-            OrderDAO orderDAO = new OrderDAO();
+//            OrderDAO orderDAO = new OrderDAO();
             Vector<Order> orders = orderDAO.GetStorageManageOrder();
             request.setAttribute("orders", orders);
             String[] arr = {"Processed", "Accepted", "Shipped", "Received", "Canceled"};
             List<String> status = Arrays.asList(arr);
             request.setAttribute("status", status);
             request.getRequestDispatcher("/jsp/storageManageOrderStatus.jsp").forward(request, response);
+        } else if (service.equals("viewDetail")) {
+            int orderId = Integer.parseInt(request.getParameter("id"));
+            OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
+            ProductDAO productDAO = new ProductDAO();
+            Vector<OrderDetail> orderdetails = orderDetailDAO.getById(orderId);
+            Order getOrder = orderDAO.getById(orderId);
+            Vector<Product> product = productDAO.getAllProduct();
+            request.setAttribute("orderdetails", orderdetails);
+            request.setAttribute("order", getOrder);
+            request.setAttribute("product", product);
+            request.getRequestDispatcher("/jsp/storageOrderDetail.jsp").forward(request, response);
         } else if (service.equals("changeOrderStatus")) {
             int orderId = Integer.parseInt(request.getParameter("id"));
+            Order order = orderDAO.getById(orderId);
             String newStatus = request.getParameter("newStatus");
-            OrderDAO orderDAO = new OrderDAO();
             Order changeStatusOrder = orderDAO.getById(orderId);
-            int checkStatusChange = orderDAO.changeOrderStatus(orderId, newStatus);
-            if (newStatus.equals("Cancelled")) {
+            int checkStatusChange = 0;
+            if (newStatus.equals("Packing")) {
+                OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
+                orderDetailDAO.updateProductQuantity(orderId);
+                checkStatusChange = orderDAO.changeOrderStatus(orderId, newStatus);
+                if (checkStatusChange != 0) {
+                    //Update success notification
+                    Helper.setNotification(request, "Order status changed to " + newStatus + " successfully for " + changeStatusOrder.getReceiver() + "'s order!", "GREEN");
+                } else {
+                    //Update fail notification
+                    Helper.setNotification(request, "Failed to change order status to " + newStatus + " for " + changeStatusOrder.getReceiver() + "'s order. Please try again.", "RED");
+                }
+            } else if (newStatus.equals("Cancelled") && order.getStatus().equals("Packing")) {
                 OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
                 orderDetailDAO.increaseProductQuantity(orderId);
+                response.sendRedirect("update-order-status");
+                checkStatusChange = orderDAO.changeOrderStatus(orderId, newStatus);
+                if (checkStatusChange != 0) {
+                    //Update success notification
+                    Helper.setNotification(request, "Order status changed to " + newStatus + " successfully for " + changeStatusOrder.getReceiver() + "'s order!", "GREEN");
+                } else {
+                    //Update fail notification
+                    Helper.setNotification(request, "Failed to change order status to " + newStatus + " for " + changeStatusOrder.getReceiver() + "'s order. Please try again.", "RED");
+                }
+                return;
+            } else if (newStatus.equals("Cancelled") || newStatus.equals("Shipping")) {
+                response.sendRedirect("update-order-status");
+                checkStatusChange = orderDAO.changeOrderStatus(orderId, newStatus);
+                if (checkStatusChange != 0) {
+                    //Update success notification
+                    Helper.setNotification(request, "Order status changed to " + newStatus + " successfully for " + changeStatusOrder.getReceiver() + "'s order!", "GREEN");
+                } else {
+                    //Update fail notification
+                    Helper.setNotification(request, "Failed to change order status to " + newStatus + " for " + changeStatusOrder.getReceiver() + "'s order. Please try again.", "RED");
+                }
+                return;
             }
-            if (checkStatusChange != 0) {
-                //Update success notification
-                Helper.setNotification(request, "Order status changed to " + newStatus + " successfully for " + changeStatusOrder.getReceiver() + "'s order!", "GREEN");
-            } else {
-                //Update fail notification
-                Helper.setNotification(request, "Failed to change order status to " + newStatus + " for " + changeStatusOrder.getReceiver() + "'s order. Please try again.", "RED");
-            }
-            response.sendRedirect("update-order-status");
+            response.sendRedirect("update-order-status?go=viewDetail&id=" + orderId);
         }
     }
 
