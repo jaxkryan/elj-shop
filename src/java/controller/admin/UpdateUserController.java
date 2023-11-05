@@ -76,21 +76,23 @@ public class UpdateUserController extends HttpServlet {
             }
             request.setAttribute("user", userToUpdate);
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date minimumDate = new Date(System.currentTimeMillis());
             Date userDOB = new Date();
             Date maximumDate = new Date(System.currentTimeMillis());
-            Calendar calendar = Calendar.getInstance();
-            try {
-                userDOB = dateFormat.parse(dateOfBirth);
-                calendar.setTime(minimumDate);
-                calendar.add(Calendar.YEAR, -100);
-                minimumDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
-                calendar.setTime(maximumDate);
-                calendar.add(Calendar.YEAR, role.equals("Customer") ? -13 : -18);
-                maximumDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
-            } catch (ParseException ex) {
-                Logger.getLogger(AddUserController.class.getName()).log(Level.SEVERE, null, ex);
+            if(!dateOfBirth.isEmpty()) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Calendar calendar = Calendar.getInstance();
+                try {
+                    userDOB = dateFormat.parse(dateOfBirth);
+                    calendar.setTime(minimumDate);
+                    calendar.add(Calendar.YEAR, -100);
+                    minimumDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
+                    calendar.setTime(maximumDate);
+                    calendar.add(Calendar.YEAR, role.equals("Customer") ? -13 : -18);
+                    maximumDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
+                } catch (ParseException ex) {
+                    Logger.getLogger(AddUserController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
             if (!firstName.matches(IConstant.REGEX_FIRSTNAME)) {
@@ -99,8 +101,11 @@ public class UpdateUserController extends HttpServlet {
             } else if (!lastName.matches(IConstant.REGEX_LASTNAME)) {
                 Helper.setNotification(request, "Last name is invalid!", "RED");
                 request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
-            } else if ((!role.equals("Customer") || !dateOfBirth.isEmpty()) && (userDOB.before(minimumDate) || userDOB.after(maximumDate))) {
-                Helper.setNotification(request, "User age must be greater than " + (role.equals("Customer") ? "13!" : "18!"), "RED");
+            } else if (!role.equals("Customer") && (dateOfBirth.isEmpty() || (userDOB.before(minimumDate) || userDOB.after(maximumDate)))) {
+                Helper.setNotification(request, "Employee age must be not empty and greater than 18!", "RED");
+                request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
+            }  else if (role.equals("Customer")  && !dateOfBirth.isEmpty() && (userDOB.before(minimumDate) || userDOB.after(maximumDate))) {
+                Helper.setNotification(request, "Customer age must be greater than 13!", "RED");
                 request.getRequestDispatcher("/jsp/updateUserPage.jsp").forward(request, response);
             } else if ((!role.equals("Customer") || !street.isEmpty()) && !street.matches(IConstant.REGEX_STREET)) {
                 Helper.setNotification(request, "Street name is invalid!", "RED");
