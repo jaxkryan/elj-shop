@@ -163,7 +163,7 @@ CREATE TABLE [Report] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
   storageStaffId int,
   managerId int,
-  title varchar(100),
+  title varchar(200),
   content varchar(1000),
   writeDate datetime,
   readStatus bit
