@@ -71,21 +71,23 @@ public class StorageStaffEditProfileController extends HttpServlet {
             userToUpdate.setEmail(user.getEmail());
             request.setAttribute("user", userToUpdate);
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date minimumDate = new Date(System.currentTimeMillis());
             Date userDOB = new Date();
             Date maximumDate = new Date(System.currentTimeMillis());
-            Calendar calendar = Calendar.getInstance();
-            try {
-                userDOB = dateFormat.parse(dateOfBirth);
-                calendar.setTime(minimumDate);
-                calendar.add(Calendar.YEAR, -100);
-                minimumDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
-                calendar.setTime(maximumDate);
-                calendar.add(Calendar.YEAR, -18);
-                maximumDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
-            } catch (ParseException ex) {
-                Logger.getLogger(AddUserController.class.getName()).log(Level.SEVERE, null, ex);
+            if(!dateOfBirth.isEmpty()) {
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    Calendar calendar = Calendar.getInstance();
+                    userDOB = dateFormat.parse(dateOfBirth);
+                    calendar.setTime(minimumDate);
+                    calendar.add(Calendar.YEAR, -100);
+                    minimumDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
+                    calendar.setTime(maximumDate);
+                    calendar.add(Calendar.YEAR, -18);
+                    maximumDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
+                } catch (ParseException ex) {
+                    Logger.getLogger(AddUserController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
             if (!firstName.matches(IConstant.REGEX_FIRSTNAME)) {
@@ -94,7 +96,7 @@ public class StorageStaffEditProfileController extends HttpServlet {
             } else if (!lastName.matches(IConstant.REGEX_LASTNAME)) {
                 Helper.setNotification(request, "Last name is invalid!", "RED");
                 request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
-            } else if (userDOB.before(minimumDate) || userDOB.after(maximumDate)) {
+            } else if (dateOfBirth.isEmpty() || userDOB.before(minimumDate) || userDOB.after(maximumDate)) {
                 Helper.setNotification(request, "Age must be greater than 18!", "RED");
                 request.getRequestDispatcher("/jsp/storageStaffProfilePage.jsp").forward(request, response);
             } else if (!street.matches(IConstant.REGEX_STREET)) {

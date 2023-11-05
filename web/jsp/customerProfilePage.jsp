@@ -83,33 +83,34 @@
                 </div>
             </div>
 
-            <c:if test="${not empty isGoogleUser ? isGoogleUser != 'true' : true}">
-                <!-- Update Email -->                            
-                <div class="row px-xl-5">
-                    <div class="col-lg-2">
-                    </div>
-                    <div class="col-lg-8">
-                        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Update Email</span></h5>
-                        <div class="bg-light p-30 mb-5">
-                            <div class="row">
-                                <form class="row" action="profile" method="POST" style="width: 100%">
-                                    <input name="id" type="hidden" value="${user.getId()}">
-                                    <div class="col-md-6 form-group">
-                                        <label>E-mail</label>
-                                        <input name="email" class="form-control" type="email" value="${user.getEmail()}" required>
-                                    </div>
 
+            <!-- Update Email -->                            
+            <div class="row px-xl-5">
+                <div class="col-lg-2">
+                </div>
+                <div class="col-lg-8">
+                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Email Address</span></h5>
+                    <div class="bg-light p-30 mb-5">
+                        <div class="row">
+                            <form class="row" action="profile" method="POST" style="width: 100%">
+                                <input name="id" type="hidden" value="${user.getId()}">
+                                <div class="col-md-6 form-group">
+                                    <label>E-mail</label>
+                                    <input name="email" class="form-control" type="email" value="${user.getEmail()}" required <c:if test="${isGoogleUser == 'true'}">readonly</c:if>>
+                                    </div>
+                                <c:if test="${isGoogleUser == 'false'}">
                                     <div class="col-md-3 form-group" style="margin-top: 34px "> 
                                         <input name="CustomerUpdateEmailSubmit" class="form-control btn btn-primary" type="submit" value="Update email">
                                     </div>
-                                </form>
-                            </div>
+                                </c:if>
+                            </form>
                         </div>
                     </div>
-                    <div class="col-lg-2">
-                    </div>
                 </div>
-
+                <div class="col-lg-2">
+                </div>
+            </div>
+            <c:if test="${isGoogleUser == 'false'}">
                 <!-- Change Password -->                            
                 <div class="row px-xl-5">
                     <div class="col-lg-2">

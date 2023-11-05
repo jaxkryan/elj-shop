@@ -71,6 +71,7 @@ public class LoginGoogleController extends HttpServlet {
                 session.removeAttribute("userId");
                 session.removeAttribute("userRole");
                 session.removeAttribute("cartItem");
+                session.removeAttribute("isGoogleUser");
 
                 //Get new infomation
                 session.setAttribute("userId", user.getId());

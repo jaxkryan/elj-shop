@@ -125,7 +125,7 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Update <b>Email</b></h2>
+                                <h2>Email <b>Address</b></h2>
                             </div>
                         </div>
                     </div>
