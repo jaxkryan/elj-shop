@@ -115,8 +115,8 @@
                             <c:forEach items="${products}" var="pro">
                                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                                     <div class="product-item bg-light mb-4">
-                                        <div class="product-img position-relative overflow-hidden">
-                                            <img class="img-fluid w-100" style="height: 174.08px; width: 174.08px;" src="${pro.image}" alt="">
+                                        <div class="product-img position-relative overflow-hidden product-image-container">
+                                            <img class="img-fluid w-100 product-image" src="${pro.image}" alt="">
                                             <div class="product-action">
                                                 <a title="Add to cart" class="btn btn-outline-dark btn-square" href="${pageContext.request.contextPath}/add-to-cart-shop-page?proId=${pro.id}&sort=${sort}&categoryId=${categoryId}&price=${price}&providerId=${providerId}&searchName=${searchName}&page=${page}"><i class="fa fa-shopping-cart"></i></a>
                                                 <a title="See details" class="btn btn-outline-dark btn-square" href="${pageContext.request.contextPath}/details?proId=${pro.id}&from=shop&sort=${sort}&categoryId=${categoryId}&price=${price}&providerId=${providerId}&searchName=${searchName}&page=${page}"><i class="fa fa-search"></i></a>

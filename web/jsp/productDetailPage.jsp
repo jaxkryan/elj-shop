@@ -29,8 +29,8 @@
             <div class="row px-xl-5">
                 <div class="col-lg-5 mb-30">
                     <div class="bg-light">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="w-100 h-100" src="${product.image}" alt="Image">
+                        <div class="product-img position-relative overflow-hidden product-image-container">
+                            <img class="product-image" src="${product.image}" alt="Image">
                         </div>
                     </div>
                 </div>
