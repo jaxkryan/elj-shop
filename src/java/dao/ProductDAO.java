@@ -369,7 +369,7 @@ public class ProductDAO extends jdbc.DBConnect {
                     + "FROM product where categoryId in (" + (searchCategoryId == -1 ? "select id from Category" : "?") + ")\n"
                     + "and providerId in (" + (searchProviderId == -1 ? "select id from Provider" : "?") + ")\n"
                     + "and price between ? and ?\n"
-                    + "and [product].[name] like ? and active = 1  ) as x where  r between 16*?-15 and 16*? order by price";
+                    + "and [product].[name] like ? and active = 1  ) as x where  r between 16*?-15 and 16*? order by price-discount";
             try {
                 PreparedStatement statement = conn.prepareStatement(sql);
                 if (searchCategoryId == -1 && searchProviderId == -1) { //No filter by both category and brand
@@ -422,7 +422,7 @@ public class ProductDAO extends jdbc.DBConnect {
                     + "FROM product where categoryId in (" + (searchCategoryId == -1 ? "select id from Category" : "?") + ")\n"
                     + "and providerId in (" + (searchProviderId == -1 ? "select id from Provider" : "?") + ")\n"
                     + "and price between ? and ?\n"
-                    + "and [product].[name] like ? and active = 1  ) as x where  r between 16*?-15 and 16*? order by price desc";
+                    + "and [product].[name] like ? and active = 1  ) as x where  r between 16*?-15 and 16*? order by price-discount desc";
             try {
                 PreparedStatement statement = conn.prepareStatement(sql);
                 if (searchCategoryId == -1 && searchProviderId == -1) { //No filter by both category and brand
@@ -590,7 +590,7 @@ public class ProductDAO extends jdbc.DBConnect {
                     + "FROM product where categoryId in (" + (searchCategoryId == -1 ? "select id from Category" : "?") + ")\n"
                     + "and providerId in (" + (searchProviderId == -1 ? "select id from Provider" : "?") + ")\n"
                     + "and price between ? and ?\n"
-                    + "and [product].[name] like ? and active = 1 order by price ";
+                    + "and [product].[name] like ? and active = 1 order by price-discount ";
             try {
                 PreparedStatement statement = conn.prepareStatement(sql);
                 if (searchCategoryId == -1 && searchProviderId == -1) { //No filter by both category and brand
@@ -637,7 +637,7 @@ public class ProductDAO extends jdbc.DBConnect {
                     + "FROM product where categoryId in (" + (searchCategoryId == -1 ? "select id from Category" : "?") + ")\n"
                     + "and providerId in (" + (searchProviderId == -1 ? "select id from Provider" : "?") + ")\n"
                     + "and price between ? and ?\n"
-                    + "and [product].[name] like ? and active = 1 order by price desc";
+                    + "and [product].[name] like ? and active = 1 order by price-discount desc";
             try {
                 PreparedStatement statement = conn.prepareStatement(sql);
                 if (searchCategoryId == -1 && searchProviderId == -1) { //No filter by both category and brand
