@@ -143,18 +143,18 @@
                             <div class="clearfix">
                                 <ul class="pagination justify-content-center">
                                     <c:if test="${page != 1}">
-                                        <li class="page-item"><a href="${pageContext.request.contextPath}/productfilter?page=${page-1}" class="page-link">Previous</a></li>
+                                        <li class="page-item"><a href="${pageContext.request.contextPath}/productfilter?page=${page-1}&sort=${sort}&categoryId=${categoryId}&price=${price}&providerId=${providerId}&searchName=${searchName}" class="page-link">Previous</a></li>
                                         </c:if>
                                         <c:forEach begin="1" end="${Math.ceil(numberOfProduct/16)}" var="i">
                                             <c:if test="${i == page}">
                                             <li class="page-item active"><a class="page-link">${i}</a></li>
                                             </c:if>
                                             <c:if test="${i != page}">
-                                            <li class="page-item "><a href="${pageContext.request.contextPath}/productfilter?page=${i}" class="page-link">${i}</a></li>
+                                            <li class="page-item "><a href="${pageContext.request.contextPath}/productfilter?page=${i}&sort=${sort}&categoryId=${categoryId}&price=${price}&providerId=${providerId}&searchName=${searchName}" class="page-link">${i}</a></li>
                                             </c:if>
                                         </c:forEach>
                                         <c:if test="${page != Math.ceil(numberOfProduct/16)}">
-                                        <li class="page-item"><a href="${pageContext.request.contextPath}/productfilter?page=${page+1}" class="page-link">Next</a></li>
+                                        <li class="page-item"><a href="${pageContext.request.contextPath}/productfilter?page=${page+1}&sort=${sort}&categoryId=${categoryId}&price=${price}&providerId=${providerId}&searchName=${searchName}" class="page-link">Next</a></li>
                                         </c:if>
                                 </ul>
                             </div>
