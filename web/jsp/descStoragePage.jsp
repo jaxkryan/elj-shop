@@ -36,21 +36,23 @@
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
-            <!--Alert-->
-            <div style="background-color: pink;
-                 color: red;
-                 padding: 6px;
-                 border-radius: 5px;">
-                <c:forEach items="${products}" var="pro">
-                    <c:if test="${pro.quantity < 50}">
-                        <c:set var="productNames" value="${productNames}, ${pro.name}"/>
-                    </c:if>
-                </c:forEach>
-                <c:if test="${!empty(productNames)}">
-                    <c:out value="${fn:substring(productNames, 1, fn:length(productNames))} 
-                           is nearly out of stock. Please re-supply it." />
-                </c:if>
+            <!-- Alert-->
+            <div class="row p-3">
+                <div class="col-lg-12">
+                    <div class="alert alert-danger">
+                        <strong><c:forEach items="${products}" var="pro">
+                                <c:if test="${pro.quantity < 50}">
+                                    <c:set var="productNames" value="${productNames}, ${pro.name}"/>
+                                </c:if>
+                            </c:forEach>
+                            <c:if test="${!empty(productNames)}">
+                                <c:out value="${fn:substring(productNames, 1, fn:length(productNames))} 
+                                       is nearly out of stock. Please re-supply it." />
+                            </c:if></strong>
+                    </div>
+                </div>
             </div>
+            <!-- Alert end -->
             <!-- Notification Start -->
             <c:if test="${notification != null}">
                 <div class="row p-3">
@@ -65,7 +67,7 @@
                 </div>
             </c:if>
             <!-- Notification End -->
-            
+
             <div class="table-wrapper">
                 <!--title-->
                 <div class="table-title">

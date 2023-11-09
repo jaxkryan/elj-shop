@@ -91,6 +91,8 @@ public class StorageController extends HttpServlet {
                         Logger.getLogger(StorageController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                Vector<Product> products = productDAO.getAllProduct();
+                request.setAttribute("products", products);
                 RequestDispatcher disp = request.getRequestDispatcher("/jsp/manageStoragePage.jsp");
                 disp.forward(request, response);
                 service = "All";
