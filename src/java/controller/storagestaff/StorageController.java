@@ -19,6 +19,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Product;
+import util.Helper;
 
 /**
  *
@@ -73,16 +74,23 @@ public class StorageController extends HttpServlet {
                 //submit button
                 if (submit != null) {
                     int pid = Integer.parseInt(request.getParameter("prodId"));
-                    int quantity = Integer.parseInt(request.getParameter("qty"));
-                    ProductDAO dao = new ProductDAO();
+                    String quantityParam = request.getParameter("qty");
                     try {
+                        int quantity = Integer.parseInt(quantityParam);
+                        ProductDAO dao = new ProductDAO();
                         dao.updateQty(pid, quantity);
+                        Helper.setNotification(request, "Update quantity successfully!", "GREEN");
+                        Vector<Product> products = productDAO.getAllProduct();
+                        request.setAttribute("products", products);
+                    } catch (NumberFormatException ex) {
+                        Helper.setNotification(request, "Update fail! The quantity can not contain letter!", "RED");
+                        Vector<Product> products = productDAO.getAllProduct();
+                        request.setAttribute("products", products);
+                        Logger.getLogger(StorageController.class.getName()).log(Level.SEVERE, "Invalid quantity input: " + quantityParam, ex);
                     } catch (SQLException ex) {
                         Logger.getLogger(StorageController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                Vector<Product> products = productDAO.getAllProduct();
-                request.setAttribute("products", products);
                 RequestDispatcher disp = request.getRequestDispatcher("/jsp/manageStoragePage.jsp");
                 disp.forward(request, response);
                 service = "All";
@@ -90,10 +98,19 @@ public class StorageController extends HttpServlet {
             if (service.equals("Asc")) {
                 if (submit != null) {
                     int pid = Integer.parseInt(request.getParameter("prodId"));
-                    int quantity = Integer.parseInt(request.getParameter("qty"));
-                    ProductDAO dao = new ProductDAO();
+                    String quantityParam = request.getParameter("qty");
                     try {
+                        int quantity = Integer.parseInt(quantityParam);
+                        ProductDAO dao = new ProductDAO();
                         dao.updateQty(pid, quantity);
+                        Helper.setNotification(request, "Update quantity successfully!", "GREEN");
+                        Vector<Product> products = productDAO.sortProducts("quantity", "Asc");
+                        request.setAttribute("products", products);
+                    } catch (NumberFormatException ex) {
+                        Helper.setNotification(request, "Update fail! The quantity can not contain letter!", "RED");
+                        Vector<Product> products = productDAO.sortProducts("quantity", "Asc");
+                        request.setAttribute("products", products);
+                        Logger.getLogger(StorageController.class.getName()).log(Level.SEVERE, "Invalid quantity input: " + quantityParam, ex);
                     } catch (SQLException ex) {
                         Logger.getLogger(StorageController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -115,10 +132,19 @@ public class StorageController extends HttpServlet {
             if (service.equals("Desc")) {
                 if (submit != null) {
                     int pid = Integer.parseInt(request.getParameter("prodId"));
-                    int quantity = Integer.parseInt(request.getParameter("qty"));
-                    ProductDAO dao = new ProductDAO();
+                    String quantityParam = request.getParameter("qty");
                     try {
+                        int quantity = Integer.parseInt(quantityParam);
+                        ProductDAO dao = new ProductDAO();
                         dao.updateQty(pid, quantity);
+                        Helper.setNotification(request, "Update quantity successfully!", "GREEN");
+                        Vector<Product> products = productDAO.sortProducts("quantity", "Desc");
+                        request.setAttribute("products", products);
+                    } catch (NumberFormatException ex) {
+                        Helper.setNotification(request, "Update fail! The quantity can not contain letter!", "RED");
+                        Vector<Product> products = productDAO.sortProducts("quantity", "Desc");
+                        request.setAttribute("products", products);
+                        Logger.getLogger(StorageController.class.getName()).log(Level.SEVERE, "Invalid quantity input: " + quantityParam, ex);
                     } catch (SQLException ex) {
                         Logger.getLogger(StorageController.class.getName()).log(Level.SEVERE, null, ex);
                     }

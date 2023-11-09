@@ -51,6 +51,21 @@
                            is nearly out of stock. Please re-supply it." />
                 </c:if>
             </div>
+            <!-- Notification Start -->
+            <c:if test="${notification != null}">
+                <div class="row p-3">
+                    <div class="col-lg-12">
+                        <div class="alert <c:choose><c:when test="${notiType == 'RED'}">alert-danger</c:when><c:otherwise>alert-success</c:otherwise></c:choose>">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <strong><%= session.getAttribute("notification")%></strong>
+                            <%session.removeAttribute("notification");%>
+                            <%session.removeAttribute("notiType");%>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+            <!-- Notification End -->
+            
             <div class="table-wrapper">
                 <!--title-->
                 <div class="table-title">

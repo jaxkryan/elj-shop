@@ -36,21 +36,39 @@
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
-            <!--Alert-->
-            <div style="background-color: pink;
-                 color: red;
-                 padding: 6px;
-                 border-radius: 5px;">
-                <c:forEach items="${products}" var="pro">
-                    <c:if test="${pro.quantity < 50}">
-                        <c:set var="productNames" value="${productNames}, ${pro.name}"/>
-                    </c:if>
-                </c:forEach>
-                <c:if test="${!empty(productNames)}">
-                    <c:out value="${fn:substring(productNames, 1, fn:length(productNames))} 
-                           is nearly out of stock. Please re-supply it." />
-                </c:if>
+              <!-- Alert-->
+            <div class="row p-3">
+                <div class="col-lg-12">
+                    <div class="alert alert-danger">
+
+                                    <strong>                <c:forEach items="${products}" var="pro">
+                                <c:if test="${pro.quantity < 50}">
+                                    <c:set var="productNames" value="${productNames}, ${pro.name}"/>
+                                </c:if>
+                            </c:forEach>
+                            <c:if test="${!empty(productNames)}">
+                                <c:out value="${fn:substring(productNames, 1, fn:length(productNames))} 
+                                       is nearly out of stock. Please re-supply it." />
+                            </c:if></strong>
+
+                    </div>
+                </div>
             </div>
+            <!-- Alert end -->
+            <!-- Notification Start -->
+            <c:if test="${notification != null}">
+                <div class="row p-3">
+                    <div class="col-lg-12">
+                        <div class="alert <c:choose><c:when test="${notiType == 'RED'}">alert-danger</c:when><c:otherwise>alert-success</c:otherwise></c:choose>">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <strong><%= session.getAttribute("notification")%></strong>
+                            <%session.removeAttribute("notification");%>
+                            <%session.removeAttribute("notiType");%>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+            <!-- Notification End -->
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
@@ -68,8 +86,6 @@
                         </div>
                     </div>
                 </div>
-                <!--                Report
-                                <a href="${pageContext.request.contextPath}/write-report?action=view">Report</a>-->
                 <div style="display: flex">
                     <!--sorting-->
                     <form id="sortForm" action="storage-manage-product" method="post">
