@@ -36,12 +36,11 @@
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
-              <!-- Alert-->
+            <!-- Alert-->
             <div class="row p-3">
                 <div class="col-lg-12">
                     <div class="alert alert-danger">
-
-                                    <strong>                <c:forEach items="${products}" var="pro">
+                        <strong><c:forEach items="${products}" var="pro">
                                 <c:if test="${pro.quantity < 50}">
                                     <c:set var="productNames" value="${productNames}, ${pro.name}"/>
                                 </c:if>
@@ -50,7 +49,6 @@
                                 <c:out value="${fn:substring(productNames, 1, fn:length(productNames))} 
                                        is nearly out of stock. Please re-supply it." />
                             </c:if></strong>
-
                     </div>
                 </div>
             </div>
