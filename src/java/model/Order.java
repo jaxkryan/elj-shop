@@ -21,13 +21,13 @@ public class Order {
     private String shipPhone;
     private String status;
     private String createdTime;
-    private float totalPrice;
+    private double totalPrice;
     private boolean active;
 
     public Order() {
     }
 
-    public Order(int customerId, String receiver, String shipStreet, String shipCity, String shipProvince, String shipCountry, String shipEmail, String shipPhone, String status, String createdTime, float totalPrice, boolean active) {
+    public Order(int customerId, String receiver, String shipStreet, String shipCity, String shipProvince, String shipCountry, String shipEmail, String shipPhone, String status, String createdTime, double totalPrice, boolean active) {
         this.customerId = customerId;
         this.receiver = receiver;
         this.shipStreet = shipStreet;
@@ -43,7 +43,7 @@ public class Order {
 
     }
 
-    public Order(int id, int customerId, String receiver, String shipStreet, String shipCity, String shipProvince, String shipCountry, String shipEmail, String shipPhone, String status, String createdTime, float totalPrice, boolean active) {
+    public Order(int id, int customerId, String receiver, String shipStreet, String shipCity, String shipProvince, String shipCountry, String shipEmail, String shipPhone, String status, String createdTime, double totalPrice, boolean active) {
         this.id = id;
         this.customerId = customerId;
         this.receiver = receiver;
@@ -147,11 +147,11 @@ public class Order {
         this.createdTime = createdTime;
     }
 
-    public float getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 

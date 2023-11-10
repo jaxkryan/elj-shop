@@ -71,7 +71,13 @@ public class CreateOrderController extends HttpServlet {
             response.sendRedirect("home");
             return;
         }
-        Float orderPrice = subtotal * (float) 1.1;
+        double orderPrice = subtotal * 1.1;
+        if ((orderPrice * 10) % 10 >= 5) {
+            orderPrice = Math.ceil(orderPrice);
+        } else {
+            orderPrice = Math.floor(orderPrice);
+        }
+        System.out.println("sub: " + subtotal +", orderPrice: " + orderPrice);
         String voucherCode = request.getParameter("voucherCode") != null ? request.getParameter("voucherCode") : "";
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

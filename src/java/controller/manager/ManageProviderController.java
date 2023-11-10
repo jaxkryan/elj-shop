@@ -107,6 +107,9 @@ public class ManageProviderController extends HttpServlet {
         Vector<Category> categories = cdao.getAllCategory();
         request.setAttribute("categories", categories);
         String search = request.getParameter("search") == null ? "" : request.getParameter("search");
+        if (service == null || service.equals("")) {
+            service = "displayAll";
+        }
         if (search.equals("All")){
             String keyword = request.getParameter("keyword");
             Vector<Provider> searchProviders = providerDAO.getProviderByName(keyword);

@@ -179,7 +179,7 @@ public class ProviderDAO extends jdbc.DBConnect {
     
     public static void main(String[] args) {
         ProviderDAO pDao = new ProviderDAO();
-        pDao.deleteProvider(1);
+        
         List<Provider> providers = pDao.getAllProvider();
         System.out.println(providers);
     }
