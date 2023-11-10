@@ -57,9 +57,10 @@
                     </div>
                 </div>
             </c:if>
+
             <!-- Notification End -->
             <% ProductDAO pdao = new ProductDAO(); %>
-            <% Vector<OrderDetail> details = (Vector<OrderDetail>) request.getAttribute("orderdetails"); %>
+            <% Vector<OrderDetail> details = (Vector<OrderDetail>) request.getAttribute("details"); %>
             <% Order od = (Order) request.getAttribute("order");%>
             <style>
                 .vertical-line {
@@ -74,7 +75,7 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-3">
-                           <h2><b>Order Detail</b></h2>
+                            <h2><b>Order Detail</b></h2>
                         </div>
                     </div>
                 </div>              
@@ -91,8 +92,6 @@
                             <label>E-mail</label>
                             <input class="form-control" type="email" placeholder="example@email.com" value="${order.shipEmail}" readonly>
                             <div style="padding-top: 2%">
-<!--                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Packing&id=${order.id}"  class="btn btn-primary">Packing</a>
-                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}"  class="btn btn-primary">Cancelled</a>-->
                                 <c:choose>
                                     <c:when test="${order.status == 'Packing'}">
                                         <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Shipping&id=${order.id}" class="btn btn-primary">Shipping</a>
@@ -108,6 +107,8 @@
                             </div>
                         </div>
 
+
+
                         <div class="col-md-6 form-group">
                             <h4>Order Information</h4>
                             <label>Created Date</label>
@@ -122,13 +123,17 @@
                             <% if((oldTotal*1.1 - od.getTotalPrice())==0) {%>
                             <input class="form-control" type="text" placeholder="Discount" value="<fmt:formatNumber type="currency" pattern="###,###¤">0</fmt:formatNumber>" readonly>
                             <% } else { %>
-                            <input class="form-control" type="text" placeholder="Discount" value="<fmt:formatNumber type="currency" pattern="###,###¤">-<%= (oldTotal*1.1 - od.getTotalPrice()) %></fmt:formatNumber>" readonly>
+                            <input class="form-control" type="text" placeholder="Discount" value="<fmt:formatNumber type="currency" pattern="###,###¤"><%=(oldTotal*1.1 - od.getTotalPrice()) %></fmt:formatNumber>" readonly>
                             <% } %>
                             <label>Total</label>
                             <input class="form-control" type="text" placeholder="Total" value="<fmt:formatNumber type="currency" pattern="###,###¤">${order.totalPrice}</fmt:formatNumber>" readonly>
                             </div>
                         </div>
                     </div>
+
+
+
+
 
                     <table class="table table-striped table-hover">
                         <thead>
@@ -143,7 +148,7 @@
 
                         <tbody>
 
-                        <c:forEach items="${orderdetails}" var="orderdetail">         
+                        <c:forEach items="${details}" var="orderdetail">         
                         <td class="align-middle">${orderdetail.productID}</td>
                         <c:forEach items="${product}" var="product">
                             <c:if test="${Integer.parseInt(orderdetail.productID) == Integer.parseInt(product.id)}">
@@ -160,114 +165,6 @@
                 </table>
             </div>
         </div>
-
-        <!-- Add Modal HTML -->
-        <div id="addEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="add" method="post">
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Add Product</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input name="name" type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Image</label>
-                                <input name="image" type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input name="price" type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Title</label>
-                                <textarea name="title" class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea name="description" class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Category</label>
-                                <select name="category" class="form-select" aria-label="Default select example">
-                                    <c:forEach begin="1" end="3" var="o">
-                                        <option value="1">Giày Adidas</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Add">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Edit Modal HTML -->
-        <div id="editEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form>
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Edit Employee</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                <textarea class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" required>
-                            </div>					
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-info" value="Save">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Delete Modal HTML -->
-        <div id="deleteEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form>
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Delete Product</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">					
-                            <p>Are you sure you want to delete these Records?</p>
-                            <p class="text-warning"><small>This action cannot be undone.</small></p>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-danger" value="Delete">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </a>
-    <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
-</body>
+        <script src="${pageContext.request.contextPath}/js/manager.js" type="text/javascript"></script>
+    </body>
 </html>
