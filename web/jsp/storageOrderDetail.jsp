@@ -94,13 +94,13 @@
                             <div style="padding-top: 2%">
                                 <c:choose>
                                     <c:when test="${order.status == 'Packing'}">
-                                        <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Shipping&id=${order.id}" class="btn btn-primary">Shipping</a>
-                                        <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="btn btn-primary">Cancel</a>
+                                        <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Shipping&id=${order.id}&cusId=${order.customerId}" class="btn btn-primary">Shipping</a>
+                                        <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}&cusId=${order.customerId}" class="btn btn-primary">Cancel</a>
 
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Packing&id=${order.id}" class="btn btn-primary">Packing</a>
-                                        <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="btn btn-primary">Cancel</a>
+                                        <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Packing&id=${order.id}&cusId=${order.customerId}" class="btn btn-primary">Packing</a>
+                                        <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}&cusId=${order.customerId}" class="btn btn-primary">Cancel</a>
 
                                     </c:otherwise>
                                 </c:choose>

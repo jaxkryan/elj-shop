@@ -98,6 +98,8 @@ public class UpdateOrderStatus extends HttpServlet {
             request.getRequestDispatcher("/jsp/storageOrderDetail.jsp").forward(request, response);
         } else if (service.equals("changeOrderStatus")) {
             int orderId = Integer.parseInt(request.getParameter("id"));
+            int userId = Integer.parseInt(request.getParameter("cusId"));
+            
             Order order = orderDAO.getById(orderId);
             String newStatus = request.getParameter("newStatus");
             Order changeStatusOrder = orderDAO.getById(orderId);
@@ -138,7 +140,7 @@ public class UpdateOrderStatus extends HttpServlet {
                 }
                 return;
             }
-            response.sendRedirect("update-order-status?go=viewDetail&id=" + orderId);
+            response.sendRedirect("update-order-status?go=viewDetail&id=" + orderId+ "&cusId=" + userId );
         }
     }
 
