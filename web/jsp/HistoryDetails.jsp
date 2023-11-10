@@ -168,7 +168,7 @@
                                     </thead>
                                     <tbody class="align-middle">
                                         <% for(int i = 0; i < details.size(); i++) {%>
-                                        <% Product product = pdao.getProductById(details.get(i).getProductID()); %>
+                                        <% Product product = pdao.getProductByIdInHistoryDetail(details.get(i).getProductID()); %>
                                         <% int check = (int)request.getAttribute("check");%>
                                         <tr>
                                             <td class="text-left">
