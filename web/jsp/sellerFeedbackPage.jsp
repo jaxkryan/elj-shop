@@ -67,7 +67,6 @@
                             <th>Customer Name</th>
                             <th>OrderID</th>
                             <th>Product Name</th>
-                            <th>Content</th>
                             <th>FeedbackDate</th>
                             <th>Reply</th>
                             <th>Status</th>
@@ -90,7 +89,6 @@
                                             <input type ="hidden" name ="customerId" value="">
                                         </c:if>
                                     </c:forEach></td>
-                                <td>${feedback.content}</td>
                                 <td>${feedback.feedbackDate}</td>
                                 <td>                 
                                     <a href="#viewReport${feedback.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Report">&#xe8f4;</i></a>
