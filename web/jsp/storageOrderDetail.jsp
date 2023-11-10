@@ -96,14 +96,15 @@
                                     <c:when test="${order.status == 'Packing'}">
                                         <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Shipping&id=${order.id}&cusId=${order.customerId}" class="btn btn-primary">Shipping</a>
                                         <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}&cusId=${order.customerId}" class="btn btn-primary">Cancel</a>
-
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Packing&id=${order.id}&cusId=${order.customerId}" class="btn btn-primary">Packing</a>
-                                        <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}&cusId=${order.customerId}" class="btn btn-primary">Cancel</a>
-
+                                        <c:if test="${order.status != 'Cancelled'}">
+                                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Packing&id=${order.id}&cusId=${order.customerId}" class="btn btn-primary">Packing</a>
+                                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}&cusId=${order.customerId}" class="btn btn-primary">Cancel</a>
+                                        </c:if>
                                     </c:otherwise>
                                 </c:choose>
+
                             </div>
                         </div>
 
