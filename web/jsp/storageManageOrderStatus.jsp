@@ -149,7 +149,7 @@
                                         <td class="align-middle">${order.createdTime}</td>
                                         <td class="align-middle">${order.totalPrice}</td>
                                         <td>
-                                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=viewDetail&id=${order.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Detail">&#xe8f4;</i></a>
+                                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=viewDetail&id=${order.id}&cusId=${order.customerId}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Detail">&#xe8f4;</i></a>
                                         </td>
                                         <!-- Delete Modal HTML -->
                                 <div id="deleteEmployeeModal${order.id}" class="modal fade">
@@ -171,6 +171,7 @@
                                                 <input type="hidden" name ="go" value="changeOrderStatus" >
                                                 <input type="hidden" name ="newStatus" value="Cancelled" >
                                                 <input type="hidden" name ="id" value="${order.id}" >
+                                                <input type="hidden" name ="cusId" value="${order.customerId}" >
                                             </form>
                                         </div>
                                     </div>

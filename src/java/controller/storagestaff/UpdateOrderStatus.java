@@ -84,14 +84,17 @@ public class UpdateOrderStatus extends HttpServlet {
             request.getRequestDispatcher("/jsp/storageManageOrderStatus.jsp").forward(request, response);
         } else if (service.equals("viewDetail")) {
             int orderId = Integer.parseInt(request.getParameter("id"));
-            OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
+            int userId = Integer.parseInt(request.getParameter("cusId"));
+            OrderDetailDAO oddao = new OrderDetailDAO();
             ProductDAO productDAO = new ProductDAO();
-            Vector<OrderDetail> orderdetails = orderDetailDAO.getById(orderId);
-            Order getOrder = orderDAO.getById(orderId);
             Vector<Product> product = productDAO.getAllProduct();
-            request.setAttribute("orderdetails", orderdetails);
-            request.setAttribute("order", getOrder);
             request.setAttribute("product", product);
+            Vector<OrderDetail> details = oddao.getOrderDetailsById(userId, orderId);
+            OrderDAO odao = new OrderDAO();
+            Order order = odao.getById(orderId);
+            request.setAttribute("order", order);
+            request.setAttribute("details", details);
+//            request.getRequestDispatcher("/jsp/test.jsp").forward(request, response);
             request.getRequestDispatcher("/jsp/storageOrderDetail.jsp").forward(request, response);
         } else if (service.equals("changeOrderStatus")) {
             int orderId = Integer.parseInt(request.getParameter("id"));
