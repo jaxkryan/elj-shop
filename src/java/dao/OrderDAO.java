@@ -45,7 +45,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 String shipPhone = rs.getString(9);
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
-                float totalPrice = rs.getFloat(12);
+                double totalPrice = rs.getDouble(12);
                 Boolean active = rs.getBoolean(13);
                 orders.add(new Order(id, customerId, receiver, shipStreet,
                         shipCity, shipProvince, shipCountry, shipEmail,
@@ -88,7 +88,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 String shipPhone = rs.getString(9);
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
-                float totalPrice = rs.getFloat(12);
+                double totalPrice = rs.getDouble(12);
                 Boolean active = rs.getBoolean(13);
                 return new Order(id, customerId, receiver, shipStreet,
                         shipCity, shipProvince, shipCountry, shipEmail,
@@ -131,7 +131,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 String shipPhone = rs.getString(9);
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
-                float totalPrice = rs.getFloat(12);
+                double totalPrice = rs.getDouble(12);
                 Boolean active = rs.getBoolean(13);
                 orders.add(new Order(id, customerId, receiver, shipStreet,
                         shipCity, shipProvince, shipCountry, shipEmail,
@@ -174,7 +174,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 String shipPhone = rs.getString(9);
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
-                float totalPrice = rs.getFloat(12);
+                double totalPrice = rs.getDouble(12);
                 Boolean active = rs.getBoolean(13);
                 orders.add(new Order(id, customerId, receiver, shipStreet,
                         shipCity, shipProvince, shipCountry, shipEmail,
@@ -217,7 +217,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 String shipPhone = rs.getString(9);
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
-                float totalPrice = rs.getFloat(12);
+                double totalPrice = rs.getDouble(12);
                 Boolean active = rs.getBoolean(13);
                 orders.add(new Order(id, customerId, receiver, shipStreet,
                         shipCity, shipProvince, shipCountry, shipEmail,
@@ -278,7 +278,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 String shipPhone = rs.getString(9);
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
-                float totalPrice = rs.getFloat(12);
+                double totalPrice = rs.getDouble(12);
                 Boolean active = rs.getBoolean(13);
                 orders.add(new Order(id, customerId, receiver, shipStreet,
                         shipCity, shipProvince, shipCountry, shipEmail,
@@ -324,7 +324,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 String shipPhone = rs.getString(9);
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
-                float totalPrice = rs.getFloat(12);
+                double totalPrice = rs.getDouble(12);
                 Boolean active = rs.getBoolean(13);
                 orders.add(new Order(id, customerId, receiver, shipStreet,
                         shipCity, shipProvince, shipCountry, shipEmail,
@@ -368,7 +368,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 String shipEmail = rs.getString(8);
                 String shipPhone = rs.getString(9);
                 String createdTime = rs.getString(10);
-                float totalPrice = rs.getFloat(11);
+                double totalPrice = rs.getDouble(11);
                 Boolean active = rs.getBoolean(12);
                 orders.add(new Order(id, customerId, receiver, shipStreet,
                         shipCity, shipProvince, shipCountry, shipEmail,
@@ -420,7 +420,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 String shipPhone = rs.getString(9);
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
-                float totalPrice = rs.getFloat(12);
+                double totalPrice = rs.getDouble(12);
                 Boolean active = rs.getBoolean(13);
                 orders.add(new Order(id, customerId, receiver, shipStreet,
                         shipCity, shipProvince, shipCountry, shipEmail,
@@ -472,7 +472,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 String shipPhone = rs.getString(9);
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
-                float totalPrice = rs.getFloat(12);
+                double totalPrice = rs.getDouble(12);
                 Boolean active = rs.getBoolean(13);
                 orders.add(new Order(id, customerId, receiver, shipStreet,
                         shipCity, shipProvince, shipCountry, shipEmail,
@@ -522,7 +522,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 String shipEmail = rs.getString(8);
                 String shipPhone = rs.getString(9);
                 String createdTime = rs.getString(10);
-                float totalPrice = rs.getFloat(11);
+                double totalPrice = rs.getDouble(11);
                 Boolean active = rs.getBoolean(12);
                 String orderStatus = rs.getString(13);
                 orders.add(new Order(id, customerId, receiver, shipStreet,
@@ -569,7 +569,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 String shipPhone = rs.getString(9);
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
-                float totalPrice = rs.getFloat(12);
+                double totalPrice = rs.getDouble(12);
                 Boolean active = rs.getBoolean(13);
                 orders.add(new Order(id, customerId, receiver, shipStreet,
                         shipCity, shipProvince, shipCountry, shipEmail,
@@ -608,7 +608,7 @@ public class OrderDAO extends jdbc.DBConnect {
             pre.setString(8, order.getShipPhone());
             pre.setString(9, order.getStatus());
             pre.setString(10, order.getCreatedTime());
-            pre.setFloat(11, order.getTotalPrice());
+            pre.setDouble(11, order.getTotalPrice());
             pre.setInt(12, order.getId());
             rowsAffected = pre.executeUpdate();
         } catch (SQLException ex) {
@@ -660,7 +660,7 @@ public class OrderDAO extends jdbc.DBConnect {
         return affectedRows;
     }
 
-    public void createOrderWithoutVoucher(int userId, String receiver, String street, String city, String province, String country, String email, String phone, String orderDate, Float orderPrice, Vector<CartItem> cartItem) {
+    public void createOrderWithoutVoucher(int userId, String receiver, String street, String city, String province, String country, String email, String phone, String orderDate, double orderPrice, Vector<CartItem> cartItem) {
         String sql = "INSERT [Order] ([customerId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) "
                 + "VALUES "
                 + "( ? , ? , ? , ? , ? , ? , ? , ? , 'Processing', ? , ? , 1 ) ";
@@ -675,7 +675,7 @@ public class OrderDAO extends jdbc.DBConnect {
             pre.setString(7, email);
             pre.setString(8, phone);
             pre.setString(9, orderDate);
-            pre.setFloat(10, orderPrice);
+            pre.setDouble(10, orderPrice);
             pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -687,7 +687,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 PreparedStatement pre = conn.prepareStatement(sqls);
                 pre.setInt(1, cartItem.get(i).getProductId());
                 pre.setInt(2, getLastOrderId());
-                pre.setFloat(3, cartItem.get(i).getPrice());
+                pre.setDouble(3, cartItem.get(i).getPrice());
                 pre.setInt(4, cartItem.get(i).getQuantity());
                 pre.executeUpdate();
             } catch (SQLException ex) {
@@ -718,7 +718,7 @@ public class OrderDAO extends jdbc.DBConnect {
         return lastOrrderId;
     }
 
-    public void createOrderWithVoucher(int userId, Voucher voucher, String receiver, String street, String city, String province, String country, String email, String phone, String orderDate, Float orderPrice, Vector<CartItem> cartItem) {
+    public void createOrderWithVoucher(int userId, Voucher voucher, String receiver, String street, String city, String province, String country, String email, String phone, String orderDate, double orderPrice, Vector<CartItem> cartItem) {
         String sql = "INSERT [Order] ([customerId], [voucherId], [receiver], [shipStreet], [shipCity], [shipProvince], [shipCountry], [shipEmail], [shipPhone], [status], [createdTime], [totalPrice],[active]) "
                 + "VALUES "
                 + "( ? , ? , ? , ? , ? , ? , ? , ? , ? , 'Processing', ? , ? , 1 ) ";
@@ -734,7 +734,7 @@ public class OrderDAO extends jdbc.DBConnect {
             pre.setString(8, email);
             pre.setString(9, phone);
             pre.setString(10, orderDate);
-            pre.setFloat(11, (float) (orderPrice * (1 - voucher.getValue() / 100)));
+            pre.setDouble(11, (double) (orderPrice * (1 - voucher.getValue() / 100)));
             pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -746,7 +746,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 PreparedStatement pre = conn.prepareStatement(sqls);
                 pre.setInt(1, cartItem.get(i).getProductId());
                 pre.setInt(2, getLastOrderId());
-                pre.setFloat(3, (float) (cartItem.get(i).getPrice()));
+                pre.setDouble(3, (double) (cartItem.get(i).getPrice()));
                 pre.setInt(4, cartItem.get(i).getQuantity());
                 pre.executeUpdate();
             } catch (SQLException ex) {
@@ -811,7 +811,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 String shipPhone = rs.getString(9);
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
-                float totalPrice = rs.getFloat(12);
+                double totalPrice = rs.getDouble(12);
                 Boolean active = rs.getBoolean(13);
                 orders.add(new Order(id, customerId, receiver, shipStreet,
                         shipCity, shipProvince, shipCountry, shipEmail, shipPhone,
@@ -855,7 +855,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 String shipPhone = rs.getString(9);
                 String status = rs.getString(10);
                 String createdTime = rs.getString(11);
-                float totalPrice = rs.getFloat(12);
+                double totalPrice = rs.getDouble(12);
                 Boolean active = rs.getBoolean(13);
                 orders.add(new Order(id, customerId, receiver, shipStreet,
                         shipCity, shipProvince, shipCountry, shipEmail, shipPhone,
