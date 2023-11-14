@@ -70,58 +70,35 @@
                             <a href="${pageContext.request.contextPath}/storage-staff/write-report?action=view" class="table-title-link"><h2><b>Report</h2></b></a>
                         </div>
                     </div>
-                </div> 
-
-                <div class="row"> 
-                    <!-- sort asc desc -->
-                    <div class="col-md-6">
-                        <input type="checkbox" name="sortCheckbox" value="ascending" id="ascendingCheckbox" onclick="document.getElementById('descendingCheckbox').checked = false;">
-                        <label for="ascendingCheckbox">Created Date Ascending</label>
-                        <input type="checkbox" name="sortCheckbox" value="descending" id="descendingCheckbox" onclick="document.getElementById('ascendingCheckbox').checked = false;">
-                        <label for="descendingCheckbox">Created Date Descending</label>
-                    </div>
-                    <!--Search bar-->
-                    <div class="col-md-6">
-                        <form action="${pageContext.request.contextPath}/storage-staff/update-order-status?go=search" method="post">
-                            <div class="text-right" style="margin-top: 0.5%">
-                                <input style="color: black" name="keyword" type="text" class="search-bar" placeholder="Search customer" value="${searchName}">
-                                <input style="color: #000000" type="submit" name="searchSubmit" value="Search">
-                            </div>
-                        </form>
-                    </div>
                 </div>
-                <script>
-                    function sortTable() {
-                        var ascendingCheckbox = document.getElementById("ascendingCheckbox");
-                        var descendingCheckbox = document.getElementById("descendingCheckbox");
-                        var tableBody = document.querySelector("table tbody");
-                        var rows = Array.from(tableBody.getElementsByTagName("tr"));
+                        
+                <form id="sortForm" action="${pageContext.request.contextPath}/storage-staff/update-order-status?go=filter" method="get">
+                    <input type="hidden" name="go" value="filter">
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <label>Sort by: </label>
+                            <select name="sortType" id="sort" onchange="this.form.submit()">
+                                <option value="Default" <c:if test="${param.sortType == 'Default'}">selected</c:if>>Default</option>
+                                <option value="ASC" <c:if test="${param.sortType == 'ASC'}">selected</c:if>>Ascending</option>
+                                <option value="DESC" <c:if test="${param.sortType == 'DESC'}">selected</c:if>>Descending</option>
+                                </select>
 
-                        if (ascendingCheckbox.checked) {
-                            rows.sort(function (a, b) {
-                                var aValue = a.cells[6].innerText;
-                                var bValue = b.cells[6].innerText;
-                                return aValue.localeCompare(bValue);
-                            });
-                        } else if (descendingCheckbox.checked) {
-                            rows.sort(function (a, b) {
-                                var aValue = a.cells[6].innerText;
-                                var bValue = b.cells[6].innerText;
-                                return bValue.localeCompare(aValue);
-                            });
-                        }
-
-                        rows.forEach(function (row) {
-                            tableBody.appendChild(row);
-                        });
-                    }
-                    window.addEventListener("load", sortTable);
-                    ascendingCheckbox.addEventListener("change", sortTable);
-                    descendingCheckbox.addEventListener("change", sortTable);
-                </script>
-
-                <c:choose>
-                    <c:when test="${param.go == null || param.go == 'displayAll'||param.go=='search'}">
+                                <label class="ml-3">Status: </label>
+                                <select name="statusFilter" id="filter" onchange="this.form.submit()">
+                                    <option value="All" <c:if test="${param.statusFilter == 'All'}">selected</c:if>>All</option>
+                                <option value="Processing" <c:if test="${param.statusFilter == 'Processing'}">selected</c:if>>Processing</option>
+                                <option value="Shipping" <c:if test="${param.statusFilter == 'Shipping'}">selected</c:if>>Shipping</option>
+                                <option value="Cancelled" <c:if test="${param.statusFilter == 'Cancelled'}">selected</c:if>>Cancelled</option>
+                                <option value="Packing" <c:if test="${param.statusFilter == 'Packing'}">selected</c:if>>Packing</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <input style="color: black" name = "keyword" type="text" class="search-bar ml-3" placeholder="Enter customer's name" value="${param.keyword}">
+                            <input style="color: #000000" type="submit" name = "searchOrderSubmit" value="Search">
+                        </div>
+                    </div>
+                </form> 
+                
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
@@ -149,7 +126,8 @@
                                         <td class="align-middle">${order.createdTime}</td>
                                         <td class="align-middle">${order.totalPrice}</td>
                                         <td>
-                                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=viewDetail&id=${order.id}&cusId=${order.customerId}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Detail">&#xe8f4;</i></a>
+                                            <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=viewDetail&id=${order.id}&cusId=${order.customerId}&sortType=${param.sortType}&statusFilter=${param.statusFilter}&keyword=${param.keyword}"  
+                                               class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="View Detail">&#xe8f4;</i></a>
                                         </td>
                                         <!-- Delete Modal HTML -->
                                 <div id="deleteEmployeeModal${order.id}" class="modal fade">
@@ -182,8 +160,6 @@
                             </c:forEach>
                             </tbody>
                         </table>
-                    </c:when>
-                </c:choose>
             </div>
         </div>
         <!-- Edit Modal HTML -->

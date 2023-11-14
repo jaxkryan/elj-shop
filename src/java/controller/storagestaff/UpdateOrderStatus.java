@@ -45,15 +45,26 @@ public class UpdateOrderStatus extends HttpServlet {
             String searchName = request.getParameter("keyword") != null ? request.getParameter("keyword") : "";
             //String sortType = request.getParameter("sort");
             request.setAttribute("searchName", searchName);
-            if (service.equals("search")) {
-                Vector<Order> orders = orderDAO.getAcceptedOrdersByName(searchName);
+            if (service.equals("filter")) {
+                String sortType = request.getParameter("sortType") != null ? request.getParameter("sortType") : "";
+                String statusFilter = request.getParameter("statusFilter") == null ? "" : request.getParameter("statusFilter");
+                //String searchName = request.getParameter("searchName") == null ? "" : request.getParameter("searchName");
 
-                for (Order order : orders) {
-                    System.out.println(order.toString());
-                }
+                Vector<Order> orders = orderDAO.filterOrdersStorage(statusFilter, searchName, sortType);
+
                 request.setAttribute("orders", orders);
                 request.getRequestDispatcher("/jsp/storageManageOrderStatus.jsp").forward(request, response);
             }
+
+//            if (service.equals("search")) {
+//                Vector<Order> orders = orderDAO.getAcceptedOrdersByName(searchName);
+//
+//                for (Order order : orders) {
+//                    System.out.println(order.toString());
+//                }
+//                request.setAttribute("orders", orders);
+//                request.getRequestDispatcher("/jsp/storageManageOrderStatus.jsp").forward(request, response);
+//            }
         }
     }
 
@@ -85,6 +96,12 @@ public class UpdateOrderStatus extends HttpServlet {
         } else if (service.equals("viewDetail")) {
             int orderId = Integer.parseInt(request.getParameter("id"));
             int userId = Integer.parseInt(request.getParameter("cusId"));
+            String sortType = request.getParameter("sortType");
+            String statusFilter = request.getParameter("statusFilter");
+            String keyword = request.getParameter("keyword");
+            request.setAttribute("sortType", sortType);
+            request.setAttribute("statusFilter", statusFilter);
+            request.setAttribute("keyword", keyword);
             OrderDetailDAO oddao = new OrderDetailDAO();
             ProductDAO productDAO = new ProductDAO();
             Vector<Product> product = productDAO.getAllProduct();
@@ -99,7 +116,7 @@ public class UpdateOrderStatus extends HttpServlet {
         } else if (service.equals("changeOrderStatus")) {
             int orderId = Integer.parseInt(request.getParameter("id"));
             int userId = Integer.parseInt(request.getParameter("cusId"));
-            
+
             Order order = orderDAO.getById(orderId);
             String newStatus = request.getParameter("newStatus");
             Order changeStatusOrder = orderDAO.getById(orderId);
@@ -140,7 +157,20 @@ public class UpdateOrderStatus extends HttpServlet {
                 }
                 return;
             }
-            response.sendRedirect("update-order-status?go=viewDetail&id=" + orderId+ "&cusId=" + userId );
+            response.sendRedirect("update-order-status?go=viewDetail&id=" + orderId + "&cusId=" + userId);
+        }
+        if (service.equals("filter")) {
+            String searchName = request.getParameter("keyword") != null ? request.getParameter("keyword") : "";
+            String sortType = request.getParameter("sortType") != null ? request.getParameter("sortType") : "";
+            String statusFilter = request.getParameter("statusFilter") == null ? "" : request.getParameter("statusFilter");
+            //String searchName = request.getParameter("searchName") == null ? "" : request.getParameter("searchName");
+            request.setAttribute("searchName", searchName);
+            Vector<Order> orders = orderDAO.filterOrdersStorage(statusFilter, searchName, sortType);
+
+            request.setAttribute("orders", orders);
+//            System.out.println("********************************************");
+//            System.out.println("This is the size of orders: " + orders.size());
+            request.getRequestDispatcher("/jsp/storageManageOrderStatus.jsp").forward(request, response);
         }
     }
 
