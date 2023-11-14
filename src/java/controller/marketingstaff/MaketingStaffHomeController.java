@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Vector;
 import model.Voucher;
 import util.Helper;
@@ -43,11 +44,11 @@ public class MaketingStaffHomeController extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
             Voucher deleteVoucher = dao.getById(id);
             int checkDelete = dao.deleteVoucher(id);
-            
-            if (checkDelete != 0 ) {
+
+            if (checkDelete != 0) {
                 //Delete success notification
                 Helper.setNotification(request, "Delete voucher " + deleteVoucher.getCode() + " successfully!", "GREEN");
-            }else{
+            } else {
                 //Delete fail notification
                 Helper.setNotification(request, "Delete voucher " + deleteVoucher.getCode() + " fail!", "RED");
             }
@@ -77,16 +78,36 @@ public class MaketingStaffHomeController extends HttpServlet {
         }
         //
         if (service.equals("add")) {
+            LocalDate today = LocalDate.now();
+            Date todayDate = Date.valueOf(today);
             Voucher vc = new Voucher();
             vc.setCode(request.getParameter("code"));
             vc.setStartDate(Date.valueOf(request.getParameter("startDate")));
             vc.setEndDate(Date.valueOf(request.getParameter("endDate")));
             vc.setValue(Double.parseDouble(request.getParameter("value")));
-            voucherDAO.insertVoucher(vc);
-            response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
-            Helper.setNotification(request, "Create new voucher successfully!", "GREEN");
+            if (vc.getEndDate().compareTo(vc.getStartDate()) >= 0) {
+                if (vc.getEndDate().compareTo(todayDate) >= 0) {
+                    if (vc.getValue() >= 0 && vc.getValue() <= 100) {
+                        voucherDAO.insertVoucher(vc);
+                        response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
+                        Helper.setNotification(request, "Create new voucher successfully!", "GREEN");
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
+                        Helper.setNotification(request, "Value must between 0 and 100", "RED");
+                    }
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
+                    Helper.setNotification(request, "End date can not be in past", "RED");
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
+                Helper.setNotification(request, "The end date cannot be before the creation date", "RED");
+            }
+
         }
         if (service.equals("updateVoucher")) {
+            LocalDate today = LocalDate.now();
+            Date todayDate = Date.valueOf(today);
             int id = Integer.parseInt(request.getParameter("id"));
             String code = request.getParameter("code");
             Date startDate = Date.valueOf(request.getParameter("startDate"));
@@ -95,14 +116,27 @@ public class MaketingStaffHomeController extends HttpServlet {
             //
             Voucher updateVoucher = new Voucher(id, code, startDate, endDate, value, true);
             //
-            int checkUpdate = voucherDAO.updateVoucher(updateVoucher);
+            int checkUpdate = 0;
+            if (endDate.compareTo(startDate) >= 0) {
+                if (endDate.compareTo(todayDate) >= 0) {
+                    if (value >= 0 && value <= 100) {
+                        checkUpdate = voucherDAO.updateVoucher(updateVoucher);
+                    } 
+                } 
+            } 
+//            int checkUpdate = voucherDAO.updateVoucher(updateVoucher);
+
             //
             if (checkUpdate != 0) {
                 //Insert success notification
                 Helper.setNotification(request, "Update product " + code + " successfully!", "GREEN");
             } else {
                 //Insert fail notification
-                Helper.setNotification(request, "Update " + code + " fail!", "RED");
+                Helper.setNotification(request, "Update " + code + " fail!\n", "RED");
+                Helper.setNotification(request, "Please check following error: \n"
+                        + "End date can not be in past\n"
+                        + "End date can not before start date\n"
+                        + "Value must between 0 to 100\n", "RED");
             }
             response.sendRedirect("home");
         }
