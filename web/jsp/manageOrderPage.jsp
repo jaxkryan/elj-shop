@@ -72,7 +72,7 @@
 
                     <div class="row">
                         <div class="col-md-6 text-left">
-                            <label>Created time: </label>
+                            <label>Sort by: </label>
                             <select name="sortType" id="sort" onchange="this.form.submit()">
                                 <option value="Default" <c:if test="${param.sortType == 'Default'}">selected</c:if>>Default</option>
                                 <option value="ASC" <c:if test="${param.sortType == 'ASC'}">selected</c:if>>Ascending</option>

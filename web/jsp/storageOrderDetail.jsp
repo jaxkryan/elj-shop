@@ -38,7 +38,7 @@
         <div class="container">
 
             <div class="row p-3 text-right">
-                <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=displayAll" style="margin-right:81%" class="btn btn-primary">Back</a>
+                <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=filter&sortType=${param.sortType}&statusFilter=${param.statusFilter}&keyword=${param.keyword}" style="margin-right:81%" class="btn btn-primary">Back</a>
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>

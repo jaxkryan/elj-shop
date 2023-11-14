@@ -202,7 +202,7 @@ public class OrderDAO extends jdbc.DBConnect {
                 + "      ,[totalPrice]\n"
                 + "      ,[active]\n"
                 + "  FROM [dbo].[Order]\n"
-                + "  where status = 'Processing' or status = 'Packing' or status = 'Cancelled' and active = 1";
+                + "  where status = 'Processing' or status = 'Packing' or status = 'Cancelled' or status = 'Shipping' and active = 1";
         try {
             ResultSet rs = getData(sql);
             while (rs.next()) {
@@ -876,6 +876,58 @@ public class OrderDAO extends jdbc.DBConnect {
         } else {
             System.out.println("No orders found.");
         }
+    }
+    
+    
+    public Vector<Order> filterOrdersStorage(String status, String name, String sortType) {
+        if (status.equals("All") && sortType.equals("Default")) {
+            return getProcessedOrderByName(name);
+        }
+        Vector<Order> orders = new Vector<>();
+        String sql = "SELECT [id]\n"
+                + "      ,[customerId]\n"
+                + "      ,[receiver]\n"
+                + "      ,[shipStreet]\n"
+                + "      ,[shipCity]\n"
+                + "      ,[shipProvince]\n"
+                + "      ,[shipCountry]\n"
+                + "      ,[shipEmail]\n"
+                + "      ,[shipPhone]\n"
+                + "      ,[createdTime]\n"
+                + "      ,[totalPrice]\n"
+                + "      ,[active]\n"
+                + "      ,[status]\n"
+                + "  FROM [dbo].[Order]"
+                + " where status " + (status.equals("All") ? "!=" : "=") + " ?\n"
+                + " and receiver like ?\n"
+                + (sortType.equals("Default") ? "" : " order by createdTime " + (sortType.equals("ASC") ? "ASC" : "DESC"));
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, status);
+            statement.setString(2, "%" + name + "%");
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                int customerId = rs.getInt(2);
+                String receiver = rs.getString(3);
+                String shipStreet = rs.getString(4);
+                String shipCity = rs.getString(5);
+                String shipProvince = rs.getString(6);
+                String shipCountry = rs.getString(7);
+                String shipEmail = rs.getString(8);
+                String shipPhone = rs.getString(9);
+                String createdTime = rs.getString(10);
+                double totalPrice = rs.getDouble(11);
+                Boolean active = rs.getBoolean(12);
+                String orderStatus = rs.getString(13);
+                orders.add(new Order(id, customerId, receiver, shipStreet,
+                        shipCity, shipProvince, shipCountry, shipEmail,
+                        shipPhone, orderStatus, createdTime, totalPrice, active));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return orders;
     }
 
 }
