@@ -279,8 +279,8 @@ INSERT [Category] ([name], [image],[active]) VALUES ('Vacation', 'https://runkee
 INSERT [Category] ([name], [image],[active]) VALUES ('Fashion', 'https://m.media-amazon.com/images/I/41jeGseFQ0L._AC_SX675_.jpg', 1)
 INSERT [Category] ([name], [image],[active]) VALUES ('Hiking', 'https://m.media-amazon.com/images/I/81RZymGiVIL._AC_SX695_.jpg', 1)
 
-INSERT [Product] ([categoryId], [providerId], [name], [description], [price], [quantity], [image],[active]) VALUES (1, 1, 'Adidas Gazelle Shoes', 'Best Adidas shoes in 2023', 180, 50,'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1658850055-Gazelle_Shoes_Black_BB5476_01_standard.jpg?crop=1xw:1xh;center,top&resize=980:*', 1)
-INSERT [Product] ([categoryId], [providerId], [name], [description], [price], [quantity], [image],[active]) VALUES (2, 1, 'Adidas Ultraboost Light Running Shoes', 'Hottest Adidas shoes in May', 220, 72,'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1658850055-Gazelle_Shoes_Black_BB5476_01_standard.jpg?crop=1xw:1xh;center,top&resize=980:*', 1)
+INSERT [Product] ([categoryId], [providerId], [name], [description], [price], [quantity], [image],[active]) VALUES (1, 1, 'Adidas Gazelle Shoes', 'Best Adidas shoes in 2023', 180, 50,'https://m.media-amazon.com/images/I/61aXSkFNTUL._AC_SY695_.jpg', 1)
+INSERT [Product] ([categoryId], [providerId], [name], [description], [price], [quantity], [image],[active]) VALUES (2, 1, 'Adidas Ultraboost Light Running Shoes', 'Hottest Adidas shoes in May', 220, 72,'https://m.media-amazon.com/images/I/51Z+PxMG2qL._AC_SX695_.jpg', 1)
 INSERT [Product] ([categoryId], [providerId], [name], [description], [price], [quantity], [image],[active]) VALUES (3, 1, 'Adidas x Gucci ZX8000 Sneakers', 'Most comfortable Adidas shoes in winter', 280, 60, 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1682372665-screenshot-2023-04-24-at-5-44-12-pm-6446f830b1d7d.png?crop=0.9942196531791907xw:1xh;center,top&resize=980:*', 1)
 INSERT [Product] ([categoryId], [providerId], [name], [description], [price], [quantity], [image],[active]) VALUES (1, 1, 'Adidas 4DFWD 2 Running Shoes', 'Best Adidas shoes for runner', 200, 58,'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1682372758-4DFWD_2_Running_Shoes_Black_GX9249_01_standard.jpg?crop=1xw:1xh;center,top&resize=980:*', 1)
 INSERT [Product] ([categoryId], [providerId], [name], [description], [price], [quantity], [image],[active]) VALUES (2, 2, 'Nike Roshe', 'Best Nike shoes of all time', 350, 90,'https://img.buzzfeed.com/buzzfeed-static/complex/images/Y19jcm9wLGhfMTIyMSx3XzIwMDAseF8wLHlfNDk2/rs33wp3ivhzf3tc89gim/50-nike-roshe-run.jpg?downsize=700%3A%2A&output-quality=auto&output-format=auto', 1)
@@ -418,7 +418,7 @@ VALUES ('Voucher for Christmas', '2022-12-20 00:00:00', '2022-12-28 00:00:00', 3
 	('Voucher', '2000-12-28 00:00:00', '2100-01-03 00:00:00', 25, 1)
 
 INSERT [Report] ([storageStaffId], [managerId], [title], [content], [writeDate],[readStatus])
-VALUES (10, 5, 'Report title', 'asdfawfsf', '2023-01-03 00:00:00', 1)
+VALUES (10, 5, '1st report', 'First Report ', '2023-01-03 00:00:00', 0)
 
 Insert [Feedback] (orderId,customerId, productId, content, reply, feedbackDate, [checked], [replyDate], sellerid)values (1, 2 , 10,'Nice product','Thank you', '2023-01-09 00:00:00', 1, '2023-01-10 00:00:00', 3)
 Insert [Feedback] (orderId,customerId, productId, content, reply, feedbackDate, [checked], [replyDate], sellerid)values ( 2,2 , 10,'Nice shoes','Thank you', '2023-01-03 00:00:00', 1, '2023-01-07 00:00:00', 3)
