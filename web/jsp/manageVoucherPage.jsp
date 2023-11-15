@@ -67,7 +67,7 @@
                 <div class="">
                     <form action="${pageContext.request.contextPath}/marketing-staff/home" method="POST">
                         <div class="text-right" style="margin-top: 0.5%">
-                            <input style="color: black" name = "code" type="text" placeholder="Search by code" >
+                            <input style="color: black" name = "code" type="text" placeholder="Search by code" value="${param.code}">
                             <input style="color: #000000" type="submit" name = "search" value="Search">
                         </div>
                     </form>
@@ -153,7 +153,7 @@
                     <div class="modal-content">
                         <form action="home" method="post">
                             <div class="modal-header">						
-                                <h4 class="modal-title">Edit Employee</h4>
+                                <h4 class="modal-title">Edit Voucher</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             </div>
                             <div class="modal-body">					
