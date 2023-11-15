@@ -37,7 +37,7 @@
                         </script>
                         <div class="carousel-inner">
                             <div class="carousel-item position-relative active" style="height: 430px;">
-                                <img class="position-absolute w-100 h-100" src="https://shoebakery.com/cdn/shop/files/sneaker_banner_22_1400x.progressive.jpg?v=1656607256" style="object-fit: cover;">
+                                <img class="position-absolute w-100 h-100" src="https://media.istockphoto.com/id/1350560575/photo/pair-of-blue-running-sneakers-on-white-background-isolated.webp?b=1&s=170667a&w=0&k=20&c=liUSgX6SafJ7HWvefFqR9-pnf3KuH6v1lwQ6iEpePWc=" style="object-fit: cover;">
                                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                     <div class="p-3" style="max-width: 700px;">
                                         <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Adidas</h1>
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                             <div class="carousel-item position-relative" style="height: 430px;">
-                                <img class="position-absolute w-100 h-100" src="https://media.istockphoto.com/id/1350560575/photo/pair-of-blue-running-sneakers-on-white-background-isolated.webp?b=1&s=170667a&w=0&k=20&c=liUSgX6SafJ7HWvefFqR9-pnf3KuH6v1lwQ6iEpePWc=" style="object-fit: cover;">
+                                <img class="position-absolute w-100 h-100" src="https://shoebakery.com/cdn/shop/files/sneaker_banner_22_1400x.progressive.jpg?v=1656607256" style="object-fit: cover;">
                                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                     <div class="p-3" style="max-width: 700px;">
                                         <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Nike</h1>
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                             <div class="carousel-item position-relative" style="height: 430px;">
-                                <img class="position-absolute w-100 h-100" src="https://marvel-b1-cdn.bc0a.com/f00000000114841/www.florsheim.com/shop/index/FW23-FL-FirstRefresh-CasualHeist-Desktop.jpg" style="object-fit: cover;">
+                                <img class="position-absolute w-100 h-100" src="https://i.pinimg.com/1200x/35/62/69/3562697e9c97ea21b0d500abf67e25a2.jpg" style="object-fit: cover;">
                                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                     <div class="p-3" style="max-width: 700px;">
                                         <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Puma</h1>
