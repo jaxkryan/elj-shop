@@ -169,7 +169,8 @@
                                     <tbody class="align-middle">
                                         <% for(int i = 0; i < details.size(); i++) {%>
                                         <% Product product = pdao.getProductByIdInHistoryDetail(details.get(i).getProductID()); %>
-                                        <% int check = (int)request.getAttribute("check");%>
+                                        <%FeedbackDAO fdao = new FeedbackDAO();%>
+                                        <% String content = fdao.getFeedbackInOrder(details.get(i).getOrderID(), details.get(i).getProductID());%>
                                         <tr>
                                             <td class="text-left">
                                                 <a ><%= product.getName() %></a>
@@ -183,7 +184,7 @@
                                             <td class="text-center">
                                                 <fmt:formatNumber type="currency" pattern="###,###¤"><%= details.get(i).getPrice()*details.get(i).getQuantity() %></fmt:formatNumber>
                                                 </td>
-                                            <%if(check == 0){%>
+                                            <%if(content == null){%>
                                             <td class="text-center">
                                                 <a href="#addReportModal<%=details.get(i).getProductID()%>" class="add" data-toggle="modal" title="Add Feedback">
                                                     <i style="color: yellow; font-size: 22px;" title="Write feedback" class="fa fa-pencil-alt" data-toggle="tooltip"></i>
@@ -248,6 +249,7 @@
                                 <h4 class="modal-title">Order ID</h4>
                                 <input type="text" name="orderId" value="${d.orderID}" readonly/>
                             </div>
+                            <!<!-- Feedback -->
                             <div class="modal-header">						
                                 <h4 class="modal-title">Write feedback</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
