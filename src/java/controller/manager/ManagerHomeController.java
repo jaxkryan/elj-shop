@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import model.Category;
@@ -153,6 +154,7 @@ public class ManagerHomeController extends HttpServlet {
             response.sendRedirect("home");
         } else if (service.equals("UpdateProduct")) {
             int pId = Integer.parseInt(request.getParameter("id"));
+            String oldProductName = productDAO.getProductById(pId).getName();
             String pName = request.getParameter("name");
             String pImage = request.getParameter("image");
             float pPrice = Float.parseFloat(request.getParameter("updatePrice"));
@@ -161,6 +163,14 @@ public class ManagerHomeController extends HttpServlet {
             int pProvider = Integer.parseInt(request.getParameter("provider"));
             int pQuantity = Integer.parseInt(request.getParameter("quantity"));
             float pDiscount = Float.parseFloat(request.getParameter("updateDiscount"));
+            List<String> listName = productDAO.getAllProductName();
+            if (!oldProductName.equals(pName)) { //check if name change or not
+                if (productDAO.checkUpdateProductNameExistence(listName, pName) == true) { // check new name exist or not
+                Helper.setNotification(request, "Product " + pName + " already exist! ", "RED"); 
+                response.sendRedirect("home");
+                return;
+                }
+            }
             if (pDiscount > pPrice) {
                 Helper.setNotification(request, "Prioe must greater than discount", "RED");
                 response.sendRedirect("home");
