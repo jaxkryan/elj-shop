@@ -177,6 +177,29 @@ public class ProviderDAO extends jdbc.DBConnect {
         return listP;
     }
     
+    public boolean checkExistProviders(String checkName) {
+        Vector<Provider> listP = new Vector<>();
+        String sql = "  select * from [Provider] where [Provider].[companyName] like ? and active =1";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1,checkName);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String companyName = rs.getString(2);
+                String image = rs.getString(3);
+                Boolean active = rs.getBoolean(4);
+                listP.add(new Provider(id, companyName, image, true));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (listP.isEmpty() == false) {
+            return false;
+        }
+        return true;
+    }
+    
     public static void main(String[] args) {
         ProviderDAO pDao = new ProviderDAO();
         
