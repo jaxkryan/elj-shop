@@ -38,7 +38,38 @@
         <div class="container">
 
             <div class="row p-3 text-right">
-                <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=filter&sortType=${param.sortType}&statusFilter=${param.statusFilter}&keyword=${param.keyword}" style="margin-right:81%" class="btn btn-primary">Back</a>
+                <c:set var="defaultSortType" value="Default"/>
+                <c:set var="defaultStatusFilter" value="All"/>
+                <c:set var="defaultKeyword" value=""/>
+
+                <c:choose>
+                    <c:when test="${empty param.sortType}">
+                        <c:set var="sortType" value="${defaultSortType}"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="sortType" value="${param.sortType}"/>
+                    </c:otherwise>
+                </c:choose>
+
+                <c:choose>
+                    <c:when test="${empty param.statusFilter}">
+                        <c:set var="statusFilter" value="${defaultStatusFilter}"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="statusFilter" value="${param.statusFilter}"/>
+                    </c:otherwise>
+                </c:choose>
+
+                <c:choose>
+                    <c:when test="${empty param.keyword}">
+                        <c:set var="keyword" value="${defaultKeyword}"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="keyword" value="${param.keyword}"/>
+                    </c:otherwise>
+                </c:choose>
+
+                <a href="${pageContext.request.contextPath}/storage-staff/update-order-status?go=filter&sortType=${sortType}&statusFilter=${statusFilter}&keyword=${keyword}" style="margin-right:81%" class="btn btn-primary">Back</a>
                 <a href="profile" class="btn btn-primary">Profile</a>
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary">Log Out</a>
             </div>
