@@ -73,7 +73,7 @@ public class ManageOrderController extends HttpServlet {
             String[] arr = {"Processed", "Accepted", "Shipped", "Received", "Canceled"};
             List<String> status = Arrays.asList(arr);
             request.setAttribute("status", status);
-            request.getRequestDispatcher("/jsp/ManagerManageOrderPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/jsp/managerManageOrderPage.jsp").forward(request, response);
         } else if (service.equals("delete")) {
             OrderDAO orderDAO = new OrderDAO();
             int oid = Integer.parseInt(request.getParameter("id"));
@@ -126,7 +126,7 @@ public class ManageOrderController extends HttpServlet {
             request.setAttribute("searchName", searchName);
             request.setAttribute("chosedSortType", sortType);
             request.setAttribute("orders", orders);
-            request.getRequestDispatcher("/jsp/ManagerManageOrderPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/jsp/managerManageOrderPage.jsp").forward(request, response);
         }
     }
 
@@ -154,7 +154,7 @@ public class ManageOrderController extends HttpServlet {
                 //no product found notification
                 Helper.setNotification(request, "No orders found!", "RED");
             }
-            request.getRequestDispatcher("/jsp/ManagerManageOrderPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/jsp/managerManageOrderPage.jsp").forward(request, response);
         }
 
     }
