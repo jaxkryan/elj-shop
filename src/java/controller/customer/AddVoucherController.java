@@ -67,6 +67,7 @@ public class AddVoucherController extends HttpServlet {
             request.setAttribute("categories", categories);
             request.setAttribute("providers", providers);
             request.getRequestDispatcher("/jsp/checkoutPage.jsp").forward(request, response);
+            return;
         }
         if (voucherCode.equals("")) {
             OrderDAO odao = new OrderDAO();
