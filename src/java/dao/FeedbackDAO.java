@@ -238,4 +238,26 @@ public class FeedbackDAO extends jdbc.DBConnect {
         }
         return affectedRows;
     }
+    
+        public String getFeedbackInOrder(int orderId, int productId) {
+        try {
+            String sql = " SELECT content\n"
+                    + "  FROM Feedback\n"
+                    + "  WHERE orderId = ? and productid = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, orderId);
+            preparedStatement.setInt(2, productId);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                String content = rs.getString(1);
+                if (content != null && !"".equals(content)) {
+                    return content;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }
