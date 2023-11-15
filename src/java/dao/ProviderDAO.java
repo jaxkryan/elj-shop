@@ -18,7 +18,7 @@ import model.Provider;
  * @author Admin
  */
 public class ProviderDAO extends jdbc.DBConnect {
-    
+
     public Vector<Provider> getAllProvider() {
         Vector<Provider> listProvider = new Vector<>();
         String sql = "SELECT * from [provider] where active = 1";
@@ -36,7 +36,37 @@ public class ProviderDAO extends jdbc.DBConnect {
         }
         return listProvider;
     }
-    
+
+    public List<String> getAllProviderCompanyName() {
+        List<String> listCompanyName = new Vector<>();
+        String sql = "SELECT companyName from [provider] where active = 1";
+        try {
+            ResultSet rs = getData(sql);
+            while (rs.next()) {
+                String companyName = rs.getString(1);
+                listCompanyName.add(companyName);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listCompanyName;
+    }
+
+    public boolean checkUpdateCompanyNameExistence(List<String> listCompanyName, String companyName) {
+        int count = 0;
+        String lowercaseCompanyName = companyName.toLowerCase(); // Convert to lowercase for case-insensitive comparison
+
+        for (String name : listCompanyName) {
+            if (name.toLowerCase().equals(lowercaseCompanyName)) {
+//                count++;
+//                System.out.println("Pluss success");
+//                    System.out.println(name);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Vector<Provider> getAllBrand() {
         Vector<Provider> listProvider = new Vector<>();
         String sql = "SELECT * from [provider]";
@@ -53,12 +83,12 @@ public class ProviderDAO extends jdbc.DBConnect {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listProvider;
-    } 
-    
+    }
+
     public int updateProvider(Provider provider) {
         int rowsAffected = 0;
         String sql = "UPDATE [dbo].[Provider]\n"
-                + "   SET [companyName] = ?\n"                
+                + "   SET [companyName] = ?\n"
                 + "      ,[image] = ?\n"
                 + " WHERE id = ?";
         PreparedStatement pre;
@@ -73,7 +103,7 @@ public class ProviderDAO extends jdbc.DBConnect {
         }
         return rowsAffected;
     }
-    
+
     public int deleteProvider(int id) {
         int rowsAffected = 0;
         String sql = "UPDATE [dbo].[Provider]\n"
@@ -88,7 +118,7 @@ public class ProviderDAO extends jdbc.DBConnect {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rowsAffected;
-    }    
+    }
 
     public int insertProvider(String companyName, String image) {
         int rowsAffected = 0;
@@ -124,7 +154,7 @@ public class ProviderDAO extends jdbc.DBConnect {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void setNullImportOrder(String id) {
         String sql = "update [dbo].[ImportOrder]\n"
                 + "set providerId = null\n"
@@ -137,7 +167,7 @@ public class ProviderDAO extends jdbc.DBConnect {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public Provider getProviderById(int proId) {
         String sql = "select * from [provider] where [provider].[id] = ? ";
         try {
@@ -175,13 +205,13 @@ public class ProviderDAO extends jdbc.DBConnect {
         }
         return listP;
     }
-    
+
     public boolean checkExistProviders(String checkName) {
         Vector<Provider> listP = new Vector<>();
         String sql = "  select * from [Provider] where [Provider].[companyName] like ? and active =1";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1,checkName);
+            statement.setString(1, checkName);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt(1);
@@ -198,13 +228,15 @@ public class ProviderDAO extends jdbc.DBConnect {
         }
         return true;
     }
-    
+
     public static void main(String[] args) {
         ProviderDAO pDao = new ProviderDAO();
-        
+
         List<Provider> providers = pDao.getAllProvider();
-        System.out.println(providers);
+        List<String> listStrings = pDao.getAllProviderCompanyName();
+        System.out.println(listStrings);
+        boolean check = pDao.checkUpdateCompanyNameExistence(listStrings, "nike");
+        System.out.println(check);
     }
-    
-    
+
 }

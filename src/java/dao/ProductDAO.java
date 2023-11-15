@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,6 +39,36 @@ public class ProductDAO extends jdbc.DBConnect {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listP;
+    }
+
+    public List<String> getAllProductName() {
+        List<String> listProductName = new Vector<>();
+        String sql = "SELECT Name from product where active = 1";
+        try {
+            ResultSet rs = getData(sql);
+            while (rs.next()) {
+                String name = rs.getString(1);
+                listProductName.add(name);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listProductName;
+    }
+
+    public boolean checkUpdateProductNameExistence(List<String> listProductName, String productName) {
+        int count = 0;
+        String lowercaseproductName = productName.toLowerCase(); // Convert to lowercase for case-insensitive comparison
+
+        for (String name : listProductName) {
+            if (name.toLowerCase().equals(lowercaseproductName)) {
+                count++;
+                System.out.println("Pluss success");
+                System.out.println(name);
+                return true;
+            }
+        }
+        return false;
     }
 
     public Vector<Product> getHotProducts() {
@@ -736,5 +767,15 @@ public class ProductDAO extends jdbc.DBConnect {
             }
             return listP;
         }
+    }
+    
+    public static void main(String[] args) {
+        ProductDAO pDao = new ProductDAO();
+
+        List<Product> providers = pDao.getAllProduct();
+        List<String> listStrings = pDao.getAllProductName();
+        System.out.println(listStrings);
+        boolean check = pDao.checkUpdateProductNameExistence(listStrings, "Adidas Gazelle Shoes new");
+        System.out.println(check);
     }
 }

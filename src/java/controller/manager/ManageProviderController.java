@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Vector;
 import model.Category;
 import model.Provider;
@@ -123,7 +124,7 @@ public class ManageProviderController extends HttpServlet {
             String pImage = request.getParameter("image");
             ProviderDAO pro = new ProviderDAO();
             if (providerDAO.checkExistProviders(pCompanyName) == false) {
-                Helper.setNotification(request, "Product " + pCompanyName + " already exist!", "RED");
+                Helper.setNotification(request, "Provider " + pCompanyName + " already exist!", "RED");
                 response.sendRedirect("provider");
                 return;
             }
@@ -138,13 +139,23 @@ public class ManageProviderController extends HttpServlet {
             response.sendRedirect("provider");
         }else if(service.equals("UpdateProvider")){
             int pId = Integer.parseInt(request.getParameter("id"));
+            String oldProviderName = providerDAO.getProviderById(pId).getCompanyName();
             String pCompanyName = request.getParameter("companyName");
             String pImage = request.getParameter("image");
             Provider updateProvider = new Provider(pId, pCompanyName, pImage, true);
+            List<String> listCompanyName = providerDAO.getAllProviderCompanyName();
+            boolean checkE = providerDAO.checkUpdateCompanyNameExistence(listCompanyName, pCompanyName);
+            if (!oldProviderName.equals(pCompanyName)) { //check if name change or not
+                if (providerDAO.checkUpdateCompanyNameExistence(listCompanyName, pCompanyName) == true) { // check new name exist or not
+                Helper.setNotification(request, "Provider " + pCompanyName + " already exist!", "RED");
+                response.sendRedirect("provider");
+                return;
+                }
+            }
             int checkUpdate =  providerDAO.updateProvider(updateProvider);
             if (checkUpdate != 0) {
                 //Update success notification
-                Helper.setNotification(request, "Update provider " + pCompanyName + " successfully!", "GREEN");
+                Helper.setNotification(request, "Update provider " + pCompanyName + " successfully!  ", "GREEN");
             } else {
                 //Update fail notification
                 Helper.setNotification(request, "Update " + pCompanyName + " fail!", "RED");
