@@ -37,7 +37,6 @@ public class ViewHistoryController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductDAO pdao = new ProductDAO();
         HttpSession session = request.getSession();
         if (session.getAttribute("userId") == null) {
             Helper.setNotification(request, "Please login!", "RED");

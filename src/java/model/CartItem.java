@@ -49,7 +49,7 @@ public class CartItem {
         this.price = price;
     }
 
-    public void setQuantity(int y) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
     

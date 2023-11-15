@@ -2,18 +2,14 @@ package controller.seller;
 
 import dao.OrderDAO;
 import dao.OrderDetailDAO;
-import dao.ProviderDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Vector;
 import model.Order;
 import model.OrderDetail;
-import model.Provider;
 import util.Helper;
 
 /**
@@ -36,7 +32,6 @@ public class SellerHomeController extends HttpServlet {
 
         String service = request.getParameter("go");
         OrderDAO orderDAO = new OrderDAO();
-        ProviderDAO providerDAO = new ProviderDAO();
         OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
         Vector<Order> orders = new Vector<>();
 

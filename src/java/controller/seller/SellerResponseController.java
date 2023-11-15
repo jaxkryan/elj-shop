@@ -4,7 +4,6 @@
  */
 package controller.seller;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import dao.FeedbackDAO;
 import dao.ProductDAO;
 import dao.UserDAO;
@@ -20,7 +19,6 @@ import java.util.Date;
 import java.util.Vector;
 import model.Feedback;
 import model.Product;
-import model.Report;
 import model.User;
 
 /**
@@ -64,7 +62,6 @@ public class SellerResponseController extends HttpServlet {
             ProductDAO productDAO = new ProductDAO();
             if (service.equals("viewFeedback")) {
                 Vector<Feedback> feedbacks = feedBackDAO.getAllFeedback();
-//            Vector<User> customers = userDAO.getActiveCustomer();
                 Vector<User> customers = userDAO.getAllCustomer();
                 Vector<Product> products = productDAO.getAllProduct();
                 request.setAttribute("customers", customers);
@@ -111,17 +108,14 @@ public class SellerResponseController extends HttpServlet {
                 feedBackDAO.changeFeedbackStatus(feedbackId);
 
                 Feedback feedback = new Feedback(orderId, customerId, productId, sellerId, content, reply, feedbackDate, formattedDate, true, feedbackId);
-//                out.print(feedback);
                 feedBackDAO.updateFeedback(feedback);
 
                 Vector<Feedback> feedbacks = feedBackDAO.getAllFeedback();
-//            Vector<User> customers = userDAO.getActiveCustomer();
                 Vector<User> customers = userDAO.getAllCustomer();
                 Vector<Product> products = productDAO.getAllProduct();
                 request.setAttribute("customers", customers);
                 request.setAttribute("feedbacks", feedbacks);
                 request.setAttribute("products", products);
-//            response.sendRedirect("write-feedback");
                 request.getRequestDispatcher("/jsp/sellerFeedbackPage.jsp").forward(request, response);
             }
         }

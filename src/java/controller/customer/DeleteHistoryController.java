@@ -39,7 +39,6 @@ public class DeleteHistoryController extends HttpServlet {
         int orderId = Integer.parseInt(request.getParameter("orderId"));
         OrderDAO odao = new OrderDAO();
         odao.deleteHistory(orderId);
-        ProductDAO pdao = new ProductDAO();
         HttpSession session = request.getSession();
         int userId = (int) session.getAttribute("userId");
         Vector<Order> orders = odao.getAllOrderByCustomerId(userId);

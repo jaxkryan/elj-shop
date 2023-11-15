@@ -11,7 +11,6 @@ import dao.FeedbackDAO;
 import dao.ProductDAO;
 import dao.ProviderDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -105,7 +104,6 @@ public class AddToCartCartPage extends HttpServlet {
                 if (session.getAttribute("userId") == null) {
                     Helper.setNotification(request, "Please login!", "RED");
                     response.sendRedirect("home");
-                    return;
                 } else {
                     int userId = (int) session.getAttribute("userId");
                     CartDAO cdao = new CartDAO();

@@ -10,7 +10,6 @@ import dao.CategoryDAO;
 import dao.ProductDAO;
 import dao.ProviderDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +18,6 @@ import jakarta.servlet.http.HttpSession;
 import java.util.Vector;
 import model.CartItem;
 import model.Category;
-import model.Product;
 import model.Provider;
 import util.Helper;
 
@@ -41,12 +39,10 @@ public class CartControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        ProductDAO pdao = new ProductDAO();
         HttpSession session = request.getSession();
         if (session.getAttribute("userId") == null) {
             Helper.setNotification(request, "Please login!", "RED");
             response.sendRedirect("home");
-            return;
         } else {
             int userId = (int) session.getAttribute("userId");
             CartDAO cdao = new CartDAO();

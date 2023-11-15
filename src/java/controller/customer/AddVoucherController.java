@@ -5,12 +5,10 @@
 package controller.customer;
 
 import dao.CategoryDAO;
-import dao.OrderDAO;
 import dao.ProviderDAO;
 import dao.UserDAO;
 import dao.VoucherDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -54,7 +52,6 @@ public class AddVoucherController extends HttpServlet {
         Float subtotal = Float.parseFloat(request.getParameter("subtotal"));
 
         if (remove.equals("remove")) {
-            OrderDAO odao = new OrderDAO();
             Helper.setNotification(request, "Remove voucher succesfully!", "GREEN");
             UserDAO udao = new UserDAO();
             User user = udao.getById(userId);
@@ -70,7 +67,6 @@ public class AddVoucherController extends HttpServlet {
             return;
         }
         if (voucherCode.equals("")) {
-            OrderDAO odao = new OrderDAO();
             Helper.setNotification(request, "Please enter voucher code!", "RED");
             UserDAO udao = new UserDAO();
             User user = udao.getById(userId);
@@ -105,7 +101,6 @@ public class AddVoucherController extends HttpServlet {
                     Date date2 = dateFormat.parse(orderDate);
                     Date date3 = voucher.getEndDate();
                     if (date1.before(date2) && date2.before(date3)) {
-                        OrderDAO odao = new OrderDAO();
                         Helper.setNotification(request, "Using voucher succesfully, you get " + voucher.getValue() + "% discount!", "GREEN");
                         UserDAO udao = new UserDAO();
                         User user = udao.getById(userId);
