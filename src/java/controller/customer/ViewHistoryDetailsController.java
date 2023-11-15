@@ -69,7 +69,7 @@ public class ViewHistoryDetailsController extends HttpServlet {
                 Vector<Provider> providers = providerDAO.getAllProvider();
                 request.setAttribute("categories", categories);
                 request.setAttribute("providers", providers);
-                request.getRequestDispatcher("/jsp/HistoryDetails.jsp").forward(request, response);
+                request.getRequestDispatcher("/jsp/historyDetailsPage.jsp").forward(request, response);
             }
         }
     }
