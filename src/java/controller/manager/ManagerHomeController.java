@@ -148,6 +148,11 @@ public class ManagerHomeController extends HttpServlet {
             int pProvider = Integer.parseInt(request.getParameter("provider"));
             int pQuantity = Integer.parseInt(request.getParameter("quantity"));
             float pDiscount = Float.parseFloat(request.getParameter("addDiscount"));
+            if (productDAO.checkExistProducts(pName) == false) {
+                Helper.setNotification(request, "Product " + pName + " already exist!", "RED");
+                response.sendRedirect("home");
+                return;
+            }
             int checkInsert = productDAO.insertProduct(pCategory, pProvider, pName, pDescription, pPrice, pDiscount, pQuantity, pImage);
             if (checkInsert != 0) {
                 //Insert success notification
