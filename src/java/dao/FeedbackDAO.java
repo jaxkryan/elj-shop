@@ -195,14 +195,6 @@ public class FeedbackDAO extends jdbc.DBConnect {
             pre.setString(8, feedback.getReplyDate());
             pre.setBoolean(9, true);
             pre.setInt(10, feedback.getId());
-//            System.out.println(feedback.getCustomerId());
-//            System.out.println(feedback.getProductId());
-//            System.out.println(feedback.getSellerId());
-//            System.out.println(feedback.getContent());
-//            System.out.println(feedback.getReply());
-//            System.out.println(feedback.getReplyDate());
-//            System.out.println(feedback.getFeedbackDate());
-//            System.out.println(feedback.getId());
             row = pre.executeUpdate();
             System.out.println(row);
         } catch (SQLException ex) {
@@ -246,10 +238,4 @@ public class FeedbackDAO extends jdbc.DBConnect {
         }
         return affectedRows;
     }
-
-//    public static void main(String[] args) {
-//        FeedbackDAO dao = new FeedbackDAO();
-//        String content = dao.getOrderFeedBack(4, 10);
-//        System.out.println(content);
-//    }
 }

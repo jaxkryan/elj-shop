@@ -5,7 +5,6 @@
 package controller.manager;
 
 import dao.CategoryDAO;
-import dao.ProductDAO;
 import dao.ProviderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Vector;
 import model.Category;
-import model.Product;
 import model.Provider;
 import util.Helper;
 

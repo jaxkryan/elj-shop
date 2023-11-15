@@ -114,18 +114,7 @@ public class ManagerHomeController extends HttpServlet {
         ProviderDAO providerDAO = new ProviderDAO();
         Vector<Provider> providers = providerDAO.getAllProvider();
         request.setAttribute("providers", providers);
-//        String search = request.getParameter("search") == null ? "" : request.getParameter("search");
         ProductDAO productDAO = new ProductDAO();
-//        if (search.equals("All")){
-//            String keyword = request.getParameter("keyword");
-//            Vector<Product> searchProducts = productDAO.getProductByName(keyword);
-//            request.setAttribute("products", searchProducts);
-//            ProviderDAO providerDAO = new ProviderDAO();
-//            Vector<Provider> providers = providerDAO.getAllProvider();
-//            request.setAttribute("providers", providers);
-//            request.getRequestDispatcher("/jsp/manageProductPage.jsp").forward(request, response);
-//            return;
-//        }
         if (service.equals("search")) {
             String searchName = request.getParameter("searchName");
             Vector<Product> products = new Vector<>();

@@ -121,9 +121,6 @@
                                 <td class="align-middle">${order.createdTime}</td>
                                 <td class="align-middle">${order.totalPrice}</td>
                                 <td>
-                                    <c:if test="${order.status eq 'Processing'}">
-                                        <a href="home?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
-                                    </c:if> 
                                     <c:if test="${order.status eq 'Shipping'}">
                                         <a href="home?go=changeOrderStatus&newStatus=Cancelled&id=${order.id}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelled">&#xE872;</i></a>
                                     </c:if>         

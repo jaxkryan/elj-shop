@@ -43,28 +43,16 @@ public class UpdateOrderStatus extends HttpServlet {
             OrderDAO orderDAO = new OrderDAO();
             String service = request.getParameter("go");
             String searchName = request.getParameter("keyword") != null ? request.getParameter("keyword") : "";
-            //String sortType = request.getParameter("sort");
             request.setAttribute("searchName", searchName);
             if (service.equals("filter")) {
                 String sortType = request.getParameter("sortType") != null ? request.getParameter("sortType") : "";
                 String statusFilter = request.getParameter("statusFilter") == null ? "" : request.getParameter("statusFilter");
-                //String searchName = request.getParameter("searchName") == null ? "" : request.getParameter("searchName");
 
                 Vector<Order> orders = orderDAO.filterOrdersStorage(statusFilter, searchName, sortType);
 
                 request.setAttribute("orders", orders);
                 request.getRequestDispatcher("/jsp/storageManageOrderStatus.jsp").forward(request, response);
             }
-
-//            if (service.equals("search")) {
-//                Vector<Order> orders = orderDAO.getAcceptedOrdersByName(searchName);
-//
-//                for (Order order : orders) {
-//                    System.out.println(order.toString());
-//                }
-//                request.setAttribute("orders", orders);
-//                request.getRequestDispatcher("/jsp/storageManageOrderStatus.jsp").forward(request, response);
-//            }
         }
     }
 
@@ -86,7 +74,6 @@ public class UpdateOrderStatus extends HttpServlet {
             service = "displayAll";
         }
         if (service.equals("displayAll")) {
-//            OrderDAO orderDAO = new OrderDAO();
             Vector<Order> orders = orderDAO.GetStorageManageOrder();
             request.setAttribute("orders", orders);
             String[] arr = {"Processed", "Accepted", "Shipped", "Received", "Canceled"};
@@ -111,7 +98,6 @@ public class UpdateOrderStatus extends HttpServlet {
             Order order = odao.getById(orderId);
             request.setAttribute("order", order);
             request.setAttribute("details", details);
-//            request.getRequestDispatcher("/jsp/test.jsp").forward(request, response);
             request.getRequestDispatcher("/jsp/storageOrderDetail.jsp").forward(request, response);
         } else if (service.equals("changeOrderStatus")) {
             int orderId = Integer.parseInt(request.getParameter("id"));
@@ -163,13 +149,10 @@ public class UpdateOrderStatus extends HttpServlet {
             String searchName = request.getParameter("keyword") != null ? request.getParameter("keyword") : "";
             String sortType = request.getParameter("sortType") != null ? request.getParameter("sortType") : "";
             String statusFilter = request.getParameter("statusFilter") == null ? "" : request.getParameter("statusFilter");
-            //String searchName = request.getParameter("searchName") == null ? "" : request.getParameter("searchName");
             request.setAttribute("searchName", searchName);
             Vector<Order> orders = orderDAO.filterOrdersStorage(statusFilter, searchName, sortType);
 
             request.setAttribute("orders", orders);
-//            System.out.println("********************************************");
-//            System.out.println("This is the size of orders: " + orders.size());
             request.getRequestDispatcher("/jsp/storageManageOrderStatus.jsp").forward(request, response);
         }
     }

@@ -4,12 +4,10 @@
  */
 package controller.customer;
 
-import dao.CartDAO;
 import dao.CartItemDAO;
 import dao.CategoryDAO;
 import dao.ProviderDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +17,6 @@ import java.util.Vector;
 import model.CartItem;
 import model.Category;
 import model.Provider;
-import util.Helper;
 
 /**
  *

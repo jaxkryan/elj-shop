@@ -8,7 +8,6 @@ import dao.CategoryDAO;
 import dao.FeedbackDAO;
 import dao.OrderDAO;
 import dao.OrderDetailDAO;
-import dao.ProductDAO;
 import dao.ProviderDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -19,10 +18,8 @@ import jakarta.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.util.Vector;
 import model.Category;
-import model.Feedback;
 import model.Order;
 import model.OrderDetail;
-import model.Product;
 import model.Provider;
 import util.Helper;
 

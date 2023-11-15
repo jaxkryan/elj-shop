@@ -11,7 +11,6 @@ import dao.FeedbackDAO;
 import dao.ProductDAO;
 import dao.ProviderDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -98,7 +97,6 @@ public class AddToCartController extends HttpServlet {
                 request.getRequestDispatcher("/jsp/productDetailPage.jsp").forward(request, response);
                 return;
             }
-            String thisPage = request.getParameter("thisPage");
             ProductDAO pdao = new ProductDAO();
             Product product = pdao.getProductById(proId);
             if (product == null) {

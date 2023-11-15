@@ -8,8 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.CartItem;
 import model.Order;
-import model.OrderDetail;
-import model.User;
 import model.Voucher;
 
 public class OrderDAO extends jdbc.DBConnect {
@@ -761,22 +759,6 @@ public class OrderDAO extends jdbc.DBConnect {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-    }
-
-    private int getQuantityByProductId(int productId) {
-        int quantity = 0;
-        String sql = "select quantity from [product] where id=?";
-        try {
-            PreparedStatement pre = conn.prepareStatement(sql);
-            pre.setInt(1, productId);
-            ResultSet rs = pre.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return quantity;
     }
 
     public Vector<Order> getAllOrderById(int userId) {
