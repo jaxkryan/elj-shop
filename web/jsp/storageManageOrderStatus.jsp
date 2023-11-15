@@ -87,8 +87,6 @@
                                 <select name="statusFilter" id="filter" onchange="this.form.submit()">
                                     <option value="All" <c:if test="${param.statusFilter == 'All'}">selected</c:if>>All</option>
                                 <option value="Processing" <c:if test="${param.statusFilter == 'Processing'}">selected</c:if>>Processing</option>
-                                <option value="Shipping" <c:if test="${param.statusFilter == 'Shipping'}">selected</c:if>>Shipping</option>
-                                <option value="Cancelled" <c:if test="${param.statusFilter == 'Cancelled'}">selected</c:if>>Cancelled</option>
                                 <option value="Packing" <c:if test="${param.statusFilter == 'Packing'}">selected</c:if>>Packing</option>
                                 </select>
                             </div>
