@@ -124,6 +124,11 @@ public class ManageProviderController extends HttpServlet {
             String pCompanyName = request.getParameter("companyName");
             String pImage = request.getParameter("image");
             ProviderDAO pro = new ProviderDAO();
+            if (providerDAO.checkExistProviders(pCompanyName) == false) {
+                Helper.setNotification(request, "Product " + pCompanyName + " already exist!", "RED");
+                response.sendRedirect("provider");
+                return;
+            }
             int checkInsert = pro.insertProvider(pCompanyName, pImage);
             if (checkInsert != 0 ) {
                 //Insert success notification

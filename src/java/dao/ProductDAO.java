@@ -136,7 +136,7 @@ public class ProductDAO extends jdbc.DBConnect {
         }
         return null;
     }
-    
+
     public Product getProductByIdInHistoryDetail(int proId) {
         String sql = "select * from [product] where [product].[id] = ?";
         try {
@@ -331,6 +331,39 @@ public class ProductDAO extends jdbc.DBConnect {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listP;
+    }
+
+    public boolean checkExistProducts(String checkName) {
+        Vector<Product> listP = new Vector<>();
+        String sql = "SELECT *\n"
+                + "FROM Product\n"
+                + "WHERE name LIKE ? and active = 1";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, checkName);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                int categoryId = rs.getInt(2);
+                int providerId = rs.getInt(3);
+                String name = rs.getString(4);
+                String description = rs.getString(5);
+                float price = rs.getFloat(6);
+                float discount = rs.getFloat(7);
+                int quantity = rs.getInt(8);
+                String image = rs.getString(9);
+                Boolean active = rs.getBoolean(10);
+                listP.add(new Product(id, categoryId, providerId, name, description, price, discount, quantity, image, active));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (listP.isEmpty() == false) {
+            return false;
+        }
+        return true;
+
     }
 
     public Vector<Product> getProductByFilterWithPage(String sort, int searchCategoryId, int searchProviderId, double minPrice, double maxPrice, String searchName, int page) {
