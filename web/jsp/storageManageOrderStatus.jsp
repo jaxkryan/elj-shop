@@ -114,6 +114,7 @@
                             </thead>
                             <tbody>
                                 <c:forEach items="${orders}" var="order">
+                                    <c:if test="${order.status eq 'Packing' or order.status eq 'Processing'}">
                                     <tr>
                                         <td class="align-middle">${order.id}</td>
                                         <td class="align-middle">${order.customerId}</td>
@@ -155,6 +156,7 @@
 
 
                                 </tr>
+                                </c:if>
                             </c:forEach>
                             </tbody>
                         </table>

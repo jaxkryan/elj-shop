@@ -224,10 +224,10 @@ GO
 ALTER TABLE Feedback ADD FOREIGN KEY (customerId) REFERENCES [Customer] ([id])
 GO
 
-ALTER TABLE [Report] ADD FOREIGN KEY ([storageStaffId]) REFERENCES [Employee] ([id])
+ALTER TABLE [Report] ADD FOREIGN KEY ([storageStaffId]) REFERENCES [User] ([id])
 GO
 
-ALTER TABLE [Report] ADD FOREIGN KEY ([managerId]) REFERENCES [Employee] ([id])
+ALTER TABLE [Report] ADD FOREIGN KEY ([managerId]) REFERENCES [User] ([id])
 GO
 
 INSERT [User] ([role],[lastName],[firstName],[dateOfBirth],[street],[province],[city],[country],[phone],[email],[password],[active])
