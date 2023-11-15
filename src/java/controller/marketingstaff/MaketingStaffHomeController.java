@@ -70,6 +70,10 @@ public class MaketingStaffHomeController extends HttpServlet {
             throws ServletException, IOException {
         String service = request.getParameter("go");
         VoucherDAO voucherDAO = new VoucherDAO();
+        Vector<Voucher> voucherOri = voucherDAO.getAll();
+        if (service == null || service.equals("")) {
+            service = "displayAll";
+        }
         //
         if (request.getParameter("search") != null) {
             String code = request.getParameter("code");
@@ -84,15 +88,22 @@ public class MaketingStaffHomeController extends HttpServlet {
                 Date todayDate = Date.valueOf(today);
                 Voucher vc = new Voucher();
                 vc.setCode(request.getParameter("code"));
+                Voucher voucher = voucherDAO.getVoucherByVoucherCode(request.getParameter("code"));
                 vc.setStartDate(Date.valueOf(request.getParameter("startDate")));
                 vc.setEndDate(Date.valueOf(request.getParameter("endDate")));
                 vc.setValue(Double.parseDouble(request.getParameter("value")));
+
                 if (vc.getEndDate().compareTo(vc.getStartDate()) >= 0) {
                     if (vc.getEndDate().compareTo(todayDate) >= 0) {
                         if (vc.getValue() >= 0 && vc.getValue() <= 100) {
-                            voucherDAO.insertVoucher(vc);
-                            response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
-                            Helper.setNotification(request, "Create new voucher successfully!", "GREEN");
+                            if (!vc.getCode().equals(voucher.getCode())) {
+                                voucherDAO.insertVoucher(vc);
+                                response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
+                                Helper.setNotification(request, "Create new voucher successfully!", "GREEN");
+                            } else {
+                                response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
+                                Helper.setNotification(request, "This code is existed", "RED");
+                            }
                         } else {
                             response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
                             Helper.setNotification(request, "Value must between 0 and 100", "RED");
@@ -110,13 +121,14 @@ public class MaketingStaffHomeController extends HttpServlet {
                 Helper.setNotification(request, "Invalid date format. Please use yyyy-MM-dd", "RED");
             }
         }
-        
+
         if (service.equals("updateVoucher")) {
             try {
                 LocalDate today = LocalDate.now();
                 Date todayDate = Date.valueOf(today);
                 int id = Integer.parseInt(request.getParameter("id"));
                 String code = request.getParameter("code");
+                Voucher voucher = voucherDAO.getVoucherByVoucherCode(code);
                 Date startDate = Date.valueOf(request.getParameter("startDate"));
                 Date endDate = Date.valueOf(request.getParameter("endDate"));
                 Double value = Double.parseDouble(request.getParameter("value"));
@@ -125,9 +137,14 @@ public class MaketingStaffHomeController extends HttpServlet {
                 if (endDate.compareTo(startDate) >= 0) {
                     if (endDate.compareTo(todayDate) >= 0) {
                         if (value >= 0 && value <= 100) {
-                            voucherDAO.updateVoucher(updateVoucher);
-                            response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
-                            Helper.setNotification(request, "Update voucher " + code + " successfully!", "GREEN");
+                            if (!code.equals(voucher.getCode())) {
+                                voucherDAO.updateVoucher(updateVoucher);
+                                response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
+                                Helper.setNotification(request, "Update voucher " + code + " successfully!", "GREEN");
+                            } else {
+                                response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
+                                Helper.setNotification(request, "This code is existed", "RED");
+                            }
                         } else {
                             response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
                             Helper.setNotification(request, "Value must between 0 and 100", "RED");
@@ -143,7 +160,7 @@ public class MaketingStaffHomeController extends HttpServlet {
             } catch (IllegalStateException e) {
                 response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
                 Helper.setNotification(request, "Invalid date format. Please use yyyy-MM-dd", "RED");
-            } catch (IllegalArgumentException e2){
+            } catch (IllegalArgumentException e2) {
                 response.sendRedirect(request.getContextPath() + "/marketing-staff/home");
                 Helper.setNotification(request, "Invalid date format. Please use yyyy-MM-dd", "RED");
             }

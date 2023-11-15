@@ -137,7 +137,7 @@ GO
 
 CREATE TABLE [Voucher] (
   [id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [code] nvarchar(50) NOT NULL,
+  [code] nvarchar(50) NOT NULL UNIQUE,
   [startDate] datetime,
   [endDate] datetime,
   [value] int,
